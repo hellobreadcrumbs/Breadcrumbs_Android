@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/trail_tut_blue_bg_new"
+        android:paddingBottom="10dp"
+        app:layout_constraintHeight_default="wrap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.95">
+
+        <ImageView
+            android:id="@+id/trailImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:paddingTop="20dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/trail_tutorial_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/mainContent"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:fontFamily="@font/claritycity_bold"
+            android:gravity="center"
+            android:lineSpacingExtra="1.5dp"
+            android:maxLines="4"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="Select a trail to explore, you’ll never know what you’ll find!"
+            android:textColor="@color/white"
+            android:textSize="@dimen/trail_tutorial_main_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.27"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/trailImageView" />
+
+        <TextView
+            android:id="@+id/subContent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fontFamily="@font/dinish_regular"
+            android:gravity="center"
+            android:lineSpacingExtra="1.5dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="You can do this by tapping the Trail button on the top right to choose a trail that's right for you."
+            android:textColor="#ECE3CD"
+            android:textSize="@dimen/trail_tutorial_sub_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.23"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainContent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

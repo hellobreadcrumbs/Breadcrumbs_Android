@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F0DD"
+    tools:context=".view.ChallengeActivity"
+
+    >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/backButtonLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/challenge_backButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+
+
+                android:background="@drawable/search_back_button" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/titleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/backButtonLayout"
+
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/challengeIcon"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/selfie_screen_title_icon" />
+
+            <TextView
+                android:id="@+id/challengeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/claritycity_bold"
+                android:text="Selfie Challenge"
+                android:textColor="#4B3B30"
+                android:textSize="@dimen/challenge_begin_screen_title_text_size" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <ImageView
+            android:id="@+id/selfieImageView"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:layout_below="@+id/titleLayout"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/poi_photo" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/subTitleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/selfieImageView"
+            android:layout_marginTop="18dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/subTileOfBeginChallenge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/claritycity_regular"
+                android:gravity="center_horizontal"
+                android:text="Snap a photo at"
+                android:textColor="#4B3B30"
+                android:textSize="@dimen/challenge_subtitle_text_size" />
+
+            <TextView
+                android:id="@+id/poiNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="60dp"
+                android:fontFamily="@font/claritycity_bold"
+                android:gravity="center_horizontal"
+                android:text="Supertree Grove"
+                android:textColor="#E98D58"
+                android:textSize="22sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subTitleLayout"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/selfie_screen_rewards_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/claritycity_bold"
+                android:gravity="center_horizontal"
+                android:text="REWARDS"
+                android:textColor="#4B3B30"
+                android:textSize="@dimen/challenge_begin_screen_rewards_text_size" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="#4B3B30" />
+
+            <LinearLayout
+                android:id="@+id/pointsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view"
+                android:layout_marginTop="5dp"
+
+                android:orientation="vertical">
+
+                <RelativeLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/dinish_regular"
+                        android:text="Discovery"
+
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="+100 XP"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
+                </RelativeLayout>
+
+                <RelativeLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/questionTwoLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/dinish_regular"
+                        android:text="Selfie Posted"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="+100 XP"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
+                </RelativeLayout>
+            </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <TextView
+            android:id="@+id/beginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="95dp"
+            android:layout_marginEnd="95dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/disclaimer_ok_button"
+            android:fontFamily="@font/claritycity_bold"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="BEGIN"
+            android:textColor="@color/black"
+            android:textSize="@dimen/challenge_begin_screen_begin_text_size" />
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

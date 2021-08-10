@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/discover_details_bg"
+    tools:Context=".view.QuizChallengeQuestionActivity">
+
+
+    <RelativeLayout
+
+        android:id="@+id/questionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/quizChallenge_backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/search_back_button" />
+
+
+        <TextView
+
+            android:id="@+id/questionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/quizChallenge_backButton"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/question_title_bg"
+            android:fontFamily="@font/claritycity_bold"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:text="QUESTION 1/1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/discovery_screen_player_name_text_size" />
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/submitButton"
+            android:layout_below="@+id/questionTitle"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="30dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--   <com.google.android.youtube.player.YouTubePlayerView
+                              android:id="@+id/ytPlayer"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginStart="30dp"
+                              android:layout_marginTop="10dp"
+                              android:layout_marginEnd="30dp"
+                              android:visibility="gone" />-->
+                <ImageView
+                    android:id="@+id/questionImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/poi_photo" />
+
+                <TextView
+                    android:id="@+id/questionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/questionImage"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:gravity="center"
+                    android:lineSpacingExtra="1.5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="The land of the Japanese Cemetery Park was donated by three brothel owners. Which of these names are not of the three?\nHint: Watch video above"
+                    android:textColor="#454D5A"
+                    android:textSize="@dimen/discover_screen_poi_name_text_size" />
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/answerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/questionText"
+                    android:layout_marginTop="30dp"
+                    android:orientation="vertical">
+
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/answerOneLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/quiz_challenge_answer_bg"
+                        android:paddingStart="20dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="15dp">
+
+                        <TextView
+                            android:id="@+id/answerOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/dinish_regular"
+                            android:gravity="center_horizontal"
+                            android:text="Futaki Takajiro"
+                            android:textColor="#4B3B30"
+                            android:textSize="@dimen/trail_tutorial_sub_text_size" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/answerTwoLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/quiz_challenge_answer_bg">
+
+                        <TextView
+                            android:id="@+id/answerTwo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/dinish_regular"
+                            android:gravity="center_horizontal"
+                            android:paddingStart="20dp"
+                            android:paddingTop="15dp"
+                            android:paddingEnd="20dp"
+                            android:paddingBottom="15dp"
+                            android:text="Futaki Takajiro"
+                            android:textColor="#4B3B30"
+                            android:textSize="@dimen/trail_tutorial_sub_text_size" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/answerThreeLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/quiz_challenge_answer_bg">
+
+                        <TextView
+                            android:id="@+id/answerThree"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/dinish_regular"
+                            android:gravity="center_horizontal"
+                            android:paddingStart="20dp"
+                            android:paddingTop="15dp"
+                            android:paddingEnd="20dp"
+                            android:paddingBottom="15dp"
+                            android:text="Futaki Takajiro"
+                            android:textColor="#4B3B30"
+                            android:textSize="@dimen/trail_tutorial_sub_text_size" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </RelativeLayout>
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/submitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/submit_inactive"
+            android:fontFamily="@font/claritycity_bold"
+            android:paddingStart="50dp"
+            android:paddingTop="15dp"
+            android:paddingEnd="50dp"
+            android:paddingBottom="15dp"
+            android:text="SUBMIT"
+            android:textColor="@color/white"
+            android:textSize="@dimen/trail_tutorial_sub_text_size" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/quizChallengeLevelLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <include
+            layout="@layout/quiz_challenge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,113 @@
+<resources>
+    <!-- Hash Key : ch0L6QcmElSHVIvQ5qfxAoWjImw= -->
+    <string name="app_name">Breadcrumbs App</string>
+    <!--
+    fb login developer email sganthologyfb@gmail.com
+    <string name="facebook_app_id">270389981436138</string>
+    <string name="fb_login_protocol_scheme">fb270389981436138</string>-->
+    <string name="facebook_app_id">4319089224780086</string>
+    <string name="fb_login_protocol_scheme">fb4319089224780086</string>
+    <string name="continue_with_facebook">Continue with Facebook</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="terms_static_content">By signing in and using this application, you are agreeing to our</string>
+    <string name="terms_privacy_content">Terms of Service and Privacy Policy.</string>
+    <string name="terms_of_url">https://www.breadcrumbsapp.com/terms-of-use.html</string>
+    <string name="privacy_policy_url">https://www.breadcrumbsapp.com/privacy-policy.html</string>
+    <string name="please_read_agree_content">Please read and agree to our terms</string>
+    <string name="alert_view_terms_content">By signing up you agree to our Terms of Service.</string>
+    <string name="alert_view_privacy_policy">See our Privacy Policy.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="google_maps_key">AIzaSyDrMQduXjWkxg3nfqxXGiUCvpJTV84DCto</string>
+
+    <string name="disclaimer_title">DISCLAIMER</string>
+    <string name="disclaimer_content">While you’re out exploring, there is no need to trample on grass or climb over obstacles. All you have to do is follow proper walkways and paths!\n\nStay alert at all times, and remember to have fun!</string>
+    <string name="no_internet">INTERNET CONNECTION LOST</string>
+    <string name="no_internet_message">Please reconnect to the internet to continue playing.</string>
+
+
+    <string name="showing_code_in_fragment">Showing code in fragment</string>
+    <string name="scan_qr_code">SCAN QR CODE</string>
+    <string name="name">Name</string>
+    <string name="empty">---</string>
+    <string name="site_name">Site Name</string>
+    <string name="scan_a_code">Scan a QR Code</string>
+    <string name="result_not_found">Result Not Found</string>
+    <string name="show_scanner_from_fragment">Show Scanner From Fragment</string>
+
+
+    <string name="turn_on_flashlight">Turn on Flashlight</string>
+    <string name="turn_off_flashlight">Turn off Flashlight</string>
+
+
+
+    <string name="take_photo">TAKE PHOTO</string>
+    <string name="permission_required">Permission Required</string>
+    <string name="permission_message">You must grant permission to access camera and external storage to run this application.</string>
+    <string name="permission_warning">All permissions are required.</string>
+    <string name="directionsApiKey">AIzaSyAdQlcPAwlydR_A_tTfoBQWx_a3RjdogjI</string>
+
+    <string name="server_client_id">944786804669-7gvp90hqfadqagtp26pmav53154r6qkm.apps.googleusercontent.com</string>
+
+    <string name="location_updated">Location Updated: %1$s</string>
+    <string name="ok">OK</string>
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+
+    <string name="travelling">TRAVELLING...</string>
+    <string name="discover">DISCOVER</string>
+    <string name="take_me_there">TAKE ME THERE</string>
+
+    <string name="api_access_token">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjQ3MDEiLCJlbWFpbCI6InRlc3RkZXZpY2VicmVhZEBnbWFpbC5jb20iLCJwcm9maWxlX3BpY3R1cmUiOiJ1cGxvYWRzXC80NzAxXC9wcm9maWxlX3BpY18xOTMyMDIxMTUyMDQzLmpwZyIsInVzZXJuYW1lIjoiQXJ1biBrdW1hciIsInBhc3N3b3JkIjoiIiwicmFuayI6IjEiLCJmaW5pc2hlZF9wb2lzIjoiMCIsImZpbmlzaGVkX3RyYWlscyI6IjAiLCJleHBlcmllbmNlIjoiNDIwMCIsImlzX3Nwb25zb3IiOiIwIiwicmVnaXN0ZXJfcGxhdGZvcm0iOiIxIiwiY3JlYXRlZCI6IjIwMjEtMDQtMTkgMDQ6NDI6MzgiLCJ1cGRhdGVkIjoiMjAyMS0wNC0xOSAwNDo0MjozOCIsIkFQSV9USU1FIjoxNjE5NjA0MjgyfQ.HIvUDe4sTB5kyVstz33ShSylWUObN3C3cTf8zS_ayOs</string>
+
+
+
+
+
+
+
+    <string name="picture">Picture</string>
+    <string name="description_info">Info</string>
+    <string name="request_permission">This sample needs camera permission.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="intro_message">
+        <![CDATA[
+
+
+            This sample demonstrates the basic use of Camera2 API. Check the source code to see how
+            you can display camera preview and take pictures.
+
+
+        ]]>
+    </string>
+
+
+
+
+
+    <string name="capture_button_alt">Capture</string>
+    <string name="switch_camera_button_alt">Switch camera</string>
+    <string name="gallery_button_alt">Gallery</string>
+    <string name="back_button_alt">Back</string>
+    <string name="share_button_alt">Share</string>
+    <string name="share_hint">Share using</string>
+    <string name="capture_mode_camera">Camera</string>
+    <string name="capture_mode_hdr">HDR</string>
+    <string name="capture_mode_night">Night</string>
+    <string name="delete_button_alt">Delete</string>
+    <string name="delete_dialog">Delete current photo?</string>
+    <string name="delete_title">Confirm</string>
+
+
+    <string name="about_selfie_challenge_title">ABOUT THE \nSELFIE CHALLENGE"</string>
+    <string name="about_quiz_challenge_title">ABOUT THE \nQUIZ CHALLENGE"</string>
+    <string name="selfie_challenge_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque varius orci eu aliquam lacinia. Praesent at massa molestie elit scelerisque ornare dapibus vel nisl. Pellentesque sed felis augue. Quisque tellus orci, cursus quis mattis id, pulvinar id nisi. Sed facilisis vel justo in iaculis. Aliquam mattis, dolor eget pulvinar tincidunt, lacus quam egestas velit, in condimentum mi est id ex.</string>
+    <string name="quiz_challenge_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque varius orci eu aliquam lacinia. Praesent at massa molestie elit scelerisque ornare dapibus vel nisl. Pellentesque sed felis augue. Quisque tellus orci, cursus quis mattis id, pulvinar id nisi. Sed facilisis vel justo in iaculis. Aliquam mattis, dolor eget pulvinar tincidunt, lacus quam egestas velit, in condimentum mi est id ex.</string>
+    <string name="selfie_challenge">Selfie Challenge</string>
+    <string name="quiz_challenge">Quiz Challenge</string>
+    <string name="selfie_challenge_static_content">Snap a photo at</string>
+    <string name="quiz_challenge_static_content">Answer one question on</string>
+
+    <string name="live_url">https://hawktoberfest.sg/breadcrumbs/</string>
+    <string name="staging_url">http://13.212.34.85/breadcrumbs_staging/</string>
+</resources>

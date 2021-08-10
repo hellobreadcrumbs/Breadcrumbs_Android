@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/discover_details_bg">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:id="@+id/scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/selected_player_profile_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/claritycity_bold"
+                        android:padding="20dp"
+                        android:text="aquarius4254's Profile"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+                        app:layout_constraintBottom_toBottomOf="@+id/selected_player_border_line"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/selected_player_border_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="#4B3B30"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/selected_player_profile_name" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/selected_player_userInformationLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/selected_player_border_line">
+
+                        <com.mikhaellopez.circularimageview.CircularImageView
+                            android:id="@+id/selected_player_userProfilePicture"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_marginStart="20dp"
+                            android:src="@mipmap/breadcrumbs_app_icon_round"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/playerDetailsLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/selected_player_userProfilePicture"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/selected_player_leaderBoard_playerName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/claritycity_bold"
+                                android:paddingBottom="2dp"
+                                android:text="PlayerName"
+                                android:textColor="#4B3B30"
+                                android:textSize="@dimen/trail_list_item_size"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+
+                            <TextView
+                                android:id="@+id/selected_player_leaderBoard_player_level"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/dinish_bold"
+                                android:text="Recruit Lv. 1"
+                                android:textColor="#4B3B30"
+                                android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/selected_player_leaderBoard_playerName" />
+
+                            <ImageView
+                                android:id="@+id/dot_one"
+                                android:layout_width="4dp"
+                                android:layout_height="4dp"
+                                android:layout_marginStart="5dp"
+                                android:background="@drawable/trail_banner_dot"
+                                android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/selected_player_leaderBoard_player_level"
+                                app:layout_constraintTop_toBottomOf="@+id/selected_player_leaderBoard_playerName"
+                                tools:ignore="ContentDescription" />
+
+
+                            <TextView
+                                android:id="@+id/completed_POIs"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:fontFamily="@font/dinish_bold"
+                                android:text="2450 XP"
+                                android:textColor="#4B3B30"
+                                android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/dot_one" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="20dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/imageView3"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+
+                                android:src="@drawable/selected_player_screen_add_friend_btn"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/achievement_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/claritycity_bold"
+                        android:text="ACHIEVEMENTS"
+                        android:textColor="#A5988B"
+                        android:textSize="@dimen/trail_notification_days_ago_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/selected_player_userInformationLayout" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/achievementLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:background="@drawable/frnd_profile_achievement_bg"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        app:layout_constraintTop_toBottomOf="@+id/achievement_title">
+
+                        <ImageView
+                            android:id="@+id/feedIcon"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/frnd_profile_achievement_icon_wild_life_warrior"
+                            app:layout_constraintEnd_toStartOf="@+id/leaderboardIcon"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <ImageView
+                            android:id="@+id/leaderboardIcon"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/frnd_profile_achievement_icon_wild_life_warrior"
+                            app:layout_constraintEnd_toStartOf="@+id/discoverIcon"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/feedIcon"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <ImageView
+                            android:id="@+id/discoverIcon"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/frnd_profile_achievement_icon_local_cosmopolite"
+                            android:visibility="visible"
+                            app:layout_constraintEnd_toStartOf="@+id/trailsIcon"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/leaderboardIcon"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <ImageView
+                            android:id="@+id/trailsIcon"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/navigation_trails"
+                            app:layout_constraintEnd_toStartOf="@+id/moreIcon"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/discoverIcon"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <ImageView
+                            android:id="@+id/moreIcon"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/navigation_more"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/trailsIcon"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintLayout6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/achievementLayout">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintLayout3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:background="@drawable/profile_bg_green_color"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/constraintLayout4"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/claritycity_bold"
+                                android:gravity="center"
+                                android:padding="2dp"
+                                android:text="POIs\nDISCOVERED"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/discovery_screen_player_name_text_size"
+                                app:layout_constraintBottom_toBottomOf="parent"
+
+
+                                app:layout_constraintEnd_toStartOf="@+id/poi_discovered"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/poi_discovered"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="5dp"
+                                android:background="@drawable/top_ten_players_bg"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="15dp"
+
+                                    android:paddingTop="2dp"
+                                    android:paddingEnd="15dp"
+                                    android:paddingBottom="2dp"
+                                    android:text="328"
+                                    android:textColor="#4B3B30"
+                                    android:textSize="@dimen/discover_screen_poi_distance_text_size"
+
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+
+                            android:id="@+id/constraintLayout4"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="15dp"
+                            android:background="@drawable/profile_bg_green_color"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/constraintLayout3"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/claritycity_bold"
+                                android:gravity="center"
+                                android:padding="2dp"
+                                android:text="TRAILS\nJOURNEYED"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/discovery_screen_player_name_text_size"
+                                app:layout_constraintBottom_toBottomOf="parent"
+
+                                app:layout_constraintEnd_toStartOf="@+id/constraintLayout5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/constraintLayout5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="5dp"
+                                android:background="@drawable/top_ten_players_bg"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="15dp"
+
+                                    android:paddingTop="2dp"
+                                    android:paddingEnd="15dp"
+                                    android:paddingBottom="2dp"
+                                    android:text="328"
+                                    android:textColor="#4B3B30"
+                                    android:textSize="@dimen/discover_screen_poi_distance_text_size"
+
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <TextView
+                        android:id="@+id/postTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/claritycity_bold"
+                        android:gravity="center_horizontal"
+                        android:text="AQUARIUS4254'S POSTS"
+                        android:textColor="#A5988B"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
+
+                    <View
+                        android:id="@+id/selected_player_post_border_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#4B3B30"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/postTitle" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/private_account_content_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@+id/selected_player_post_border_line">
+
+                        <TextView
+                            android:id="@+id/accountPrivate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/claritycity_bold"
+                            android:text="YOHANN_SHU'S ACCOUNT IS PRIVATE"
+                            android:textColor="#A5988B"
+                            android:textSize="@dimen/discover_screen_take_me_there_text_size"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/dinish_regular"
+                            android:text="Add them as a friend to see their posts."
+                            android:textColor="#A5988B"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/accountPrivate" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/post_screen_friend_post_list"
+                        android:layout_width="match_parent"
+
+                        android:layout_height="0dp"
+                        app:layout_constraintHeight_percent="0.56"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/selected_player_post_border_line" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </ScrollView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

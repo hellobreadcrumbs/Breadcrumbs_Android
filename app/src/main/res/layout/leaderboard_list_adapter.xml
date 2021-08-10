@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/userInformationLayout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/trail_banner_undiscovered"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/leaderboard_adapter_userProfilePicture"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="35dp"
+            android:src="@mipmap/breadcrumbs_app_icon_round"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/leaderboard_adapter_playerDetailsLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/leaderboard_adapter_userProfilePicture"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/leaderBoard_adapter_playerName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/claritycity_bold"
+                android:text="PlayerName"
+                android:textColor="#4B3B30"
+                android:textSize="@dimen/trail_list_item_size"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/leaderBoard_adapter_player_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/dinish_regular"
+                android:text="Recruit Lv. 1"
+                android:textColor="#4B3B30"
+                android:textSize="@dimen/discover_screen_take_me_there_text_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/leaderBoard_adapter_playerName" />
+
+            <TextView
+                android:id="@+id/totalXP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/dinish_bold"
+                android:text="2450 XP"
+                android:textColor="#4B3B30"
+                android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/leaderBoard_adapter_player_level" />
+
+            <ImageView
+                android:id="@+id/dot_one"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/trail_banner_dot"
+                android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/totalXP"
+                app:layout_constraintTop_toBottomOf="@+id/leaderBoard_adapter_player_level"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/total_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/dinish_bold"
+                android:text="2D 4H"
+                android:textColor="#4B3B30"
+                android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/dot_one" />
+
+            <ImageView
+                android:id="@+id/dot_two"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/trail_banner_dot"
+                android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/total_duration"
+                app:layout_constraintTop_toBottomOf="@+id/leaderBoard_adapter_player_level"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/completed_POIs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/dinish_bold"
+                android:text="2/100 POIs"
+                android:textColor="#4B3B30"
+                android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/dot_two" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/leaderboard_adapter_playerDetailsLayout"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:id="@+id/leaderboard_adapter_rank_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/claritycity_bold"
+                android:text="#1"
+                android:textColor="#B9AD8F"
+                android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                  />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

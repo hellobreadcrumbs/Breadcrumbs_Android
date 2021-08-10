@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/discover_details_bg"
+    tools:context=".view.DiscoverDetailsScreenActivity">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/search_back_button" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+
+                    <ImageView
+                        android:id="@+id/poiImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="260dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/poi_photo"
+                        tools:ignore="ContentDescription" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/detailsPoiBackGround"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+
+                        android:background="@drawable/trail_banner_undiscovered"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginBottom="35dp"
+                            android:layout_weight="1.5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/poiName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="30dp"
+                                android:fontFamily="@font/claritycity_bold"
+                                android:text="Supertree Grove"
+                                android:textColor="#4B3B30"
+                                android:textSize="@dimen/discover_screen_poi_name_text_size"
+                                tools:ignore="HardcodedText" />
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/travelETA"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+
+                                    android:drawableStart="@drawable/walking_icon"
+                                    android:drawablePadding="5dp"
+                                    android:fontFamily="@font/dinish_regular"
+                                    android:text="5 mins"
+                                    android:textColor="#4B3B30"
+                                    android:textSize="@dimen/discover_screen_poi_discover_status_text_size" />
+
+                                <ImageView
+                                    android:layout_width="4dp"
+                                    android:layout_height="4dp"
+                                    android:layout_marginStart="4dp"
+                                    android:layout_marginTop="7dp"
+                                    android:layout_marginEnd="4dp"
+                                    android:background="@drawable/trail_banner_dot"
+                                    tools:ignore="ContentDescription" />
+
+                                <TextView
+                                    android:id="@+id/poiDistance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/dinish_regular"
+                                    android:text="0.4km"
+                                    android:textColor="#4B3B30"
+                                    android:textSize="@dimen/discover_screen_poi_distance_text_size" />
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/cameraIconLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5">
+
+                            <ImageView
+                                android:id="@+id/scannerIcon"
+                                android:layout_width="50dp"
+                                android:layout_height="60dp"
+                                android:layout_gravity="center"
+
+                                android:layout_marginTop="20dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="20dp"
+                                android:background="@drawable/details_screen_qr_scan" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/takeMeThereBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/take_me_there_bg"
+                    android:fontFamily="@font/claritycity_semibold"
+                    android:paddingStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="TAKE ME THERE"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/discovery_screen_player_name_text_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/claritycity_regular"
+                    android:text="Walk closer to discover this place"
+                    android:textColor="#4B3B30"
+                    android:textSize="@dimen/trail_notification_days_ago_text_size" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/claritycity_bold"
+                    android:text="DETAILS"
+                    android:textColor="#A5988B"
+                    android:textSize="@dimen/trail_notification_days_ago_text_size" />
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/detailsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/discoverStatusText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/claritycity_bold"
+                        android:text="UNDISCOVERED"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/discovery_screen_player_name_text_size" />
+
+                    <View
+
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#A5988B" />
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:gravity="center"
+                        android:weightSum="4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+
+                            android:layout_width="0dip"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:src="@drawable/breadcrumbs_trail" />
+
+                        <TextView
+                            android:id="@+id/trailName"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/claritycity_bold"
+                            android:gravity="center_vertical"
+                            android:text="PIONEER TRAIL"
+                            android:textAllCaps="true"
+                            android:textColor="#4B3B30"
+                            android:textSize="@dimen/discovery_screen_player_name_text_size" />
+
+                        <ImageView
+                            android:id="@+id/breadcrumbsTrailInfoBtn"
+                            android:layout_width="0dip"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/details_screen_info" />
+
+                    </LinearLayout>
+
+                    <View
+
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+
+                        android:background="#A5988B" />
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:weightSum="4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+
+                            android:layout_width="0dip"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:src="@drawable/selfie_challenge_icon" />
+
+                        <TextView
+                            android:id="@+id/challengeNameTv"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/claritycity_bold"
+                            android:gravity="center_vertical"
+                            android:text="QUIZ CHALLENGE"
+                            android:textAllCaps="true"
+                            android:textColor="#4B3B30"
+                            android:textSize="@dimen/discovery_screen_player_name_text_size" />
+
+                        <ImageView
+                            android:id="@+id/selfieChallengeInfo"
+                            android:layout_width="0dip"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:src="@drawable/details_screen_info" />
+
+                    </LinearLayout>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <View
+
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="30dp"
+
+                    android:layout_marginEnd="30dp"
+                    android:background="#A5988B" />
+
+                <TextView
+                    android:id="@+id/aboutTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:fontFamily="@font/claritycity_bold"
+                    android:gravity="center"
+                    android:text="ABOUT"
+                    android:textColor="#A5988B"
+                    android:textSize="@dimen/trail_notification_days_ago_text_size" />
+
+                <com.google.android.youtube.player.YouTubePlayerView
+                    android:id="@+id/ytPlayer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/aboutContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque varius orci eu aliquam lacinia. Praesent at massa molestie elit scelerisque ornare dapibus vel nisl. Pellentesque sed felis augue. Quisque tellus orci, cursus quis mattis id, pulvinar id nisi. Sed facilisis vel justo in iaculis. Aliquam mattis, dolor eget pulvinar tincidunt, lacus quam egestas velit, in condimentum mi est id ex."
+                    android:textColor="#231F20"
+                    android:textSize="@dimen/discover_screen_poi_name_text_size" />
+
+                <ImageView
+                    android:id="@+id/aboutContentImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30dp"
+                    android:background="@drawable/poi_photo_frame"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/aboutContentOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Nulla suscipit tortor ac odio consectetur, id malesuada neque elementum. Fusce convallis eros et augue gravida venenatis. Pellentesque vestibulum vehicula mauris nec iaculis. Ut ac convallis mauris. Nullam faucibus sit amet libero et maximus. Cras quis scelerisque ante, eget finibus purus. Integer vitae neque nisi. Morbi quis nibh leo. Phasellus interdum facilisis egestas. Cras pharetra leo a mauris imperdiet, a lacinia justo sodales. Morbi congue augue at urna mollis mattis. Maecenas sed ex viverra, auctor dui et, dignissim neque. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean varius vestibulum cursus. Etiam sodales lacus sit amet aliquam consequat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."
+                    android:textColor="#231F20"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+    </FrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

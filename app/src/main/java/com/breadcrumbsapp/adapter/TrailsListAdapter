@@ -1,0 +1,48 @@
+  val handlerThread = HandlerThread("PixelCopier")
+        handlerThread.start()
+        // Make the request to copy.
+        PixelCopy.request(view, bitmap, { copyResult ->
+            if (copyResult === PixelCopy.SUCCESS) {
+                try {
+                    if (filename != null && bitmap!=null) {
+                        //saveBitmapToDisk(bitmap, filename)
+                    }
+                    else
+                    {
+                        println("File Name is NULL $bitmap")
+                    }
+                } catch (e: Exception) {
+                    val toast: Toast = Toast.makeText(
+                        this@ARCoreActivity, e.toString(),
+                        Toast.LENGTH_LONG
+                    )
+                    toast.show()
+                    return@request
+                }
+                @SuppressLint("WrongConstant") val snackbar = Snackbar.make(
+                    findViewById(android.R.id.content),
+                    "Photo saved", Snackbar.LENGTH_LONG
+                )
+                snackbar.setAction("Open in Photos") { v: View? ->
+                    val photoFile = File(filename)
+                    val photoURI = FileProvider.getUriForFile(
+                        this@ARCoreActivity,
+                        this@ARCoreActivity.packageName
+                            .toString() + ".ar.codelab.name.provider",
+                        photoFile
+                    )
+                    val intent = Intent(Intent.ACTION_VIEW, photoURI)
+                    intent.setDataAndType(photoURI, "image/*")
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    startActivity(intent)
+                }
+                snackbar.show()
+            } else {
+                val toast = Toast.makeText(
+                    this@ARCoreActivity,
+                    "Failed to copyPixels: $copyResult", Toast.LENGTH_LONG
+                )
+                toast.show()
+            }
+            handlerThread.quitSafely()
+        }, Handler(handlerThread.looper))

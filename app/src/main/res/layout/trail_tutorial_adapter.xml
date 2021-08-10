@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="10dp"
+
+    >
+
+    <RelativeLayout
+        android:id="@+id/one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/trail_tut_top_bg">
+
+        <ImageView
+
+            android:id="@+id/trailImageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/trail_tut1" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_below="@+id/one"
+        android:background="@drawable/trail_tut_blue_bg">
+
+        <TextView
+            android:id="@+id/mainContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="15dp"
+            android:gravity="center"
+            android:maxLines="4"
+            android:text="Select a trail to explore, you’ll never know what you’ll find!"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/subContent"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mainContent"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="Tap the Trail button on the top right to choose a trail that is right for you."
+            android:textColor="#ECE3CD"
+            android:textSize="14sp" />
+    </RelativeLayout>
+</RelativeLayout>
+

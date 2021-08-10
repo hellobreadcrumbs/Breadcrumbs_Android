@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/poi_adapter_constraintLayout"
+    android:background="#F8F0DD"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/searchPoiBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/trail_banner_undiscovered"
+        android:orientation="horizontal"
+        >
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/discoveredIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/list_poi_icon" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="35dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/trailsName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:maxLines="2"
+                android:fontFamily="@font/claritycity_bold"
+                android:text="Point-of-interest #2 "
+                android:textColor="#4B3B30" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/searchDiscoverStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/dinish_regular"
+                    android:text="Undiscovered"
+                    android:textColor="#4B3B30"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:layout_width="4dp"
+                    android:layout_height="4dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/trail_banner_dot"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/tv_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/dinish_regular"
+                    android:text="0.4km"
+                    android:textColor="#4B3B30" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/closeButtonLayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:layout_marginEnd="20dp"
+            android:gravity="right"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/closeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:background="@drawable/exit_navigation_mode" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+
+
+
+
+</FrameLayout>

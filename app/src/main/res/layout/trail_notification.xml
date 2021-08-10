@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.DiscoverScreenActivity">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/trail_notification_bg"
+        android:orientation="vertical"
+        android:paddingBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/trail_notification_banner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/claritycity_bold"
+            android:gravity="center"
+            android:text="THE PIONEER TRAIL : LIVE NOW!"
+            android:textColor="#4B3B30"
+            android:textSize="@dimen/trail_notification_live_now_text_size"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/daysGoLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title">
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/trail_notification_bell_icon" />
+
+            <TextView
+                android:id="@+id/textToGo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/claritycity_regular"
+                android:text="10 Days Ago"
+                android:textColor="#4B3B30"
+                android:textSize="@dimen/trail_notification_days_ago_text_size" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <!--  <Button
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:layout_gravity="center"
+              android:layout_marginTop="10dp"
+              android:layout_marginBottom="20dp"
+              android:background="@drawable/disclaimer_ok_button"
+              android:fontFamily="@font/claritycity_bold"
+              android:paddingStart="30dp"
+              android:paddingEnd="30dp"
+              android:text="LEARN MORE"
+              android:textColor="@color/black" />  -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/disclaimer_ok_button"
+            android:fontFamily="@font/claritycity_bold"
+            android:paddingStart="20dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp"
+            android:text="LEARN MORE"
+            android:textColor="#4B3B30"
+            android:textSize="@dimen/trail_notification_learn_more_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/daysGoLayout" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="92dp"
+        android:layout_height="92dp"
+        android:layout_centerInParent="true"
+        android:innerRadius="0dp"
+        android:shape="ring"
+        app:cardCornerRadius="75dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout">
+
+        <ImageView
+
+            android:layout_width="92dp"
+            android:layout_height="92dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="171dp"
+            android:background="@drawable/trail_notification_circle"
+            android:padding="10dp"
+            android:src="@drawable/trail_notification_icon"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+    </androidx.cardview.widget.CardView>
+
+
+    <RelativeLayout
+        android:id="@+id/dont_show_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout"
+        android:layout_weight="1"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:button="@drawable/checkbox"
+            android:fontFamily="@font/claritycity_regular"
+            android:paddingStart="10dp"
+            android:paddingTop="15dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="15dp"
+            android:text="Don't show again"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dont_show_again_tet_size"
+
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/closeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dont_show_layout"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/next_button"
+        android:fontFamily="@font/claritycity_bold"
+        android:paddingStart="45dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="45dp"
+        android:paddingBottom="10dp"
+        android:text="NEXT"
+        android:textColor="@color/white"
+        android:textSize="@dimen/next_button_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dont_show_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+
+    >
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+
+        android:background="@drawable/navigation_bg"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
+
+        <ImageView
+            android:id="@+id/feedIcon"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:src="@drawable/navigation_newsfeed"
+            app:layout_constraintEnd_toStartOf="@+id/leaderboardIcon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/claritycity_semibold"
+            android:paddingBottom="5dp"
+            android:text="FEED"
+            android:textColor="@color/white"
+            android:textSize="8sp"
+            app:layout_constraintEnd_toEndOf="@+id/feedIcon"
+            app:layout_constraintStart_toStartOf="@+id/feedIcon"
+            app:layout_constraintTop_toBottomOf="@+id/feedIcon" />
+
+        <ImageView
+            android:id="@+id/leaderboardIcon"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:src="@drawable/navigation_leaderboard"
+            app:layout_constraintEnd_toStartOf="@+id/discoverIcon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/feedIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/claritycity_semibold"
+            android:paddingBottom="5dp"
+            android:text="LEADERBOARD"
+            android:textColor="@color/white"
+            android:textSize="8sp"
+            app:layout_constraintEnd_toEndOf="@+id/leaderboardIcon"
+            app:layout_constraintStart_toStartOf="@+id/leaderboardIcon"
+            app:layout_constraintTop_toBottomOf="@+id/leaderboardIcon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/claritycity_semibold"
+            android:paddingBottom="5dp"
+            android:text="DISCOVER"
+            android:textColor="@color/white"
+            android:textSize="8sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/discoverIcon"
+            app:layout_constraintStart_toStartOf="@+id/discoverIcon" />
+
+        <ImageView
+            android:id="@+id/discoverIcon"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:src="@drawable/navigation_discover_pressed"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@+id/trailsIcon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/leaderboardIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/claritycity_semibold"
+            android:paddingBottom="5dp"
+            android:text="TRAILS"
+            android:textColor="@color/white"
+            android:textSize="8sp"
+            app:layout_constraintEnd_toEndOf="@+id/trailsIcon"
+            app:layout_constraintStart_toStartOf="@+id/trailsIcon"
+            app:layout_constraintTop_toBottomOf="@+id/trailsIcon" />
+
+        <ImageView
+            android:id="@+id/trailsIcon"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:src="@drawable/navigation_trails"
+            app:layout_constraintEnd_toStartOf="@+id/moreIcon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/discoverIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/claritycity_semibold"
+            android:paddingBottom="5dp"
+            android:text="MORE"
+            android:textColor="@color/white"
+            android:textSize="8sp"
+            app:layout_constraintEnd_toEndOf="@+id/moreIcon"
+            app:layout_constraintStart_toStartOf="@+id/moreIcon"
+            app:layout_constraintTop_toBottomOf="@+id/moreIcon" />
+
+        <ImageView
+            android:id="@+id/moreIcon"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:src="@drawable/navigation_more"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/trailsIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/navigation_discover" />
+
+</FrameLayout>

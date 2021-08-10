@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ACC9B8">
+
+
+    <ImageView
+        android:id="@+id/arChallengeImageView"
+        android:layout_width="match_parent"
+        android:layout_height="205dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/quiz_challenge_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/arChallengeImageView">
+
+
+        <TextView
+            android:id="@+id/arPoiTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/claritycity_bold"
+            android:text="Old National Theatre"
+            android:textColor="#4B3B30"
+            android:textSize="20sp" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/levelLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/quiz_challenge_level_bg"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/titleLayout">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/claritycity_bold"
+            android:gravity="center"
+            android:text="LEVEL 1"
+            android:textColor="#4B3B30"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/quiz_challenge_level_bar_fill"
+            android:visibility="gone" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/arSelfieChallengeProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            app:indicatorColor="#CD462A" />
+
+        <TextView
+            android:id="@+id/arBalanceScoreValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="15dp"
+            android:fontFamily="@font/claritycity_bold"
+            android:gravity="center"
+            android:text="600 XP to Level 2"
+            android:textColor="#CD462A"
+            android:textSize="10sp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/breadcrumbs_trail"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:fontFamily="@font/claritycity_bold"
+                android:gravity="center_vertical"
+                android:text="1/100"
+                android:textColor="#4B3B30"
+                android:textSize="14sp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <TextView
+        android:id="@+id/rewardText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/claritycity_bold"
+        android:gravity="center"
+        android:text="REWARDS COLLECTED"
+        android:textColor="#4B3B30"
+        android:textSize="16sp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/levelLayout" />
+
+    <View
+        android:id="@+id/bar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/rewardText"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="30dp"
+        android:background="#4B3B30"
+        app:layout_constraintTop_toBottomOf="@+id/rewardText" />
+
+    <LinearLayout
+        android:id="@+id/pointsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bar"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+
+        android:layout_marginEnd="30dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/bar">
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/dinish_regular"
+                android:text="Discovery"
+                android:textColor="#4B3B30"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/selfieDiscoveryMark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="@font/dinish_bold"
+                android:text="+100 XP"
+                android:textColor="#4B3B30"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/dinish_regular"
+                android:text="Selfie Posted"
+                android:textColor="#4B3B30"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/arSelfiePostMark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="@font/dinish_bold"
+                android:text="+100 XP"
+                android:textColor="#4B3B30"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/arChallengeLevelCloseBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/close_button"
+            android:fontFamily="@font/claritycity_bold"
+            android:paddingStart="80dp"
+            android:paddingEnd="80dp"
+            android:text="CLOSE"
+            android:textColor="#4B3B30"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:background="@drawable/disclaimer_ok_button"
+        android:layout_width="match_parent"
+        android:layout_height="108dp">
+
+        <RelativeLayout
+
+            android:background="@drawable/sample"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

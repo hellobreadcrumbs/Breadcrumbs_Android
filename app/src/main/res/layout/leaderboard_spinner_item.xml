@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    >
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/breadcrumbs_trail" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_marginEnd="40dp"
+            android:maxLines="2"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/claritycity_bold"
+            android:text="WILD ABOUT TWILIGHT TRAIL"
+            android:textColor="#4B3B30"
+            android:textSize="12sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#4B3B30" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

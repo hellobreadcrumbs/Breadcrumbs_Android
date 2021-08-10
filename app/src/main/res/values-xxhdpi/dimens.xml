@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="login_button_text_size">16dp</dimen>
+    <dimen name="trail_list_title_size">22dp</dimen>
+    <dimen name="trail_list_item_size">16dp</dimen>
+    <dimen name="trail_list_uparrow_margin_top">22dp</dimen>
+    <dimen name="trail_tutorial_main_text_size">22dp</dimen>
+    <dimen name="trail_tutorial_sub_text_size">18dp</dimen>
+    <dimen name="disclaimer_title_text_size">24dp</dimen>
+    <dimen name="disclaimer_content_text_size">18dp</dimen>
+    <dimen name="disclaimer_ok_text_size">20dp</dimen>
+    <dimen name="trail_notification_live_now_text_size">14dp</dimen>
+    <dimen name="trail_notification_days_ago_text_size">12dp</dimen>
+    <dimen name="trail_notification_learn_more_text_size">14dp</dimen>
+    <dimen name="dont_show_again_tet_size">13dp</dimen>
+    <dimen name="next_button_text_size">14dp</dimen>
+    <dimen name="discovery_screen_player_name_text_size">14dp</dimen>
+    <dimen name="discovery_screen_level_name_text_size">12dp</dimen>
+    <dimen name="discover_screen_poi_name_text_size">16dp</dimen>
+    <dimen name="discover_screen_poi_discover_status_text_size">14dp</dimen>
+    <dimen name="discover_screen_poi_distance_text_size">14dp</dimen>
+    <dimen name="discover_screen_take_me_there_text_size">14dp</dimen>
+    <dimen name="challenge_begin_screen_title_text_size">22dp</dimen>
+    <dimen name="challenge_subtitle_text_size">16dp</dimen>
+    <dimen name="challenge_begin_screen_poi_name_text_size">24dp</dimen>
+    <dimen name="challenge_begin_screen_rewards_text_size">20dp</dimen>
+    <dimen name="challenge_begin_screen_discovery_text_size">16dp</dimen>
+    <dimen name="challenge_begin_screen_begin_text_size">20dp</dimen>
+    <dimen name="image_post_main_text_size">22dp</dimen>
+</resources>

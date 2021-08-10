@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_feed"
+        android:enabled="true"
+        android:icon="@drawable/navigation_newsfeed_unpressed"
+        android:title="FEED"
+
+
+
+        app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/menu_leaderboard"
+
+        android:enabled="true"
+        android:icon="@drawable/navigation_leaderboard_unpressed"
+        android:title="LEADERBOARD"
+        app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/menu_discover"
+
+        android:enabled="true"
+        android:icon="@drawable/navigation_discover_unpressed"
+
+        android:title="DISCOVER"
+        app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/menu_trails"
+
+        android:enabled="true"
+        android:icon="@drawable/navigation_trails_unpressed"
+        android:title="TRAILS"
+        app:showAsAction="always|withText" />
+
+    <item
+        android:id="@+id/menu_more"
+
+        android:enabled="true"
+        android:icon="@drawable/navigation_more_unpressed"
+        android:title="MORE"
+        app:showAsAction="always|withText" />
+</menu>

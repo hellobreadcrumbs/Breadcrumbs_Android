@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "620190576315",
+    "project_id": "breadcrumbs-app-317911",
+    "storage_bucket": "breadcrumbs-app-317911.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620190576315:android:27d2fdc8b7739eb8c7439e",
+        "android_client_info": {
+          "package_name": "com.breadcrumbsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "620190576315-7hm076ea36u73q3tsm9d0rsjqndjnmlr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.breadcrumbsapp",
+            "certificate_hash": "721d0be90726125487548bd0e6a7f10285a3226c"
+          }
+        },
+        {
+          "client_id": "620190576315-d295e248jmvh00tvocu3ls88rvp00ajk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC--iOKy4Be_2Y5QYrIP815QRFIal5e7LI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620190576315-d295e248jmvh00tvocu3ls88rvp00ajk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
