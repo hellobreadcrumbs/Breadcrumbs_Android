@@ -7,5 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
     <string name="dot_marker">#79856C</string>
+    <color name="rewards_active">#93BCAC</color>
+    <color name="rewards_past">#D6E8E1</color>
+    <color name="rewards_past_redeemed">#EDECE9</color>
+    <color name="yellow">#FFC627</color>
+    <color name="light_blue">#D6E1E5</color>
 </resources>

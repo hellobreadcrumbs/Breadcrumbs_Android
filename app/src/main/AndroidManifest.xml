@@ -111,6 +111,27 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
+        <activity
+            android:name=".view.HowToPlayActivity"
+            android:theme="@style/SplashTheme" />
+        <activity
+            android:name=".view.SettingsScreenAct"
+            android:theme="@style/SplashTheme" />
+
+        <activity
+            android:name=".view.rewards.RewardsScreenActivity"
+            android:theme="@style/SplashTheme" />
+        <activity
+            android:name=".view.rewards.rewards_details.RewardsDetailsActivity"
+            android:theme="@style/SplashTheme" />
+        <activity
+            android:name=".view.TrailsDetailsActivity"
+            android:theme="@style/SplashTheme" />
+
+
+        <activity
+            android:name=".view.rewards.rewards_details.RewardsRedeemDetailsActivity"
+            android:theme="@style/SplashTheme" />
 
         <activity
             android:name=".view.MainActivity"

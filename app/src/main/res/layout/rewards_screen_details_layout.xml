@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/discover_details_bg"
+    android:paddingTop="20dp">
+
+    <Button
+        android:id="@+id/reward_details_screen_back_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/search_back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/rewards_details_screen_info"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="end"
+        android:layout_margin="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/details_screen_info"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/claritycity_bold"
+        android:gravity="center_horizontal"
+        android:text="Reward Details"
+        android:textColor="#4B3B30"
+        android:textSize="@dimen/trail_tutorial_sub_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/reward_details_screen_back_button"
+        app:layout_constraintEnd_toStartOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toEndOf="@id/reward_details_screen_back_button"
+        app:layout_constraintTop_toTopOf="@+id/rewards_details_screen_info" />
+
+    <ImageView
+        android:id="@+id/iv_reward_details_image"
+        android:layout_width="280dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="rewards"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toStartOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toEndOf="@id/reward_details_screen_back_button"
+        app:layout_constraintTop_toBottomOf="@+id/reward_details_screen_back_button" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ll_reward_details_title_desc"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/round_shadow_button_yellow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_reward_details_image">
+
+        <TextView
+            android:id="@+id/tv_reward_details_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:fontFamily="@font/claritycity_bold"
+
+            android:text="Aadrvark Enamel Pin"
+            android:textColor="#4B3B30"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_reward_details_redeem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_orange_button"
+        android:fontFamily="@font/claritycity_semibold"
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
+        android:text="REEDEM"
+        android:textColor="@color/white"
+        android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+        app:layout_constraintTop_toBottomOf="@id/ll_reward_details_title_desc" />
+
+    <TextView
+        android:id="@+id/tv_reward_details_redeem_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:fontFamily="@font/claritycity_bold"
+        android:gravity="center_horizontal"
+        android:text="DETAILS"
+        android:textColor="#A5988B"
+        android:textSize="@dimen/trail_notification_days_ago_text_size"
+        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+        app:layout_constraintTop_toBottomOf="@id/tv_reward_details_redeem" />
+
+    <TextView
+        android:id="@+id/tv_reward_details_redeem_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/claritycity_bold"
+        android:gravity="center_horizontal"
+        android:text="REDEEM BY 15 MAY 2021"
+        android:textColor="#4B3B30"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+        app:layout_constraintTop_toBottomOf="@id/tv_reward_details_redeem_details" />
+
+
+    <View
+        android:id="@+id/view_reward_details_top"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="20dp"
+        android:background="#707070"
+        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+        app:layout_constraintTop_toBottomOf="@id/tv_reward_details_redeem_date" />
+
+    <LinearLayout
+        android:id="@+id/ll_reward_details_show_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="33dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+        app:layout_constraintTop_toBottomOf="@id/view_reward_details_top">
+
+        <ImageView
+            android:id="@+id/iv_reward_details_show"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:contentDescription="rewards"
+            android:src="@drawable/wild_about_twlight_icon" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <TextView
+                android:id="@+id/tv_reward_details_show_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/claritycity_bold"
+
+                android:maxLines="2"
+                android:text="WILD ABOUT TWILIGHT TRAIL"
+                android:textColor="#4B3B30"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_reward_details_show_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/claritycity_light"
+
+                android:text="Receive Twilight Explorer achievement."
+                android:textColor="#4B3B30"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_reward_details_show_info"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:contentDescription="rewards"
+            android:src="@drawable/details_screen_info" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_reward_details_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="20dp"
+        android:background="#707070"
+        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+        app:layout_constraintTop_toBottomOf="@id/ll_reward_details_show_data" />
+
+    <TextView
+        android:id="@+id/tv_reward_details_terms_conditions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:fontFamily="@font/claritycity_bold"
+        android:gravity="center_horizontal"
+        android:text="TERMS &amp; CONDITIONS"
+        android:textColor="#A5988B"
+        android:textSize="@dimen/discovery_screen_player_name_text_size"
+        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+        app:layout_constraintTop_toBottomOf="@id/view_reward_details_bottom" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="33dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+        app:layout_constraintTop_toBottomOf="@id/tv_reward_details_terms_conditions">
+
+        <TextView
+            android:id="@+id/tv_reward_details_terms_conditions_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dinish_regular"
+            android:gravity="center_horizontal"
+            android:text="\u2022 While stocks last"
+            android:textColor="#231F20"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_reward_details_terms_conditions_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dinish_regular"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            android:text="\u2022 Limited to one (1) redemption per user."
+            android:textColor="#231F20"
+            android:textSize="12sp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

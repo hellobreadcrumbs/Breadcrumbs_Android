@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/discover_details_bg"
+    android:paddingTop="20dp">
+
+    <Button
+        android:id="@+id/trails_screen_back_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/search_back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/rewards_details_screen_info"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:layout_margin="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/rewards_screen_info_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:contentDescription="rewards"
+        android:src="@drawable/rewards_screen_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/trails_screen_back_button"
+        app:layout_constraintEnd_toStartOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toEndOf="@id/trails_screen_back_button"
+        app:layout_constraintTop_toTopOf="@+id/rewards_details_screen_info" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/claritycity_bold"
+        android:gravity="center_horizontal"
+        android:text="REWARDS"
+        android:textColor="#4B3B30"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+    <RadioGroup
+        android:id="@+id/rg_reward_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView2">
+
+        <RadioButton
+            android:id="@+id/rb_active"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/lbtn_selector"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="Active"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/black" />
+
+        <RadioButton
+            android:id="@+id/rb_past"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/rbtn_selector"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="Past"
+            android:textColor="@color/black" />
+    </RadioGroup>
+
+    <ScrollView
+        android:id="@+id/rewards_screen_scrollView"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rg_reward_type">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rewardsScreenRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@+id/ll_reward_types"
+            tools:listitem="@layout/rewards_screen_adapter" />
+    </ScrollView>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/no_data_found_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/claritycity_bold"
+        android:text="No data found!"
+        android:textColor="#4B3B30"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rg_reward_type" />
+</androidx.constraintlayout.widget.ConstraintLayout>

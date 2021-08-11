@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_reward_parent"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/reward_banner_active"
+ >
+
+    <ImageView
+        android:id="@+id/iv_reward_icon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="30dp"
+        android:src="@drawable/wild_about_twlight_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_rewards_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="60dp"
+        android:fontFamily="@font/claritycity_bold"
+        android:maxLines="2"
+        android:textSize="@dimen/disclaimer_content_text_size"
+        android:text="2021 Breadcrumbs Enamel Pin"
+        android:textColor="#4B3B30"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_reward_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_reward_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_rewards_exp_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Valid until 30 June, 2021"
+        android:textColor="#4B3B30"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="60dp"
+        android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_reward_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_reward_icon"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rewards_title" />
+
+    <TextView
+        android:id="@+id/tx_rewards_point"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:fontFamily="@font/claritycity_bold"
+        android:text="x2"
+        android:textColor="#DF7103"
+        android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_rewards_exp_date"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

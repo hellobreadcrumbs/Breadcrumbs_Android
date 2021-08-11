@@ -54,6 +54,7 @@ import com.breadcrumbsapp.service.LocationUpdatesService
 import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.RecyclerItemClickListenr
 import com.breadcrumbsapp.util.SessionHandlerClass
+import com.breadcrumbsapp.view.rewards.RewardsScreenActivity
 import com.bumptech.glide.Glide
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
@@ -66,6 +67,7 @@ import com.google.maps.model.DirectionsResult
 import com.google.maps.model.TravelMode
 import kotlinx.android.synthetic.main.discover_screen_activity.*
 import kotlinx.android.synthetic.main.discover_screen_bottom_layout.*
+import kotlinx.android.synthetic.main.more_option_layout.*
 import kotlinx.android.synthetic.main.quiz_challenge_question_activity.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -488,6 +490,18 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         }
 
+        how_to_play_sub_layout.setOnClickListener {
+            startActivity(Intent(applicationContext, HowToPlayActivity::class.java))
+        }
+
+        settings_sub_layout.setOnClickListener(View.OnClickListener {
+            startActivity(Intent(applicationContext,SettingsScreenAct::class.java))
+        })
+
+        rewards_sub_layout.setOnClickListener(View.OnClickListener {
+
+            startActivity(Intent(applicationContext, RewardsScreenActivity::class.java))
+        })
 
         recyclerView.addOnItemTouchListener(
             RecyclerItemClickListenr(
@@ -1165,6 +1179,9 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             profileLayout.visibility = View.VISIBLE
 
             searchButton.visibility = View.VISIBLE
+
+            more_option_layout_header.visibility = View.GONE
+            currentLocationLayout.visibility=View.VISIBLE
 
             if (polyline != null) {
                 polyline!!.remove()

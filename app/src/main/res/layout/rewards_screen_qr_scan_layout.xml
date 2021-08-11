@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/discover_details_bg"
+    android:paddingTop="10dp">
+
+    <Button
+        android:id="@+id/reward_qr_details_screen_back_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/search_back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/rewards_details_screen_info"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="end"
+        android:layout_margin="20dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/details_screen_info"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/claritycity_bold"
+        android:gravity="center_horizontal"
+        android:text="Redeem Reward"
+        android:textColor="#4B3B30"
+        android:textSize="@dimen/disclaimer_content_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/reward_qr_details_screen_back_button"
+        app:layout_constraintEnd_toStartOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toEndOf="@id/reward_qr_details_screen_back_button"
+        app:layout_constraintTop_toTopOf="@+id/rewards_details_screen_info" />
+
+    <View
+        android:id="@+id/view_reward_details_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="14dp"
+        android:alpha="0.2"
+        android:background="#4B3B30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/reward_qr_details_screen_back_button" />
+
+    <TextView
+        android:id="@+id/txt_qr_details_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:fontFamily="@font/claritycity_bold"
+        android:gravity="center_horizontal"
+        android:text="Proceed to the Information Counter at Anthology to claim your reward."
+        android:textColor="#4B3B30"
+        android:textSize="@dimen/challenge_begin_screen_rewards_text_size"
+        app:layout_constraintEnd_toStartOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toEndOf="@id/reward_qr_details_screen_back_button"
+        app:layout_constraintTop_toBottomOf="@+id/reward_qr_details_screen_back_button" />
+
+    <ImageView
+        android:id="@+id/iv_reward_details_image"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="26dp"
+        android:contentDescription="rewards"
+        android:scaleType="fitXY"
+
+        app:layout_constraintEnd_toStartOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toEndOf="@id/reward_qr_details_screen_back_button"
+        app:layout_constraintTop_toBottomOf="@+id/txt_qr_details_message" />
+
+    <TextView
+        android:id="@+id/txt_qr_details_message_code"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/claritycity_bold"
+        android:gravity="center_horizontal"
+        android:text="12345ABC"
+        android:textColor="#4B3B30"
+        android:textSize="@dimen/challenge_begin_screen_poi_name_text_size"
+        app:layout_constraintEnd_toStartOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toEndOf="@id/reward_qr_details_screen_back_button"
+        app:layout_constraintTop_toBottomOf="@+id/iv_reward_details_image" />
+
+    <TextView
+        android:id="@+id/txt_qr_details_message_code_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/claritycity_bold"
+        android:gravity="center_horizontal"
+        android:text="2021 Breadcrumbs Enamel Pin"
+        android:textColor="#4B3B30"
+        android:textSize="@dimen/trail_tutorial_sub_text_size"
+        app:layout_constraintEnd_toStartOf="@id/rewards_details_screen_info"
+        app:layout_constraintStart_toEndOf="@id/reward_qr_details_screen_back_button"
+        app:layout_constraintTop_toBottomOf="@+id/txt_qr_details_message_code" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

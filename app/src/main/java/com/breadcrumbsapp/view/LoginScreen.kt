@@ -69,7 +69,11 @@ class LoginScreen : AppCompatActivity() {
     private var isGooglePlusLogin: Boolean = false
     lateinit var loginViewModel: LoginViewModel
     private lateinit var callbackManager: CallbackManager
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
+
+
+    companion object {
+         lateinit var mGoogleSignInClient: GoogleSignInClient
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -650,17 +654,17 @@ class LoginScreen : AppCompatActivity() {
                               }*/
 
 
-                                  startActivity(
-                                      Intent(
-                                          this@LoginScreen,
-                                          DiscoverScreenActivity::class.java
-                                      ).putExtra("isFromLogin","yes")
-                                  )
-                                  overridePendingTransition(
-                                      R.anim.anim_slide_in_left,
-                                      R.anim.anim_slide_out_left
-                                  )
-                                  finish()
+                            startActivity(
+                                Intent(
+                                    this@LoginScreen,
+                                    DiscoverScreenActivity::class.java
+                                ).putExtra("isFromLogin","yes")
+                            )
+                            overridePendingTransition(
+                                R.anim.anim_slide_in_left,
+                                R.anim.anim_slide_out_left
+                            )
+                            finish()
                         } else {
 
                         }
@@ -675,6 +679,12 @@ class LoginScreen : AppCompatActivity() {
             e.printStackTrace()
         }
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        //moveTaskToBack(true)
     }
 }
 
