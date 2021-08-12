@@ -133,9 +133,7 @@
             android:name=".view.rewards.rewards_details.RewardsRedeemDetailsActivity"
             android:theme="@style/SplashTheme" />
 
-        <activity
-            android:name=".view.MainActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
         <activity
             android:name=".view.DiscoverScreenActivity"
             android:screenOrientation="portrait"
@@ -146,6 +144,20 @@
             android:theme="@style/SplashTheme" />
         <activity
             android:name=".view.LeaderBoardActivity"
+            android:theme="@style/SplashTheme" />
+
+        <activity
+            android:name=".view.CreatorPostActivity"
+            android:theme="@style/SplashTheme" />
+
+        <activity
+            android:name=".view.profile.ProfileScreenActivity"
+            android:theme="@style/SplashTheme" />
+        <activity
+            android:name=".view.MyFriendsListScreenActivity"
+            android:theme="@style/SplashTheme" />
+        <activity
+            android:name=".view.profile.ProfileEditActivity"
             android:theme="@style/SplashTheme" />
 
         <activity
@@ -180,6 +192,8 @@
         <activity
             android:name="com.breadcrumbsapp.camerafiles.fragments.MainActivity"
             android:theme="@style/SplashTheme" />
+
+        <activity android:name="com.breadcrumbsapp.view.profile.camera.ProfileScreenMainActivity"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

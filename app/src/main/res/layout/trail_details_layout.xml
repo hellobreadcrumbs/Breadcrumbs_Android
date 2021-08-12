@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/backButton"
+            android:id="@+id/trail_details_backButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="20dp"
@@ -47,7 +47,7 @@
 
 
                     <ImageView
-                        android:id="@+id/poiImageView"
+                        android:id="@+id/trail_details_image"
                         android:layout_width="match_parent"
                         android:layout_height="260dp"
                         android:scaleType="fitXY"
@@ -64,17 +64,12 @@
                         android:layout_marginEnd="15dp"
 
 
-                        android:orientation="horizontal"
-                        >
-
-
+                        android:orientation="horizontal">
 
 
                         <FrameLayout
                             android:layout_width="match_parent"
-                            android:layout_height="160dp">
-
-
+                            android:layout_height="150dp">
 
 
                             <androidx.constraintlayout.widget.ConstraintLayout
@@ -83,7 +78,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="bottom|center"
 
-                                android:layout_marginTop="70dp"
+                                android:layout_marginTop="75dp"
 
                                 android:background="@drawable/round_shadow_button_yellow"
                                 android:orientation="horizontal">
@@ -92,13 +87,11 @@
                                     android:id="@+id/tv_trail_name_banner"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
                                     android:fontFamily="@font/claritycity_extrabold"
-                                    android:text="PIONEER"
-                                    android:layout_marginTop="10dp"
+                                    android:text="WILD ABOUT TWILIGHT"
                                     android:textColor="#4B3B30"
                                     android:textSize="@dimen/challenge_begin_screen_rewards_text_size"
-
-
                                     app:layout_constraintBottom_toTopOf="@+id/tv_trail_period_of_time"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
@@ -107,9 +100,9 @@
                                 <TextView
 
                                     android:id="@+id/tv_trail_period_of_time"
-                                    android:layout_marginBottom="30dp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dp"
                                     android:fontFamily="@font/claritycity_extrabold"
                                     android:text="1 JUNE - 30 JULY 2021"
                                     android:textColor="#4B3B30"
@@ -120,12 +113,11 @@
                                     app:layout_constraintStart_toStartOf="parent" />
 
 
-
-
                             </androidx.constraintlayout.widget.ConstraintLayout>
+
                             <ImageView
 
-                                android:id="@+id/leaderBoard_trailIcon"
+                                android:id="@+id/trail_details_trailIcon"
                                 android:layout_width="90dp"
                                 android:layout_height="90dp"
                                 android:layout_gravity="center_horizontal"
@@ -141,6 +133,7 @@
 
 
                 </FrameLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -152,7 +145,7 @@
                     android:textSize="@dimen/trail_notification_days_ago_text_size" />
 
                 <TextView
-                    android:id="@+id/tv_trailName"
+                    android:id="@+id/tv_trail_by_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -166,7 +159,6 @@
                     android:text="BREADCRUMBS"
                     android:textColor="@color/white"
                     android:textSize="@dimen/discovery_screen_player_name_text_size" />
-
 
 
                 <TextView
@@ -219,7 +211,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-
+                            android:id="@+id/iv_trail_details_creator_post"
                             android:layout_width="0dip"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -242,7 +234,7 @@
                             android:layout_width="0dip"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/details_screen_info" />
+                            android:src="@drawable/trails_details_screen_arrow" />
 
                     </LinearLayout>
 
@@ -288,7 +280,7 @@
                             android:layout_width="0dip"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:src="@drawable/details_screen_info" />
+                            android:src="@drawable/trails_details_screen_arrow" />
 
                     </LinearLayout>
 
@@ -318,9 +310,8 @@
                     android:textSize="@dimen/trail_notification_days_ago_text_size" />
 
 
-
                 <TextView
-                    android:id="@+id/aboutContent"
+                    android:id="@+id/trail_details_about_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"

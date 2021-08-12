@@ -54,6 +54,7 @@ import com.breadcrumbsapp.service.LocationUpdatesService
 import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.RecyclerItemClickListenr
 import com.breadcrumbsapp.util.SessionHandlerClass
+import com.breadcrumbsapp.view.profile.ProfileScreenActivity
 import com.breadcrumbsapp.view.rewards.RewardsScreenActivity
 import com.bumptech.glide.Glide
 import com.google.android.gms.common.api.ApiException
@@ -501,6 +502,11 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         rewards_sub_layout.setOnClickListener(View.OnClickListener {
 
             startActivity(Intent(applicationContext, RewardsScreenActivity::class.java))
+        })
+
+        profile_sub_layout.setOnClickListener(View.OnClickListener {
+
+            startActivity(Intent(applicationContext, ProfileScreenActivity::class.java))
         })
 
         recyclerView.addOnItemTouchListener(

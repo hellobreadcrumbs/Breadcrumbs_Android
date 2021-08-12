@@ -1,9 +1,6 @@
 package com.breadcrumbsapp.util
 
-import com.breadcrumbsapp.model.GetEventsModel
-import com.breadcrumbsapp.model.GetFeedDataModel
-import com.breadcrumbsapp.model.GetRankingModel
-import com.breadcrumbsapp.model.GetUserModel
+import com.breadcrumbsapp.model.*
 
 
 class CommonData {
@@ -13,6 +10,8 @@ class CommonData {
         var getUserDetails:GetUserModel.Message?=null
         var getFeedData:List<GetFeedDataModel.Message>?=null
         var getRankData:List<GetRankingModel.Message>?=null
+        var getTrailsData:List<GetTrailsModel.Message>?=null
+        var getMyFeedData:List<GetMyFeedModel.Message>?=null
 
 
         // leaderboards.js

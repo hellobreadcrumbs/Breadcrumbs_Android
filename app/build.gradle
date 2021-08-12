@@ -170,6 +170,8 @@ dependencies {
 
     implementation 'com.borjabravo:readmoretextview:2.1.0'
 
+
+
 }
 sceneform.asset('sampledata/smalllamp/model.obj',
         'default',

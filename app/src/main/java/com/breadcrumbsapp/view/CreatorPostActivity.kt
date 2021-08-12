@@ -6,14 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.breadcrumbsapp.R
+import com.breadcrumbsapp.adapter.CreatorPostAdapter
 import com.breadcrumbsapp.adapter.FeedPostAdapter
-import com.breadcrumbsapp.adapter.TrailsListScreenAdapter
-import com.breadcrumbsapp.databinding.TrailsScreenLayoutBinding
+import com.breadcrumbsapp.databinding.CreatorPostLayoutBinding
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.SessionHandlerClass
+import kotlinx.android.synthetic.main.creator_post_layout.*
 import kotlinx.android.synthetic.main.feed_layout.*
-import kotlinx.android.synthetic.main.trails_screen_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,28 +28,25 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class TrailScreenActivity:AppCompatActivity()
+
+class CreatorPostActivity:AppCompatActivity()
 {
-    private lateinit var sessionHandlerClass: SessionHandlerClass
+    private lateinit var creatorPostAdapter: CreatorPostAdapter
+    private lateinit var binding:CreatorPostLayoutBinding
     private var interceptor = intercept()
-    private lateinit var binding:TrailsScreenLayoutBinding
-    private lateinit var trailsListScreenAdapter:TrailsListScreenAdapter
+    private lateinit var sharedPreference: SessionHandlerClass
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= TrailsScreenLayoutBinding.inflate(layoutInflater)
+        binding= CreatorPostLayoutBinding.inflate(layoutInflater)
+        sharedPreference = SessionHandlerClass(applicationContext)
         setContentView(binding.root)
-        sessionHandlerClass= SessionHandlerClass(applicationContext)
-        trailsScreenRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        creator_post_rv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         getFeedPostData()
-       // trailsListScreenAdapter = TrailsListScreenAdapter()
-        //trailsScreenRecyclerView.adapter = trailsListScreenAdapter
-
-        trails_screen_back_button.setOnClickListener {
+        creator_post_back_button.setOnClickListener(View.OnClickListener {
             finish()
-        }
+        })
+
     }
-
-
 
     private fun getFeedPostData() {
         try {
@@ -65,17 +62,23 @@ class TrailScreenActivity:AppCompatActivity()
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.staging_url))
+                .baseUrl(resources.getString(R.string.live_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
             // Create JSON using JSONObject
-
+            println(
+                "Login : ${
+                    sharedPreference.getSession("login_id")
+                }"
+            )
             val jsonObject = JSONObject()
-            jsonObject.put("user_id", sessionHandlerClass.getSession("login_id"))
+          //  jsonObject.put("user_id", sharedPreference.getSession("login_id"))
+            jsonObject.put("user_id", "198")
 
-
+            println("getUserDetails Url = ${resources.getString(R.string.live_url)}")
+            println("getUserDetails Input = $jsonObject")
 
 
             val mediaType = "application/json".toMediaTypeOrNull()
@@ -88,7 +91,7 @@ class TrailScreenActivity:AppCompatActivity()
                 // Create Service
                 val service = retrofit.create(APIService::class.java)
 
-                val response = service.getTrailsList(
+                val response = service.getMyFeedDetails(
                     resources.getString(R.string.api_access_token),
                     requestBody
                 )
@@ -96,16 +99,13 @@ class TrailScreenActivity:AppCompatActivity()
                 if (response.isSuccessful) {
                     if (response.body()!!.status) {
 
-                        CommonData.getTrailsData = response.body()?.message
+                        CommonData.getMyFeedData = response.body()?.message
 
                         runOnUiThread {
 
-                            if (CommonData.getTrailsData != null) {
-                               // feedListAdapter = FeedPostAdapter(CommonData.getFeedData!!)
-                                //feedList.adapter = feedListAdapter
-
-                                trailsListScreenAdapter = TrailsListScreenAdapter(CommonData.getTrailsData!!)
-                                trailsScreenRecyclerView.adapter = trailsListScreenAdapter
+                            if (CommonData.getMyFeedData != null) {
+                                creatorPostAdapter = CreatorPostAdapter(CommonData.getMyFeedData!!)
+                                creator_post_rv.adapter = creatorPostAdapter
 
                             }
 

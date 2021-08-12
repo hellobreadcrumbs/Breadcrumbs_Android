@@ -22,7 +22,7 @@ interface APIService {
     suspend fun getTrailsList(
         @Header("Authorization") h1: String,
         @Body requestBody: RequestBody
-    ): Response<DiscoverScreenModel>
+    ): Response<GetTrailsModel>
     // suspend fun getTrailsList(@Body requestBody: RequestBody): Response<ResponseBody>
 
 
@@ -77,5 +77,10 @@ interface APIService {
     ): Response<GetRankingModel>
 
 
-
+    @Headers("Accept:application/json", "Content-Type:application/json;")
+    @POST("v1/api/get_my_feed")
+    suspend fun getMyFeedDetails(
+        @Header("Authorization") h1: String,
+        @Body requestBody: RequestBody
+    ): Response<GetMyFeedModel>
 }
