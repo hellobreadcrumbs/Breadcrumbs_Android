@@ -35,7 +35,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginEnd="25dp"
-        android:src="@drawable/profile_screen_frnds_list_btn"
+        android:src="@drawable/friend_list_screen_add_btn"
         app:layout_constraintBottom_toTopOf="@+id/friends_list_screen_title_border_line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -12,6 +12,7 @@ class CommonData {
         var getRankData:List<GetRankingModel.Message>?=null
         var getTrailsData:List<GetTrailsModel.Message>?=null
         var getMyFeedData:List<GetMyFeedModel.Message>?=null
+        var getRecommendedFriendsModel:List<RecommendedFriendsModel.Message>?=null
 
 
         // leaderboards.js

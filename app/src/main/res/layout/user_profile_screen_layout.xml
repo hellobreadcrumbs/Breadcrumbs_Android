@@ -1,62 +1,367 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/discover_details_bg"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <Button
-        android:id="@+id/profile_screen_backButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="20dp"
-        android:background="@drawable/search_back_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:background="@drawable/discover_details_bg">
 
-
-
-    <TextView
-        android:id="@+id/profile_edit_screen_title_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:fontFamily="@font/claritycity_bold"
-        android:text="My Profile"
-        android:textColor="#4B3B30"
-
-        android:textSize="@dimen/trail_tutorial_sub_text_size"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/edit_iv"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/profile_screen_edit_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_title_tv"
-        app:layout_constraintBottom_toTopOf="@+id/profile_edit_screen_title_border_line"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/my_friends_list_iv"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/profile_screen_frnds_list_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/edit_iv"
-        app:layout_constraintBottom_toTopOf="@+id/profile_edit_screen_title_border_line"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/profile_edit_screen_title_border_line"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="15dp"
-        android:background="#4B3B30"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_screen_backButton" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/user_profile_screen_backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/search_back_button" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:visibility="visible"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/profile_edit_screen_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/claritycity_bold"
+                    android:text="My Profile"
+                    android:textColor="#4B3B30"
+
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/edit_iv"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/profile_screen_edit_btn"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_title_tv"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/my_friends_list_iv"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/profile_screen_frnds_list_btn"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/edit_iv"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <View
+                    android:id="@+id/profile_edit_screen_title_border_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="15dp"
+                    android:background="#4B3B30"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_iv" />
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/profile_edit_screen_profile_pic_iv"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@mipmap/breadcrumbs_app_icon_round"
+                    app:civ_border_width="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/profile_edit_screen_title_border_line" />
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/claritycity_bold"
+                    android:text="mastergrey64"
+                    android:textColor="#4B3B30"
+                    android:textSize="@dimen/disclaimer_content_text_size"
+                    app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_profile_pic_iv"
+                    app:layout_constraintTop_toTopOf="@+id/profile_edit_screen_profile_pic_iv" />
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/claritycity_semibold"
+                    android:text="RECRUIT LV. 1"
+                    android:textColor="#4B3B30"
+                    app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_profile_pic_iv"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/determinateBar"
+                    android:layout_width="0dp"
+                    android:layout_height="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="15dp"
+                    app:indicatorColor="#CD462A"
+                    app:layout_constraintBottom_toBottomOf="@+id/profile_edit_screen_profile_pic_iv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_profile_pic_iv"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                <TextView
+                    android:id="@+id/achievement_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/claritycity_bold"
+                    android:text="MY ACHIEVEMENTS"
+                    android:layout_marginTop="20dp"
+                    android:textColor="#A5988B"
+                    android:textSize="@dimen/trail_notification_days_ago_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/determinateBar" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/achievementLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/frnd_profile_achievement_bg"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    app:layout_constraintTop_toBottomOf="@+id/achievement_title">
+
+                    <ImageView
+                        android:id="@+id/feedIcon"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/frnd_profile_achievement_icon_wild_life_warrior"
+                        app:layout_constraintEnd_toStartOf="@+id/leaderboardIcon"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <ImageView
+                        android:id="@+id/leaderboardIcon"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/frnd_profile_achievement_icon_wild_life_warrior"
+                        app:layout_constraintEnd_toStartOf="@+id/discoverIcon"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/feedIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <ImageView
+                        android:id="@+id/discoverIcon"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/frnd_profile_achievement_icon_local_cosmopolite"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toStartOf="@+id/trailsIcon"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/leaderboardIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <ImageView
+                        android:id="@+id/trailsIcon"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/navigation_trails"
+                        app:layout_constraintEnd_toStartOf="@+id/moreIcon"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/discoverIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <ImageView
+                        android:id="@+id/moreIcon"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/navigation_more"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/trailsIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/achievementLayout">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintLayout3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/profile_bg_green_color"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/constraintLayout4"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/claritycity_bold"
+                            android:gravity="center"
+                            android:padding="2dp"
+                            android:text="POIs\nDISCOVERED"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/discovery_screen_player_name_text_size"
+                            app:layout_constraintBottom_toBottomOf="parent"
+
+
+                            app:layout_constraintEnd_toStartOf="@+id/poi_discovered"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/poi_discovered"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/top_ten_players_bg"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="15dp"
+
+                                android:paddingTop="2dp"
+                                android:paddingEnd="15dp"
+                                android:paddingBottom="2dp"
+                                android:text="328"
+                                android:textColor="#4B3B30"
+                                android:textSize="@dimen/discover_screen_poi_distance_text_size"
+
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+
+                        android:id="@+id/constraintLayout4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/profile_bg_green_color"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/constraintLayout3"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/claritycity_bold"
+                            android:gravity="center"
+                            android:padding="2dp"
+                            android:text="TRAILS\nJOURNEYED"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/discovery_screen_player_name_text_size"
+                            app:layout_constraintBottom_toBottomOf="parent"
+
+                            app:layout_constraintEnd_toStartOf="@+id/constraintLayout5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintLayout5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/top_ten_players_bg"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="15dp"
+
+                                android:paddingTop="2dp"
+                                android:paddingEnd="15dp"
+                                android:paddingBottom="2dp"
+                                android:text="328"
+                                android:textColor="#4B3B30"
+                                android:textSize="@dimen/discover_screen_poi_distance_text_size"
+
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/postTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/claritycity_bold"
+                    android:gravity="center_horizontal"
+                    android:text="MY POSTS"
+                    android:textColor="#A5988B"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
+
+                <View
+                    android:id="@+id/selected_player_post_border_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#4B3B30"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/postTitle" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/post_screen_friend_post_list"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="0dp"
+                    app:layout_constraintHeight_percent="0.56"
+
+                    android:layout_marginTop="10dp"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/selected_player_post_border_line" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

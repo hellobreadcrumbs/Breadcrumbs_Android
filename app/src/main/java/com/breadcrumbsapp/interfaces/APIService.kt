@@ -83,4 +83,14 @@ interface APIService {
         @Header("Authorization") h1: String,
         @Body requestBody: RequestBody
     ): Response<GetMyFeedModel>
+
+    @Headers("Accept:application/json", "Content-Type:application/json;")
+    @POST("v1/api/get_recommended_friends")
+    suspend fun getRecommendedFriends(
+        @Header("Authorization") h1: String,
+        @Body requestBody: RequestBody
+    ): Response<RecommendedFriendsModel>
+
+
+
 }

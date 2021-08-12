@@ -19,7 +19,7 @@ class ProfileScreenActivity:AppCompatActivity()
             startActivity(Intent(applicationContext,ProfileEditActivity::class.java).putExtra("from","activity"))
         })
 
-        profile_screen_backButton.setOnClickListener(View.OnClickListener {
+        user_profile_screen_backButton.setOnClickListener(View.OnClickListener {
             finish()
         })
 

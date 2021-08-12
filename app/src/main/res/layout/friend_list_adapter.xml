@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="80dp"
     android:layout_marginBottom="10dp"
-    android:background="@drawable/round_grey_button">
+    android:background="@drawable/friend_request_banner">
 
 
     <com.mikhaellopez.circularimageview.CircularImageView
@@ -12,8 +12,8 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginStart="20dp"
-        android:src="@mipmap/breadcrumbs_app_icon_round"
-        app:civ_border_width="0dp"
+        android:background="@drawable/no_image"
+        app:civ_border_width="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -48,14 +48,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/feedPostUserProfilePicture"
         app:layout_constraintTop_toBottomOf="@+id/friendName"/>
-    <TextView
+    <ImageView
         android:id="@+id/add_friend_btn"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:fontFamily="@font/claritycity_bold"
-        android:text="x2"
-        android:textColor="#DF7103"
-        android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+        android:background="@drawable/friend_list_screen_add_btn"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/friend_level_name"
