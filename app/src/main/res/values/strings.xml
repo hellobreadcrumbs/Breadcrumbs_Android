@@ -41,7 +41,6 @@
     <string name="turn_off_flashlight">Turn off Flashlight</string>
 
 
-
     <string name="take_photo">TAKE PHOTO</string>
     <string name="permission_required">Permission Required</string>
     <string name="permission_message">You must grant permission to access camera and external storage to run this application.</string>
@@ -61,11 +60,6 @@
     <string name="api_access_token">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjQ3MDEiLCJlbWFpbCI6InRlc3RkZXZpY2VicmVhZEBnbWFpbC5jb20iLCJwcm9maWxlX3BpY3R1cmUiOiJ1cGxvYWRzXC80NzAxXC9wcm9maWxlX3BpY18xOTMyMDIxMTUyMDQzLmpwZyIsInVzZXJuYW1lIjoiQXJ1biBrdW1hciIsInBhc3N3b3JkIjoiIiwicmFuayI6IjEiLCJmaW5pc2hlZF9wb2lzIjoiMCIsImZpbmlzaGVkX3RyYWlscyI6IjAiLCJleHBlcmllbmNlIjoiNDIwMCIsImlzX3Nwb25zb3IiOiIwIiwicmVnaXN0ZXJfcGxhdGZvcm0iOiIxIiwiY3JlYXRlZCI6IjIwMjEtMDQtMTkgMDQ6NDI6MzgiLCJ1cGRhdGVkIjoiMjAyMS0wNC0xOSAwNDo0MjozOCIsIkFQSV9USU1FIjoxNjE5NjA0MjgyfQ.HIvUDe4sTB5kyVstz33ShSylWUObN3C3cTf8zS_ayOs</string>
 
 
-
-
-
-
-
     <string name="picture">Picture</string>
     <string name="description_info">Info</string>
     <string name="request_permission">This sample needs camera permission.</string>
@@ -80,9 +74,6 @@
 
         ]]>
     </string>
-
-
-
 
 
     <string name="capture_button_alt">Capture</string>
@@ -116,4 +107,63 @@
 
     <string name="rewards_screen_active_no_data_content">No rewards available</string>
     <string name="rewards_screen_past_no_data_content">No rewards redeemed yet</string>
+
+
+    <string name="faq_question_1">What is Breadcrumbs?</string>
+    <string name="faq_answer_1">Breadcrumbs is a location-based game that allows users to experience and discover attractions or even a city like never before. Embark on specially curated Breadcrumbs trails where you can Explore, Learn and Get Rewarded through interactive quizzes and games, while allowing you to level up and earn rewards!</string>
+    <string name="faq_question_2">What are POIs?</string>
+    <string name="faq_answer_2"> Inspired by the idea of Breadcrumbs, which is defined as a series of connected pieces of information, POIs are Points-of-Interest at specific locations of a place or attraction where users can scan the QR Code to learn more about them and even challenge themselves to quizzes!
+                        \n\n
+                        Users can also find out more information such as the trail they belong to, distance, directional compass as well as the challenge type. Discovered POIs will be marked with an orange starred ribbon.
+                        \n\n
+                        Tip: Pay attention to POI descriptions which contain clues to the challenges!
+</string>
+    <string name="faq_question_3">What are POI Challenges?</string>
+    <string name="faq_answer_3">POI Challenges are interactive ways for users to discover more about the POIs and earn Experience Points (XP) through Quiz Challenge, Selfie Challenge and more! To start the Challenges, simply scan the QR Code or launch your camera.
+                        \n\n
+                        More instructions will be available on the POI pages.
+</string>
+    <string name="faq_question_4">How do I find POIs?</string>
+    <string name="faq_answer_4">POIs can be located through POI icons on the trail map. It\'s hard to miss them! To discover more and find your way to the POIs, simply tap on the icons and the in-built GPS will navigate you there.
+                        \n\n
+                        Hint: They are located in safe and reachable areas. So don\'t go climbing up the trees!
+</string>
+    <string name="faq_question_5">How do I earn Experience Points (XP)?</string>
+    <string name="faq_answer_5">Get rewarded with Experience Points (XP) by discovering new POIs, taking part in POI challenges and even encountering \'Special Discoveries\'.
+                        \n\n
+                        The more XPs you earn, the more prizes you stand to win!
+</string>
+    <string name="faq_question_6">What are Special Discoveries?</string>
+    <string name="faq_answer_6">Special Discoveries are hidden gems and POIs that are planted in secret locations on the trails. Catch them if you can and get rewarded with bonus XPs!</string>
+    <string name="faq_question_7">How do I level up?</string>
+    <string name="faq_answer_7">Take your Breadcrumbs experience to the next level by levelling up! Climb your way up in the player rankings using the XP earned from discovering the POIs and completing the Challenges.</string>
+    <string name="faq_question_8">What are Achievements?</string>
+    <string name="faq_answer_8">Unlock Achievements when you complete a series of tasks on the trail. You can view all your Achievements under your Profile page and brag to your fellow explorers!</string>
+    <string name="faq_question_9">What is the Leaderboard?</string>
+    <string name="faq_answer_9"> What\'s a game without some friendly competition? Battle it out with other players for a spot at the top of the Leaderboard. Leaderboard ranking will be based on 3 parameters:\n
+                        • Number of POIs discovered\n
+                        • XP earned on trail\n
+                        • Time taken to complete trail (time pauses after 15 mins of inactivity)
+</string>
+    <string name="faq_question_10">How do I get the rewards?</string>
+    <string name="faq_answer_10">Get rewarded with not just XP, but exciting prizes such as vouchers by completing trails and Achievements. Find out what rewards you have earned and how to redeem them on the Rewards page.</string>
+    <string name="faq_question_11">What is Augmented Reality (AR)?</string>
+    <string name="faq_answer_11">Experience attractions and places like never before as they come to life with the use of Augmented Reality (AR). Positioned at various parts of the trail, users will be prompted to launch their cameras when they are in the vicinity of the AR locations. Earn XP and special rewards for completing the AR experience!</string>
+    <string name="faq_question_12">How to get the best experience?</string>
+    <string name="faq_answer_12">To get the best out of the Breadcrumbs experience, ensure you have:\n
+                        •  A working smart phone with camera\n
+                        •  GPS and Location Services\n
+                        •  Strong and stable internet connection (3G, 4G, 5G)\n
+                        •  Tablets are not supported
+</string>
+    <string name="faq_question_13">GPS Troubleshooting Guide</string>
+    <string name="faq_answer_13"> If you\'re encountering GPS issues, here are some steps to troubleshoot:\n
+                        •  Ensure you are using a smartphone with GPS capabilities\n
+                        •  Turn on GPS and location services\n
+                        •  Ensure you have a strong internet connection\n\n
+                        Note that GPS signals may be affected when playing in urban areas with tall buildings as well as weather conditions.
+</string>
+    <string name="faq_question_14">Can POIs trails be in unsafe areas/private properties?</string>
+    <string name="faq_answer_14">All POIs and trails are located in safe areas which are publicly accessible.</string>
+
 </resources>

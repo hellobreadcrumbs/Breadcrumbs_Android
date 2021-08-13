@@ -1,5 +1,6 @@
 package com.breadcrumbsapp.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -13,7 +14,10 @@ import com.breadcrumbsapp.databinding.FeedLayoutBinding
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.SessionHandlerClass
+import com.breadcrumbsapp.view.profile.ProfileScreenActivity
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.feed_layout.*
+import kotlinx.android.synthetic.main.user_profile_screen_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,8 +51,20 @@ class FeedPostActivity : AppCompatActivity() {
             finish()
         }
 
+        if(sharedPreference.getSession("player_photo_url")!=null && sharedPreference.getSession("player_photo_url")!="")
+        {
+            Glide.with(applicationContext).load(sharedPreference.getSession("player_photo_url")).into(FeedScreenUserProfilePicture)
+
+        }
+        else
+        {
+            Glide.with(applicationContext).load(R.drawable.no_image).into(FeedScreenUserProfilePicture)
+        }
+
         FeedScreenUserProfilePicture.setOnClickListener {
-            Toast.makeText(applicationContext, "Under Construction", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(applicationContext, ProfileScreenActivity::class.java).addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK
+            ))
         }
     }
 

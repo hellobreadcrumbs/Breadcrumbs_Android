@@ -117,7 +117,15 @@
         <activity
             android:name=".view.SettingsScreenAct"
             android:theme="@style/SplashTheme" />
-
+        <activity
+            android:name=".view.UserInformationActivity"
+            android:theme="@style/SplashTheme" />
+        <activity
+            android:name=".view.FAQActivity"
+            android:theme="@style/SplashTheme" />
+        <activity
+            android:name=".view.SettingsWebViewActivity"
+            android:theme="@style/SplashTheme" />
         <activity
             android:name=".view.rewards.RewardsScreenActivity"
             android:theme="@style/SplashTheme" />
@@ -193,7 +201,7 @@
             android:name="com.breadcrumbsapp.camerafiles.fragments.MainActivity"
             android:theme="@style/SplashTheme" />
 
-        <activity android:name="com.breadcrumbsapp.view.profile.camera.ProfileScreenMainActivity"/>
+        <activity android:name="com.breadcrumbsapp.view.profile.camera.ProfileScreenMainActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

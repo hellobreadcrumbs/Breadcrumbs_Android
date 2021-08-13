@@ -2,6 +2,7 @@ package com.breadcrumbsapp.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.breadcrumbsapp.model.GetUserModel
 
 class SessionHandlerClass(context:Context)
 {
@@ -14,6 +15,8 @@ class SessionHandlerClass(context:Context)
         editor.putString(KEY_NAME, value)
         editor.apply()
     }
+
+
 
 
     fun getSession(KEY_NAME: String): String? {

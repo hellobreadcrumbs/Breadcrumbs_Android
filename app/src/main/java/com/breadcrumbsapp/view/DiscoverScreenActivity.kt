@@ -486,25 +486,36 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             }
         }
         leaderboardIcon.setOnClickListener {
+            more_option_layout_header.visibility = View.GONE
+            currentLocationLayout.visibility=View.VISIBLE
             startActivity(Intent(applicationContext, LeaderBoardActivity::class.java))
             //Toast.makeText(applicationContext,"Under Construction!",1000).show()
 
         }
 
         how_to_play_sub_layout.setOnClickListener {
+            more_option_layout_header.visibility = View.GONE
+            currentLocationLayout.visibility=View.VISIBLE
             startActivity(Intent(applicationContext, HowToPlayActivity::class.java))
+
         }
 
         settings_sub_layout.setOnClickListener(View.OnClickListener {
+            more_option_layout_header.visibility = View.GONE
+            currentLocationLayout.visibility=View.VISIBLE
             startActivity(Intent(applicationContext,SettingsScreenAct::class.java))
         })
 
         rewards_sub_layout.setOnClickListener(View.OnClickListener {
+            more_option_layout_header.visibility = View.GONE
+            currentLocationLayout.visibility=View.VISIBLE
 
             startActivity(Intent(applicationContext, RewardsScreenActivity::class.java))
         })
 
         profile_sub_layout.setOnClickListener(View.OnClickListener {
+            more_option_layout_header.visibility = View.GONE
+            currentLocationLayout.visibility=View.VISIBLE
 
             startActivity(Intent(applicationContext, ProfileScreenActivity::class.java))
         })

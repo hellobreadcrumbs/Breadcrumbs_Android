@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#50B6DC">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/my_achievements_screen_backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/search_back_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="20dp"
+            android:scrollbars="vertical"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/my_achievements_screen_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/claritycity_bold"
+                    android:text="Achievement Details"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/my_achievements_screen_title_border_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="30dp"
+                    android:background="#4B3B30"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/my_achievements_screen_title_tv" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/claritycity_bold"
+                    android:text="Twilight Explorer"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/challenge_begin_screen_poi_name_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/my_achievements_screen_title_border_line" />
+
+                <ImageView
+                    android:id="@+id/achievement_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/achievement_details_aardvark_icon"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:background="@drawable/achievements_details_completed_area_bg"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/achievement_image">
+
+                    <TextView
+                        android:id="@+id/completed_field_one"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="30dp"
+                        android:background="@drawable/achievements_completed_list_bg"
+                        android:fontFamily="@font/claritycity_bold"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="5/5 COMPLETED!"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/completed_field_two"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="30dp"
+                        android:background="@drawable/top_ten_players_bg"
+                        android:fontFamily="@font/dinish_regular"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text=" COMPLETED!"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/next_button_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/completed_field_one" />
+
+                    <TextView
+                        android:id="@+id/completed_field_three"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="30dp"
+                        android:background="@drawable/top_ten_players_bg"
+                        android:fontFamily="@font/dinish_regular"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text=" COMPLETED!"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/next_button_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/completed_field_two" />
+
+                    <TextView
+                        android:id="@+id/completed_field_four"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="30dp"
+                        android:background="@drawable/top_ten_players_bg"
+                        android:fontFamily="@font/dinish_regular"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text=" COMPLETED!"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/next_button_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/completed_field_three" />
+
+                    <TextView
+                        android:id="@+id/completed_field_five"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="30dp"
+                        android:background="@drawable/top_ten_players_bg"
+                        android:fontFamily="@font/dinish_regular"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text=" COMPLETED!"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/next_button_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/completed_field_four" />
+
+                    <TextView
+                        android:id="@+id/completed_field_six"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="30dp"
+                        android:background="@drawable/top_ten_players_bg"
+                        android:fontFamily="@font/dinish_regular"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text=" COMPLETED!"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/next_button_text_size"
+
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/completed_field_five" />
+
+                    <View
+                        android:id="@+id/view_one"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="10dp"
+
+                        android:background="#4B3B30"
+
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/completed_field_six" />
+
+                    <TextView
+                        android:id="@+id/trail_static_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/claritycity_bold"
+                        android:gravity="center_horizontal"
+                        android:text="TRAIL"
+                        android:textColor="#A5988B"
+                        android:textSize="@dimen/discovery_screen_player_name_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view_one" />
+
+                    <ImageView
+                        android:id="@+id/achievement_details_trail_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="35dp"
+                        android:src="@drawable/wild_about_twlight_icon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/trail_static_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/claritycity_bold"
+                        android:text="WILD ABOUT TWILIGHT"
+                        android:textColor="#4B3B30"
+                        app:layout_constraintBottom_toBottomOf="@+id/achievement_details_trail_icon"
+
+                        app:layout_constraintEnd_toStartOf="@+id/achievement_details_info_icon"
+                        app:layout_constraintStart_toEndOf="@+id/achievement_details_trail_icon"
+                        app:layout_constraintTop_toBottomOf="@+id/trail_static_content" />
+
+                    <ImageView
+                        android:id="@+id/achievement_details_info_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="35dp"
+                        android:src="@drawable/achievements_details_info_btn"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/trail_static_content" />
+
+                    <View
+                        android:id="@+id/view_two"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="5dp"
+
+                        android:background="#4B3B30"
+
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/achievement_details_info_icon" />
+
+                    <TextView
+                        android:id="@+id/rewards_static_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/claritycity_bold"
+                        android:gravity="center_horizontal"
+                        android:text="REWARDS"
+                        android:textColor="#A5988B"
+                        android:textSize="@dimen/discovery_screen_player_name_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view_two" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="70dp"
+
+                        android:src="@drawable/limited_edition_enamel_pin"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rewards_static_content" />
+                    <TextView
+                        android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+                        android:textColor="#4B3B30"
+                        android:text="LIMITED EDITION ENAMEL PIN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:id="@+id/imageView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="70dp"
+                        android:src="@drawable/limited_edition_enamel_pin"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rewards_static_content" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+    </FrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

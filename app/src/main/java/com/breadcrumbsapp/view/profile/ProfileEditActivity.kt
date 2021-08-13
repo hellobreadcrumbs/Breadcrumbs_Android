@@ -10,14 +10,18 @@ import android.provider.MediaStore
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.ProfileEditLayoutBinding
 import com.breadcrumbsapp.util.SessionHandlerClass
+import com.bumptech.glide.Glide
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.profile_edit_layout.*
+import kotlinx.android.synthetic.main.profile_edit_layout.profile_edit_screen_profile_pic_iv
+import kotlinx.android.synthetic.main.user_profile_screen_layout.*
 import java.io.ByteArrayOutputStream
 
 
@@ -41,17 +45,17 @@ class ProfileEditActivity : AppCompatActivity() {
             choosePhoto()
         })
 
-        /*  var from=intent.extras?.getString("from")
-          println("from== $from")
-          if(from=="fragment")
-          {
-              val uri = sharedPreference.getSession("cameraUri")
-              val imageUri: Uri = Uri.parse(uri)
-              CropImage.activity(imageUri).setAspectRatio(1,1)
-                  .setFixAspectRatio(true).setScaleType(CropImageView.ScaleType.FIT_CENTER)
-                  .setRotationDegrees(0).start(this)
+        if(sharedPreference.getSession("player_photo_url")!=null && sharedPreference.getSession("player_photo_url")!="")
+        {
 
-          }*/
+            Glide.with(applicationContext).load(sharedPreference.getSession("player_photo_url")).into(profile_edit_screen_profile_pic_iv)
+        }
+        else
+        {
+            Glide.with(applicationContext).load(R.drawable.no_image).into(profile_edit_screen_profile_pic_iv)
+        }
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -149,6 +153,7 @@ class ProfileEditActivity : AppCompatActivity() {
 
         var cameraButton = dialog.findViewById(R.id.tv_camera) as TextView
         var galleryButton = dialog.findViewById(R.id.tv_gallery) as TextView
+        var popCloseButton = dialog.findViewById(R.id.pop_up_close_btn) as ImageView
 
         cameraButton.setOnClickListener(View.OnClickListener {
             dialog.dismiss()
@@ -166,9 +171,13 @@ class ProfileEditActivity : AppCompatActivity() {
 
                  */
 
-            Toast.makeText(applicationContext, "Coming Soon", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "Under Construction", Toast.LENGTH_SHORT).show()
 
 
+        })
+
+        popCloseButton.setOnClickListener(View.OnClickListener {
+            dialog.dismiss()
         })
 
 

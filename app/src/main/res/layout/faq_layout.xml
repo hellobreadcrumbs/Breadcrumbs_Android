@@ -1,0 +1,885 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/discover_details_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Button
+        android:id="@+id/faq_screen_backButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/search_back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+
+        android:src="@drawable/settings_faq"
+        app:layout_constraintBottom_toBottomOf="@+id/faq_screen_backButton"
+        app:layout_constraintEnd_toStartOf="@+id/faq_title_tv"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/faq_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/claritycity_bold"
+        android:text="FAQ"
+        android:textColor="#4B3B30"
+
+        android:textSize="@dimen/trail_tutorial_sub_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/faq_screen_backButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/faq_screen_title_border_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="15dp"
+        android:background="#4B3B30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/faq_screen_backButton" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/website_tv"
+        app:layout_constraintTop_toBottomOf="@+id/faq_screen_title_border_line">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/faq1_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/faq1_question_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/faq_question_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="5dp"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="@string/faq_question_1"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/trail_tutorial_sub_text_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/expand_btn_1"
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="15dp"
+
+                        android:src="@drawable/faq_down_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/faq_question_1"
+                        app:layout_constraintStart_toEndOf="@+id/faq_question_1"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/faq1_answer_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:text="@string/faq_answer_1"
+                    android:textColor="#4B3B30"
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/faq1_question_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/faq2_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq1_Layout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/faq2_question_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/faq_question_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="@string/faq_question_2"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/trail_tutorial_sub_text_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/expand_btn_2"
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/faq_down_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/faq_question_2"
+                        app:layout_constraintStart_toEndOf="@+id/faq_question_2"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/faq2_answer_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:textColor="#4B3B30"
+                    android:text="@string/faq_answer_2"
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/faq2_question_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/faq3_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq2_Layout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/faq3_question_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/faq_question_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="@string/faq_question_3"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/trail_tutorial_sub_text_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/expand_btn_3"
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/faq_down_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/faq_question_3"
+                        app:layout_constraintStart_toEndOf="@+id/faq_question_3"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/faq3_answer_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:textColor="#4B3B30"
+                    android:text="@string/faq_answer_3"
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/faq3_question_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/faq4_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq3_Layout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/faq4_question_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/faq_question_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="@string/faq_question_4"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/trail_tutorial_sub_text_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/expand_btn_4"
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/faq_down_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/faq_question_4"
+                        app:layout_constraintStart_toEndOf="@+id/faq_question_4"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/faq4_answer_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:textColor="#4B3B30"
+                    android:text="@string/faq_answer_4"
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/faq4_question_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/faq5_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq4_Layout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/faq5_question_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/faq_question_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="@string/faq_question_5"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/trail_tutorial_sub_text_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/expand_btn_5"
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/faq_down_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/faq_question_5"
+                        app:layout_constraintStart_toEndOf="@+id/faq_question_5"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/faq5_answer_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:textColor="#4B3B30"
+                    android:text="@string/faq_answer_5"
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/faq5_question_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/faq6_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq5_Layout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/faq6_question_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/faq_question_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="@string/faq_question_6"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/trail_tutorial_sub_text_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/expand_btn_6"
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/faq_down_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/faq_question_6"
+                        app:layout_constraintStart_toEndOf="@+id/faq_question_6"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/faq6_answer_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:textColor="#4B3B30"
+                    android:text="@string/faq_answer_6"
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/faq6_question_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/faq7_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq6_Layout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/faq7_question_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/faq_question_7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="@string/faq_question_7"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/trail_tutorial_sub_text_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/expand_btn_7"
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/faq_down_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/faq_question_7"
+                        app:layout_constraintStart_toEndOf="@+id/faq_question_7"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/faq7_answer_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:textColor="#4B3B30"
+                    android:text="@string/faq_answer_7"
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/faq7_question_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/faq8_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq7_Layout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/faq8_question_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/faq_question_8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="@string/faq_question_8"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/trail_tutorial_sub_text_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/expand_btn_8"
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/faq_down_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/faq_question_8"
+                        app:layout_constraintStart_toEndOf="@+id/faq_question_8"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/faq8_answer_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:textColor="#4B3B30"
+                    android:text="@string/faq_answer_8"
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/faq8_question_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/faq9_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq8_Layout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/faq9_question_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/faq_question_9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="@string/faq_question_9"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/trail_tutorial_sub_text_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/expand_btn_9"
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/faq_down_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/faq_question_9"
+                        app:layout_constraintStart_toEndOf="@+id/faq_question_9"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/faq9_answer_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:textColor="#4B3B30"
+                    android:text="@string/faq_answer_9"
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/faq9_question_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/faq10_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq9_Layout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/faq10_question_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/faq_question_10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="@string/faq_question_10"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/trail_tutorial_sub_text_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/expand_btn_10"
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/faq_down_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/faq_question_10"
+                        app:layout_constraintStart_toEndOf="@+id/faq_question_10"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/faq10_answer_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:textColor="#4B3B30"
+                    android:text="@string/faq_answer_10"
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/faq10_question_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/faq11_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq10_Layout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/faq11_question_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/faq_question_11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="@string/faq_question_11"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/trail_tutorial_sub_text_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/expand_btn_11"
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/faq_down_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/faq_question_11"
+                        app:layout_constraintStart_toEndOf="@+id/faq_question_11"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/faq11_answer_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:textColor="#4B3B30"
+                    android:text="@string/faq_answer_11"
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/faq11_question_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/faq12_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq11_Layout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/faq12_question_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/faq_question_12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="@string/faq_question_12"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/trail_tutorial_sub_text_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/expand_btn_12"
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/faq_down_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/faq_question_12"
+                        app:layout_constraintStart_toEndOf="@+id/faq_question_12"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/faq12_answer_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:textColor="#4B3B30"
+                    android:text="@string/faq_answer_12"
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/faq12_question_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/faq13_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq12_Layout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/faq13_question_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/faq_question_13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="@string/faq_question_13"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/trail_tutorial_sub_text_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/expand_btn_13"
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/faq_down_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/faq_question_13"
+                        app:layout_constraintStart_toEndOf="@+id/faq_question_13"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/faq13_answer_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:textColor="#4B3B30"
+                    android:text="@string/faq_answer_13"
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/faq13_question_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/faq14_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq13_Layout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/faq14_question_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/faq_question_14"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/dinish_bold"
+                        android:text="@string/faq_question_14"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/trail_tutorial_sub_text_size"
+
+                        app:layout_constraintEnd_toStartOf="@+id/expand_btn_14"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/expand_btn_14"
+                        android:layout_width="15dp"
+                        android:layout_height="10dp"
+                        android:src="@drawable/faq_down_arrow"
+                        app:layout_constraintBottom_toBottomOf="@+id/faq_question_14"
+                        android:layout_marginEnd="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/faq14_answer_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/dinish_regular"
+                    android:textColor="#4B3B30"
+                    android:text="@string/faq_answer_14"
+                    android:textSize="@dimen/trail_tutorial_sub_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/faq14_question_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+    <TextView
+        android:id="@+id/website_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:paddingTop="10dp"
+        android:fontFamily="@font/dinish_regular"
+        android:text="Didn't find the answer you're looking for? \n Visit out website at www.breadcrumbs.net"
+        android:textColor="#4B3B30"
+        android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

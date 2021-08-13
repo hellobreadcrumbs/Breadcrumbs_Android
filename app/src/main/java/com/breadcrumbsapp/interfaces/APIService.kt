@@ -63,7 +63,7 @@ interface APIService {
 
 
     @Headers("Accept:application/json", "Content-Type:application/json;")
-    @POST("v1/api/get_feed")
+    @POST("v1/api/get_feed") // feed and creator post should show everything
     suspend fun getFeedDetails(
         @Header("Authorization") h1: String,
         @Body requestBody: RequestBody
@@ -78,7 +78,7 @@ interface APIService {
 
 
     @Headers("Accept:application/json", "Content-Type:application/json;")
-    @POST("v1/api/get_my_feed")
+    @POST("v1/api/get_my_feed") // should be in profile screen. player post only
     suspend fun getMyFeedDetails(
         @Header("Authorization") h1: String,
         @Body requestBody: RequestBody

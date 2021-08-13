@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/discover_details_bg">
+
+    <Button
+        android:id="@+id/my_achievements_screen_backButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/search_back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/my_achievements_screen_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/claritycity_bold"
+        android:text="My Achievements"
+        android:textColor="#4B3B30"
+        android:textSize="@dimen/trail_tutorial_sub_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/my_achievements_screen_backButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/my_achievements_screen_title_border_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="15dp"
+        android:background="#4B3B30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_achievements_screen_backButton" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/achievementLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/frnd_profile_achievement_bg"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/my_achievements_screen_title_border_line">
+
+        <ImageView
+            android:id="@+id/feedIcon"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="30dp"
+            android:src="@drawable/aardvark_achievement_icon"
+            app:layout_constraintEnd_toStartOf="@+id/leaderboardIcon"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/leaderboardIcon"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:src="@drawable/lock_achievement"
+            app:layout_constraintEnd_toStartOf="@+id/discoverIcon"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toEndOf="@+id/feedIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/discoverIcon"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:src="@drawable/lock_achievement"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/trailsIcon"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toEndOf="@+id/leaderboardIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/trailsIcon"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:src="@drawable/lock_achievement"
+            app:layout_constraintEnd_toStartOf="@+id/moreIcon"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toEndOf="@+id/discoverIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/moreIcon"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="30dp"
+            android:src="@drawable/lock_achievement"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toEndOf="@+id/trailsIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/trails_main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/achievementLayout">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/twilight_trail_layout"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="@drawable/achievement_banner"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/twilight_icon_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:src="@drawable/aardvark_achievement_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/twilight_trail_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/claritycity_bold"
+                android:text="Twilight Explorer"
+                android:textColor="@color/white"
+                android:textSize="@dimen/disclaimer_content_text_size"
+                app:layout_constraintBottom_toBottomOf="@+id/twilight_icon_iv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/twilight_icon_iv"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/twilight_trail_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="30dp"
+                android:fontFamily="@font/dinish_regular"
+                android:text="Discover 5 points of interest within Night Safari"
+                android:textColor="@color/white"
+                android:textSize="@dimen/discovery_screen_level_name_text_size"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/twilight_icon_iv"
+                app:layout_constraintTop_toBottomOf="@+id/twilight_trail_name" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/twilight_trail_progress_bar"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
+                app:indicatorColor="@color/white"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/twilight_icon_iv"
+                app:layout_constraintTop_toBottomOf="@+id/twilight_trail_description" />
+
+            <TextView
+                android:id="@+id/twilight_poi_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/claritycity_bold"
+                android:text="5/5"
+                android:textColor="@color/white"
+                android:textSize="@dimen/discovery_screen_player_name_text_size"
+                app:layout_constraintEnd_toEndOf="@+id/twilight_trail_progress_bar"
+                app:layout_constraintTop_toBottomOf="@+id/twilight_trail_progress_bar" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/pioneer_player_trail_layout"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/achievement_banner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/twilight_trail_layout">
+
+            <ImageView
+                android:id="@+id/pioneer_icon_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:src="@drawable/pioneer_locked_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/pioneer_trail_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/claritycity_bold"
+                android:text="Pioneer Player"
+                android:textColor="@color/white"
+                android:textSize="@dimen/disclaimer_content_text_size"
+                app:layout_constraintBottom_toBottomOf="@+id/pioneer_icon_iv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/pioneer_icon_iv"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/pioneer_trail_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="30dp"
+                android:fontFamily="@font/dinish_regular"
+                android:text="Discover all 100 POIs on the Pioneer Trail"
+                android:textColor="@color/white"
+                android:textSize="@dimen/discovery_screen_level_name_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/pioneer_icon_iv"
+                app:layout_constraintTop_toBottomOf="@+id/pioneer_trail_name" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/pioneer_trail_progress_bar"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
+                app:indicatorColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/pioneer_icon_iv"
+                app:layout_constraintTop_toBottomOf="@+id/pioneer_trail_description" />
+
+            <TextView
+                android:id="@+id/pioneer_poi_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/claritycity_bold"
+                android:text="2/100"
+                android:textColor="@color/white"
+                android:textSize="@dimen/discovery_screen_player_name_text_size"
+                app:layout_constraintEnd_toEndOf="@+id/pioneer_trail_progress_bar"
+                app:layout_constraintTop_toBottomOf="@+id/pioneer_trail_progress_bar" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/wildlife_warrior_trail_layout"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/achievement_banner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pioneer_player_trail_layout">
+
+            <ImageView
+                android:id="@+id/wildlife_warrior_icon_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:src="@drawable/wildlife_warrior_locked_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/wildlife_warrior_trail_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/claritycity_bold"
+                android:text="Wildlife Warrior"
+                android:textColor="@color/white"
+                android:textSize="@dimen/disclaimer_content_text_size"
+                app:layout_constraintBottom_toBottomOf="@+id/wildlife_warrior_icon_iv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/wildlife_warrior_icon_iv"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/wildlife_warrior_trail_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="30dp"
+                android:fontFamily="@font/dinish_regular"
+                android:text="Discover all 21 POIs within Night Safari"
+                android:textColor="@color/white"
+                android:textSize="@dimen/discovery_screen_level_name_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/wildlife_warrior_icon_iv"
+                app:layout_constraintTop_toBottomOf="@+id/wildlife_warrior_trail_name" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/wildlife_warrior_trail_progress_bar"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
+                app:indicatorColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/wildlife_warrior_icon_iv"
+                app:layout_constraintTop_toBottomOf="@+id/wildlife_warrior_trail_description" />
+
+            <TextView
+                android:id="@+id/wildlife_warrior_poi_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/claritycity_bold"
+                android:text="10/21"
+                android:textColor="@color/white"
+                android:textSize="@dimen/discovery_screen_player_name_text_size"
+                app:layout_constraintEnd_toEndOf="@+id/wildlife_warrior_trail_progress_bar"
+                app:layout_constraintTop_toBottomOf="@+id/wildlife_warrior_trail_progress_bar" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/local_cosmopolite_trail_layout"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/achievement_banner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wildlife_warrior_trail_layout">
+
+            <ImageView
+                android:id="@+id/local_cosmopolite_icon_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:src="@drawable/local_cosmopolite_locked_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/local_cosmopolite_trail_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/claritycity_bold"
+                android:text="Local Cosmopolite"
+                android:textColor="@color/white"
+                android:textSize="@dimen/disclaimer_content_text_size"
+                app:layout_constraintBottom_toBottomOf="@+id/local_cosmopolite_icon_iv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/local_cosmopolite_icon_iv"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/local_cosmopolite_trail_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="30dp"
+                android:fontFamily="@font/dinish_regular"
+                android:text="Discover 10 POIs located in the CBD"
+                android:textColor="@color/white"
+                android:textSize="@dimen/discovery_screen_level_name_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/local_cosmopolite_icon_iv"
+                app:layout_constraintTop_toBottomOf="@+id/local_cosmopolite_trail_name" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/local_cosmopolite_trail_progress_bar"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
+                app:indicatorColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/local_cosmopolite_icon_iv"
+                app:layout_constraintTop_toBottomOf="@+id/local_cosmopolite_trail_description" />
+
+            <TextView
+                android:id="@+id/local_cosmopolite_poi_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/claritycity_bold"
+                android:text="3/10"
+                android:textColor="@color/white"
+                android:textSize="@dimen/discovery_screen_player_name_text_size"
+                app:layout_constraintEnd_toEndOf="@+id/local_cosmopolite_trail_progress_bar"
+                app:layout_constraintTop_toBottomOf="@+id/local_cosmopolite_trail_progress_bar" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

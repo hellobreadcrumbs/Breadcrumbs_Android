@@ -2,6 +2,7 @@ package com.breadcrumbsapp.view
 
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -9,8 +10,10 @@ import com.breadcrumbsapp.R
 import com.breadcrumbsapp.adapter.CustomDropDownAdapter
 import com.breadcrumbsapp.adapter.LeaderBoardPlayerListAdapter
 import com.breadcrumbsapp.databinding.LeaderBoardActivityLayoutBinding
+
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.util.CommonData
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.leader_board_activity_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -75,7 +78,8 @@ class LeaderBoardActivity : AppCompatActivity() {
 
     private fun getRankingDetails() {
         try {
-
+            Glide.with(applicationContext).load(R.raw.loading).into(loaderImage)
+            loaderImage.visibility= View.VISIBLE
             val okHttpClient = OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
@@ -127,6 +131,8 @@ class LeaderBoardActivity : AppCompatActivity() {
 
 
                                 println("UserName : ${CommonData.getRankData!![0].username}")
+                                loaderImage.visibility= View.GONE
+
                                 leaderBoardPlayerListAdapter = LeaderBoardPlayerListAdapter(CommonData.getRankData!!)
                                 leaderBoard_player_list.adapter = leaderBoardPlayerListAdapter
 

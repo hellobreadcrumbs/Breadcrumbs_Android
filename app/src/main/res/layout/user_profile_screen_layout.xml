@@ -26,12 +26,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
-            android:visibility="visible"
-            >
+            android:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <TextView
                     android:id="@+id/profile_edit_screen_title_tv"
                     android:layout_width="wrap_content"
@@ -52,9 +52,10 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/profile_screen_edit_btn"
 
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/my_friends_list_iv"
                     app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_title_tv"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,10 +63,11 @@
                     android:id="@+id/my_friends_list_iv"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/profile_screen_frnds_list_btn"
                     android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/profile_screen_frnds_list_btn"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/edit_iv"
+
                     app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -89,6 +91,7 @@
                     app:civ_border_width="0dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/profile_edit_screen_title_border_line" />
+
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
@@ -100,17 +103,19 @@
                     android:textSize="@dimen/disclaimer_content_text_size"
                     app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_profile_pic_iv"
                     app:layout_constraintTop_toTopOf="@+id/profile_edit_screen_profile_pic_iv" />
+
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/claritycity_semibold"
                     android:text="RECRUIT LV. 1"
                     android:textColor="#4B3B30"
                     app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_profile_pic_iv"
                     app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
                 <com.google.android.material.progressindicator.LinearProgressIndicator
                     android:id="@+id/determinateBar"
                     android:layout_width="0dp"
@@ -122,18 +127,32 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_profile_pic_iv"
                     app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
                 <TextView
                     android:id="@+id/achievement_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/claritycity_bold"
                     android:text="MY ACHIEVEMENTS"
-                    android:layout_marginTop="20dp"
                     android:textColor="#A5988B"
                     android:textSize="@dimen/trail_notification_days_ago_text_size"
+
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/determinateBar" />
+
+                <ImageView
+                    android:id="@+id/achievement_edit_icon"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/achievement_edit_icon"
+                    app:layout_constraintBottom_toBottomOf="@+id/achievement_title"
+                    app:layout_constraintStart_toEndOf="@+id/achievement_title"
+                    app:layout_constraintTop_toBottomOf="@+id/determinateBar" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/achievementLayout"
                     android:layout_width="match_parent"
@@ -142,15 +161,16 @@
                     android:background="@drawable/frnd_profile_achievement_bg"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    app:layout_constraintTop_toBottomOf="@+id/achievement_title">
+                    app:layout_constraintTop_toBottomOf="@+id/achievement_edit_icon">
 
                     <ImageView
                         android:id="@+id/feedIcon"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/frnd_profile_achievement_icon_wild_life_warrior"
+                        android:layout_marginStart="30dp"
+                        android:src="@drawable/aardvark_achievement_icon"
                         app:layout_constraintEnd_toStartOf="@+id/leaderboardIcon"
-                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_bias="0.8"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -159,9 +179,9 @@
                         android:id="@+id/leaderboardIcon"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/frnd_profile_achievement_icon_wild_life_warrior"
+                        android:src="@drawable/lock_achievement"
                         app:layout_constraintEnd_toStartOf="@+id/discoverIcon"
-                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_bias="0.8"
                         app:layout_constraintStart_toEndOf="@+id/feedIcon"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -170,10 +190,10 @@
                         android:id="@+id/discoverIcon"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/frnd_profile_achievement_icon_local_cosmopolite"
+                        android:src="@drawable/lock_achievement"
                         android:visibility="visible"
                         app:layout_constraintEnd_toStartOf="@+id/trailsIcon"
-                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_bias="0.8"
                         app:layout_constraintStart_toEndOf="@+id/leaderboardIcon"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -182,9 +202,9 @@
                         android:id="@+id/trailsIcon"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/navigation_trails"
+                        android:src="@drawable/lock_achievement"
                         app:layout_constraintEnd_toStartOf="@+id/moreIcon"
-                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_bias="0.8"
                         app:layout_constraintStart_toEndOf="@+id/discoverIcon"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -193,9 +213,10 @@
                         android:id="@+id/moreIcon"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/navigation_more"
+                        android:src="@drawable/lock_achievement"
+                        android:layout_marginEnd="30dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_bias="0.8"
                         app:layout_constraintStart_toEndOf="@+id/trailsIcon"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -243,7 +264,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="5dp"
-                            android:background="@drawable/top_ten_players_bg"
+                            android:background="@drawable/profile_screen_points_bg"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -299,7 +320,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="5dp"
-                            android:background="@drawable/top_ten_players_bg"
+                            android:background="@drawable/profile_screen_points_bg"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -323,6 +344,7 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <TextView
                     android:id="@+id/postTitle"
                     android:layout_width="match_parent"
@@ -351,12 +373,12 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="0dp"
-                    app:layout_constraintHeight_percent="0.56"
-
                     android:layout_marginTop="10dp"
 
                     app:layout_constraintBottom_toBottomOf="parent"
+
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.56"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/selected_player_post_border_line" />
 

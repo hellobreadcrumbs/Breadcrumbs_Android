@@ -60,7 +60,7 @@ class RewardsScreenActivity : AppCompatActivity() {
             "      \"id\": \"65\",\n" +
             "      \"user_id\": \"198\",\n" +
             "      \"reward_id\": \"3\",\n" +
-            "      \"redeem_status\": \"0\",\n" +
+            "      \"redeem_status\": \"1\",\n" +
             "      \"vendor_staff_id\": null,\n" +
             "      \"scan_date\": \"2020-11-27 12:27:04\",\n" +
             "      \"reward_img\": \"uploads/trails/4/reward1.png\",\n" +
@@ -83,7 +83,7 @@ class RewardsScreenActivity : AppCompatActivity() {
             "      \"vendor_staff_id\": null,\n" +
             "      \"scan_date\": \"2020-11-27 12:27:04\",\n" +
             "      \"reward_img\": \"uploads/trails/4/reward1.png\",\n" +
-            "      \"rewardtitle\": \"Limited Edition Aardvark Pin\",\n" +
+            "      \"rewardtitle\": \"Wild Light Aardvark Pin\",\n" +
             "      \"enddate\": \"2020-12-27 00:00:00\",\n" +
             "      \"qr\": \"BCXWRS\",\n" +
             "      \"details\": \"Be a true Night Safari explorer! Win this Limited Edition Aardvark Pin by completing an activity along each of our 4 Wild About Twilight walking trails at Night Safari and discovering 1 of the 2 Special Discoveries in Augmented Reality (AR).\",\n" +
@@ -102,7 +102,7 @@ class RewardsScreenActivity : AppCompatActivity() {
             "      \"vendor_staff_id\": null,\n" +
             "      \"scan_date\": \"2020-11-27 12:27:04\",\n" +
             "      \"reward_img\": \"uploads/trails/4/reward1.png\",\n" +
-            "      \"rewardtitle\": \"Limited Edition Aardvark Pin\",\n" +
+            "      \"rewardtitle\": \"Wild Light Aardvark Pin\",\n" +
             "      \"enddate\": \"2020-12-27 00:00:00\",\n" +
             "      \"qr\": \"BCXWRS\",\n" +
             "      \"details\": \"Be a true Night Safari explorer! Win this Limited Edition Aardvark Pin by completing an activity along each of our 4 Wild About Twilight walking trails at Night Safari and discovering 1 of the 2 Special Discoveries in Augmented Reality (AR).\",\n" +
@@ -121,7 +121,18 @@ class RewardsScreenActivity : AppCompatActivity() {
         rewardsScreenLayoutBinding = RewardsScreenLayoutBinding.inflate(layoutInflater)
         setContentView(rewardsScreenLayoutBinding.root)
 
-        getUserRewardsHistory()
+        dummyData()
+       // getUserRewardsHistory()
+
+        val activeRewards = rewardsListModel.message.filter { it.redeem_status == ACTIVE_DATA }
+        if (activeRewards.isEmpty())
+            showToast("Active")
+        else
+        {
+            rewards_screen_scrollView.visibility=View.VISIBLE
+            no_data_found_textView.visibility= View.GONE
+            validateRewardsDataList(activeRewards, true)
+        }
 
         setOnclickListeners()
     }

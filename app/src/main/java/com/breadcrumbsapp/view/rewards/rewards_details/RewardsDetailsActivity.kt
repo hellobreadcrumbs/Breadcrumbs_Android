@@ -42,7 +42,7 @@ class RewardsDetailsActivity : AppCompatActivity() {
             try
             {
                 println("formattedDate $scan_date")
-                val postCreatedDate: Date = originalFormat.parse("2020-12-27 12:27:04")
+                val postCreatedDate: Date = originalFormat.parse(scan_date)
                 val formattedDate: String = targetFormat.format(postCreatedDate)
                 println("formattedDate $formattedDate")
                 tv_reward_details_redeem_date.text = "REDEEM BY $formattedDate"
@@ -91,21 +91,20 @@ class RewardsDetailsActivity : AppCompatActivity() {
                     .putExtras(qrData)
             )
         }
-        iv_reward_details_show_info.setOnClickListener {
-            Toast.makeText(applicationContext, "Coming soon", Toast.LENGTH_SHORT).show()
-        }
+
         reward_details_screen_back_button.setOnClickListener {
             finish()
         }
         iv_reward_details_show_info.setOnClickListener(View.OnClickListener {
 
-            startActivity(
+           /* startActivity(
                 Intent(
                     applicationContext,
                     TrailsDetailsActivity::class.java
                 ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-            )
+            )*/
+            Toast.makeText(applicationContext, "Under Construction", Toast.LENGTH_SHORT).show()
         })
     }
 

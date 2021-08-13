@@ -533,18 +533,15 @@ class LoginScreen : AppCompatActivity() {
                     println("Login ID = ${jsonObject.getAsJsonObject("message").get("id")}")
                     if (status) {
 
-                        println(
-                            "STATUS :: ${
-                                jsonObject.getAsJsonObject("message").get("id").asInt
-                            }"
-                        )
-                        sharedPreference.saveSession("login_details", jsonElement.toString())
 
                         val loginString = jsonObject.getAsJsonObject("message").get("id").asInt
+
+                        sharedPreference.saveSession("login_details", jsonElement.toString())
                         sharedPreference.saveSession("login_id", loginString.toString())
-                        println("STATUS :: loginString= $loginString")
-                        println("STATUS :: s_pref= ${sharedPreference.getSession("login_id")}")
                         sharedPreference.saveBoolean("isLogin", true)
+
+
+
                         Toast.makeText(
                             this@LoginScreen,
                             "Login Successful",
@@ -604,11 +601,7 @@ class LoginScreen : AppCompatActivity() {
                 .build()
 
             // Create JSON using JSONObject
-            println(
-                "Login : ${
-                    sharedPreference.getSession("login_id")
-                }"
-            )
+
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
 
@@ -641,7 +634,14 @@ class LoginScreen : AppCompatActivity() {
                             CommonData.getUserDetails = response.body()?.message
 
 
+
+
                             println("GetUseDetails = ${CommonData.getUserDetails!!.experience}")
+
+                            sharedPreference.saveSession("player_register_date",CommonData.getUserDetails!!.created)
+                            sharedPreference.saveSession("player_user_name",CommonData.getUserDetails!!.username)
+                            sharedPreference.saveSession("player_email_id",CommonData.getUserDetails!!.email)
+                            sharedPreference.saveSession("player_id",CommonData.getUserDetails!!.id)
 
                             /*  try {
                                   Toast.makeText(
