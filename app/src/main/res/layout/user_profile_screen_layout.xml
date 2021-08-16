@@ -164,60 +164,60 @@
                     app:layout_constraintTop_toBottomOf="@+id/achievement_edit_icon">
 
                     <ImageView
-                        android:id="@+id/feedIcon"
+                        android:id="@+id/achievement_icon_one"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginStart="30dp"
                         android:src="@drawable/aardvark_achievement_icon"
-                        app:layout_constraintEnd_toStartOf="@+id/leaderboardIcon"
+                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_two"
                         app:layout_constraintHorizontal_bias="0.8"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
                     <ImageView
-                        android:id="@+id/leaderboardIcon"
+                        android:id="@+id/achievement_icon_two"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:src="@drawable/lock_achievement"
-                        app:layout_constraintEnd_toStartOf="@+id/discoverIcon"
+                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_three"
                         app:layout_constraintHorizontal_bias="0.8"
-                        app:layout_constraintStart_toEndOf="@+id/feedIcon"
+                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_one"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
                     <ImageView
-                        android:id="@+id/discoverIcon"
+                        android:id="@+id/achievement_icon_three"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:src="@drawable/lock_achievement"
                         android:visibility="visible"
-                        app:layout_constraintEnd_toStartOf="@+id/trailsIcon"
+                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_four"
                         app:layout_constraintHorizontal_bias="0.8"
-                        app:layout_constraintStart_toEndOf="@+id/leaderboardIcon"
+                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_two"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
                     <ImageView
-                        android:id="@+id/trailsIcon"
+                        android:id="@+id/achievement_icon_four"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:src="@drawable/lock_achievement"
-                        app:layout_constraintEnd_toStartOf="@+id/moreIcon"
+                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_five"
                         app:layout_constraintHorizontal_bias="0.8"
-                        app:layout_constraintStart_toEndOf="@+id/discoverIcon"
+                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_three"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
                     <ImageView
-                        android:id="@+id/moreIcon"
+                        android:id="@+id/achievement_icon_five"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:src="@drawable/lock_achievement"
                         android:layout_marginEnd="30dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.8"
-                        app:layout_constraintStart_toEndOf="@+id/trailsIcon"
+                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_four"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -76,8 +76,8 @@ class MyFriendsListScreenActivity:AppCompatActivity()
             val jsonObject = JSONObject()
             jsonObject.put("id", "198")
 
-            println("getUserDetails Url = ${resources.getString(R.string.staging_url)}")
-            println("getUserDetails Input = $jsonObject")
+            println("getFeedPostData Url = ${resources.getString(R.string.staging_url)}")
+            println("getFeedPostData Input = $jsonObject")
 
 
             val mediaType = "application/json".toMediaTypeOrNull()

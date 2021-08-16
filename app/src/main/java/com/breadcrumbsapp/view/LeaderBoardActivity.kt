@@ -101,8 +101,8 @@ class LeaderBoardActivity : AppCompatActivity() {
             val jsonObject = JSONObject()
             jsonObject.put("trail_id", "4")
 
-            println("getUserDetails Url = ${resources.getString(R.string.staging_url)}")
-            println("getUserDetails Input = $jsonObject")
+            println("getRankingDetails Url = ${resources.getString(R.string.staging_url)}")
+            println("getRankingDetails Input = $jsonObject")
 
 
             val mediaType = "application/json".toMediaTypeOrNull()

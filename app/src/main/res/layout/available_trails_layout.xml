@@ -34,12 +34,12 @@
         android:id="@+id/view1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
-
+        android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-
         android:background="@drawable/trail_selection_top_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/upArrow" />
 
 
@@ -98,6 +98,8 @@
         android:layout_marginTop="15dp"
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/row1">
 
         <ImageView
@@ -146,6 +148,8 @@
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
         android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/row2">
 
         <ImageView
@@ -196,9 +200,10 @@
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@id/row3"
+        app:layout_constraintEnd_toEndOf="parent"
 
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/row3">
 
         <ImageView
             android:id="@+id/image4"

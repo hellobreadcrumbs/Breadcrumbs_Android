@@ -185,6 +185,15 @@
             android:name=".view.ChallengeActivity"
             android:theme="@style/SplashTheme" />
 
+
+        <activity
+            android:name=".view.MyAchievementScreenActivity"
+            android:theme="@style/SplashTheme" />
+
+        <activity
+            android:name=".view.MyAchievementScreenDetailsActivity"
+            android:theme="@style/SplashTheme" />
+
         <activity
             android:name=".camerafiles.activity.CameraActivity"
             android:theme="@style/SplashTheme" />

@@ -33,6 +33,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.size
@@ -66,10 +67,12 @@ import com.google.maps.GeoApiContext
 import com.google.maps.android.SphericalUtil
 import com.google.maps.model.DirectionsResult
 import com.google.maps.model.TravelMode
+import kotlinx.android.synthetic.main.available_trails_layout.*
 import kotlinx.android.synthetic.main.discover_screen_activity.*
 import kotlinx.android.synthetic.main.discover_screen_bottom_layout.*
 import kotlinx.android.synthetic.main.more_option_layout.*
 import kotlinx.android.synthetic.main.quiz_challenge_question_activity.*
+import kotlinx.android.synthetic.main.trails_screen_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -173,22 +176,20 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private var clickedMarker: Marker? = null
     private var markerPOI: Marker? = null
 
-  /*  private lateinit var discoverLayout: LinearLayoutCompat
-    private lateinit var discoverImage: ImageView
+    /*  private lateinit var discoverLayout: LinearLayoutCompat
+      private lateinit var discoverImage: ImageView
 
-    private lateinit var newsFeedLayout: LinearLayoutCompat
-    private lateinit var newsFeedImage: ImageView
+      private lateinit var newsFeedLayout: LinearLayoutCompat
+      private lateinit var newsFeedImage: ImageView
 
-    private lateinit var leaderBoardLayout: LinearLayoutCompat
-    private lateinit var leaderBoardImage: ImageView
+      private lateinit var leaderBoardLayout: LinearLayoutCompat
+      private lateinit var leaderBoardImage: ImageView
 
-    private lateinit var trailsLayout: LinearLayoutCompat
-    private lateinit var trailsImage: ImageView
+      private lateinit var trailsLayout: LinearLayoutCompat
+      private lateinit var trailsImage: ImageView
 
-    private lateinit var moreLayout: LinearLayoutCompat
-    private lateinit var moreImage: ImageView*/
-
-
+      private lateinit var moreLayout: LinearLayoutCompat
+      private lateinit var moreImage: ImageView*/
 
 
     private lateinit var inputMethodManager: InputMethodManager
@@ -218,13 +219,12 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     var markerAnimationHandler = Handler(Looper.getMainLooper())
 
 
-
     private var isDiscovered: Boolean = false
     private var doubleBackToExitPressedOnce = false
     var isSelectedMarker = false
-    var isGesturedOnMap=false
+    var isGesturedOnMap = false
 
-    var moreButtonClicked=0
+    var moreButtonClicked = 0
 
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -356,47 +356,47 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 
-       /* newsFeedLayout.setOnClickListener {
+        /* newsFeedLayout.setOnClickListener {
 
 
-            // newsFeedImage.background = getDrawable(navigation_newsfeed_pressed)
-            // leaderBoardImage.background = getDrawable(navigation_leaderboard_unpressed)
-//            leaderBoardImage.background=getDrawable(navigation_leaderboard_unpressed)
-//            discoverImage.background=getDrawable(navigation_discover_unpressed)
-//            trailsImage.background=getDrawable(navigation_trails_unpressed)
-//            moreImage.background=getDrawable(navigation_more_unpressed)
+             // newsFeedImage.background = getDrawable(navigation_newsfeed_pressed)
+             // leaderBoardImage.background = getDrawable(navigation_leaderboard_unpressed)
+ //            leaderBoardImage.background=getDrawable(navigation_leaderboard_unpressed)
+ //            discoverImage.background=getDrawable(navigation_discover_unpressed)
+ //            trailsImage.background=getDrawable(navigation_trails_unpressed)
+ //            moreImage.background=getDrawable(navigation_more_unpressed)
 
-            println("click NewsFeed")
+             println("click NewsFeed")
 
-        }
-
-
-        leaderBoardLayout.setOnClickListener {
+         }
 
 
-            val marginParams = ViewGroup.MarginLayoutParams(leaderBoardImage.layoutParams)
-            marginParams.setMargins(0, 0, 0, 0)
+         leaderBoardLayout.setOnClickListener {
 
 
-            val marginParams1 = ViewGroup.MarginLayoutParams(leaderBoardImage.layoutParams)
-            marginParams1.setMargins(0, 0, 0, 20)
+             val marginParams = ViewGroup.MarginLayoutParams(leaderBoardImage.layoutParams)
+             marginParams.setMargins(0, 0, 0, 0)
 
 
-            // newsFeedImage.background = getDrawable(navigation_newsfeed_unpressed)
-            //  leaderBoardImage.background = getDrawable(navigation_leaderboard_pressed)
-
-//            newsFeedImage.background=getDrawable(navigation_newsfeed_unpressed)
-//            discoverImage.background=getDrawable(navigation_discover_unpressed)
-//            trailsImage.background=getDrawable(navigation_trails_unpressed)
-//            moreImage.background=getDrawable(navigation_more_unpressed)
+             val marginParams1 = ViewGroup.MarginLayoutParams(leaderBoardImage.layoutParams)
+             marginParams1.setMargins(0, 0, 0, 20)
 
 
-            println("click LeaderBoard")
-        }
+             // newsFeedImage.background = getDrawable(navigation_newsfeed_unpressed)
+             //  leaderBoardImage.background = getDrawable(navigation_leaderboard_pressed)
+
+ //            newsFeedImage.background=getDrawable(navigation_newsfeed_unpressed)
+ //            discoverImage.background=getDrawable(navigation_discover_unpressed)
+ //            trailsImage.background=getDrawable(navigation_trails_unpressed)
+ //            moreImage.background=getDrawable(navigation_more_unpressed)
 
 
-        discoverLayout.setOnClickListener {
-            *//*  discoverImage.background=getDrawable(navigation_discover_pressed)
+             println("click LeaderBoard")
+         }
+
+
+         discoverLayout.setOnClickListener {
+             *//*  discoverImage.background=getDrawable(navigation_discover_pressed)
 
             newsFeedImage.background=getDrawable(navigation_newsfeed_unpressed)
              leaderBoardImage.background=getDrawable(navigation_leaderboard_unpressed)
@@ -473,21 +473,19 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         moreIcon.setOnClickListener {
 
 
-            if(moreButtonClicked==0)
-            {
-                moreButtonClicked=1
-                currentLocationLayout.visibility=View.GONE
+            if (moreButtonClicked == 0) {
+                moreButtonClicked = 1
+                currentLocationLayout.visibility = View.GONE
                 more_option_layout_header.visibility = View.VISIBLE
-            }
-            else{
+            } else {
                 more_option_layout_header.visibility = View.GONE
-                currentLocationLayout.visibility=View.VISIBLE
-                moreButtonClicked=0
+                currentLocationLayout.visibility = View.VISIBLE
+                moreButtonClicked = 0
             }
         }
         leaderboardIcon.setOnClickListener {
             more_option_layout_header.visibility = View.GONE
-            currentLocationLayout.visibility=View.VISIBLE
+            currentLocationLayout.visibility = View.VISIBLE
             startActivity(Intent(applicationContext, LeaderBoardActivity::class.java))
             //Toast.makeText(applicationContext,"Under Construction!",1000).show()
 
@@ -495,27 +493,27 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         how_to_play_sub_layout.setOnClickListener {
             more_option_layout_header.visibility = View.GONE
-            currentLocationLayout.visibility=View.VISIBLE
+            currentLocationLayout.visibility = View.VISIBLE
             startActivity(Intent(applicationContext, HowToPlayActivity::class.java))
 
         }
 
         settings_sub_layout.setOnClickListener(View.OnClickListener {
             more_option_layout_header.visibility = View.GONE
-            currentLocationLayout.visibility=View.VISIBLE
-            startActivity(Intent(applicationContext,SettingsScreenAct::class.java))
+            currentLocationLayout.visibility = View.VISIBLE
+            startActivity(Intent(applicationContext, SettingsScreenAct::class.java))
         })
 
         rewards_sub_layout.setOnClickListener(View.OnClickListener {
             more_option_layout_header.visibility = View.GONE
-            currentLocationLayout.visibility=View.VISIBLE
+            currentLocationLayout.visibility = View.VISIBLE
 
             startActivity(Intent(applicationContext, RewardsScreenActivity::class.java))
         })
 
         profile_sub_layout.setOnClickListener(View.OnClickListener {
             more_option_layout_header.visibility = View.GONE
-            currentLocationLayout.visibility=View.VISIBLE
+            currentLocationLayout.visibility = View.VISIBLE
 
             startActivity(Intent(applicationContext, ProfileScreenActivity::class.java))
         })
@@ -658,12 +656,13 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         }
 
         currentLocation.setOnClickListener {
-            isGesturedOnMap=false
+            isGesturedOnMap = false
             updateCurrentLocation(latLng)
         }
 
         trailsBtn.setOnClickListener {
-            availableTrailsListView()
+            //  availableTrailsListView()
+            getTrailDetails()
         }
 
         mapListToggleButton.setOnCheckedChangeListener { _, isChecked ->
@@ -754,7 +753,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
             polyline?.remove()
 
-            isGesturedOnMap=false
+            isGesturedOnMap = false
             isSelectedMarker = false
             //markerAnimationHandler.removeCallbacks(markerAnimationRunnable)
 
@@ -1094,8 +1093,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             mMap.uiSettings.isCompassEnabled = false
 
 
-            if(!isGesturedOnMap)
-            {
+            if (!isGesturedOnMap) {
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng))
                 val cameraPosition = CameraPosition.Builder()
                     .target(latLng)
@@ -1107,7 +1105,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 
             }
-
 
 
             // mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
@@ -1160,14 +1157,14 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         mMap.setOnMarkerDragListener(this)
 
 
-     /*   val googleLogo: View = mapMainLayout.findViewWithTag("GoogleWatermark")
-        val glLayoutParams = googleLogo.layoutParams as RelativeLayout.LayoutParams
+        /*   val googleLogo: View = mapMainLayout.findViewWithTag("GoogleWatermark")
+           val glLayoutParams = googleLogo.layoutParams as RelativeLayout.LayoutParams
 
 
 
-        glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
-        glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE)
-        googleLogo.layoutParams = glLayoutParams*/
+           glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
+           glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE)
+           googleLogo.layoutParams = glLayoutParams*/
 
 
         mMap.setOnMapClickListener {
@@ -1176,7 +1173,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
             println("Marker Clicked")
 
-            isGesturedOnMap=false
+            isGesturedOnMap = false
 
             sharedPreference.saveSession("clicked_button", "")
 
@@ -1198,7 +1195,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             searchButton.visibility = View.VISIBLE
 
             more_option_layout_header.visibility = View.GONE
-            currentLocationLayout.visibility=View.VISIBLE
+            currentLocationLayout.visibility = View.VISIBLE
 
             if (polyline != null) {
                 polyline!!.remove()
@@ -1425,9 +1422,9 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         // val dialog = DialogFragment()
         val layoutParams: WindowManager.LayoutParams = dialog.window?.attributes!!
 
-        layoutParams.gravity = Gravity.TOP
+  /*      layoutParams.gravity = Gravity.TOP
         layoutParams.x = 0
-        layoutParams.y = 160
+        layoutParams.y = 160*/
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
@@ -1447,6 +1444,44 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         val trailFour = dialog.findViewById(R.id.trailFour) as TextView
 
 
+        val row1=dialog.findViewById(R.id.row1) as ConstraintLayout
+        val row2=dialog.findViewById(R.id.row2) as ConstraintLayout
+        val row3=dialog.findViewById(R.id.row3) as ConstraintLayout
+        val row4=dialog.findViewById(R.id.row4) as ConstraintLayout
+
+
+        val trailCount = CommonData.getTrailsData!!.size
+
+        when (trailCount) {
+            1 -> {
+                row1.visibility = View.VISIBLE
+                row2.visibility = View.GONE
+                row3.visibility = View.GONE
+                row4.visibility = View.GONE
+
+            }
+            2 -> {
+                row1.visibility = View.VISIBLE
+                row2.visibility = View.VISIBLE
+                row3.visibility = View.GONE
+                row4.visibility = View.GONE
+
+            }
+            3 -> {
+                row1.visibility = View.VISIBLE
+                row2.visibility = View.VISIBLE
+                row3.visibility = View.VISIBLE
+                row4.visibility = View.GONE
+
+            }
+            4 -> {
+                row1.visibility = View.VISIBLE
+                row2.visibility = View.VISIBLE
+                row3.visibility = View.VISIBLE
+                row4.visibility = View.VISIBLE
+
+            }
+        }
         when {
             sharedPreference.getSession("selected_trails").equals(trailOne.text.toString()) -> {
                 radioBtn1.setImageResource(radio_btn_active)
@@ -1570,8 +1605,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         closeButton.setOnClickListener {
             isCheckBoxClicked = true
             dialog.dismiss()
-            availableTrailsListView()
 
+            getTrailDetails()
         }
 
         dialog.window!!.attributes!!.windowAnimations = R.style.DialogTheme
@@ -2089,6 +2124,73 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
       }*/
 
+    private fun getTrailDetails() {
+        try {
+
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+                .build()
+
+
+            // Create Retrofit
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(resources.getString(R.string.staging_url))
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            // Create JSON using JSONObject
+
+            val jsonObject = JSONObject()
+            jsonObject.put("user_id", sharedPreference.getSession("login_id"))
+
+
+            val mediaType = "application/json".toMediaTypeOrNull()
+            val requestBody = jsonObject.toString().toRequestBody(mediaType)
+
+
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                // Create Service
+                val service = retrofit.create(APIService::class.java)
+
+                val response = service.getTrailsList(
+                    resources.getString(R.string.api_access_token),
+                    requestBody
+                )
+
+                if (response.isSuccessful) {
+                    if (response.body()!!.status) {
+
+                        CommonData.getTrailsData = response.body()?.message
+
+                        runOnUiThread {
+
+                            if (CommonData.getTrailsData != null) {
+
+                                availableTrailsListView()
+                            }
+
+                        }
+
+
+                    }
+
+                }
+
+
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 
     private fun intercept(): HttpLoggingInterceptor {
         val interceptors = HttpLoggingInterceptor()
@@ -2153,24 +2255,24 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         println("poiImage selectedPOIImage = $selectedPOIImage")
         mapListToggleButton.isChecked = false
 
-try {
+        try {
 
-    sharedPreference.saveSession("selectedPOIName",selectedPOIName)
-    sharedPreference.saveSession("selectedPOIID",selectedPOIID)
-    sharedPreference.saveSession("poiDistance",poiDistance.text.toString())
-    sharedPreference.saveSession("selectedPOIImage",selectedPOIImage)
-    sharedPreference.saveSession("selectedPOIDuration",selectedPOIDuration)
-    sharedPreference.saveSession("selectedPOIQuestion",selectedPOIQuestion)
-    sharedPreference.saveSession("selectedPOIHintContent",selectedPOIHintContent)
-    sharedPreference.saveSession("selectedPOIChallengeType",selectedPOIChallengeType)
-    if(selectedPOIARid!=null){
+            sharedPreference.saveSession("selectedPOIName", selectedPOIName)
+            sharedPreference.saveSession("selectedPOIID", selectedPOIID)
+            sharedPreference.saveSession("poiDistance", poiDistance.text.toString())
+            sharedPreference.saveSession("selectedPOIImage", selectedPOIImage)
+            sharedPreference.saveSession("selectedPOIDuration", selectedPOIDuration)
+            sharedPreference.saveSession("selectedPOIQuestion", selectedPOIQuestion)
+            sharedPreference.saveSession("selectedPOIHintContent", selectedPOIHintContent)
+            sharedPreference.saveSession("selectedPOIChallengeType", selectedPOIChallengeType)
+            if (selectedPOIARid != null) {
 
-        sharedPreference.saveSession("selectedPOIARid",selectedPOIARid)
-    }
-    sharedPreference.saveSession("selectedPOIQrCode",selectedPOIQrCode)
-}
-catch (e:Exception)
-{e.printStackTrace()}
+                sharedPreference.saveSession("selectedPOIARid", selectedPOIARid)
+            }
+            sharedPreference.saveSession("selectedPOIQrCode", selectedPOIQrCode)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         latLng1 = LatLng(
             CommonData.eventsModelMessage!![pos].latitude.toDouble(),
@@ -2426,9 +2528,9 @@ catch (e:Exception)
 
         when (reason) {
             GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE -> {
-              //  Toast.makeText(this, "The user gestured on the map.", Toast.LENGTH_SHORT).show()
+                //  Toast.makeText(this, "The user gestured on the map.", Toast.LENGTH_SHORT).show()
 
-                  isGesturedOnMap=true
+                isGesturedOnMap = true
             }
             GoogleMap.OnCameraMoveStartedListener.REASON_API_ANIMATION -> {
 //                Toast.makeText(this, "The user tapped something on the map.", Toast.LENGTH_SHORT)
@@ -2437,7 +2539,7 @@ catch (e:Exception)
 
             }
             GoogleMap.OnCameraMoveStartedListener.REASON_DEVELOPER_ANIMATION -> {
-               // Toast.makeText(this, "The app moved the camera.", Toast.LENGTH_SHORT).show()
+                // Toast.makeText(this, "The app moved the camera.", Toast.LENGTH_SHORT).show()
             }
         }
     }

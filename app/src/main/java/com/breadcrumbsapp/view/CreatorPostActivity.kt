@@ -77,8 +77,8 @@ class CreatorPostActivity:AppCompatActivity()
           //  jsonObject.put("user_id", sharedPreference.getSession("login_id"))
             jsonObject.put("user_id", "198")
 
-            println("getUserDetails Url = ${resources.getString(R.string.live_url)}")
-            println("getUserDetails Input = $jsonObject")
+            println("getFeedPostData Url = ${resources.getString(R.string.live_url)}")
+            println("getFeedPostData Input = $jsonObject")
 
 
             val mediaType = "application/json".toMediaTypeOrNull()

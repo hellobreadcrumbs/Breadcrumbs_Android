@@ -97,8 +97,8 @@ class FeedPostActivity : AppCompatActivity() {
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
 
-            println("getUserDetails Url = ${resources.getString(R.string.staging_url)}")
-            println("getUserDetails Input = $jsonObject")
+            println("getFeedPostData Url = ${resources.getString(R.string.staging_url)}")
+            println("getFeedPostData Input = $jsonObject")
 
 
             val mediaType = "application/json".toMediaTypeOrNull()

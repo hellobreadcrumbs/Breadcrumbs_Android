@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/discover_details_bg">
 
     <Button
@@ -40,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/my_achievements_screen_backButton" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/achievementLayout"
+        android:id="@+id/my_achievementLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
@@ -50,72 +51,84 @@
         app:layout_constraintTop_toBottomOf="@+id/my_achievements_screen_title_border_line">
 
         <ImageView
-            android:id="@+id/feedIcon"
+            android:id="@+id/my_achievement_icon_one"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginStart="30dp"
             android:src="@drawable/aardvark_achievement_icon"
-            app:layout_constraintEnd_toStartOf="@+id/leaderboardIcon"
+            app:layout_constraintEnd_toStartOf="@+id/my_achievement_icon_two"
             app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <ImageView
-            android:id="@+id/leaderboardIcon"
+            android:id="@+id/my_achievement_icon_two"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:src="@drawable/lock_achievement"
-            app:layout_constraintEnd_toStartOf="@+id/discoverIcon"
+            app:layout_constraintEnd_toStartOf="@+id/my_achievement_icon_three"
             app:layout_constraintHorizontal_bias="0.8"
-            app:layout_constraintStart_toEndOf="@+id/feedIcon"
+            app:layout_constraintStart_toEndOf="@+id/my_achievement_icon_one"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <ImageView
-            android:id="@+id/discoverIcon"
+            android:id="@+id/my_achievement_icon_three"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:src="@drawable/lock_achievement"
             android:visibility="visible"
-            app:layout_constraintEnd_toStartOf="@+id/trailsIcon"
+            app:layout_constraintEnd_toStartOf="@+id/my_achievement_icon_four"
             app:layout_constraintHorizontal_bias="0.8"
-            app:layout_constraintStart_toEndOf="@+id/leaderboardIcon"
+            app:layout_constraintStart_toEndOf="@+id/my_achievement_icon_two"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <ImageView
-            android:id="@+id/trailsIcon"
+            android:id="@+id/my_achievement_icon_four"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:src="@drawable/lock_achievement"
-            app:layout_constraintEnd_toStartOf="@+id/moreIcon"
+            app:layout_constraintEnd_toStartOf="@+id/my_achievement_icon_five"
             app:layout_constraintHorizontal_bias="0.8"
-            app:layout_constraintStart_toEndOf="@+id/discoverIcon"
+            app:layout_constraintStart_toEndOf="@+id/my_achievement_icon_three"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <ImageView
-            android:id="@+id/moreIcon"
+            android:id="@+id/my_achievement_icon_five"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginEnd="30dp"
             android:src="@drawable/lock_achievement"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.8"
-            app:layout_constraintStart_toEndOf="@+id/trailsIcon"
+            app:layout_constraintStart_toEndOf="@+id/my_achievement_icon_four"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/myAchievements_List"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="15dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/my_achievements_adapter"
+        app:layout_constraintTop_toBottomOf="@+id/my_achievementLayout" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:visibility="gone"
         android:id="@+id/trails_main_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/achievementLayout">
+        app:layout_constraintTop_toBottomOf="@+id/my_achievementLayout">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -123,7 +136,6 @@
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:background="@drawable/achievement_banner"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -163,7 +175,6 @@
                 android:text="Discover 5 points of interest within Night Safari"
                 android:textColor="@color/white"
                 android:textSize="@dimen/discovery_screen_level_name_text_size"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/twilight_icon_iv"
                 app:layout_constraintTop_toBottomOf="@+id/twilight_trail_name" />
@@ -176,7 +187,6 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="30dp"
                 app:indicatorColor="@color/white"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/twilight_icon_iv"
                 app:layout_constraintTop_toBottomOf="@+id/twilight_trail_description" />
@@ -267,6 +277,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/pioneer_trail_progress_bar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/wildlife_warrior_trail_layout"
             android:layout_width="match_parent"
@@ -340,6 +351,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/wildlife_warrior_trail_progress_bar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/local_cosmopolite_trail_layout"
             android:layout_width="match_parent"

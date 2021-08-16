@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="95dp"
+    android:layout_marginBottom="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/twilight_trail_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/achievement_banner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/my_achievement_adapter_icon_iv"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="30dp"
+            android:src="@drawable/aardvark_achievement_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/my_achievement_adapter_trail_name_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="15dp"
+            android:fontFamily="@font/claritycity_bold"
+            android:text="Twilight Explorer"
+            android:textColor="@color/white"
+            android:textSize="@dimen/disclaimer_content_text_size"
+            app:layout_constraintBottom_toBottomOf="@+id/my_achievement_adapter_icon_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/my_achievement_adapter_icon_iv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/my_achievement_adapter_trail_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/dinish_regular"
+            android:text="Discover 5 points of interest within Night Safari"
+            android:textColor="@color/white"
+            android:textSize="@dimen/discovery_screen_level_name_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/my_achievement_adapter_icon_iv"
+            app:layout_constraintTop_toBottomOf="@+id/my_achievement_adapter_trail_name_tv" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/my_achievement_adapter_trail_progress_bar"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/achievement_progress_bar_bg"
+            android:layout_marginEnd="30dp"
+            app:indicatorColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/my_achievement_adapter_icon_iv"
+            app:layout_constraintTop_toBottomOf="@+id/my_achievement_adapter_trail_description" />
+
+        <TextView
+            android:id="@+id/my_achievement_adapter_poi_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/claritycity_bold"
+            android:text="5/5"
+            android:textColor="@color/white"
+            android:textSize="@dimen/discovery_screen_player_name_text_size"
+            app:layout_constraintEnd_toEndOf="@+id/my_achievement_adapter_trail_progress_bar"
+            app:layout_constraintTop_toBottomOf="@+id/my_achievement_adapter_trail_progress_bar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

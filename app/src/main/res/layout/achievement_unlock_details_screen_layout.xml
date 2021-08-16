@@ -3,19 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="#50B6DC">
 
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/my_achievements_screen_backButton"
+            android:id="@+id/achievements_unlock_screen_backButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="20dp"
@@ -26,21 +28,20 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:scrollbars="vertical"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toStartOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/my_achievements_screen_title_tv"
+                    android:id="@+id/my_achievements_unlock_screen_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -53,17 +54,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <View
-                    android:id="@+id/my_achievements_screen_title_border_line"
+                    android:id="@+id/my_achievements_unlock_screen_title_border_line"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginTop="30dp"
                     android:background="#4B3B30"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/my_achievements_screen_title_tv" />
+                    app:layout_constraintTop_toBottomOf="@+id/my_achievements_unlock_screen_title_tv" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/achievement_name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginTop="30dp"
@@ -73,25 +74,188 @@
                     android:textSize="@dimen/challenge_begin_screen_poi_name_text_size"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/my_achievements_screen_title_border_line" />
+                    app:layout_constraintTop_toBottomOf="@+id/my_achievements_unlock_screen_title_border_line" />
 
                 <ImageView
                     android:id="@+id/achievement_image"
-                    android:layout_width="match_parent"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/achievement_details_aardvark_icon"
-
+                    android:layout_marginTop="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                    app:layout_constraintTop_toBottomOf="@+id/achievement_name" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+
+                    android:id="@+id/achievement_details_lock_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="50dp"
+                    android:background="@drawable/achievements_details_completed_area_bg"
+                    android:visibility="gone"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/achievement_image">
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/achievement_details_lock_progress_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="30dp"
+                        android:background="@drawable/top_ten_players_bg"
+                        android:padding="1dp"
+                        app:indicatorColor="#F39949"
+                        app:layout_constraintEnd_toEndOf="parent"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:trackColor="#F8F0DD"
+                        app:trackCornerRadius="150dp"
+                        app:trackThickness="20dp" />
+
+                    <TextView
+                        android:id="@+id/incomplete_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="30dp"
+                        android:background="@drawable/top_ten_players_bg"
+                        android:fontFamily="@font/dinish_regular"
+                        android:gravity="center_horizontal"
+                        android:padding="5dp"
+                        android:text="Discover every POI on the Wild About Twilight Trail"
+                        android:textColor="#4B3B30"
+                        android:textSize="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/achievement_details_lock_progress_bar" />
+                    <View
+                        android:id="@+id/achievement_details_lock_view_one"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="15dp"
+
+                        android:background="#4B3B30"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/incomplete_field" />
+                    <TextView
+                        android:id="@+id/achievement_details_lock_trail_static_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/claritycity_bold"
+                        android:gravity="center_horizontal"
+                        android:text="TRAIL"
+                        android:textColor="#A5988B"
+                        android:textSize="@dimen/discovery_screen_player_name_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/achievement_details_lock_view_one" />
+
+                    <ImageView
+
+                        android:id="@+id/achievement_details_lock_trail_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="35dp"
+                        android:src="@drawable/wild_about_twlight_icon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/achievement_details_lock_trail_static_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/claritycity_bold"
+                        android:text="WILD ABOUT TWILIGHT"
+                        android:textColor="#4B3B30"
+                        app:layout_constraintBottom_toBottomOf="@+id/achievement_details_lock_trail_icon"
+                        app:layout_constraintEnd_toStartOf="@+id/achievement_details_lock_info_icon"
+                        app:layout_constraintStart_toEndOf="@+id/achievement_details_lock_trail_icon"
+                        app:layout_constraintTop_toBottomOf="@+id/achievement_details_lock_trail_static_content" />
+
+                    <ImageView
+                        android:id="@+id/achievement_details_lock_info_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="35dp"
+                        android:src="@drawable/achievements_details_info_btn"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/achievement_details_lock_trail_static_content" />
+
+                    <View
+                        android:id="@+id/achievement_unlock_view_two"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="15dp"
+
+                        android:background="#4B3B30"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/achievement_details_lock_info_icon" />
+
+                    <TextView
+                        android:id="@+id/achievement_unlock_rewards_static_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/claritycity_bold"
+                        android:gravity="center_horizontal"
+                        android:text="REWARDS"
+                        android:textColor="#A5988B"
+                        android:textSize="@dimen/discovery_screen_player_name_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/achievement_unlock_view_two" />
+
+                    <ImageView
+                        android:id="@+id/achievement_unlock_page_xp_icon_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/achievements_details_page_xp_icon"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/achievement_unlock_rewards_static_content" />
+
+
+                    <TextView
+                        android:id="@+id/achievement_unlock_xp_points"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="30dp"
+                        android:fontFamily="@font/claritycity_bold"
+                        android:gravity="center_horizontal"
+                        android:text="250 XP\nPOINTS"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/discovery_screen_level_name_text_size"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/achievement_unlock_page_xp_icon_iv"
+                        app:layout_constraintStart_toStartOf="@+id/achievement_unlock_page_xp_icon_iv"
+                        app:layout_constraintTop_toBottomOf="@+id/achievement_unlock_page_xp_icon_iv" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/achievement_details_unlock_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="50dp"
                     android:background="@drawable/achievements_details_completed_area_bg"
+                    android:visibility="visible"
 
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/achievement_image">
@@ -127,7 +291,8 @@
                         android:gravity="center_horizontal"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
-                        android:text=" COMPLETED!"
+                        android:text="Static Content"
+
                         android:textColor="#4B3B30"
                         android:textSize="@dimen/next_button_text_size"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -146,7 +311,7 @@
                         android:gravity="center_horizontal"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
-                        android:text=" COMPLETED!"
+                        android:text="Discover 1 POI on Leopard Trail"
                         android:textColor="#4B3B30"
                         android:textSize="@dimen/next_button_text_size"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -165,7 +330,7 @@
                         android:gravity="center_horizontal"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
-                        android:text=" COMPLETED!"
+                        android:text="Discover 1 POI on East Lodge Trail"
                         android:textColor="#4B3B30"
                         android:textSize="@dimen/next_button_text_size"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -184,7 +349,7 @@
                         android:gravity="center_horizontal"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
-                        android:text=" COMPLETED!"
+                        android:text="Discover 1 POI on Wallaby Trail"
                         android:textColor="#4B3B30"
                         android:textSize="@dimen/next_button_text_size"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -203,7 +368,7 @@
                         android:gravity="center_horizontal"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
-                        android:text=" COMPLETED!"
+                        android:text="Discover 1 Special AR Animal"
                         android:textColor="#4B3B30"
                         android:textSize="@dimen/next_button_text_size"
 
@@ -238,6 +403,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/view_one" />
 
                     <ImageView
+
                         android:id="@+id/achievement_details_trail_icon"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -271,10 +437,8 @@
                         android:id="@+id/view_two"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:layout_marginTop="5dp"
-
+                        android:layout_marginTop="15dp"
                         android:background="#4B3B30"
-
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/achievement_details_info_icon" />
@@ -293,31 +457,65 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/view_two" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="70dp"
 
-                        android:src="@drawable/limited_edition_enamel_pin"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/rewards_static_content" />
-                    <TextView
-                        android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
-                        android:textColor="#4B3B30"
-                        android:text="LIMITED EDITION ENAMEL PIN"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <ImageView
-                        android:id="@+id/imageView8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="70dp"
-                        android:src="@drawable/limited_edition_enamel_pin"
+                        android:paddingTop="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/rewards_static_content" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rewards_static_content">
+
+                        <ImageView
+                            android:id="@+id/limited_edition_enamel_pin_icon_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="70dp"
+                            android:src="@drawable/limited_edition_enamel_pin"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textView7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/claritycity_bold"
+                            android:gravity="center_horizontal"
+                            android:text="LIMITED EDITION\nENAMEL PIN"
+                            android:textColor="#4B3B30"
+                            android:textSize="@dimen/discovery_screen_level_name_text_size"
+                            app:layout_constraintEnd_toEndOf="@+id/limited_edition_enamel_pin_icon_iv"
+                            app:layout_constraintStart_toStartOf="@+id/limited_edition_enamel_pin_icon_iv"
+                            app:layout_constraintTop_toBottomOf="@+id/limited_edition_enamel_pin_icon_iv" />
+
+                        <ImageView
+                            android:id="@+id/achievements_details_page_xp_icon_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="70dp"
+                            android:src="@drawable/achievements_details_page_xp_icon"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
 
+                        <TextView
+                            android:id="@+id/achievements_details_xp_points"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="30dp"
+                            android:fontFamily="@font/claritycity_bold"
+                            android:gravity="center_horizontal"
+                            android:text="250 XP\nPOINTS"
+                            android:textColor="#4B3B30"
+                            android:textSize="@dimen/discovery_screen_level_name_text_size"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/achievements_details_page_xp_icon_iv"
+                            app:layout_constraintStart_toStartOf="@+id/achievements_details_page_xp_icon_iv"
+                            app:layout_constraintTop_toBottomOf="@+id/achievements_details_page_xp_icon_iv" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
