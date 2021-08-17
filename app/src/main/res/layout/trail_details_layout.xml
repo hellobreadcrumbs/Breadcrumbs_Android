@@ -51,7 +51,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="260dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/poi_photo"
+                        android:background="@drawable/pioneer_trail_banner_details_screen"
+
                         tools:ignore="ContentDescription" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
@@ -102,7 +103,7 @@
                                     android:id="@+id/tv_trail_period_of_time"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginBottom="20dp"
                                     android:fontFamily="@font/claritycity_extrabold"
                                     android:text="1 JUNE - 30 JULY 2021"
                                     android:textColor="#4B3B30"
@@ -187,7 +188,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:fontFamily="@font/claritycity_bold"
-                        android:text="2/100 POIs DISCOVERED"
+                        android:text="2/17 POIs DISCOVERED"
                         android:textColor="#4B3B30"
                         android:textSize="@dimen/discovery_screen_player_name_text_size" />
 

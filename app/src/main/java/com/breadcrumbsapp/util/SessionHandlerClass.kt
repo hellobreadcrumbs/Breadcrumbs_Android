@@ -17,7 +17,17 @@ class SessionHandlerClass(context:Context)
     }
 
 
+    fun saveSession(KEY_NAME: String, value: Int) {
+        val editor: SharedPreferences.Editor = sharedPref.edit()
+        editor.putInt(KEY_NAME, value)
+        editor.apply()
+    }
 
+
+
+    fun getIntegerSession(KEY_NAME: String): Int {
+        return sharedPref.getInt(KEY_NAME,0)
+    }
 
     fun getSession(KEY_NAME: String): String? {
         return sharedPref.getString(KEY_NAME, "")

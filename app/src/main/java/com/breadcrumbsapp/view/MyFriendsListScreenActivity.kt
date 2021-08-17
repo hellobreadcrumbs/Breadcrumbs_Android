@@ -12,9 +12,11 @@ import com.breadcrumbsapp.adapter.RecommendedFriendsAdapter
 import com.breadcrumbsapp.databinding.FriendsListLayoutBinding
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.util.CommonData
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.feed_layout.*
 import kotlinx.android.synthetic.main.feed_layout.feedList
 import kotlinx.android.synthetic.main.friends_list_layout.*
+import kotlinx.android.synthetic.main.leader_board_activity_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -55,7 +57,8 @@ class MyFriendsListScreenActivity:AppCompatActivity()
 
     private fun getFeedPostData() {
         try {
-
+            Glide.with(applicationContext).load(R.raw.loading).into(friend_list_screen_loaderImage)
+            friend_list_screen_loaderImage.visibility= View.VISIBLE
             val okHttpClient = OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
@@ -103,6 +106,9 @@ class MyFriendsListScreenActivity:AppCompatActivity()
                         runOnUiThread {
 
                             if (CommonData.getRecommendedFriendsModel != null) {
+
+                                friend_list_screen_loaderImage.visibility=View.GONE
+
                                 recommendedFriendsAdapter = RecommendedFriendsAdapter(CommonData.getRecommendedFriendsModel!!)
                                 friends_list_rv.adapter = recommendedFriendsAdapter
 

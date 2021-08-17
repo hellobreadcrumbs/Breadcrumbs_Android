@@ -139,38 +139,29 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
             binding.poiDistance.text = poiDistance
         }
 
-        //  Toast.makeText(this, from, Toast.LENGTH_SHORT).show()
 
-        /*  binding.qrCodeScannerBtn.setOnClickListener {
-
-              if (checkPermission()) {
-
-                openCameraClass()
-
-              } else {
-                  requestPermission();
-              }
-          }*/
 
         println("from::: $from")
-        if (from.equals(resources.getString(R.string.take_me_there))) {
+        when {
+            from.equals(resources.getString(R.string.take_me_there)) -> {
 
-            binding.scannerIcon.alpha = 0.5f
+                binding.scannerIcon.alpha = 0.5f
 
-        } else if (from.equals(resources.getString(R.string.discover))) {
-            binding.scannerIcon.alpha = 1f
-            binding.takeMeThereBtn.text="ARRIVED"
-            binding.takeMeThereBtn.background=getDrawable(R.drawable.arrived_btn)
-            binding.discoverStatusText.text="UNDISCOVERED"
-        }
-        else if (from== "discovered")
-        {
-            binding.scannerIcon.alpha = 0.5f
-            binding.takeMeThereBtn.text="TAKE ME THERE"
-            binding.takeMeThereBtn.background=getDrawable(R.drawable.take_me_there_bg)
-            binding.discoverStatusText.text="DISCOVERED"
+            }
+            from.equals(resources.getString(R.string.discover)) -> {
+                binding.scannerIcon.alpha = 1f
+                binding.takeMeThereBtn.text="ARRIVED"
+                binding.takeMeThereBtn.background=getDrawable(R.drawable.arrived_btn)
+                binding.discoverStatusText.text="UNDISCOVERED"
+            }
+            from== "discovered" -> {
+                binding.scannerIcon.alpha = 0.5f
+                binding.takeMeThereBtn.text="TAKE ME THERE"
+                binding.takeMeThereBtn.background=getDrawable(R.drawable.take_me_there_bg)
+                binding.discoverStatusText.text="DISCOVERED"
 
-            detailsPoiBackGround.background=getDrawable(R.drawable.trail_banner_discovered)
+                detailsPoiBackGround.background=getDrawable(R.drawable.trail_banner_discovered)
+            }
         }
 
         binding.cameraIconLayout.setOnClickListener {

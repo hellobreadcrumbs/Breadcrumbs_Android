@@ -2,9 +2,6 @@ package com.breadcrumbsapp.view
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ExpandableListView.OnChildClickListener
-import android.widget.ExpandableListView.OnGroupCollapseListener
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.adapter.ExpandableListAdapter
@@ -18,7 +15,7 @@ class FAQActivity : AppCompatActivity() {
     private lateinit var expandableListAdapter: ExpandableListAdapter
 
     var listDataHeader: ArrayList<String>? = null
-    var listDataChild: HashMap<String, List<String>>? = null
+
     private lateinit var binding: FaqLayoutBinding
 
     var question1:Int=0

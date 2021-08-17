@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.RewardsScreenDetailsLayoutBinding
+import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.view.TrailsDetailsActivity
 import com.breadcrumbsapp.view.rewards.GetRewardsDataModel
 import com.bumptech.glide.Glide
@@ -97,14 +98,15 @@ class RewardsDetailsActivity : AppCompatActivity() {
         }
         iv_reward_details_show_info.setOnClickListener(View.OnClickListener {
 
-           /* startActivity(
+            startActivity(
                 Intent(
                     applicationContext,
                     TrailsDetailsActivity::class.java
-                ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) .putExtra("position", 0)
+                        .putExtra("getTrailsListData", CommonData.getTrailsData!![0])
 
-            )*/
-            Toast.makeText(applicationContext, "Under Construction", Toast.LENGTH_SHORT).show()
+            )
+           // Toast.makeText(applicationContext, "Under Construction", Toast.LENGTH_SHORT).show()
         })
     }
 

@@ -21,7 +21,6 @@ import android.app.Dialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.graphics.Point
 import android.location.Location
 import android.os.*
 import android.os.StrictMode.ThreadPolicy
@@ -51,6 +50,7 @@ import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.interfaces.POIclickedListener
 import com.breadcrumbsapp.model.DistanceMatrixApiModel
 import com.breadcrumbsapp.model.GetEventsModel
+import com.breadcrumbsapp.model.GetTrailsModel
 import com.breadcrumbsapp.service.LocationUpdatesService
 import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.RecyclerItemClickListenr
@@ -62,6 +62,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
+import com.google.gson.Gson
 import com.google.maps.DirectionsApi
 import com.google.maps.GeoApiContext
 import com.google.maps.android.SphericalUtil
@@ -80,12 +81,15 @@ import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
+import okio.buffer
+import okio.source
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.*
 import java.net.URL
+import java.nio.charset.Charset
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -128,7 +132,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private lateinit var trailsListAdapter: TrailsListAdapter
     private lateinit var mapMainLayout: LinearLayoutCompat
     private lateinit var takeMeBtn: TextView
-    private lateinit var availableTrailsAdapter: AvailableTrailsAdapter
+
     private lateinit var playerName: TextView
 
     //lateinit var profileImage: ImageView
@@ -158,6 +162,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private var firstRadioChecked: Boolean = false
     private var secondRadioChecked: Boolean = false
     private var polyline: Polyline? = null
+    private var isMarkerClicked:Boolean=false
+    private var isDrawPathClicked:Boolean=false
 
 
     // A reference to the service used to get location updates.
@@ -176,21 +182,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private var clickedMarker: Marker? = null
     private var markerPOI: Marker? = null
 
-    /*  private lateinit var discoverLayout: LinearLayoutCompat
-      private lateinit var discoverImage: ImageView
-
-      private lateinit var newsFeedLayout: LinearLayoutCompat
-      private lateinit var newsFeedImage: ImageView
-
-      private lateinit var leaderBoardLayout: LinearLayoutCompat
-      private lateinit var leaderBoardImage: ImageView
-
-      private lateinit var trailsLayout: LinearLayoutCompat
-      private lateinit var trailsImage: ImageView
-
-      private lateinit var moreLayout: LinearLayoutCompat
-      private lateinit var moreImage: ImageView*/
-
 
     private lateinit var inputMethodManager: InputMethodManager
 
@@ -198,18 +189,14 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
     private lateinit var markerWindowCloseButton: ImageView
 
-
-    // private var matchedMarker: ArrayList<DiscoverScreenModel.Message.Markers> = arrayListOf()
-    //var items: List<DiscoverScreenModel.Message>? = null
-    //var markers: List<DiscoverScreenModel.Message.Markers>? = null
     private var searchAdapter: POI_SearchAdapter? = null
     lateinit var recyclerView: RecyclerView
+    private lateinit var levelTextView:TextView
 
-    // var CommonData.eventsModelMessage: List<GetEventsModel.Message>? = null
     private var matchedPOIMarker: ArrayList<GetEventsModel.Message> = arrayListOf()
 
     private var locationPermissionGranted = false
-    // private var lastKnownLocation: Location? = null
+
 
     var distanceMatrixApiModelObj: ArrayList<DistanceMatrixApiModel> = arrayListOf()
 
@@ -225,7 +212,22 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     var isGesturedOnMap = false
 
     var moreButtonClicked = 0
+    private lateinit var getTrailsData:GetTrailsModel
+    //ranking,level,base,nextLevel
+    private var ranking:String=""
+    private var level:Int=0
+    private var base:Int=0
+    private var nextLevel:Int=0
+    fun readJsonFromAssets(context: Context, filePath: String): String? {
+        try {
+            val source = context.assets.open(filePath).source().buffer()
+            return source.readByteString().string(Charset.forName("utf-8"))
 
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return null
+    }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("MissingPermission", "ResourceType", "UseCompatLoadingForDrawables")
@@ -242,7 +244,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         sharedPreference = SessionHandlerClass(applicationContext)
         trailTutorialAdapter = TrailTutorialAdapter()
 
-        availableTrailsAdapter = AvailableTrailsAdapter(applicationContext)
+
 
         Glide.with(applicationContext).load(R.raw.loading).into(loadingImage)
 
@@ -274,11 +276,26 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 showAlertDialog(this@DiscoverScreenActivity)
             }
         }
+        // Get the trail list
+    // getTrailDetails()
+
+        val jsonFileString = readJsonFromAssets(applicationContext, "trails.json")
+
+        getTrailsData=   Gson().fromJson(jsonFileString, GetTrailsModel::class.java)
+        print("CommonData.getTrailsData = ${jsonFileString.toString()}")
+        CommonData.getTrailsData=getTrailsData.message
+
+
+
+
+        var expPoints:Int=Integer.parseInt(sharedPreference.getSession("player_experience_points"))
+        println("expPoints= $expPoints")
+
 
 
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(contxt: Context?, intent: Intent?) {
-                println("onReceive")
+
                 when (intent?.action) {
                     "NotifyUser" -> {
                         try {
@@ -295,8 +312,13 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                             latLng = LatLng(lat!!.toDouble(), long!!.toDouble())
                             println("Updated Location : $latLng")
                             // if (takeMeBtn.text.equals(resources.getString(R.string.travelling))) {
-                            updateCurrentLocation(latLng)
+                          //  updateCurrentLocation(latLng)
                             //}
+
+                            if(isDrawPathClicked)
+                            {
+                                updateCurrentLocation(latLng)
+                            }
 
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -329,140 +351,20 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         markerWindowCloseButton = findViewById(R.id.closeButton)
         // profileImage = findViewById(R.id.profileImage)
         poiDistance = findViewById(R.id.tv_distance)
-
-
-
         trailsNameText = findViewById(R.id.trailsName)
-
-
-        /*discoverLayout = findViewById(R.id.navigation_discoverImageLayout)
-        discoverImage = findViewById(R.id.navigation_discoverImage)
-
-        newsFeedLayout = findViewById(R.id.navigation_newsFeedImageLayout)
-        newsFeedImage = findViewById(R.id.navigation_newsFeedImage)
-
-        leaderBoardLayout = findViewById(R.id.navigation_leaderboardImageLayout)
-        leaderBoardImage = findViewById(R.id.navigation_leaderboardImage)
-
-        trailsLayout = findViewById(R.id.navigation_trailsImageLayout)
-        trailsImage = findViewById(R.id.navigation_trailsImage)
-
-        moreLayout = findViewById(R.id.navigation_moreImageLayout)
-        moreImage = findViewById(R.id.navigation_moreImage)*/
-
-
         recyclerView = findViewById(R.id.recyclerView)
-
-
+        levelTextView = findViewById(R.id.level_textView)
+        calculateUserLevel(expPoints)
         inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-
-        /* newsFeedLayout.setOnClickListener {
-
-
-             // newsFeedImage.background = getDrawable(navigation_newsfeed_pressed)
-             // leaderBoardImage.background = getDrawable(navigation_leaderboard_unpressed)
- //            leaderBoardImage.background=getDrawable(navigation_leaderboard_unpressed)
- //            discoverImage.background=getDrawable(navigation_discover_unpressed)
- //            trailsImage.background=getDrawable(navigation_trails_unpressed)
- //            moreImage.background=getDrawable(navigation_more_unpressed)
-
-             println("click NewsFeed")
-
-         }
-
-
-         leaderBoardLayout.setOnClickListener {
-
-
-             val marginParams = ViewGroup.MarginLayoutParams(leaderBoardImage.layoutParams)
-             marginParams.setMargins(0, 0, 0, 0)
-
-
-             val marginParams1 = ViewGroup.MarginLayoutParams(leaderBoardImage.layoutParams)
-             marginParams1.setMargins(0, 0, 0, 20)
-
-
-             // newsFeedImage.background = getDrawable(navigation_newsfeed_unpressed)
-             //  leaderBoardImage.background = getDrawable(navigation_leaderboard_pressed)
-
- //            newsFeedImage.background=getDrawable(navigation_newsfeed_unpressed)
- //            discoverImage.background=getDrawable(navigation_discover_unpressed)
- //            trailsImage.background=getDrawable(navigation_trails_unpressed)
- //            moreImage.background=getDrawable(navigation_more_unpressed)
-
-
-             println("click LeaderBoard")
-         }
-
-
-         discoverLayout.setOnClickListener {
-             *//*  discoverImage.background=getDrawable(navigation_discover_pressed)
-
-            newsFeedImage.background=getDrawable(navigation_newsfeed_unpressed)
-             leaderBoardImage.background=getDrawable(navigation_leaderboard_unpressed)
-             trailsImage.background=getDrawable(navigation_trails_unpressed)
-             moreImage.background=getDrawable(navigation_more_unpressed)*//*
-
-
-            println("click Discover")
-        }
-
-        trailsLayout.setOnClickListener {
-            *//*   trailsImage.background=getDrawable(navigation_trails_pressed)
-
-               newsFeedImage.background=getDrawable(navigation_newsfeed_unpressed)
-               leaderBoardImage.background=getDrawable(navigation_leaderboard_unpressed)
-               discoverImage.background=getDrawable(navigation_discover_unpressed)
-               moreImage.background=getDrawable(navigation_more_unpressed)*//*
-
-            println("click Trails")
-        }
-        moreLayout.setOnClickListener {
-            *//*   moreImage.background=getDrawable(navigation_more_pressed)
-
-             newsFeedImage.background=getDrawable(navigation_newsfeed_unpressed)
-              leaderBoardImage.background=getDrawable(navigation_leaderboard_unpressed)
-              discoverImage.background=getDrawable(navigation_discover_unpressed)
-              trailsImage.background=getDrawable(navigation_trails_unpressed)*//*
-
-            println("click More")
-
-        }
-*/
-
-
-
         if (!sharedPreference.getSession("player_name").equals("")) {
             playerName.text = sharedPreference.getSession("player_name")
         } else {
             playerName.text = "Player 1"
         }
-
-
-
         listScreenRecycler.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         listScreenRecycler.overScrollMode = View.OVER_SCROLL_NEVER
-
-
-        /* var adapter: ArrayAdapter<String> = ArrayAdapter<String>(
-             this,
-             android.R.layout.select_dialog_item, fruits
-         )
-           searchView.setAdapter(adapter)*/
-
-
-        //.threshold = 1
-
-
-        /*  searchView.setOnItemClickListener { parent, view, position, id ->
-
-              val selectedPoi = parent.adapter.getItem(position) as DiscoverScreenModel.Message.Markers?
-              searchView.setText(selectedPoi?.name)
-          }
-  */
-
 
         feedIcon.setOnClickListener {
             startActivity(Intent(applicationContext, FeedPostActivity::class.java))
@@ -527,12 +429,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                     override fun onItemClick(view: View, position: Int) {
                         //do your work here..
 
-                        /* Toast.makeText(
-                             applicationContext,
-                             " ${matchedPOIMarker[position].title}",
-                             Toast.LENGTH_SHORT
-                         ).show()*/
-
                         latLng1 = LatLng(
                             matchedPOIMarker[position].latitude.toDouble(),
                             matchedPOIMarker[position].longitude.toDouble()
@@ -551,7 +447,13 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         markWindowConstraintLayout.setOnClickListener {
             //do nothing
             if (markerWindowDiscoverTextView.text == "Undiscovered") {
-
+                val from = resources.getString(R.string.take_me_there)
+                startActivity(
+                    Intent(
+                        this@DiscoverScreenActivity,
+                        DiscoverDetailsScreenActivity::class.java
+                    ).putExtra("from", from)
+                )
             } else {
                 val from = "discovered"
                 startActivity(
@@ -560,16 +462,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                         DiscoverDetailsScreenActivity::class.java
                     ).putExtra("from", from)
 
-                    /*.putExtra("from", from).putExtra("poi_name", selectedPOIName)
-                        .putExtra("poi_id", selectedPOIID)
-                        .putExtra("poi_distance", poiDistance.text.toString())
-                        .putExtra("poi_image", selectedPOIImage)
-                        .putExtra("poi_eta", selectedPOIDuration)
-                        .putExtra("poi_question", selectedPOIQuestion)
-                        .putExtra("poi_hint", selectedPOIHintContent)
-                        .putExtra("poi_ch_type", selectedPOIChallengeType)
-                        .putExtra("poi_ar_id", selectedPOIARid)
-                        .putExtra("poi_qr_code", selectedPOIQrCode)*/
                 )
             }
         }
@@ -661,8 +553,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         }
 
         trailsBtn.setOnClickListener {
-            //  availableTrailsListView()
-            getTrailDetails()
+             availableTrailsListView()
+
         }
 
         mapListToggleButton.setOnCheckedChangeListener { _, isChecked ->
@@ -716,13 +608,14 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
 
             when {
-                takeMeBtn.text.equals(resources.getString(R.string.travelling)) -> {
-                    takeMeBtn.text = resources.getString(R.string.discover)
-                    takeMeBtn.background = getDrawable(take_me_discover)
-                }
+                /*  takeMeBtn.text.equals(resources.getString(R.string.travelling)) -> {
+                      takeMeBtn.text = resources.getString(R.string.discover)
+                      takeMeBtn.background = getDrawable(take_me_discover)
+                  }*/
                 takeMeBtn.text.equals(resources.getString(R.string.take_me_there)) -> {
 
                     drawPath()
+
                 }
                 takeMeBtn.text.equals(resources.getString(R.string.discover)) -> {
                     from = takeMeBtn.text.toString()
@@ -732,16 +625,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                             DiscoverDetailsScreenActivity::class.java
                         ).putExtra("from", from)
 
-                        /*.putExtra("from", from).putExtra("poi_name", selectedPOIName)
-                            .putExtra("poi_id", selectedPOIID)
-                            .putExtra("poi_distance", poiDistance.text.toString())
-                            .putExtra("poi_image", selectedPOIImage)
-                            .putExtra("poi_eta", selectedPOIDuration)
-                            .putExtra("poi_question", selectedPOIQuestion)
-                            .putExtra("poi_hint", selectedPOIHintContent)
-                            .putExtra("poi_ch_type", selectedPOIChallengeType)
-                            .putExtra("poi_ar_id", selectedPOIARid)
-                            .putExtra("poi_qr_code", selectedPOIQrCode)*/
                     )
                 }
             }
@@ -755,6 +638,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
             isGesturedOnMap = false
             isSelectedMarker = false
+            isDrawPathClicked=false
             //markerAnimationHandler.removeCallbacks(markerAnimationRunnable)
 
             searchButton.background = getDrawable(search_button)
@@ -982,59 +866,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
     }
 
-    private fun animateMarker(marker: Marker) {
-        val handler = Handler()
-        val startTime = SystemClock.uptimeMillis()
-        val duration: Long = 300 // ms
-        val proj = mMap.projection
-        val markerLatLng = marker.position
-        val startPoint: Point = proj.toScreenLocation(markerLatLng)
-        startPoint.offset(0, -10)
-        val startLatLng = proj.fromScreenLocation(startPoint)
-        val interpolator: Interpolator = BounceInterpolator()
-        handler.post(object : Runnable {
-            override fun run() {
-                val elapsed = SystemClock.uptimeMillis() - startTime
-                val t = interpolator.getInterpolation(elapsed.toFloat() / duration)
-
-                val lng = t * markerLatLng.longitude + (1 - t) * startLatLng.longitude
-                val lat = t * markerLatLng.latitude + (1 - t) * startLatLng.latitude
-                marker.position = LatLng(lat, lng)
-                //marker.setAnchor(0.0f, 1.0f + t)
-                if (t < 1.0) {
-                    // Post again 16ms later (60fps)
-                    handler.postDelayed(this, 10)
-                } else {
-                    println("animate marker = ${marker.id}")
-                    animateMarker(marker)
-                }
-            }
-        })
-    }
-
-    private fun setMarkerBounce(marker: Marker) {
-        println(marker.id)
-        val handler = Handler()
-        val startTime = SystemClock.uptimeMillis()
-        val duration: Long = 2000
-        val interpolator: Interpolator = BounceInterpolator()
-
-        handler.post(object : Runnable {
-            override fun run() {
-                val elapsed = SystemClock.uptimeMillis() - startTime
-                val t =
-                    Math.max(1 - interpolator.getInterpolation(elapsed.toFloat() / duration), 0.0f)
-
-                marker.setAnchor(0.0f, 1.0f + t)
-                if (t > 0.0) {
-                    handler.postDelayed(this, 16)
-                } else {
-                    setMarkerBounce(marker)
-                }
-            }
-        })
-    }
-
     var lastlatlng: LatLng? = null
     private fun updateCurrentLocation(newLatLng: LatLng?) {
         //1.4025944219780742, 103.78994695871972
@@ -1059,6 +890,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 takeMeBtn.background = getDrawable(take_me_discover)
 
 
+                getUserDetails()
+
             }
 
 
@@ -1079,7 +912,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             } ?: kotlin.run {
                 0f
             }
-            println("Just:::::::::::::::: bearing ${bearing}")
+            //    println("Just:::::::::::::::: bearing $bearing")
 
             if (!bearing.equals(0.0)) {
                 currentLocationMarker = mMap.addMarker(
@@ -1157,14 +990,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         mMap.setOnMarkerDragListener(this)
 
 
-        /*   val googleLogo: View = mapMainLayout.findViewWithTag("GoogleWatermark")
-           val glLayoutParams = googleLogo.layoutParams as RelativeLayout.LayoutParams
-
-
-
-           glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
-           glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE)
-           googleLogo.layoutParams = glLayoutParams*/
 
 
         mMap.setOnMapClickListener {
@@ -1230,11 +1055,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             currentLocationMarker!!.remove()
         }
 
-//        currentLocationMarker = mMap.addMarker(
-//            MarkerOptions().position(latLng).icon(
-//                BitmapDescriptorFactory.fromResource(map_current_location_marker)
-//            )
-//        )
+
         latLng?.let {
             currentLocationMarker = mMap.addMarker(
                 MarkerOptions().position(it).icon(
@@ -1243,19 +1064,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             )
         }
 
-        // marker.rotation=bearing
-
-        // mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-        //  mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
-
-
-        // val latLng1 = LatLng(1.3525894, 103.8784447)
-        /*  val latLng1 = LatLng(1.3542948079941155, 103.87878265551753)
-          mMap.addMarker(
-              MarkerOptions().position(latLng1).title("Marker 1 ").icon(
-                  BitmapDescriptorFactory.fromResource(poi_marker)
-              )
-          )*/
 
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -1275,20 +1083,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         mMap.setOnMarkerClickListener(this)
 
-        /*  val bundle: Bundle? = intent.extras
-          val isFromLogin = bundle!!.getString("isFromLogin")
-          println("IsFromLogin : $isFromLogin")
-          if (!isClicked) {
 
-              if (isFromLogin.equals("yes")) {
-                  disclaimerWindow()
-              } else if (isFromLogin.equals("no")) {
-                  visibleItems()
-                //  updateCurrentLocation(latLng)
-              }
-
-
-          }*/
 
         if (!isClicked) {
 
@@ -1422,9 +1217,9 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         // val dialog = DialogFragment()
         val layoutParams: WindowManager.LayoutParams = dialog.window?.attributes!!
 
-  /*      layoutParams.gravity = Gravity.TOP
-        layoutParams.x = 0
-        layoutParams.y = 160*/
+              layoutParams.gravity = Gravity.TOP
+              layoutParams.x = 0
+              layoutParams.y = 160
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
@@ -1444,15 +1239,13 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         val trailFour = dialog.findViewById(R.id.trailFour) as TextView
 
 
-        val row1=dialog.findViewById(R.id.row1) as ConstraintLayout
-        val row2=dialog.findViewById(R.id.row2) as ConstraintLayout
-        val row3=dialog.findViewById(R.id.row3) as ConstraintLayout
-        val row4=dialog.findViewById(R.id.row4) as ConstraintLayout
+        val row1 = dialog.findViewById(R.id.row1) as RelativeLayout
+        val row2 = dialog.findViewById(R.id.row2) as ConstraintLayout
+        val row3 = dialog.findViewById(R.id.row3) as ConstraintLayout
+        val row4 = dialog.findViewById(R.id.row4) as ConstraintLayout
 
 
-        val trailCount = CommonData.getTrailsData!!.size
-
-        when (trailCount) {
+        when (CommonData.getTrailsData!!.size) {
             1 -> {
                 row1.visibility = View.VISIBLE
                 row2.visibility = View.GONE
@@ -1547,20 +1340,14 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         okButton.setOnClickListener(View.OnClickListener {
 
-
+            println("Selected Trail : ${sharedPreference.getSession("selected_trails")}")
             if (sharedPreference.getSession("selected_trails").equals("")) {
                 Toast.makeText(
                     this,
-                    "Please Choose any one of the trail from the list",
+                    "Please Choose a trail from the list",
                     Toast.LENGTH_LONG
                 ).show()
             } else {
-
-                /* Toast.makeText(
-                     this,
-                     sharedPreference.getSession("selected_trails"),
-                     Toast.LENGTH_LONG
-                 ).show()*/
 
                 if (isCheckBoxClicked) {
                     isCheckBoxClicked = false
@@ -1605,8 +1392,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         closeButton.setOnClickListener {
             isCheckBoxClicked = true
             dialog.dismiss()
+            availableTrailsListView()
 
-            getTrailDetails()
         }
 
         dialog.window!!.attributes!!.windowAnimations = R.style.DialogTheme
@@ -1650,11 +1437,9 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onMarkerClick(p0: Marker): Boolean {
 
-
         if (polyline != null) {
             polyline!!.remove()
         }
-
 
         takeMeBtn.background = getDrawable(take_me_discover)
         takeMeBtn.text = resources.getString(R.string.take_me_there)
@@ -1663,94 +1448,11 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         //1.401945229052399, 103.78865687018656
         // latLng = LatLng(1.401945229052399, 103.78865687018656)
         if (CommonData.eventsModelMessage != null) {
-
             for (i in 0 until CommonData.eventsModelMessage!!.count()) {
-
-                // markers = items!![i].markers
-                //for (j in 0 until markers!!.count()) {
-
-
                 if (i == p0.tag) {
-
+                    isMarkerClicked=true
                     selectedMarker(i)
-                    // replace the selected marker image..
-/*
-                        profileLayout.visibility = View.GONE
-                        trailsBtn.visibility = View.GONE
-                        searchButton.visibility = View.GONE
-                        markWindowConstraintLayout.visibility = View.VISIBLE
-                        takeMeBtn.visibility = View.VISIBLE
-
-
-                        //setMarkerBounce(p0)
-                        //animateMarker(p0)
-
-
-                        takeMeBtn.text = resources.getString(R.string.take_me_there)
-
-                        trailsNameText.text = getEventsModel_Message!![i].title
-                        latLng1 = LatLng(
-                            getEventsModel_Message!![i].latitude.toDouble(),
-                            getEventsModel_Message!![i].longitude.toDouble()
-                        )
-
-
-                        clickedMarker = mMap.addMarker(
-                            MarkerOptions().position(latLng1).icon(
-                                BitmapDescriptorFactory.fromResource(
-                                    poi_breadcrumbs_marker_undiscovered_2)
-                            )
-                        )
-
-*/
-
-
-                    /* val url = getURL(latLng!!, latLng1)
-
-                     println("URL = $url")
-
-
-                     val result = URL(url).readText()
-
-                     val jsonObject = JSONObject(result)
-                     println("jsonObject = $jsonObject")
-
-                     routes = parse(jsonObject) as MutableList<List<HashMap<String, String>>>
-
-                     println("Routes ${routes.size}")
-
-                     var points: ArrayList<LatLng>?
-                     var polyLineOptions = PolylineOptions()
-
-                     for (i in 0 until routes.size) {
-                         points = ArrayList<LatLng>()
-                         polyLineOptions = PolylineOptions()
-                         val path = routes[i]
-                         for (j in path.indices) {
-                             val point = path[j]
-                             val lat = point["lat"]!!.toDouble()
-                             val lng = point["lng"]!!.toDouble()
-
-                             val position = LatLng(lat, lng)
-                             points.add(position)
-                         }
-
-                         polyLineOptions.addAll(points)
-                         polyLineOptions.width(15f)
-                         polyLineOptions.color(Color.parseColor("#79856C"))
-                         polyLineOptions.pattern(pattern)
-
-                     }
-
-                     polyline = mMap.addPolyline(polyLineOptions)*/
-
-                } else {
-                    //  println("Marker = ELSE")
-
                 }
-
-
-                //}
             }
         }
 
@@ -1761,6 +1463,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
     private fun drawPath() {
 
+
+        isDrawPathClicked=true
         takeMeBtn.background = resources.getDrawable(travelling_bg)
         takeMeBtn.text = resources.getString(R.string.travelling)
         markerWindowCloseButton.visibility = View.VISIBLE
@@ -1838,8 +1542,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                         val list = decodePoly(polyline)
                         for (l in list!!.indices) {
                             val hm = HashMap<String, String>()
-                            hm["lat"] = java.lang.Double.toString(list[l].latitude)
-                            hm["lng"] = java.lang.Double.toString(list[l].longitude)
+                            hm["lat"] = list[l].latitude.toString()
+                            hm["lng"] = list[l].longitude.toString()
                             path.add(hm)
                         }
                     }
@@ -1934,8 +1638,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                         requestBody
                     )
 
-                    var jRoutes: JSONArray? = null
-                    var jElements: JSONArray? = null
+                    var jRoutes: JSONArray?
+                    var jElements: JSONArray?
 
 
                     if (response.isSuccessful) {
@@ -2037,92 +1741,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
     }
 
-    /*  private fun getTrailListFromAPI() {
-
-          try {
-
-              val okHttpClient = OkHttpClient.Builder()
-                  .connectTimeout(60, TimeUnit.SECONDS)
-                  .readTimeout(60, TimeUnit.SECONDS)
-                  .addInterceptor(interceptor)
-                  .protocols(Collections.singletonList(Protocol.HTTP_1_1))
-                  .build()
-
-
-              // Create Retrofit
-
-              val retrofit = Retrofit.Builder()
-                  .baseUrl(resources.getString(R.string.staging_url))
-                  .client(okHttpClient)
-                  .addConverterFactory(GsonConverterFactory.create())
-                  .build()
-
-              // Create JSON using JSONObject
-              val jsonObject = JSONObject()
-              jsonObject.put("user_id", "4571")
-              println("GetTrails Input = $jsonObject")
-
-
-              val mediaType = "application/json".toMediaTypeOrNull()
-              val requestBody = jsonObject.toString().toRequestBody(mediaType)
-
-
-              this@DiscoverScreenActivity.runOnUiThread(Runnable {
-                  CoroutineScope(Dispatchers.IO).launch {
-
-                      // Create Service
-                      val service = retrofit.create(APIService::class.java)
-
-                      val response = service.getTrailsList(accessToken, requestBody)
-
-                      if (response.isSuccessful) {
-                          if (response.body()!!.status) {
-
-
-                              items = response.body()?.message
-                              if (items != null) {
-
-                                  for (i in 0 until items!!.count()) {
-                                      markers = items!![i].markers
-                                      for (j in 0 until markers!!.count()) {
-                                          val latLng1 = LatLng(
-                                              markers!![j].latitude.toDouble(),
-                                              markers!![j].longitude.toDouble()
-                                          )
-                                          trailName = markers!![j].name
-
-                                          runOnUiThread {
-                                              mMap.addMarker(
-                                                  MarkerOptions().position(latLng1)
-                                                      .icon(
-                                                          BitmapDescriptorFactory.fromResource(
-                                                              poi_breadcrumbs_marker_undiscovered_1
-                                                          )
-                                                      )
-                                              )
-
-                                          }
-                                      }
-                                  }
-
-                                  trailsListAdapter = TrailsListAdapter(markers!!)
-                                  trailsRecyclerview.adapter = trailsListAdapter
-
-
-                              }
-                          }
-                      }
-
-
-                  }
-              })
-
-
-          } catch (e: Exception) {
-              e.printStackTrace()
-          }
-
-      }*/
 
     private fun getTrailDetails() {
         try {
@@ -2152,8 +1770,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             val mediaType = "application/json".toMediaTypeOrNull()
             val requestBody = jsonObject.toString().toRequestBody(mediaType)
 
-
-
             CoroutineScope(Dispatchers.IO).launch {
 
                 // Create Service
@@ -2173,7 +1789,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
                             if (CommonData.getTrailsData != null) {
 
-                                availableTrailsListView()
+
                             }
 
                         }
@@ -2212,7 +1828,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
     }
 
-    fun selectedMarker(pos: Int) {
+    private fun selectedMarker(pos: Int) {
 
 
         isSelectedMarker = true
@@ -2300,6 +1916,18 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 )
             )
 
+            if(!isMarkerClicked)
+            {
+                val from = resources.getString(R.string.take_me_there)
+                startActivity(
+                    Intent(
+                        this@DiscoverScreenActivity,
+                        DiscoverDetailsScreenActivity::class.java
+                    ).putExtra("from", from)
+                )
+            }
+
+
         } else {
             println("selectedPOIDiscoverId ELSE= $selectedPOIDiscoverId")
             markerWindow_background.background = resources.getDrawable(trail_banner_discovered)
@@ -2318,6 +1946,19 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
 
             takeMeBtn.visibility = View.GONE
+
+            if(!isMarkerClicked)
+            {
+                val from = "discovered"
+                startActivity(
+                    Intent(
+                        this@DiscoverScreenActivity,
+                        DiscoverDetailsScreenActivity::class.java
+                    ).putExtra("from", from)
+
+                )
+            }
+
         }
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng1))
@@ -2330,29 +1971,10 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
     val tempMarkerPosition: Int = 0
     var iconPosition = 1
-    var isChangedIcon = false
+
     var reverse = false
     var markerAnimationRunnable = object : Runnable {
 
-        /* override fun run() {
-             //println("Just::::::::::::::::::::::::: isChangedIcon  $isChangedIcon")
-             isChangedIcon = if (isChangedIcon){
-                 clickedMarker?.setIcon(
-                     BitmapDescriptorFactory.fromResource(
-                         poi_breadcrumbs_marker_undiscovered_2)
-                 )
-                 false
-
-             }else{
-                 clickedMarker?.setIcon(
-                     BitmapDescriptorFactory.fromResource(
-                         poi_breadcrumbs_marker_undiscovered_1)
-                 )
-                 true
-             }
-             markerAnimationHandler.postDelayed(this, 1000)
-
-         } */
 
         override fun run() {
             try {
@@ -2528,20 +2150,242 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         when (reason) {
             GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE -> {
-                //  Toast.makeText(this, "The user gestured on the map.", Toast.LENGTH_SHORT).show()
 
                 isGesturedOnMap = true
             }
             GoogleMap.OnCameraMoveStartedListener.REASON_API_ANIMATION -> {
-//                Toast.makeText(this, "The user tapped something on the map.", Toast.LENGTH_SHORT)
-//                    .show()
-
 
             }
             GoogleMap.OnCameraMoveStartedListener.REASON_DEVELOPER_ANIMATION -> {
-                // Toast.makeText(this, "The app moved the camera.", Toast.LENGTH_SHORT).show()
+
             }
         }
     }
 
+
+
+    private fun getUserDetails() {
+
+        try {
+
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+                .build()
+
+
+            // Create Retrofit
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(resources.getString(R.string.staging_url))
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            // Create JSON using JSONObject
+
+            val jsonObject = JSONObject()
+            jsonObject.put("user_id", sharedPreference.getSession("login_id"))
+
+            println("getUserDetails Url = ${resources.getString(R.string.staging_url)}")
+            println("getUserDetails Input = $jsonObject")
+
+
+            val mediaType = "application/json".toMediaTypeOrNull()
+            val requestBody = jsonObject.toString().toRequestBody(mediaType)
+
+
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                // Create Service
+                val service = retrofit.create(APIService::class.java)
+
+                val response = service.getUserDetails(
+                    resources.getString(R.string.api_access_token),
+                    requestBody
+                )
+
+
+                if (response.isSuccessful) {
+                    if (response.body()!!.status) {
+                        if (response.body()!!.message != null) {
+
+                            CommonData.getUserDetails = response.body()?.message
+
+                            println("GetUseDetails = ${CommonData.getUserDetails!!.experience}")
+
+                            sharedPreference.saveSession("player_experience_points",CommonData.getUserDetails!!.experience)
+                            sharedPreference.saveSession("player_register_date",CommonData.getUserDetails!!.created)
+                            sharedPreference.saveSession("player_user_name",CommonData.getUserDetails!!.username)
+                            sharedPreference.saveSession("player_email_id",CommonData.getUserDetails!!.email)
+                            sharedPreference.saveSession("player_id",CommonData.getUserDetails!!.id)
+
+                            startActivity(
+                                Intent(
+                                    this@DiscoverScreenActivity,
+                                    DiscoverScreenActivity::class.java
+                                ).putExtra("isFromLogin","yes")
+                            )
+                            overridePendingTransition(
+                                R.anim.anim_slide_in_left,
+                                R.anim.anim_slide_out_left
+                            )
+                            finish()
+                        } else {
+
+                        }
+                    }
+                }
+            }
+
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+    private fun calculateUserLevel(exp:Int)
+    {
+        when (exp) {
+            in 1000..1999 -> { // 1000 thresh
+                ranking = "RECRUIT"
+                level = 2
+                base = 1000
+                nextLevel = 2000
+            }
+            in 2000..2999 -> { // 1000 thresh
+                ranking = "RECRUIT"
+                level = 3
+                base = 2000
+                nextLevel = 3000
+            }
+            in 3000..3999 -> { // 1000 thresh
+                ranking = "RECRUIT"
+                level = 4
+                base = 3000
+                nextLevel = 4000
+            }
+            in 4000..5999 -> { // 2000 thresh
+                ranking = "RECRUIT"
+                level = 5
+                base = 4000
+                nextLevel = 6000
+            }
+            in 6000..7999 -> { // 2000 thresh
+                ranking = "RECRUIT"
+                level = 6
+                base = 6000
+                nextLevel = 8000
+            }
+            in 8000..9999 -> { // 2000 thresh
+                ranking = "RECRUIT"
+                level = 7
+                base = 8000
+                nextLevel = 10000
+            }
+            in 10000..11999 -> { // 2000 thresh
+                ranking = "RECRUIT"
+                level = 8
+                base = 10000
+                nextLevel = 12000
+            }
+            in 12000..13999 -> { // 2000 thresh
+                ranking = "RECRUIT"
+                level = 9
+                base = 12000
+                nextLevel = 14000
+            }
+            in 14000..16999 -> { // 2000 thresh
+                ranking = "NAVIGATOR"
+                level = 10
+                base = 14000
+                nextLevel = 17000
+                 
+            }
+            in 17000..20499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 11
+                base = 17000
+                nextLevel = 20500
+                
+            }
+            in 20500..24499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 12
+                base = 20500
+                nextLevel = 24500
+                 
+            }
+            in 24500..28499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 13
+                base = 24500
+                nextLevel = 28500
+                 
+            }
+            in 28500..33499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 14
+                base = 28500
+                nextLevel = 33500
+                
+            }
+            in 33500..38999 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 15
+                base = 33500
+                nextLevel = 39000
+                
+            }
+            in 39000..44999 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 16
+                base = 39000
+                nextLevel = 45000
+                
+            }
+            in 45000..51499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 17
+                base = 45000
+                nextLevel = 51500
+                
+            }
+            in 51500..58499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 18
+                base = 51500
+                nextLevel = 58500
+                
+            }
+            in 58500..65999 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 19
+                base = 58500
+                nextLevel = 66000
+                
+            }
+            in 66000..73999 -> { // 2000 thresh
+                ranking = "Captain"
+                level = 20
+                base = 66000
+                nextLevel = 74000
+
+            }
+        }
+        levelTextView.text="$ranking Lv. $level"
+
+        var expToLevel=(nextLevel-base)-(exp-base)
+
+        println("expToLevel= $expToLevel")
+        sharedPreference.saveSession("level_text_value",levelTextView.text.toString())
+        sharedPreference.saveSession("expTo_level_value",expToLevel)
+        sharedPreference.saveSession("xp_point_base_value",base)
+        sharedPreference.saveSession("xp_point_nextLevel_value",nextLevel)
+        sharedPreference.saveSession("lv_value","LV ${level+1}")
+
+    }
 }

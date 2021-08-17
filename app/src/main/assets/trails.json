@@ -1,0 +1,270 @@
+{
+  "status": true,
+  "message": [
+    {
+      "id": "4",
+      "user_id": "54",
+      "client_companies_id": "1",
+      "name": "PIONEER TRAIL",
+      "banner_url": "uploads/trails/4/pioneer_trail_banner_details_screen.png",
+      "description": "We're about to embark on a new journey with Breadcrumbs! With a fresh new look and experience, the Pioneer trail features locations around Tai Seng to show how they all can work together to help you discover the area. Stand a chance to win a mystery reward!",
+      "startdate": "2020-11-26 00:00:00",
+      "enddate": "2020-12-27 23:59:00",
+      "map_icon_url": "uploads/trails/4/map_0_v3.png",
+      "map_icon_clear_url": "uploads/trails/4/map_1_v3.png",
+      "map_icon_dt_url": "uploads/trails/4/map_dt_0_v3.png",
+      "map_icon_dt_clear_url": "uploads/trails/4/map_dt_1_v3.png",
+      "map_icon_ar_url": "uploads/trails/4/mapar_0_v3.png",
+      "map_icon_ar_clear_url": "uploads/trails/4/mapar_1_v3.png",
+      "map_icon_ar_dt_url": "uploads/trails/4/mapar_dt_0_v3.png",
+      "map_icon_ar_dt_clear_url": "uploads/trails/4/mapar_dt_1_v3.png",
+      "grid_icon_url": "",
+      "polygon": "[{\"longitude\":103.8850444,\"latitude\":1.3372528},{\"longitude\":103.8849452,\"latitude\":1.3370798},{\"longitude\":103.8849546,\"latitude\":1.337057},{\"longitude\":103.8848889,\"latitude\":1.3369417},{\"longitude\":103.885035,\"latitude\":1.3368599},{\"longitude\":103.8851584,\"latitude\":1.3370839},{\"longitude\":103.8850927,\"latitude\":1.3372287}]",
+      "map_style": "[{\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#466572\"}]},{\"elementType\":\"geometry.stroke\",\"stylers\":[{\"color\":\"#508cae\"}]},{\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#746855\"}]},{\"elementType\":\"labels.text.stroke\",\"stylers\":[{\"color\":\"#242f3e\"}]},{\"featureType\":\"administrative.locality\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#d59563\"}]},{\"featureType\":\"poi\",\"elementType\":\"labels.text\",\"stylers\":[{\"visibility\":\"off\"}]},{\"featureType\":\"poi\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#d59563\"}]},{\"featureType\":\"poi.business\",\"stylers\":[{\"visibility\":\"off\"}]},{\"featureType\":\"poi.park\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#2d4e62\"}]},{\"featureType\":\"poi.park\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#6b9a76\"}]},{\"featureType\":\"road\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#5a594e\"}]},{\"featureType\":\"road\",\"elementType\":\"geometry.stroke\",\"stylers\":[{\"color\":\"#453f30\"}]},{\"featureType\":\"road\",\"elementType\":\"labels.icon\",\"stylers\":[{\"visibility\":\"off\"}]},{\"featureType\":\"road\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#9ca5b3\"}]},{\"featureType\":\"road.highway\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#746855\"}]},{\"featureType\":\"road.highway\",\"elementType\":\"geometry.stroke\",\"stylers\":[{\"color\":\"#1f2835\"}]},{\"featureType\":\"road.highway\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#f3d19c\"}]},{\"featureType\":\"transit\",\"stylers\":[{\"visibility\":\"off\"}]},{\"featureType\":\"transit\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#2f3948\"}]},{\"featureType\":\"transit.station\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#d59563\"}]},{\"featureType\":\"water\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#437f9d\"}]},{\"featureType\":\"water\",\"elementType\":\"labels.text.fill\",\"stylers\":[{\"color\":\"#515c6d\"}]},{\"featureType\":\"water\",\"elementType\":\"labels.text.stroke\",\"stylers\":[{\"color\":\"#17263c\"}]}]",
+      "banner_bg": "uploads/trails/4/trail_bg.png",
+      "text_colors": "{\"general\":\"#FFFFFF\",\"borderColor\":\"#FFFFFF\", \"trail_grid_bg\": \"uploads/trails/4/trail_grid_bg.png\", \"has_custom_map\": true}",
+      "direct_bearing": "1",
+      "created": "2020-10-06 07:16:09",
+      "updated": "2020-10-06 07:16:09",
+      "poi_count": "17",
+      "completed_poi_count": "0",
+      "profile_picture": "uploads/54/ns_logo.png",
+      "username": "BREADCRUMBS",
+      "uid": "54",
+      "markers": [
+        {
+          "id": "1",
+          "trail_id": "4",
+          "resource_index": "0",
+          "name": "Barking Deer",
+          "latitude": "1.40292400",
+          "longitude": "103.78988800"
+        },
+        {
+          "id": "2",
+          "trail_id": "4",
+          "resource_index": "1",
+          "name": "Common Palm Civet",
+          "latitude": "1.40268100",
+          "longitude": "103.78991800"
+        },
+        {
+          "id": "3",
+          "trail_id": "4",
+          "resource_index": "2",
+          "name": "Great Cormorant",
+          "latitude": "1.40259300",
+          "longitude": "103.78974600"
+        },
+        {
+          "id": "4",
+          "trail_id": "4",
+          "resource_index": "3",
+          "name": "Indian Gharial",
+          "latitude": "1.40221600",
+          "longitude": "103.79028900"
+        },
+        {
+          "id": "5",
+          "trail_id": "4",
+          "resource_index": "4",
+          "name": "Striped Hyaena",
+          "latitude": "1.40157000",
+          "longitude": "103.79031100"
+        },
+        {
+          "id": "6",
+          "trail_id": "4",
+          "resource_index": "5",
+          "name": "Clouded Leopard",
+          "latitude": "1.40084300",
+          "longitude": "103.78995600"
+        },
+        {
+          "id": "7",
+          "trail_id": "4",
+          "resource_index": "6",
+          "name": "Binturong",
+          "latitude": "1.40080100",
+          "longitude": "103.79036900"
+        },
+        {
+          "id": "8",
+          "trail_id": "4",
+          "resource_index": "7",
+          "name": "Masked Palm Civet",
+          "latitude": "1.40099700",
+          "longitude": "103.79017200"
+        },
+        {
+          "id": "9",
+          "trail_id": "4",
+          "resource_index": "8",
+          "name": "Small-toothed Palm Civet",
+          "latitude": "1.40120300",
+          "longitude": "103.79071900"
+        },
+        {
+          "id": "10",
+          "trail_id": "4",
+          "resource_index": "9",
+          "name": "Slow Loris",
+          "latitude": "1.40049900",
+          "longitude": "103.79056500"
+        },
+        {
+          "id": "11",
+          "trail_id": "4",
+          "resource_index": "10",
+          "name": "Leopard",
+          "latitude": "1.40117700",
+          "longitude": "103.79079400"
+        },
+        {
+          "id": "12",
+          "trail_id": "4",
+          "resource_index": "11",
+          "name": "Porpupine",
+          "latitude": "1.40089800",
+          "longitude": "103.79065500"
+        },
+        {
+          "id": "13",
+          "trail_id": "4",
+          "resource_index": "12",
+          "name": "Northern Giant Cloud Rat",
+          "latitude": "1.40047100",
+          "longitude": "103.79062100"
+        },
+        {
+          "id": "14",
+          "trail_id": "4",
+          "resource_index": "13",
+          "name": "Hog Badger",
+          "latitude": "1.40080100",
+          "longitude": "103.79032600"
+        },
+        {
+          "id": "15",
+          "trail_id": "4",
+          "resource_index": "14",
+          "name": "Giant Flying Squirrel",
+          "latitude": "1.40087900",
+          "longitude": "103.79018600"
+        },
+        {
+          "id": "16",
+          "trail_id": "4",
+          "resource_index": "15",
+          "name": "Asiatic Lion",
+          "latitude": "1.40106900",
+          "longitude": "103.78960500"
+        },
+        {
+          "id": "17",
+          "trail_id": "4",
+          "resource_index": "16",
+          "name": "Leopard Cat",
+          "latitude": "1.40131300",
+          "longitude": "103.79052000"
+        },
+        {
+          "id": "18",
+          "trail_id": "4",
+          "resource_index": "17",
+          "name": "Asian Small-clawed Otter",
+          "latitude": "1.40079600",
+          "longitude": "103.79026500"
+        },
+        {
+          "id": "19",
+          "trail_id": "4",
+          "resource_index": "18",
+          "name": "Sloth Bear",
+          "latitude": "1.40046800",
+          "longitude": "103.78879600"
+        },
+        {
+          "id": "20",
+          "trail_id": "4",
+          "resource_index": "19",
+          "name": "Spotted Hyaena",
+          "latitude": "1.40063400",
+          "longitude": "103.78835800"
+        },
+        {
+          "id": "21",
+          "trail_id": "4",
+          "resource_index": "20",
+          "name": "Bongo",
+          "latitude": "1.40104500",
+          "longitude": "103.78781400"
+        },
+        {
+          "id": "22",
+          "trail_id": "4",
+          "resource_index": "21",
+          "name": "Babirusa",
+          "latitude": "1.40130000",
+          "longitude": "103.78774900"
+        },
+        {
+          "id": "23",
+          "trail_id": "4",
+          "resource_index": "22",
+          "name": "Malayan Tiger",
+          "latitude": "1.40222700",
+          "longitude": "103.78816700"
+        },
+        {
+          "id": "25",
+          "trail_id": "4",
+          "resource_index": "24",
+          "name": "Wallaby",
+          "latitude": "1.40269500",
+          "longitude": "103.78795500"
+        },
+        {
+          "id": "26",
+          "trail_id": "4",
+          "resource_index": "25",
+          "name": "Brush-Tailed Possum",
+          "latitude": "1.40311900",
+          "longitude": "103.78814800"
+        },
+        {
+          "id": "27",
+          "trail_id": "4",
+          "resource_index": "26",
+          "name": "Sugar Glider",
+          "latitude": "1.40303900",
+          "longitude": "103.78816500"
+        },
+        {
+          "id": "28",
+          "trail_id": "4",
+          "resource_index": "27",
+          "name": "Cape Buffalo",
+          "latitude": "1.40073500",
+          "longitude": "103.78816800"
+        },
+        {
+          "id": "29",
+          "trail_id": "4",
+          "resource_index": "28",
+          "name": "Hippopotamus",
+          "latitude": "1.40123700",
+          "longitude": "103.78753900"
+        },
+        {
+          "id": "30",
+          "trail_id": "4",
+          "resource_index": "29",
+          "name": "Entrance Courtyard",
+          "latitude": "1.40394400",
+          "longitude": "103.78916700"
+        }
+      ]
+    }
+  ]
+}

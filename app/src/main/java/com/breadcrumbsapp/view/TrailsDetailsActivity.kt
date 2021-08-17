@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.TrailDetailsLayoutBinding
 import com.breadcrumbsapp.model.GetTrailsModel
-import com.breadcrumbsapp.view.rewards.GetRewardsDataModel
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.trail_details_layout.*
 
@@ -30,7 +29,7 @@ class TrailsDetailsActivity:AppCompatActivity()
     private var trailNameString: Array<String> = arrayOf("PIONEER TRAIL","WILD ABOUT TWILIGHT TRAIL","ANTHOLOGY TRAIL")
 
     private lateinit var getTrailsModelList:GetTrailsModel.Message
-    private lateinit var binding:TrailDetailsLayoutBinding
+    private lateinit var binding: TrailDetailsLayoutBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= TrailDetailsLayoutBinding.inflate(layoutInflater)
@@ -50,8 +49,9 @@ class TrailsDetailsActivity:AppCompatActivity()
         // Live Data....
         var localImageUri =
             resources.getString(R.string.staging_url) + getTrailsModelList.banner_url
+        println("localImageUri $localImageUri")
         Glide.with(applicationContext).load(localImageUri).into(trail_details_image)
-        Glide.with(applicationContext).load(trailIcons[1]).into(trail_details_trailIcon)
+        Glide.with(applicationContext).load(trailIcons[0]).into(trail_details_trailIcon)
         tv_trail_name_banner.text=getTrailsModelList.name
         trail_details_about_content.text=getTrailsModelList.description
         var localImageUriCreatorPost =

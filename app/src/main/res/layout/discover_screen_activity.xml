@@ -106,13 +106,14 @@
                             android:background="@drawable/level_name_bg1">
 
                             <TextView
+                                android:id="@+id/level_textView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
                                 android:fontFamily="@font/claritycity_bold"
                                 android:paddingStart="5dp"
                                 android:paddingEnd="10dp"
-                                android:text="Recruit Lv.1"
+                                android:text="Sample Data"
                                 android:textAllCaps="true"
                                 android:textColor="@color/white"
                                 android:textSize="8sp" />

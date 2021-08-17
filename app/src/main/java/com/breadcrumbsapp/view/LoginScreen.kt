@@ -638,20 +638,13 @@ class LoginScreen : AppCompatActivity() {
 
                             println("GetUseDetails = ${CommonData.getUserDetails!!.experience}")
 
+                            sharedPreference.saveSession("player_experience_points",CommonData.getUserDetails!!.experience)
                             sharedPreference.saveSession("player_register_date",CommonData.getUserDetails!!.created)
                             sharedPreference.saveSession("player_user_name",CommonData.getUserDetails!!.username)
                             sharedPreference.saveSession("player_email_id",CommonData.getUserDetails!!.email)
                             sharedPreference.saveSession("player_id",CommonData.getUserDetails!!.id)
 
-                            /*  try {
-                                  Toast.makeText(
-                                      applicationContext,
-                                      "Login Successful",
-                                      Toast.LENGTH_SHORT
-                                  ).show()
-                              } catch (e: Exception) {
-                                  e.printStackTrace()
-                              }*/
+
 
 
                             startActivity(
@@ -709,6 +702,6 @@ LOGIN API RESPONSE...
     "register_platform": "1",
     "created": "2021-04-19 03:21:37",
     "updated": "2021-04-19 03:21:37",
-    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjQ3MDAiLCJlbWFpbCI6ImNha3NoaW5lQGdtYWlsLmNvbSIsInByb2ZpbGVfcGljdHVyZSI6IiIsInVzZXJuYW1lIjoiQXJ1biBLdW1hciIsInBhc3N3b3JkIjoiIiwicmFuayI6IjEiLCJmaW5pc2hlZF9wb2lzIjoiMCIsImZpbmlzaGVkX3RyYWlscyI6IjAiLCJleHBlcmllbmNlIjoiMjUwIiwiaXNfc3BvbnNvciI6IjAiLCJyZWdpc3Rlcl9wbGF0Zm9ybSI6IjEiLCJjcmVhdGVkIjoiMjAyMS0wNC0xOSAwMzoyMTozNyIsInVwZGF0ZWQiOiIyMDIxLTA0LTE5IDAzOjIxOjM3IiwiQVBJX1RJTUUiOjE2MjYxMDM2NTl9.2OQ95lViqFOh7dGNn8cC3MToP8glv-qznlWR0URghlA"
+    "token": "token value removed from here for security"
 }
 }*/

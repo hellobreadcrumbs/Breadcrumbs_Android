@@ -18,18 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/rewards_details_screen_info"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="end"
-        android:layout_margin="20dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/details_screen_info"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
@@ -40,20 +28,25 @@
         android:text="Reward Details"
         android:textColor="#4B3B30"
         android:textSize="@dimen/trail_tutorial_sub_text_size"
+
+
         app:layout_constraintBottom_toBottomOf="@+id/reward_details_screen_back_button"
-        app:layout_constraintEnd_toStartOf="@id/rewards_details_screen_info"
-        app:layout_constraintStart_toEndOf="@id/reward_details_screen_back_button"
-        app:layout_constraintTop_toTopOf="@+id/rewards_details_screen_info" />
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/reward_details_screen_back_button" />
 
     <ImageView
         android:id="@+id/iv_reward_details_image"
         android:layout_width="280dp"
         android:layout_height="130dp"
         android:layout_marginTop="20dp"
-        android:contentDescription="rewards"
+
         android:scaleType="fitXY"
-        app:layout_constraintEnd_toStartOf="@id/rewards_details_screen_info"
-        app:layout_constraintStart_toEndOf="@id/reward_details_screen_back_button"
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reward_details_screen_back_button" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -92,15 +85,17 @@
         android:background="@drawable/round_orange_button"
         android:fontFamily="@font/claritycity_semibold"
         android:gravity="center_horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         android:paddingStart="50dp"
+        android:paddingTop="10dp"
         android:paddingEnd="50dp"
+        android:paddingBottom="10dp"
         android:text="REEDEM"
         android:textColor="@color/white"
         android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
-        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
-        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ll_reward_details_title_desc" />
 
     <TextView
@@ -113,8 +108,10 @@
         android:text="DETAILS"
         android:textColor="#A5988B"
         android:textSize="@dimen/trail_notification_days_ago_text_size"
-        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
-        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_reward_details_redeem" />
 
     <TextView
@@ -127,8 +124,10 @@
         android:text="REDEEM BY 15 MAY 2021"
         android:textColor="#4B3B30"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
-        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_reward_details_redeem_details" />
 
 
@@ -136,24 +135,27 @@
         android:id="@+id/view_reward_details_top"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="14dp"
+        android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:background="#707070"
-        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
-        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_reward_details_redeem_date" />
 
     <LinearLayout
         android:id="@+id/ll_reward_details_show_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="33dp"
         android:layout_marginTop="14dp"
-        android:layout_marginEnd="33dp"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
-        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_reward_details_top">
 
         <ImageView
@@ -162,7 +164,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:contentDescription="rewards"
-            android:src="@drawable/wild_about_twlight_icon" />
+            android:src="@drawable/breadcrumbs_trail" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -175,24 +177,25 @@
 
             <TextView
                 android:id="@+id/tv_reward_details_show_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/claritycity_bold"
-
+                android:gravity="center_horizontal"
                 android:maxLines="2"
-                android:text="WILD ABOUT TWILIGHT TRAIL"
+                android:text="PIONEER TRAIL"
                 android:textColor="#4B3B30"
-                android:textSize="12sp" />
+                android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
 
             <TextView
                 android:id="@+id/tv_reward_details_show_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/claritycity_light"
-
-                android:text="Receive Twilight Explorer achievement."
+                android:fontFamily="@font/dinish_regular"
+                android:layout_marginTop="5dp"
+                android:textStyle="italic"
+                android:text="Receive PIONEER TRAIL achievement."
                 android:textColor="#4B3B30"
-                android:textSize="12sp" />
+                android:textSize="@dimen/discover_screen_poi_distance_text_size"  />
 
         </LinearLayout>
 
@@ -210,12 +213,12 @@
         android:id="@+id/view_reward_details_bottom"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="14dp"
-        android:layout_marginEnd="20dp"
         android:background="#707070"
-        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
-        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ll_reward_details_show_data" />
 
     <TextView
@@ -228,8 +231,10 @@
         android:text="TERMS &amp; CONDITIONS"
         android:textColor="#A5988B"
         android:textSize="@dimen/discovery_screen_player_name_text_size"
-        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
-        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_reward_details_bottom" />
 
     <LinearLayout
@@ -239,8 +244,8 @@
         android:layout_marginTop="13dp"
         android:layout_marginEnd="33dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="@id/rewards_details_screen_info"
-        app:layout_constraintStart_toStartOf="@id/reward_details_screen_back_button"
+
+
         app:layout_constraintTop_toBottomOf="@id/tv_reward_details_terms_conditions">
 
         <TextView

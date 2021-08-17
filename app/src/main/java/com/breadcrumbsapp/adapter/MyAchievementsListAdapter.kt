@@ -60,17 +60,11 @@ internal class MyAchievementsListAdapter(getFeed: List<GetUserAchievementsModel.
         Glide.with(context).load(localImagePath).into(holder.trailIcon)
         println("Adapter Size = ${getFeedsLocalObj.size}")
 
-
-        for (i in getFeedsLocalObj.indices) {
-
             if (getFeedsLocalObj[position].pois[position].uc_id != null) {
                 ++completedPOI
             }
-        }
-        println("completedPOI = ${getFeedsLocalObj[position].title} :: $completedPOI")
-        println("completedPOI = ${getFeedsLocalObj[position].title} ::${getFeedsLocalObj[position].pois.size}")
+         
 
-        for (i in getFeedsLocalObj.indices) {
 
             if (getFeedsLocalObj[position].ua_id != null) {
 
@@ -80,13 +74,7 @@ internal class MyAchievementsListAdapter(getFeed: List<GetUserAchievementsModel.
                 holder.progressBar.background =
                     context.resources.getDrawable(R.drawable.achievement_progress_full_bar_bg)
                 holder.progressBar.max = getFeedsLocalObj[position].pois.size
-                /*  ObjectAnimator.ofInt(
-                      holder.progressBar,
-                      "progress",
-                      getFeedsLocalObj[position].pois.size
-                  )
-                      .setDuration(100)
-                      .start()*/
+
             } else {
                 holder.completedPOICount.text =
                     "$completedPOI / ${getFeedsLocalObj[position].pois.size}"
@@ -100,7 +88,7 @@ internal class MyAchievementsListAdapter(getFeed: List<GetUserAchievementsModel.
                         .into(holder.trailIcon)
                 }
             }
-        }
+
 
         println("completedTrail = ${getFeedsLocalObj[position].title} :: ${getFeedsLocalObj[position].ua_id}")
 

@@ -31,9 +31,13 @@ class MyAchievementScreenDetailsActivity : AppCompatActivity() {
 
         achievement_name.text=getUserAchievementsModel.title
 
-        println("isLocked $isLocked")
+
+        Toast.makeText(applicationContext,"$isLocked",Toast.LENGTH_SHORT).show()
         if(isLocked)
         {
+
+            achievement_details_lock_layout.visibility=View.VISIBLE
+            achievement_details_unlock_layout.visibility=View.GONE
 
             Glide.with(applicationContext).load(R.drawable.wildlife_warrior_locked_icon).into(achievement_image)
 
@@ -43,6 +47,9 @@ class MyAchievementScreenDetailsActivity : AppCompatActivity() {
         }
         else
         {
+            achievement_details_lock_layout.visibility=View.GONE
+            achievement_details_unlock_layout.visibility=View.VISIBLE
+
             Glide.with(applicationContext).load(R.drawable.achievement_details_aardvark_icon).into(achievement_image)
 
             achievement_details_lock_progress_bar.max=100
