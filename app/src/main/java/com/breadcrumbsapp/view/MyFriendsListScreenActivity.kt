@@ -7,16 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.breadcrumbsapp.R
-import com.breadcrumbsapp.adapter.FeedPostAdapter
-import com.breadcrumbsapp.adapter.RecommendedFriendsAdapter
+import com.breadcrumbsapp.adapter.GetFriendListAdapter
 import com.breadcrumbsapp.databinding.FriendsListLayoutBinding
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.util.CommonData
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.feed_layout.*
-import kotlinx.android.synthetic.main.feed_layout.feedList
 import kotlinx.android.synthetic.main.friends_list_layout.*
-import kotlinx.android.synthetic.main.leader_board_activity_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,7 +30,7 @@ import java.util.concurrent.TimeUnit
 class MyFriendsListScreenActivity:AppCompatActivity()
 {
     private var interceptor = intercept()
-    private lateinit var recommendedFriendsAdapter:RecommendedFriendsAdapter
+    private lateinit var getFriendListAdapter:GetFriendListAdapter
     private lateinit var binding:FriendsListLayoutBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,14 +66,14 @@ class MyFriendsListScreenActivity:AppCompatActivity()
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
 
             val jsonObject = JSONObject()
-            jsonObject.put("id", "198")
+            jsonObject.put("id", "66")
 
             println("getFeedPostData Url = ${resources.getString(R.string.staging_url)}")
             println("getFeedPostData Input = $jsonObject")
@@ -93,7 +89,7 @@ class MyFriendsListScreenActivity:AppCompatActivity()
                 // Create Service
                 val service = retrofit.create(APIService::class.java)
 
-                val response = service.getRecommendedFriends(
+                val response = service.getUserFriendList(
                     resources.getString(R.string.api_access_token),
                     requestBody
                 )
@@ -101,16 +97,17 @@ class MyFriendsListScreenActivity:AppCompatActivity()
                 if (response.isSuccessful) {
                     if (response.body()!!.status) {
 
-                        CommonData.getRecommendedFriendsModel = response.body()?.message
+                        CommonData.getFriendListModel = response.body()?.message
 
                         runOnUiThread {
 
-                            if (CommonData.getRecommendedFriendsModel != null) {
+                            if (CommonData.getFriendListModel != null) {
 
+                                println("Friends Count :: ${CommonData.getFriendListModel!!.size}")
                                 friend_list_screen_loaderImage.visibility=View.GONE
 
-                                recommendedFriendsAdapter = RecommendedFriendsAdapter(CommonData.getRecommendedFriendsModel!!)
-                                friends_list_rv.adapter = recommendedFriendsAdapter
+                                getFriendListAdapter = GetFriendListAdapter(CommonData.getFriendListModel!!)
+                                friends_list_rv.adapter = getFriendListAdapter
 
                             }
 

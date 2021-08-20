@@ -2,8 +2,6 @@ package com.breadcrumbsapp.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,11 +15,9 @@ import com.breadcrumbsapp.util.SessionHandlerClass
 import com.breadcrumbsapp.view.profile.ProfileScreenActivity
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.feed_layout.*
-import kotlinx.android.synthetic.main.user_profile_screen_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
@@ -36,7 +32,7 @@ import java.util.concurrent.TimeUnit
 class FeedPostActivity : AppCompatActivity() {
     private var interceptor = intercept()
     private lateinit var binding: FeedLayoutBinding
-    private lateinit var feedListAdapter: FeedPostAdapter
+    private lateinit var feedPostAdapter: FeedPostAdapter
     private lateinit var sharedPreference: SessionHandlerClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,21 +79,18 @@ class FeedPostActivity : AppCompatActivity() {
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
             // Create JSON using JSONObject
-            println(
-                "Login : ${
-                    sharedPreference.getSession("login_id")
-                }"
-            )
-            val jsonObject = JSONObject()
-            jsonObject.put("user_id", sharedPreference.getSession("login_id"))
 
-            println("getFeedPostData Url = ${resources.getString(R.string.staging_url)}")
+            val jsonObject = JSONObject()
+           jsonObject.put("user_id", sharedPreference.getSession("login_id"))
+          //  jsonObject.put("user_id","66")
+
+
             println("getFeedPostData Input = $jsonObject")
 
 
@@ -124,8 +117,8 @@ class FeedPostActivity : AppCompatActivity() {
                         runOnUiThread {
 
                             if (CommonData.getFeedData != null) {
-                                feedListAdapter = FeedPostAdapter(CommonData.getFeedData!!)
-                                feedList.adapter = feedListAdapter
+                                feedPostAdapter = FeedPostAdapter(CommonData.getFeedData!!,sharedPreference.getSession("login_id"))
+                                feedList.adapter = feedPostAdapter
 
                             }
 

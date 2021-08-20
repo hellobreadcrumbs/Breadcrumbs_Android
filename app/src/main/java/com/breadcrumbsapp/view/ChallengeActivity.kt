@@ -34,6 +34,8 @@ class ChallengeActivity : AppCompatActivity() {
 
         Glide.with(applicationContext).load(poiImage).into(binding.selfieImageView)
 
+        println("challengeName :: $challengeName")
+
         if (challengeName == "quiz") {
             challengeIcon.setImageDrawable(getDrawable(R.drawable.quiz_challenge_icon))
             challengeTitle.text = resources.getString(R.string.quiz_challenge)

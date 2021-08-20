@@ -149,7 +149,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private lateinit var trailName: String
     private lateinit var poiDistance: TextView
 
-    var selectedPOIName: String = ""
+    private var selectedPOIName: String = ""
     private var selectedPOIID: String = ""
     private var selectedPOIImage: String = ""
     private var selectedPOIDuration: String = ""
@@ -162,8 +162,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private var firstRadioChecked: Boolean = false
     private var secondRadioChecked: Boolean = false
     private var polyline: Polyline? = null
-    private var isMarkerClicked:Boolean=false
-    private var isDrawPathClicked:Boolean=false
+    private var isMarkerClicked: Boolean = false
+    private var isDrawPathClicked: Boolean = false
 
 
     // A reference to the service used to get location updates.
@@ -178,7 +178,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private var broadcastReceiver: BroadcastReceiver? = null
 
 
-    var currentLocationMarker: Marker? = null
+    private var currentLocationMarker: Marker? = null
     private var clickedMarker: Marker? = null
     private var markerPOI: Marker? = null
 
@@ -191,33 +191,35 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
     private var searchAdapter: POI_SearchAdapter? = null
     lateinit var recyclerView: RecyclerView
-    private lateinit var levelTextView:TextView
+    private lateinit var levelTextView: TextView
 
     private var matchedPOIMarker: ArrayList<GetEventsModel.Message> = arrayListOf()
 
     private var locationPermissionGranted = false
 
 
-    var distanceMatrixApiModelObj: ArrayList<DistanceMatrixApiModel> = arrayListOf()
+    private var distanceMatrixApiModelObj: ArrayList<DistanceMatrixApiModel> = arrayListOf()
 
     lateinit var distance: String
     lateinit var duration: String
 
-    var markerAnimationHandler = Handler(Looper.getMainLooper())
+    private var markerAnimationHandler = Handler(Looper.getMainLooper())
 
 
     private var isDiscovered: Boolean = false
     private var doubleBackToExitPressedOnce = false
-    var isSelectedMarker = false
-    var isGesturedOnMap = false
+    private var isSelectedMarker = false
+    private var isGesturedOnMap = false
 
-    var moreButtonClicked = 0
-    private lateinit var getTrailsData:GetTrailsModel
+    private var moreButtonClicked = 0
+    private lateinit var getTrailsData: GetTrailsModel
+
     //ranking,level,base,nextLevel
-    private var ranking:String=""
-    private var level:Int=0
-    private var base:Int=0
-    private var nextLevel:Int=0
+    private var ranking: String = ""
+    private var level: Int = 0
+    private var base: Int = 0
+    private var nextLevel: Int = 0
+    private lateinit var vibrator: Vibrator
     fun readJsonFromAssets(context: Context, filePath: String): String? {
         try {
             val source = context.assets.open(filePath).source().buffer()
@@ -243,7 +245,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         sharedPreference = SessionHandlerClass(applicationContext)
         trailTutorialAdapter = TrailTutorialAdapter()
-
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
 
         Glide.with(applicationContext).load(R.raw.loading).into(loadingImage)
@@ -277,19 +279,26 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             }
         }
         // Get the trail list
-    // getTrailDetails()
+        // getTrailDetails()
 
         val jsonFileString = readJsonFromAssets(applicationContext, "trails.json")
 
-        getTrailsData=   Gson().fromJson(jsonFileString, GetTrailsModel::class.java)
+        getTrailsData = Gson().fromJson(jsonFileString, GetTrailsModel::class.java)
         print("CommonData.getTrailsData = ${jsonFileString.toString()}")
-        CommonData.getTrailsData=getTrailsData.message
+        CommonData.getTrailsData = getTrailsData.message
 
+        getUserDetails()
 
+        // Getting Crash .. when login after install from slack ro gdrive
 
-
-        var expPoints:Int=Integer.parseInt(sharedPreference.getSession("player_experience_points"))
-        println("expPoints= $expPoints")
+        try {
+            var expPoints: Int =
+                Integer.parseInt(sharedPreference.getSession("player_experience_points"))
+            println("expPoints= $expPoints")
+            calculateUserLevel(expPoints)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
 
 
@@ -312,11 +321,10 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                             latLng = LatLng(lat!!.toDouble(), long!!.toDouble())
                             println("Updated Location : $latLng")
                             // if (takeMeBtn.text.equals(resources.getString(R.string.travelling))) {
-                          //  updateCurrentLocation(latLng)
+                            //  updateCurrentLocation(latLng)
                             //}
 
-                            if(isDrawPathClicked)
-                            {
+                            if (isDrawPathClicked) {
                                 updateCurrentLocation(latLng)
                             }
 
@@ -354,7 +362,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         trailsNameText = findViewById(R.id.trailsName)
         recyclerView = findViewById(R.id.recyclerView)
         levelTextView = findViewById(R.id.level_textView)
-        calculateUserLevel(expPoints)
+
         inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         if (!sharedPreference.getSession("player_name").equals("")) {
             playerName.text = sharedPreference.getSession("player_name")
@@ -553,7 +561,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         }
 
         trailsBtn.setOnClickListener {
-             availableTrailsListView()
+            availableTrailsListView()
 
         }
 
@@ -638,7 +646,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
             isGesturedOnMap = false
             isSelectedMarker = false
-            isDrawPathClicked=false
+            isDrawPathClicked = false
             //markerAnimationHandler.removeCallbacks(markerAnimationRunnable)
 
             searchButton.background = getDrawable(search_button)
@@ -882,15 +890,19 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             }
             println("Just:::::::::::::::::: distance  $distance")
             // discover area
-            if (distance.toDouble() in 0.0..15.0) {
+            if (distance.toDouble() in 0.0..285.0) {
 
                 Toast.makeText(this, "You Are Almost Reached", Toast.LENGTH_LONG).show()
                 takeMeBtn.visibility = View.VISIBLE
                 takeMeBtn.text = resources.getString(R.string.discover)
                 takeMeBtn.background = getDrawable(take_me_discover)
 
-
-                getUserDetails()
+                println("Vibrator Status = ${sharedPreference.getBoolean("isVibratorOn")}")
+                if (sharedPreference.getBoolean("isVibratorOn")) {
+                    vibrateOn()
+                } else {
+                    vibrateOff()
+                }
 
             }
 
@@ -994,9 +1006,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         mMap.setOnMapClickListener {
 
-            //  isSelectedMarker=false
-
-            println("Marker Clicked")
 
             isGesturedOnMap = false
 
@@ -1031,14 +1040,27 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
             if (isSelectedMarker) {
                 isSelectedMarker = false
-                clickedMarker?.remove()
-                clickedMarker = mMap.addMarker(
-                    MarkerOptions().position(latLng1).icon(
-                        BitmapDescriptorFactory.fromResource(
-                            poi_breadcrumbs_marker_undiscovered_1
+                clickedMarker!!.remove()
+
+                println("selectedPOIDiscoverId Clicking Map = $selectedPOIDiscoverId")
+                if (selectedPOIDiscoverId == null || selectedPOIDiscoverId == "") {
+                    clickedMarker = mMap.addMarker(
+                        MarkerOptions().position(latLng1).icon(
+                            BitmapDescriptorFactory.fromResource(
+                                poi_breadcrumbs_marker_undiscovered_1
+                            )
                         )
                     )
-                )
+                } else {
+                    clickedMarker = mMap.addMarker(
+                        MarkerOptions().position(latLng1).icon(
+                            BitmapDescriptorFactory.fromResource(
+                                poi_breadcrumbs_marker_discovered_1
+                            )
+                        )
+                    )
+                }
+
             }
 
             mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
@@ -1217,9 +1239,9 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         // val dialog = DialogFragment()
         val layoutParams: WindowManager.LayoutParams = dialog.window?.attributes!!
 
-              layoutParams.gravity = Gravity.TOP
-              layoutParams.x = 0
-              layoutParams.y = 160
+        layoutParams.gravity = Gravity.TOP
+        layoutParams.x = 0
+        layoutParams.y = 160
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
@@ -1336,7 +1358,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         }
 
 
-        val okButton = dialog.findViewById(R.id.okButton) as Button
+        val okButton = dialog.findViewById(R.id.doneButton) as TextView
 
         okButton.setOnClickListener(View.OnClickListener {
 
@@ -1450,7 +1472,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         if (CommonData.eventsModelMessage != null) {
             for (i in 0 until CommonData.eventsModelMessage!!.count()) {
                 if (i == p0.tag) {
-                    isMarkerClicked=true
+                    isMarkerClicked = true
                     selectedMarker(i)
                 }
             }
@@ -1464,7 +1486,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private fun drawPath() {
 
 
-        isDrawPathClicked=true
+        isDrawPathClicked = true
         takeMeBtn.background = resources.getDrawable(travelling_bg)
         takeMeBtn.text = resources.getString(R.string.travelling)
         markerWindowCloseButton.visibility = View.VISIBLE
@@ -1819,6 +1841,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         CommonData.eventsModelMessage?.let {
             for (i in it.indices) {
                 if (it[i].id == id) {
+                    isMarkerClicked=false
                     selectedMarker(i)
                     break
                 }
@@ -1847,11 +1870,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         trailsListLayout.visibility = View.GONE
         mapMainLayout.visibility = View.VISIBLE
 
-
-        //setMarkerBounce(p0)
-        //animateMarker(p0)
-
-
         takeMeBtn.text = resources.getString(R.string.take_me_there)
         poiDistance.text = distanceMatrixApiModelObj[pos].distance
         trailsNameText.text = CommonData.eventsModelMessage!![pos].title
@@ -1861,6 +1879,14 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         selectedPOIQuestion = CommonData.eventsModelMessage!![pos].ch_question
         selectedPOIChallengeType = CommonData.eventsModelMessage!![pos].ch_type
         selectedPOIARid = CommonData.eventsModelMessage!![pos].ar_id
+
+        if (CommonData.eventsModelMessage!![pos].ar_id == "null" || CommonData.eventsModelMessage!![pos].ar_id == null) {
+            println("selectedPOIARid = Before = $selectedPOIARid")
+            selectedPOIARid = "0"
+            println("selectedPOIARid = After = $selectedPOIARid")
+        } else {
+            println("selectedPOIARid = ELSE = $selectedPOIARid")
+        }
         selectedPOIDiscoverId = CommonData.eventsModelMessage!![pos].disc_id
         selectedPOIQrCode = CommonData.eventsModelMessage!![pos].qr_code
         // selectedPOIHintContent = CommonData.eventsModelMessage!![pos].hint
@@ -1868,11 +1894,10 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         selectedPOIDuration = distanceMatrixApiModelObj[pos].duration
         selectedPOIImage =
             resources.getString(R.string.staging_url) + CommonData.eventsModelMessage!![pos].poi_img
-        println("poiImage selectedPOIImage = $selectedPOIImage")
+        println("poi_ID selectedPOIID = $selectedPOIID")
         mapListToggleButton.isChecked = false
 
         try {
-
             sharedPreference.saveSession("selectedPOIName", selectedPOIName)
             sharedPreference.saveSession("selectedPOIID", selectedPOIID)
             sharedPreference.saveSession("poiDistance", poiDistance.text.toString())
@@ -1916,8 +1941,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 )
             )
 
-            if(!isMarkerClicked)
-            {
+            if (!isMarkerClicked) {
                 val from = resources.getString(R.string.take_me_there)
                 startActivity(
                     Intent(
@@ -1947,8 +1971,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
             takeMeBtn.visibility = View.GONE
 
-            if(!isMarkerClicked)
-            {
+            if (!isMarkerClicked) {
                 val from = "discovered"
                 startActivity(
                     Intent(
@@ -1964,16 +1987,17 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng1))
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
 
+
         markerAnimationHandler.removeCallbacks(markerAnimationRunnable)
         markerAnimationHandler.postDelayed(markerAnimationRunnable, 500)
     }
 
 
     val tempMarkerPosition: Int = 0
-    var iconPosition = 1
+    private var iconPosition = 1
 
     var reverse = false
-    var markerAnimationRunnable = object : Runnable {
+    private var markerAnimationRunnable = object : Runnable {
 
 
         override fun run() {
@@ -2027,8 +2051,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                         )
                     )
 
-
-
                     iconPosition = if (reverse) {
                         3
                     } else {
@@ -2051,6 +2073,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         } else {
             when (iconPosition) {
                 1 -> {
+
                     clickedMarker?.setIcon(
                         BitmapDescriptorFactory.fromResource(
                             poi_breadcrumbs_marker_undiscovered_1
@@ -2163,7 +2186,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     }
 
 
-
     private fun getUserDetails() {
 
         try {
@@ -2217,23 +2239,29 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
                             println("GetUseDetails = ${CommonData.getUserDetails!!.experience}")
 
-                            sharedPreference.saveSession("player_experience_points",CommonData.getUserDetails!!.experience)
-                            sharedPreference.saveSession("player_register_date",CommonData.getUserDetails!!.created)
-                            sharedPreference.saveSession("player_user_name",CommonData.getUserDetails!!.username)
-                            sharedPreference.saveSession("player_email_id",CommonData.getUserDetails!!.email)
-                            sharedPreference.saveSession("player_id",CommonData.getUserDetails!!.id)
+                            sharedPreference.saveSession(
+                                "player_experience_points",
+                                CommonData.getUserDetails!!.experience
+                            )
+                            sharedPreference.saveSession(
+                                "player_register_date",
+                                CommonData.getUserDetails!!.created
+                            )
+                            sharedPreference.saveSession(
+                                "player_user_name",
+                                CommonData.getUserDetails!!.username
+                            )
+                            sharedPreference.saveSession(
+                                "player_email_id",
+                                CommonData.getUserDetails!!.email
+                            )
+                            sharedPreference.saveSession(
+                                "player_id",
+                                CommonData.getUserDetails!!.id
+                            )
 
-                            startActivity(
-                                Intent(
-                                    this@DiscoverScreenActivity,
-                                    DiscoverScreenActivity::class.java
-                                ).putExtra("isFromLogin","yes")
-                            )
-                            overridePendingTransition(
-                                R.anim.anim_slide_in_left,
-                                R.anim.anim_slide_out_left
-                            )
-                            finish()
+                            calculateUserLevel(Integer.parseInt(CommonData.getUserDetails!!.experience))
+
                         } else {
 
                         }
@@ -2247,9 +2275,15 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         }
 
     }
-    private fun calculateUserLevel(exp:Int)
-    {
+
+    private fun calculateUserLevel(exp: Int) {
         when (exp) {
+            in 0..999 -> { // 1000 thresh
+                ranking = "RECRUIT"
+                level = 1
+                base = 1000
+                nextLevel = 2000
+            }
             in 1000..1999 -> { // 1000 thresh
                 ranking = "RECRUIT"
                 level = 2
@@ -2303,70 +2337,70 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 level = 10
                 base = 14000
                 nextLevel = 17000
-                 
+
             }
             in 17000..20499 -> { // 2000 thresh
                 ranking = "Navigator"
                 level = 11
                 base = 17000
                 nextLevel = 20500
-                
+
             }
             in 20500..24499 -> { // 2000 thresh
                 ranking = "Navigator"
                 level = 12
                 base = 20500
                 nextLevel = 24500
-                 
+
             }
             in 24500..28499 -> { // 2000 thresh
                 ranking = "Navigator"
                 level = 13
                 base = 24500
                 nextLevel = 28500
-                 
+
             }
             in 28500..33499 -> { // 2000 thresh
                 ranking = "Navigator"
                 level = 14
                 base = 28500
                 nextLevel = 33500
-                
+
             }
             in 33500..38999 -> { // 2000 thresh
                 ranking = "Navigator"
                 level = 15
                 base = 33500
                 nextLevel = 39000
-                
+
             }
             in 39000..44999 -> { // 2000 thresh
                 ranking = "Navigator"
                 level = 16
                 base = 39000
                 nextLevel = 45000
-                
+
             }
             in 45000..51499 -> { // 2000 thresh
                 ranking = "Navigator"
                 level = 17
                 base = 45000
                 nextLevel = 51500
-                
+
             }
             in 51500..58499 -> { // 2000 thresh
                 ranking = "Navigator"
                 level = 18
                 base = 51500
                 nextLevel = 58500
-                
+
             }
             in 58500..65999 -> { // 2000 thresh
                 ranking = "Navigator"
                 level = 19
                 base = 58500
                 nextLevel = 66000
-                
+
             }
             in 66000..73999 -> { // 2000 thresh
                 ranking = "Captain"
@@ -2376,16 +2410,33 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
             }
         }
-        levelTextView.text="$ranking Lv. $level"
+        levelTextView.text = "$ranking Lv. $level"
 
-        var expToLevel=(nextLevel-base)-(exp-base)
+        var expToLevel = (nextLevel - base) - (exp - base)
 
         println("expToLevel= $expToLevel")
-        sharedPreference.saveSession("level_text_value",levelTextView.text.toString())
-        sharedPreference.saveSession("expTo_level_value",expToLevel)
-        sharedPreference.saveSession("xp_point_base_value",base)
-        sharedPreference.saveSession("xp_point_nextLevel_value",nextLevel)
-        sharedPreference.saveSession("lv_value","LV ${level+1}")
+        sharedPreference.saveSession("level_text_value", levelTextView.text.toString())
+        sharedPreference.saveSession("expTo_level_value", expToLevel)
+        sharedPreference.saveSession("xp_point_base_value", base)
+        sharedPreference.saveSession("xp_point_nextLevel_value", nextLevel)
+        sharedPreference.saveSession("lv_value", "LV ${level + 1}")
+
+    }
+
+    private fun vibrateOn() {
+
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator.vibrate(VibrationEffect.createOneShot(1500, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(1500)
+
+        }
+
+
+    }
+
+    private fun vibrateOff() {
+        vibrator.cancel()
 
     }
 }

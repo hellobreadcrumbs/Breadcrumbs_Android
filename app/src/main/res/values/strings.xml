@@ -89,9 +89,10 @@
     <string name="delete_dialog">Delete current photo?</string>
     <string name="delete_title">Confirm</string>
 
-
-    <string name="about_selfie_challenge_title">ABOUT THE \nSELFIE CHALLENGE"</string>
-    <string name="about_quiz_challenge_title">ABOUT THE \nQUIZ CHALLENGE"</string>
+    <string name="about_mystery_challenge_title">ABOUT\nMYSTERY LANDMARKS</string>
+    <string name="about_selfie_challenge_title">ABOUT THE \nSELFIE CHALLENGE</string>
+    <string name="about_quiz_challenge_title">ABOUT THE \nQUIZ CHALLENGE</string>
+    <string name="about_mystery_challenge_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque varius orci eu aliquam lacinia. Praesent at massa molestie elit scelerisque ornare dapibus vel nisl. Pellentesque sed felis augue. Quisque tellus orci, cursus quis mattis id, pulvinar id nisi. Sed facilisis vel justo in iaculis. Aliquam mattis, dolor eget pulvinar tincidunt, lacus quam egestas velit, in condimentum mi est id ex.</string>
     <string name="selfie_challenge_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque varius orci eu aliquam lacinia. Praesent at massa molestie elit scelerisque ornare dapibus vel nisl. Pellentesque sed felis augue. Quisque tellus orci, cursus quis mattis id, pulvinar id nisi. Sed facilisis vel justo in iaculis. Aliquam mattis, dolor eget pulvinar tincidunt, lacus quam egestas velit, in condimentum mi est id ex.</string>
     <string name="quiz_challenge_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque varius orci eu aliquam lacinia. Praesent at massa molestie elit scelerisque ornare dapibus vel nisl. Pellentesque sed felis augue. Quisque tellus orci, cursus quis mattis id, pulvinar id nisi. Sed facilisis vel justo in iaculis. Aliquam mattis, dolor eget pulvinar tincidunt, lacus quam egestas velit, in condimentum mi est id ex.</string>
     <string name="selfie_challenge">Selfie Challenge</string>

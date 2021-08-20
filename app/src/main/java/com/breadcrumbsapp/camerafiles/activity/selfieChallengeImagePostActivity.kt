@@ -52,6 +52,7 @@ class selfieChallengeImagePostActivity : AppCompatActivity() {
     private var overallValue=12000
     private var selfiePostValue=50
     private var discoverValue=50
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ImageActivityBinding.inflate(layoutInflater)
@@ -67,7 +68,7 @@ class selfieChallengeImagePostActivity : AppCompatActivity() {
         // start cropping activity for pre-acquired image saved on the device
         CropImage.activity(imageUri).setAspectRatio(1,1)
             .setFixAspectRatio(true).setScaleType(CropImageView.ScaleType.FIT_CENTER)
-            .setRotationDegrees(0).start(this)
+            .start(this)
 
 
         poiName.text=sharedPreference.getSession("selectedPOIName")
@@ -94,7 +95,7 @@ class selfieChallengeImagePostActivity : AppCompatActivity() {
                 selfieChallengeLevelLayout.visibility=View.VISIBLE
                 imagePostLayout.visibility=View.GONE
 
-                selfieChallengeProgressBar.max=overallValue
+               /* selfieChallengeProgressBar.max=overallValue
                 scoredValue=discoverValue+selfiePostValue
                 selfiePostMark.text= "+$selfiePostValue XP"
 
@@ -103,7 +104,9 @@ class selfieChallengeImagePostActivity : AppCompatActivity() {
                     .start()
 
                 val subtractValue=overallValue-scoredValue
-                balanceScoreValue.text="$subtractValue XP to Level 2"
+                balanceScoreValue.text="$subtractValue XP to Level 2"*/
+
+                calculateXPPoints()
             }
             else
             {
@@ -140,7 +143,7 @@ class selfieChallengeImagePostActivity : AppCompatActivity() {
     }
     private fun calculateXPPoints()
     {
-        selfieChallengeProgressBar.max=overallValue
+      /*  selfieChallengeProgressBar.max=overallValue
         discoverValue= CommonData.getUserDetails!!.experience.toInt()
         scoredValue=discoverValue+selfiePostValue
         selfiePostMark.text= "+$selfiePostValue XP"
@@ -161,7 +164,20 @@ class selfieChallengeImagePostActivity : AppCompatActivity() {
             .start()
         totalScore+=scoredValue
         val subtractValue = overallValue - scoredValue
-        balanceScoreValue.text = "$subtractValue XP to Level 2"
+        balanceScoreValue.text = "$subtractValue XP to Level 2"*/
+
+
+        var progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
+        var expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
+        var completedPoints = sharedPreference.getSession("player_experience_points")
+        val levelValue = sharedPreference.getSession("lv_value")
+        scoredValue = discoverValue+selfiePostValue
+        selfiePostMark.text= "+$selfiePostValue XP"
+        determinateBar.max = progressBarMaxValue
+        balanceScoreValue.text = "$expToLevel XP TO $levelValue"
+        ObjectAnimator.ofInt(selfieChallengeProgressBar, "progress", completedPoints!!.toInt())
+            .setDuration(1000)
+            .start()
     }
     private fun discoverPOI() {
 

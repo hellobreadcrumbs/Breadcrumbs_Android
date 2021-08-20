@@ -16,10 +16,8 @@ import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.breadcrumbsapp.ARCoreActivity
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.DiscoverDetailsScreenBinding
-import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.model.GetEventsModel
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
@@ -29,19 +27,7 @@ import com.google.android.youtube.player.YouTubePlayer
 import kotlinx.android.synthetic.main.discover_details_screen.*
 import kotlinx.android.synthetic.main.quiz_challenge.*
 import kotlinx.android.synthetic.main.quiz_challenge_question_activity.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.OkHttpClient
-import okhttp3.Protocol
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.logging.HttpLoggingInterceptor
-import org.json.JSONObject
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
@@ -95,19 +81,34 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
         poiQrCode = sharedPreference.getSession("selectedPOIQrCode").toString()
 
         println("poiQrCode $poiQrCode")
+        println("poiChType $poiChType")
 
 
         if (poiArid == "1") {
-            // needs open ARscreen
+            // needs open AR screen
+            challengeName = "ar_screen"
+            challengeNameTv.text = "MYSTERY LANDMARK"
+
+            Glide.with(applicationContext).load(R.drawable.ar_challenge_icon).into(challenge_image)
+            //
+            Glide.with(applicationContext).load(R.drawable.details_screen_ar_icon).into(scannerIcon)
+        }
+        else
+        {
+
+            if (poiChType == "0") {
+                challengeName = "selfie"
+                challengeNameTv.text = "SELFIE CHALLENGE"
+                Glide.with(applicationContext).load(R.drawable.selfie_challenge_icon).into(challenge_image)
+                Glide.with(applicationContext).load(R.drawable.details_screen_qr_scan).into(scannerIcon)
+            } else {
+                challengeName = "quiz"
+                challengeNameTv.text = "QUIZ CHALLENGE"
+                Glide.with(applicationContext).load(R.drawable.quiz_challenge_icon).into(challenge_image)
+                Glide.with(applicationContext).load(R.drawable.details_screen_qr_scan).into(scannerIcon)
+            }
         }
 
-        if (poiChType == "0") {
-            challengeName = "selfie"
-            challengeNameTv.text = "SELFIE CHALLENGE"
-        } else {
-            challengeName = "quiz"
-            challengeNameTv.text = "QUIZ CHALLENGE"
-        }
 
 
         if (poiHint == "" || poiHint == "null")
@@ -174,9 +175,7 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
 
                 if (checkPermission()) {
 
-                     openScannerScreen()
-
-
+                     openQRCODEScannerScreen()
 
                 } else {
                     requestPermission()
@@ -279,6 +278,11 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
             challengeTitle.text = resources.getString(R.string.about_selfie_challenge_title)
             challengeContent.text = resources.getString(R.string.selfie_challenge_content)
         }
+        else if (challengeName == "ar_screen") {
+            logoIconView.setImageDrawable(getDrawable(R.drawable.ar_challenge_icon))
+            challengeTitle.text = resources.getString(R.string.about_mystery_challenge_title)
+            challengeContent.text = resources.getString(R.string.about_mystery_challenge_content)
+        }
         okBtn.setOnClickListener {
             dialog.dismiss()
             /* startActivity(Intent(this@DiscoverDetailsScreenActivity, ChallengeActivity::class.java).putExtra("challengeName",challengeName)
@@ -290,7 +294,7 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
         dialog.show()
     }
 
-    private fun openScannerScreen() {
+    private fun openQRCODEScannerScreen() {
         startActivity(
             Intent(
                 this@DiscoverDetailsScreenActivity,
@@ -300,34 +304,9 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
                 .putExtra("poiImage", poiImage).putExtra("poiArid", poiArid)
         )
 
-/*
-        startActivity(
-            Intent(
-                this@DiscoverDetailsScreenActivity,
-                com.breadcrumbsapp.camerafiles.fragments.MainActivity::class.java
-            )
-        )*/
+
     }
 
-    private fun openCameraClass() {
-
-        // For QR Code Scan
-        //  startActivity(Intent(this@DiscoverDetailsScreenActivity, com.breadcrumbsapp.view.qrcode.DecoderActivity::class.java))
-
-
-        // For AR Screen Updated Class,
-       /* startActivity(
-            Intent(
-                this@DiscoverDetailsScreenActivity,
-                com.breadcrumbsapp.ARCoreActivity::class.java
-            )
-        )*/
-        //   startActivity(Intent(this@DiscoverDetailsScreenActivity, HelloSceneformActivity::class.java))
-        //startActivity(Intent(this@DiscoverDetailsScreenActivity, SampleARClass::class.java))
-
-            //Needs to delete this class
-        //   startActivity(Intent(this@DiscoverDetailsScreenActivity, com.breadcrumbsapp.view.arcore.ArCoreUpdateAct::class.java))
-    }
 
 
     private fun checkPermission(): Boolean {
@@ -353,7 +332,7 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
             if (resultCode == RESULT_OK) {
 
                 //openCameraClass()
-                openScannerScreen()
+                openQRCODEScannerScreen()
             } else {
 
                 Toast.makeText(applicationContext, "Permission Denied", Toast.LENGTH_SHORT).show()

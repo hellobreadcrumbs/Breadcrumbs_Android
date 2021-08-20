@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.QuizChallengeQuestionActivityBinding
 import com.breadcrumbsapp.interfaces.APIService
-import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.CommonData.Companion.eventsModelMessage
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
@@ -19,6 +18,7 @@ import kotlinx.android.synthetic.main.challenge_activity.*
 import kotlinx.android.synthetic.main.quiz_challenge.*
 import kotlinx.android.synthetic.main.quiz_challenge_question_activity.*
 import kotlinx.android.synthetic.main.selfie_challenge_level_layout.*
+import kotlinx.android.synthetic.main.user_profile_screen_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -70,6 +70,8 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
     private var quiz_answer_value = 0
     private var discover_value = 1000
     private var poiImage: String = ""
+    private var interceptor = intercept()
+    private lateinit var sharedPreference: SessionHandlerClass
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,13 +90,9 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         setQuestion()
         setAnswer()
 
-
-
-
-
-        quizChallenge_backButton.setOnClickListener(View.OnClickListener {
+        quizChallenge_backButton.setOnClickListener {
             finish()
-        })
+        }
         answerOneLayout.setOnClickListener {
 
             isClicked = true
@@ -663,18 +661,18 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
     }
 
 
-    private fun calculateXPPoints()
-    {
-        determinateBar.max = overallValue
-        discover_value=CommonData.getUserDetails!!.experience.toInt()
+    private fun calculateXPPoints() {
+/*
+
+  With Default Data..
+ determinateBar.max = overallValue
+        discover_value = CommonData.getUserDetails!!.experience.toInt()
         scoredValue = discover_value + quiz_answer_value
         quiz_answer.text = "+$quiz_answer_value XP"
 
-        var totalScore=0
-        for(i in 0 until CommonData.eventsModelMessage!!.count())
-        {
-            if(eventsModelMessage!![i].disc_id!=null)
-            {
+        var totalScore = 0
+        for (i in 0 until CommonData.eventsModelMessage!!.count()) {
+            if (eventsModelMessage!![i].disc_id != null) {
                 totalScore += eventsModelMessage!![i].experience.toInt()
                 println("totalScore :: $totalScore")
             }
@@ -683,84 +681,104 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         ObjectAnimator.ofInt(determinateBar, "progress", totalScore)
             .setDuration(1000)
             .start()
-        totalScore+=scoredValue
+        totalScore += scoredValue
         val subtractValue = overallValue - scoredValue
-        quizBalanceValue.text = "$subtractValue XP to Level 2"
+        quizBalanceValue.text = "$subtractValue XP to Level 2"*/
+
+
+        // Updated One with API data..
+
+        var progressBarMaxValue = sharedPreferences.getIntegerSession("xp_point_nextLevel_value")
+        var expToLevel = sharedPreferences.getIntegerSession("expTo_level_value")
+        var completedPoints = sharedPreferences.getSession("player_experience_points")
+        val levelValue = sharedPreferences.getSession("lv_value")
+        scoredValue = discover_value + quiz_answer_value
+        quiz_answer.text = "+$quiz_answer_value XP"
+        determinateBar.max = progressBarMaxValue
+        quizBalanceValue.text = "$expToLevel XP TO $levelValue"
+        ObjectAnimator.ofInt(determinateBar, "progress", completedPoints!!.toInt())
+            .setDuration(1000)
+            .start()
     }
-    private var interceptor = intercept()
-    private lateinit var sharedPreference: SessionHandlerClass
+
     private fun discoverPOI() {
 
-        sharedPreference = SessionHandlerClass(applicationContext)
-        val okHttpClient = OkHttpClient.Builder()
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .addInterceptor(interceptor)
-            .protocols(Collections.singletonList(Protocol.HTTP_1_1))
-            .build()
-        // Create Retrofit
-        val retrofit = Retrofit.Builder()
-            .baseUrl(resources.getString(R.string.staging_url))
-            .client(okHttpClient)
-            .build()
 
-        // Create Service
-        val service = retrofit.create(APIService::class.java)
+        try {
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+                .build()
+            // Create Retrofit
+            val retrofit = Retrofit.Builder()
+                .baseUrl(resources.getString(R.string.staging_url))
+                .client(okHttpClient)
+                .build()
 
-        // Create JSON using JSONObject
-        val jsonObject = JSONObject()
-        jsonObject.put("user_id", sharedPreference.getSession("login_id"))
-        jsonObject.put("poi_id", sharedPreference.getSession("selectedPOIID"))
+            // Create Service
+            val service = retrofit.create(APIService::class.java)
 
-        println("Discover_POI Input = $jsonObject")
-        // Convert JSONObject to String
-        val jsonObjectString = jsonObject.toString()
+            // Create JSON using JSONObject
+            val jsonObject = JSONObject()
+            jsonObject.put("user_id", sharedPreference.getSession("login_id"))
+            jsonObject.put("poi_id", sharedPreference.getSession("selectedPOIID"))
 
-        // Create RequestBody ( We're not using any converter, like GsonConverter, MoshiConverter e.t.c, that's why we use RequestBody )
-        val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
+            println("Discover_POI Input = $jsonObject")
+            // Convert JSONObject to String
+            val jsonObjectString = jsonObject.toString()
 
-        CoroutineScope(Dispatchers.IO).launch {
-            // Do the POST request and get response
-            val response = service.discoverPOI(requestBody)
+            // Create RequestBody ( We're not using any converter, like GsonConverter, MoshiConverter e.t.c, that's why we use RequestBody )
+            val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
 
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
+            CoroutineScope(Dispatchers.IO).launch {
+                // Do the POST request and get response
+                val response = service.discoverPOI(requestBody)
 
-                    // Convert raw JSON to  JSON using GSON library
-                    val gson = GsonBuilder().setPrettyPrinting().create()
-                    val registerJSON = gson.toJson(
-                        JsonParser.parseString(
-                            response.body()
-                                ?.string()
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+
+                        // Convert raw JSON to  JSON using GSON library
+                        val gson = GsonBuilder().setPrettyPrinting().create()
+                        val registerJSON = gson.toJson(
+                            JsonParser.parseString(
+                                response.body()
+                                    ?.string()
+                            )
                         )
-                    )
-                    val jsonElement: JsonElement? = JsonParser.parseString(registerJSON)
-                    val jsonObject: JsonObject? = jsonElement?.asJsonObject
+                        val jsonElement: JsonElement? = JsonParser.parseString(registerJSON)
+                        val jsonObject: JsonObject? = jsonElement?.asJsonObject
 
-                    val status: Boolean = jsonObject?.get("status")!!.asBoolean
-                    println("Discover_POI Status = $jsonElement")
+                        val status: Boolean = jsonObject?.get("status")!!.asBoolean
+                        println("Discover_POI Status = $jsonElement")
 
-                    if (status) {
+                        if (status) {
 
 
-                        startActivity(
-                            Intent(
-                                this@QuizChallengeQuestionActivity,
-                                DiscoverScreenActivity::class.java
-                            ).putExtra("isFromLogin", "no")
-                        )
-                        overridePendingTransition(
-                            R.anim.anim_slide_in_left,
-                            R.anim.anim_slide_out_left
-                        )
-                        finish()
+                            startActivity(
+                                Intent(
+                                    this@QuizChallengeQuestionActivity,
+                                    DiscoverScreenActivity::class.java
+                                ).putExtra("isFromLogin", "no")
+                            )
+                            overridePendingTransition(
+                                R.anim.anim_slide_in_left,
+                                R.anim.anim_slide_out_left
+                            )
+                            finish()
+                        }
+                    } else {
+
+                        println("Printed JSON ELSE : ${response.code()}")
+
                     }
-                } else {
-
-                    println("Printed JSON ELSE : ${response.code()}")
-
                 }
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+
+
     }
 }

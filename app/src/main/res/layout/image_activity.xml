@@ -97,8 +97,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_toEndOf="@+id/image3"
+                android:layout_marginStart="5dp"
                 android:fontFamily="@font/claritycity_bold"
-                android:text="Supertree Grove"
+                android:text="PIONEER TRAIL"
                 android:textColor="#4B3B30"
                 android:textSize="12sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>

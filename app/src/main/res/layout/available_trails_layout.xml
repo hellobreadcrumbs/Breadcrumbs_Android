@@ -30,6 +30,7 @@
         android:layout_marginEnd="30dp"
         android:gravity="center_vertical"
         android:src="@drawable/up_arrow"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mainTitle" />
 
@@ -97,6 +98,7 @@
         android:layout_marginTop="15dp"
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/row1">
@@ -146,7 +148,8 @@
         android:layout_marginTop="15dp"
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
-        android:visibility="visible"
+        android:visibility="gone"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/row2">
@@ -198,9 +201,9 @@
         android:layout_marginTop="15dp"
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
 
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/row3">
 
@@ -262,34 +265,41 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="@dimen/trail_list_uparrow_margin_top"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:src="@drawable/down_arrow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view2" />
 
-    <Button
-        android:id="@+id/okButton"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_below="@+id/downArrow"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="@dimen/trail_list_uparrow_margin_top"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/available_trails_done_btn"
-        android:fontFamily="@font/claritycity_bold"
-        android:text="DONE"
-        android:textColor="#F8F0DD"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/downArrow"
+        app:layout_constraintStart_toStartOf="@+id/downArrow"
+        app:layout_constraintTop_toBottomOf="@+id/downArrow">
 
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/downArrow" />
+        <TextView
+            android:id="@+id/doneButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/available_trails_done_btn"
+            android:fontFamily="@font/claritycity_bold"
+            android:gravity="center_horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="DONE"
+            android:textColor="@color/white"
+            android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+
+            />
+    </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

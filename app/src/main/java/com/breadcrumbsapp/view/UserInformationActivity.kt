@@ -13,7 +13,7 @@ import java.util.*
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class UserInformationActivity : AppCompatActivity() {
-    val originalFormat: DateFormat =
+    private val originalFormat: DateFormat =
         SimpleDateFormat("yyyy-mm-DD HH:MM:SS", Locale.ENGLISH)  //2020-11-27 12:27:04
     val targetFormat: DateFormat = SimpleDateFormat("DD MMM yyyy")
     private lateinit var sessionHandlerClass: SessionHandlerClass
@@ -46,7 +46,7 @@ class UserInformationActivity : AppCompatActivity() {
                 nickname_text_view.text = CommonData.getUserDetails!!.username
             }
             else{
-                nickname_text_view.text = "-"
+                nickname_text_view.text = sessionHandlerClass.getSession("player_name")
             }
             user_id_text_view.text = "#" + CommonData.getUserDetails!!.id
             email_address_text_view.text = CommonData.getUserDetails!!.email
@@ -58,7 +58,8 @@ class UserInformationActivity : AppCompatActivity() {
                 nickname_text_view.text = sessionHandlerClass.getSession("player_user_name")
             }
             else{
-                nickname_text_view.text = "-"
+                //"player_name"
+                nickname_text_view.text = sessionHandlerClass.getSession("player_name")
             }
             user_id_text_view.text = "#" +sessionHandlerClass.getSession("player_id")
             email_address_text_view.text = sessionHandlerClass.getSession("player_email_id")

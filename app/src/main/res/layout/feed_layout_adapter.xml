@@ -51,13 +51,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/feedPostUserProfilePicture" />
 
-    <ImageView
-        android:id="@+id/likeImageView"
+    <ToggleButton
+        android:id="@+id/feed_layout_adapter_likeImageView"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
-        android:src="@drawable/feed_screen_like_button"
+        android:background="@drawable/feed_post_like_toggle"
+        android:textOff=""
+        android:textOn=""
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postImage" />
 
@@ -70,9 +73,9 @@
         android:text="21 Likes"
         android:textColor="#4B3B30"
         android:textSize="@dimen/discovery_screen_player_name_text_size"
-        app:layout_constraintBottom_toBottomOf="@+id/likeImageView"
-        app:layout_constraintStart_toEndOf="@+id/likeImageView"
-        app:layout_constraintTop_toTopOf="@+id/likeImageView" />
+        app:layout_constraintBottom_toBottomOf="@+id/feed_layout_adapter_likeImageView"
+        app:layout_constraintStart_toEndOf="@+id/feed_layout_adapter_likeImageView"
+        app:layout_constraintTop_toTopOf="@+id/feed_layout_adapter_likeImageView" />
 
     <ImageView
         android:id="@+id/shareIcon"

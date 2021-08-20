@@ -113,7 +113,7 @@
                                 android:fontFamily="@font/claritycity_bold"
                                 android:paddingStart="5dp"
                                 android:paddingEnd="10dp"
-                                android:text="Sample Data"
+                                android:text="RECRUIT LV. 1"
                                 android:textAllCaps="true"
                                 android:textColor="@color/white"
                                 android:textSize="8sp" />

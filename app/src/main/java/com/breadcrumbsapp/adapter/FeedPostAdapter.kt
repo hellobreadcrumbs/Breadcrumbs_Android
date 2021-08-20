@@ -11,27 +11,54 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.BounceInterpolator
+import android.view.animation.ScaleAnimation
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.borjabravo.readmoretextview.ReadMoreTextView
 import com.breadcrumbsapp.R
+import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.model.GetFeedDataModel
+import com.breadcrumbsapp.util.CommonData
 import com.bumptech.glide.Glide
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.mikhaellopez.circularimageview.CircularImageView
-import java.io.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Protocol
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.logging.HttpLoggingInterceptor
+import org.jetbrains.anko.runOnUiThread
+import org.json.JSONObject
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
+import java.io.OutputStream
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
+// For toggle Animation
+//https://medium.com/@rashi.karanpuria/create-beautiful-toggle-buttons-in-android-64d299050dfb
 
-internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>) :
+internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID: String?) :
     RecyclerView.Adapter<FeedPostAdapter.MyViewHolder>() {
 
     private var getFeedsLocalObj: List<GetFeedDataModel.Message> = getFeed
     private lateinit var context: Context
-
+    private var interceptor = intercept()
+    private var local_loginID = loginID
 
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -39,13 +66,15 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>) :
         var shareIcon: ImageView = view.findViewById(R.id.shareIcon)
         var likeCountText: TextView = view.findViewById(R.id.likeCount)
         var shareText: TextView = view.findViewById(R.id.shareText)
-       // var descriptionContent: TextView = view.findViewById(R.id.descriptionContent)
+
+        // var descriptionContent: TextView = view.findViewById(R.id.descriptionContent)
         var descriptionContent: ReadMoreTextView = view.findViewById(R.id.descriptionContent)
         var userNameTextView: TextView = view.findViewById(R.id.userName)
         var userProfilePicture: CircularImageView =
             view.findViewById(R.id.feedPostUserProfilePicture)
         var createdDateTextView: TextView = view.findViewById(R.id.createdDateTextView)
 
+        var likeButton: ToggleButton = view.findViewById(R.id.feed_layout_adapter_likeImageView)
 
     }
 
@@ -59,7 +88,7 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>) :
 
     private fun saveBitmapAsImageToDevice(bitmap: Bitmap?) {
         // Add a specific media item.
-         val resolver = context.contentResolver
+        val resolver = context.contentResolver
 
         val imageStorageAddress = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
@@ -72,6 +101,8 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>) :
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
             put(MediaStore.MediaColumns.DATE_ADDED, System.currentTimeMillis())
         }
+
+
 
 
         try {
@@ -107,6 +138,13 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>) :
 
         val data = getFeedsLocalObj[position]
 
+        println("Feed Id : ${data.f_id}")
+
+
+
+        holder.likeButton.isChecked = data.ul_id != null
+
+
         var localImageObj =
             context.resources.getString(R.string.live_url) + data.photo_url
 
@@ -129,9 +167,33 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>) :
         println("Text length : ${data.description.length}")
 
 
+        // For Like Button Animation effect..
+        var scaleAnimation = ScaleAnimation(
+            0.7f,
+            1.0f,
+            0.7f,
+            1.0f,
+            Animation.RELATIVE_TO_SELF,
+            0.7f,
+            Animation.RELATIVE_TO_SELF,
+            0.7f
+        )
+        scaleAnimation.duration = 500
+        var bounceInterpolator = BounceInterpolator()
+        scaleAnimation.interpolator = bounceInterpolator
 
-        holder.descriptionContent.text=data.description
+        holder.likeButton.setOnCheckedChangeListener { b, isChecked ->
 
+            b.startAnimation(scaleAnimation)
+            holder.likeCountText.startAnimation(scaleAnimation)
+            if (isChecked) {
+                getFeedPostLikeDetails(data.f_id, holder, position)
+            } else {
+                getFeedPostLikeDetails(data.f_id, holder, position)
+            }
+        }
+
+        holder.descriptionContent.text = data.description
         holder.userNameTextView.text = data.username
 
         if (data.profile_picture == "") {
@@ -203,42 +265,191 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>) :
             }
 
             holder.shareIcon.setOnClickListener {
-                val drawable  = holder.imageView.drawable as BitmapDrawable
-                 val bitmap=drawable.bitmap as Bitmap
+                val drawable = holder.imageView.drawable as BitmapDrawable
+                val bitmap = drawable.bitmap as Bitmap
                 saveBitmapAsImageToDevice(bitmap)
-                //saveImageToInternalStorage(holder.imageView.drawable)
-               // shareMethod(localImageObj)
+
             }
 
-
-            /*    val shareIntent: Intent = Intent().apply {
-                               action = Intent.ACTION_SEND
-                               putExtra(Intent.EXTRA_STREAM, uriToImage)
-                               type = "image/jpeg"
-                           }
-                           context.startActivity(Intent.createChooser(shareIntent, "Send To"))*/
-            // Log.e("toyBornTime", "" + toyBornTime);
         } catch (e: ParseException) {
             e.printStackTrace()
         }
+
     }
 
-    private fun shareMethod(uriString:String)
-    {
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        val screenshotUri: Uri = Uri.parse(uriString)
-        try {
-            val stream: InputStream = context.contentResolver.openInputStream(screenshotUri)!!
-        } catch (e: FileNotFoundException) {
-            // TODO Auto-generated catch block
-            e.printStackTrace()
-        }
-        sharingIntent.type = "image/jpeg"
-        sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri)
-        context.startActivity(Intent.createChooser(sharingIntent, "Share image using"))
-    }
 
     override fun getItemCount(): Int {
         return getFeedsLocalObj.size
+    }
+
+    private fun getFeedPostLikeDetails(feedID: String, holder: MyViewHolder, position: Int) {
+        try {
+
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+                .build()
+
+
+            // Create Retrofit
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(context.resources.getString(R.string.staging_url))
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            // Create JSON using JSONObject
+
+            val jsonObject = JSONObject()
+
+            //jsonObject.put("user_id","198")
+            jsonObject.put("user_id", local_loginID)
+            jsonObject.put("feed_id", feedID)
+
+
+            println("like API Input = $jsonObject")
+
+
+            val mediaType = "application/json".toMediaTypeOrNull()
+            val requestBody = jsonObject.toString().toRequestBody(mediaType)
+
+
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                // Create Service
+                val service = retrofit.create(APIService::class.java)
+
+                val response = service.getFeedPostLikeDetails(
+                    context.resources.getString(R.string.api_access_token),
+                    requestBody
+                )
+
+                if (response.isSuccessful) {
+                    // Convert raw JSON to  JSON using GSON library
+                    val gson = GsonBuilder().setPrettyPrinting().create()
+                    val registerJSON = gson.toJson(
+                        JsonParser.parseString(
+                            response.body()
+                                ?.string()
+                        )
+                    )
+                    val jsonElement: JsonElement? = JsonParser.parseString(registerJSON)
+                    val jsonObject: JsonObject? = jsonElement?.asJsonObject
+
+                    val status: Boolean = jsonObject!!.get("status")!!.asBoolean
+                    val message: String = jsonObject.get("message")!!.asString
+                    println("like API Status = $status")
+                    println("like API message = $message")
+
+                    if (status) {
+                        getFeedPostData(feedID, holder, position)
+                    }
+
+
+                }
+
+
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
+    private fun getFeedPostData(feedID: String, holder: MyViewHolder, position: Int) {
+        try {
+
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+                .build()
+
+
+            // Create Retrofit
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(context.resources.getString(R.string.staging_url))
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            // Create JSON using JSONObject
+
+            val jsonObject = JSONObject()
+
+            jsonObject.put("user_id", local_loginID)
+            println("getFeedPostData Input = $jsonObject")
+
+            val mediaType = "application/json".toMediaTypeOrNull()
+            val requestBody = jsonObject.toString().toRequestBody(mediaType)
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                // Create Service
+                val service = retrofit.create(APIService::class.java)
+
+                val response = service.getFeedDetails(
+                    context.resources.getString(R.string.api_access_token),
+                    requestBody
+                )
+
+                if (response.isSuccessful) {
+                    if (response.body()!!.status) {
+
+                        CommonData.getFeedData = response.body()?.message
+
+                        if (CommonData.getFeedData != null) {
+                            for (i in CommonData.getFeedData!!.indices) {
+                                if (CommonData.getFeedData!![i].f_id == feedID) {
+                                    println("like API like_count = ${CommonData.getFeedData!![i].like_count}")
+
+                                    try {
+
+                                        context.runOnUiThread {
+                                            if (CommonData.getFeedData!![i].like_count <= "1") {
+                                                holder.likeCountText.text =
+                                                    CommonData.getFeedData!![i].like_count + " Like"
+                                            } else {
+                                                holder.likeCountText.text =
+                                                    CommonData.getFeedData!![i].like_count + " Likes"
+                                            }
+
+                                        }
+
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+
+
+                                }
+                            }
+
+                        }
+
+
+                    }
+
+                }
+
+
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun intercept(): HttpLoggingInterceptor {
+        val interceptors = HttpLoggingInterceptor()
+        interceptors.level = HttpLoggingInterceptor.Level.BODY
+        interceptor = interceptors
+        return interceptor
     }
 }

@@ -96,12 +96,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <ImageView
+            <ToggleButton
                 android:id="@+id/vibration_on_off"
-                android:layout_width="20dp"
+                android:layout_width="35dp"
                 android:layout_height="20dp"
                 android:layout_marginEnd="20dp"
-                android:src="@drawable/settings_icon"
+                android:background="@drawable/vibration_on_off"
+                android:textOff=""
+                android:textOn=""
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

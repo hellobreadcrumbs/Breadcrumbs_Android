@@ -63,7 +63,7 @@ interface APIService {
 
 
     @Headers("Accept:application/json", "Content-Type:application/json;")
-    @POST("v1/api/get_feed") // feed and creator post should show everything
+    @POST("v1/api/get_feed") // its for feed screen only. In React code., they used for feed screen only
     suspend fun getFeedDetails(
         @Header("Authorization") h1: String,
         @Body requestBody: RequestBody
@@ -78,7 +78,7 @@ interface APIService {
 
 
     @Headers("Accept:application/json", "Content-Type:application/json;")
-    @POST("v1/api/get_my_feed") // should be in profile screen. player post only
+    @POST("v1/api/get_my_feed") // For creator post and My Profile- My Post.
     suspend fun getMyFeedDetails(
         @Header("Authorization") h1: String,
         @Body requestBody: RequestBody
@@ -91,6 +91,13 @@ interface APIService {
         @Body requestBody: RequestBody
     ): Response<RecommendedFriendsModel>
 
+    @Headers("Accept:application/json", "Content-Type:application/json;")
+    @POST("v1/api/get_friends")
+    suspend fun getUserFriendList(
+        @Header("Authorization") h1: String,
+        @Body requestBody: RequestBody
+    ): Response<GetFriendsListModel>
+
 
     @Headers("Accept:application/json", "Content-Type:application/json;")
     @POST("v1/api/get_user_achievements")
@@ -98,5 +105,15 @@ interface APIService {
         @Header("Authorization") h1: String,
         @Body requestBody: RequestBody
     ): Response<GetUserAchievementsModel>
+
+
+    @Headers("Accept:application/json", "Content-Type:application/json;")
+    @POST("v1/api/react_post")
+    suspend fun getFeedPostLikeDetails(
+        @Header("Authorization") h1: String,
+        @Body requestBody: RequestBody
+    ): Response<ResponseBody>
+
+
 
 }

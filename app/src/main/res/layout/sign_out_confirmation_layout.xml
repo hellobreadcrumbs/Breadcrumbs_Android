@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="50dp"
+        android:layout_margin="30dp"
         android:background="@drawable/about_challenge_bg"
         android:gravity="center_horizontal"
         android:orientation="vertical"
@@ -31,15 +31,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="33dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="15dp"
-            android:layout_marginEnd="33dp"
+            android:layout_marginEnd="30dp"
             android:fontFamily="@font/dinish_regular"
             android:gravity="center_horizontal"
             android:lineSpacingExtra="5dp"
             android:text="@string/sign_out_prompt_content"
             android:textColor="#4B3B30"
-            android:textSize="@dimen/trail_notification_days_ago_text_size" />
+            android:textSize="@dimen/trail_notification_learn_more_text_size" />
 
         <TextView
             android:id="@+id/sign_out_button"

@@ -69,7 +69,7 @@ class TrailsDetailsActivity:AppCompatActivity()
         })
 
         iv_open_creator_post.setOnClickListener(View.OnClickListener {
-            startActivity(Intent(applicationContext,CreatorPostActivity::class.java))
+            startActivity(Intent(applicationContext,CreatorPostActivity::class.java).putExtra("title_icon",localImageUriCreatorPost))
         })
 
 

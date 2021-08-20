@@ -139,14 +139,10 @@ class ProfileScreenActivity : AppCompatActivity() {
                 .build()
 
             // Create JSON using JSONObject
-            println(
-                "Login : ${
-                    sessionHandlerClass.getSession("login_id")
-                }"
-            )
+
             val jsonObject = JSONObject()
-            //  jsonObject.put("user_id", sharedPreference.getSession("login_id"))
-            jsonObject.put("user_id", "198")
+              jsonObject.put("user_id", sessionHandlerClass.getSession("login_id"))
+           // jsonObject.put("user_id", "198")
 
             println("getFeedPostData Url = ${resources.getString(R.string.live_url)}")
             println("getFeedPostData Input = $jsonObject")

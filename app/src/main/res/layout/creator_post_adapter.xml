@@ -43,13 +43,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/creator_post_profile_picture" />
 
-    <ImageView
+    <ToggleButton
         android:id="@+id/likeImageView"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
-        android:src="@drawable/feed_screen_like_button"
+        android:background="@drawable/feed_post_like_toggle"
+        android:textOff=""
+        android:textOn=""
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postImage" />
 

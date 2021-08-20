@@ -7,13 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.adapter.CreatorPostAdapter
-import com.breadcrumbsapp.adapter.FeedPostAdapter
 import com.breadcrumbsapp.databinding.CreatorPostLayoutBinding
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.SessionHandlerClass
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.creator_post_layout.*
-import kotlinx.android.synthetic.main.feed_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,12 +40,17 @@ class CreatorPostActivity:AppCompatActivity()
         sharedPreference = SessionHandlerClass(applicationContext)
         setContentView(binding.root)
         creator_post_rv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
+        var iconPath=intent.extras?.getString("title_icon")
+        Glide.with(applicationContext).load(iconPath).into(creator_icon_iv)
+
         getFeedPostData()
         creator_post_back_button.setOnClickListener(View.OnClickListener {
             finish()
         })
 
     }
+
 
     private fun getFeedPostData() {
         try {
@@ -62,7 +66,7 @@ class CreatorPostActivity:AppCompatActivity()
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -74,10 +78,9 @@ class CreatorPostActivity:AppCompatActivity()
                 }"
             )
             val jsonObject = JSONObject()
-          //  jsonObject.put("user_id", sharedPreference.getSession("login_id"))
-            jsonObject.put("user_id", "198")
+            jsonObject.put("user_id", sharedPreference.getSession("login_id"))
 
-            println("getFeedPostData Url = ${resources.getString(R.string.live_url)}")
+            println("getFeedPostData Url = ${resources.getString(R.string.staging_url)}")
             println("getFeedPostData Input = $jsonObject")
 
 

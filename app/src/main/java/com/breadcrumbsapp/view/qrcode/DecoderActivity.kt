@@ -22,13 +22,11 @@ import com.google.android.material.snackbar.Snackbar
 
 class DecoderActivity : AppCompatActivity(), OnRequestPermissionsResultCallback,
     OnQRCodeReadListener {
-    private var mainLayout: ViewGroup? = null
 
     private var qrCodeReaderView: QRCodeReaderView? = null
-
-
     private var pointsOverlayView: PointsOverlayView? = null
     private var flashlightToggleBtn: ToggleButton? = null
+    private var mainLayout: ViewGroup? = null
     private var backButton: Button? = null
     private var poiQrCode = ""
     private var challengeName = ""
@@ -40,7 +38,7 @@ class DecoderActivity : AppCompatActivity(), OnRequestPermissionsResultCallback,
         setContentView(R.layout.activity_decoder)
         mainLayout = findViewById<View>(R.id.main_layout) as ViewGroup
 
-        var bundle: Bundle? = intent.extras
+        val bundle: Bundle? = intent.extras
         poiQrCode = bundle!!.getString("poiQrCode").toString()
         challengeName = bundle.getString("challengeName").toString()
         poiImage = bundle.getString("poiImage").toString()
@@ -73,6 +71,7 @@ class DecoderActivity : AppCompatActivity(), OnRequestPermissionsResultCallback,
         requestCode: Int, permissions: Array<String>,
         grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode != MY_PERMISSION_REQUEST_CAMERA) {
             return
         }
@@ -98,6 +97,7 @@ class DecoderActivity : AppCompatActivity(), OnRequestPermissionsResultCallback,
         pointsOverlayView!!.setPoints(points)
 
         println("poiQrCode:: $poiQrCode == $text")
+        println("poiArId:: $poiArId" )
         if (poiQrCode == text) {
             if(poiArId=="1")
             {
