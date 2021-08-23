@@ -4,20 +4,20 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
-import com.borjabravo.readmoretextview.ReadMoreTextView
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.model.RecommendedFriendsModel
-import com.mikhaellopez.circularimageview.CircularImageView
 
 
-internal class RecommendedFriendsAdapter(getFeed: List<RecommendedFriendsModel.Message>) :
-    RecyclerView.Adapter<RecommendedFriendsAdapter.MyViewHolder>() {
+internal class RecommendedFriendsAdapter() :
+    RecyclerView.Adapter<RecommendedFriendsAdapter.MyViewHolder>(), Filterable  {
 
-    private var getFeedsLocalObj: List<RecommendedFriendsModel.Message> = getFeed
+    private var getFeedsLocalObj = ArrayList<RecommendedFriendsModel.Message>()
+    private var filteredList  = ArrayList<RecommendedFriendsModel.Message>()
     private lateinit var context: Context
 
 
@@ -42,7 +42,7 @@ internal class RecommendedFriendsAdapter(getFeed: List<RecommendedFriendsModel.M
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
 
-        val data = getFeedsLocalObj[position]
+        val data = filteredList[position]
 
         holder.friendNameTv.text=data.username
 
@@ -51,6 +51,53 @@ internal class RecommendedFriendsAdapter(getFeed: List<RecommendedFriendsModel.M
 
 
     override fun getItemCount(): Int {
-        return getFeedsLocalObj.size
+        return filteredList.size
+    }
+
+    fun addList(list : List<RecommendedFriendsModel.Message>){
+        getFeedsLocalObj.clear()
+        getFeedsLocalObj.addAll(list)
+
+        filteredList.clear()
+        filteredList.addAll(list)
+        notifyDataSetChanged()
+
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter(){
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                var searchTxt = constraint.toString()?:""
+                if (searchTxt.isNotEmpty()){
+                    var list = ArrayList<RecommendedFriendsModel.Message>()
+
+                    getFeedsLocalObj.filter {
+                        (it.username.contains(searchTxt)) or (it.email.contains(searchTxt))
+                    }.forEach {
+                        list.add(it)
+                    }
+                    filteredList.clear()
+                    filteredList.addAll(list)
+
+                }else{
+                    filteredList.clear()
+                    filteredList.addAll(getFeedsLocalObj)
+                }
+                return FilterResults().apply { values = filteredList }
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+
+                filteredList = if (results?.values == null){
+                    ArrayList<RecommendedFriendsModel.Message>()
+                } else{
+                    results?.values as ArrayList<RecommendedFriendsModel.Message>
+                }
+                notifyDataSetChanged()
+
+
+            }
+
+        }
     }
 }

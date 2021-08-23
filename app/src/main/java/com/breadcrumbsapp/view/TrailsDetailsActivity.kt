@@ -48,7 +48,7 @@ class TrailsDetailsActivity:AppCompatActivity()
 
         // Live Data....
         var localImageUri =
-            resources.getString(R.string.staging_url) + getTrailsModelList.banner_url
+            resources.getString(R.string.live_url) + getTrailsModelList.banner_url
         println("localImageUri $localImageUri")
         Glide.with(applicationContext).load(localImageUri).into(trail_details_image)
         Glide.with(applicationContext).load(trailIcons[0]).into(trail_details_trailIcon)

@@ -296,7 +296,7 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(context.resources.getString(R.string.staging_url))
+                .baseUrl(context.resources.getString(R.string.live_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -375,7 +375,7 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(context.resources.getString(R.string.staging_url))
+                .baseUrl(context.resources.getString(R.string.live_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

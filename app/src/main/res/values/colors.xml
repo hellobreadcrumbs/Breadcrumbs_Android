@@ -14,4 +14,10 @@
     <color name="rewards_past_redeemed">#EDECE9</color>
     <color name="yellow">#FFC627</color>
     <color name="light_blue">#D6E1E5</color>
+    <color name="hint_color_gray">#A7A7A7</color>
+    <color name="bg_color">#F8F0DD</color>
+    <color name="friend_request_text">#4B3B30</color>
+    <color name="friend_list_item_text_color">#055D3A</color>
+
+
 </resources>

@@ -14,11 +14,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <Button
+            android:id="@+id/friend_profile_screen_backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/search_back_button" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ScrollView
+            <androidx.core.widget.NestedScrollView
                 android:id="@+id/scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -38,7 +46,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/claritycity_bold"
                         android:padding="20dp"
-                        android:text="aquarius4254's Profile"
+                        android:text="Friend's Profile"
                         android:textColor="#4B3B30"
                         android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
                         app:layout_constraintBottom_toBottomOf="@+id/selected_player_border_line"
@@ -69,8 +77,8 @@
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:layout_marginStart="20dp"
-                            app:civ_border_width="0dp"
                             android:src="@mipmap/breadcrumbs_app_icon_round"
+                            app:civ_border_width="0dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -122,7 +130,7 @@
 
 
                             <TextView
-                                android:id="@+id/completed_POIs"
+                                android:id="@+id/friends_profile_completed_POIs"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"
@@ -144,10 +152,9 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
-                                android:id="@+id/imageView3"
+                                android:id="@+id/add_friend_btn"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-
                                 android:src="@drawable/selected_player_screen_add_friend_btn"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -363,13 +370,14 @@
 
 
                     <TextView
-                        android:id="@+id/postTitle"
+                        android:id="@+id/friend_profile_screen_postTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:fontFamily="@font/claritycity_bold"
                         android:gravity="center_horizontal"
                         android:text="AQUARIUS4254'S POSTS"
+                        android:textAllCaps="true"
                         android:textColor="#A5988B"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -383,7 +391,7 @@
                         android:background="#4B3B30"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/postTitle" />
+                        app:layout_constraintTop_toBottomOf="@+id/friend_profile_screen_postTitle" />
 
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -421,20 +429,15 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/post_screen_friend_post_list"
                         android:layout_width="match_parent"
-
-                        android:layout_height="0dp"
-                        app:layout_constraintHeight_percent="0.56"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="15dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_height="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/selected_player_post_border_line" />
+                        app:layout_constraintTop_toBottomOf="@+id/selected_player_post_border_line"
+                        tools:listitem="@layout/creator_post_adapter" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            </ScrollView>
+            </androidx.core.widget.NestedScrollView>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

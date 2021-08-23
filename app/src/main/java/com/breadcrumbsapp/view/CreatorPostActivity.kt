@@ -66,7 +66,7 @@ class CreatorPostActivity:AppCompatActivity()
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.staging_url))
+                .baseUrl(resources.getString(R.string.live_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -80,7 +80,7 @@ class CreatorPostActivity:AppCompatActivity()
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
 
-            println("getFeedPostData Url = ${resources.getString(R.string.staging_url)}")
+            println("getFeedPostData Url = ${resources.getString(R.string.live_url)}")
             println("getFeedPostData Input = $jsonObject")
 
 

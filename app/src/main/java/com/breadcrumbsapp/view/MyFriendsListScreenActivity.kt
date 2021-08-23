@@ -1,5 +1,6 @@
 package com.breadcrumbsapp.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -44,8 +45,8 @@ class MyFriendsListScreenActivity:AppCompatActivity()
             finish()
         })
 
-        add_friend_iv.setOnClickListener(View.OnClickListener {
-            Toast.makeText(applicationContext, "Under Construction", Toast.LENGTH_SHORT).show()
+        new_request_layout.setOnClickListener(View.OnClickListener {
+            startActivity(Intent(this, NewFriendRequestAct::class.java))
         })
 
 
@@ -66,7 +67,7 @@ class MyFriendsListScreenActivity:AppCompatActivity()
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.staging_url))
+                .baseUrl(resources.getString(R.string.live_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -75,7 +76,7 @@ class MyFriendsListScreenActivity:AppCompatActivity()
             val jsonObject = JSONObject()
             jsonObject.put("id", "66")
 
-            println("getFeedPostData Url = ${resources.getString(R.string.staging_url)}")
+            println("getFeedPostData Url = ${resources.getString(R.string.live_url)}")
             println("getFeedPostData Input = $jsonObject")
 
 

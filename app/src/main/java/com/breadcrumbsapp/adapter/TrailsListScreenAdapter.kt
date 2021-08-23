@@ -17,7 +17,6 @@ import com.bumptech.glide.Glide
 internal class TrailsListScreenAdapter(getTrails: List<GetTrailsModel.Message>) :
     RecyclerView.Adapter<TrailsListScreenAdapter.MyViewHolder>() {
 
-
     private var getTrailsList: List<GetTrailsModel.Message> = getTrails
     private lateinit var context: Context
 
@@ -25,14 +24,12 @@ internal class TrailsListScreenAdapter(getTrails: List<GetTrailsModel.Message>) 
         R.drawable.pioneer_trail_banner,
         R.drawable.wild_twilight_trail_banner,
         R.drawable.anthology_trail_banner
-
     )
 
     private var trailIcons = intArrayOf(
         R.drawable.breadcrumbs_trail,
         R.drawable.wild_about_twlight_icon,
         R.drawable.anthology_trail_icon
-
     )
 
     private var trailNameString: Array<String> =
@@ -40,11 +37,9 @@ internal class TrailsListScreenAdapter(getTrails: List<GetTrailsModel.Message>) 
 
 
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
         var trailImage: ImageView = view.findViewById(R.id.trailImage)
         var trailName: TextView = view.findViewById(R.id.trails_screen_adapter_poi_name)
         var trailIcon: ImageView = view.findViewById(R.id.trails_screen_adapter_trailIcon)
-
     }
 
     @NonNull
@@ -57,7 +52,7 @@ internal class TrailsListScreenAdapter(getTrails: List<GetTrailsModel.Message>) 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-/*        holder.trailImage.setImageResource(trailBanner[position])
+        /* holder.trailImage.setImageResource(trailBanner[position])
         holder.trailIcon.setImageResource(trailIcons[position])
         holder.trailName.text=trailNameString[position]  */
 
@@ -66,14 +61,15 @@ internal class TrailsListScreenAdapter(getTrails: List<GetTrailsModel.Message>) 
         //   holder.trailIcon.setImageResource(getFeedsLocalObj[position])
 
 
-        var localImageUri =
-            context.resources.getString(R.string.staging_url) + getTrailsList[position].banner_url
+        val localImageUri =
+            context.resources.getString(R.string.live_url) + getTrailsList[position].banner_url
         println("localImageUri $localImageUri")
         Glide.with(context).load(localImageUri).into(holder.trailImage)
         holder.trailName.text = getTrailsList[position].name
         if (getTrailsList[position].name == "Wild About Twilight") {
             Glide.with(context).load(trailIcons[1]).into(holder.trailIcon)
         }
+
 
         holder.itemView.setOnClickListener {
             with(context) {

@@ -116,4 +116,12 @@ interface APIService {
 
 
 
+    @Headers("Accept:application/json", "Content-Type:application/json;")
+    @POST("v1/api/add_friend")
+    suspend fun addFriend(
+        @Header("Authorization") h1: String,
+        @Body requestBody: RequestBody
+    ): Response<ResponseBody>
+
+
 }

@@ -3,49 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.breadcrumbsapp">
 
-
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="com.example.permission.MAPS_RECEIVE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
-
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-
-    <!-- Required for foreground services on P+. -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
-
-    <uses-feature android:name="android.hardware.camera.flash" />
-
-    <queries>
-        <intent>
-            <action android:name="com.google.android.youtube.api.service.START" />
-        </intent>
-    </queries>
-
-
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true" />
-
-    <queries>
-        <package android:name="com.facebook.katana" />
-    </queries>
-
-    <permission
-        android:name="com.example.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature" />
     <application
         android:name=".ApplicationClass"
         android:allowBackup="false"
@@ -56,49 +13,26 @@
         android:theme="@style/SplashTheme"
         android:usesCleartextTraffic="true"
         tools:overrideLibrary="androidx.camera.lifecycle">
-        <meta-data
-            android:name="firebase_performance_logcat_enabled"
-            android:value="true" />
-        <meta-data
-            android:name="com.google.ar.core"
-            android:value="optional" />
-
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAdQlcPAwlydR_A_tTfoBQWx_a3RjdogjI" />
-
-
-        <meta-data
-            android:name="firebase_performance_collection_enabled"
-            android:value="true" />
-
-        <meta-data
-            android:name="firebase_performance_logcat_enabled"
-            android:value="true" />
-
-        <activity android:name="com.breadcrumbsapp.SplashScreenActivity">
+        <activity android:name=".view.NewFriendRequestAct"></activity>
+            <activity android:name=".view.SearchFriendsListAct" />
+        <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".view.LoginScreen" />
         <activity android:name=".view.TutorialActivity" />
         <activity android:name=".view.WebViewActivity" />
-
-
         <activity
             android:name=".ScannerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity
             android:name=".ARCoreActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity
             android:name=".view.arcore.ArCoreUpdateAct"
             android:screenOrientation="portrait"
@@ -111,7 +45,6 @@
             android:name=".view.arcore.ARImagePostScreen"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity
             android:name=".view.HowToPlayActivity"
             android:theme="@style/SplashTheme" />
@@ -136,13 +69,9 @@
         <activity
             android:name=".view.TrailsDetailsActivity"
             android:theme="@style/SplashTheme" />
-
-
         <activity
             android:name=".view.rewards.rewards_details.RewardsRedeemDetailsActivity"
             android:theme="@style/SplashTheme" />
-
-
         <activity
             android:name=".view.DiscoverScreenActivity"
             android:screenOrientation="portrait"
@@ -154,13 +83,14 @@
         <activity
             android:name=".view.LeaderBoardActivity"
             android:theme="@style/SplashTheme" />
-
         <activity
             android:name=".view.CreatorPostActivity"
             android:theme="@style/SplashTheme" />
-
         <activity
             android:name=".view.profile.ProfileScreenActivity"
+            android:theme="@style/SplashTheme" />
+        <activity
+            android:name=".view.profile.FriendProfileScreenActivity"
             android:theme="@style/SplashTheme" />
         <activity
             android:name=".view.MyFriendsListScreenActivity"
@@ -168,68 +98,109 @@
         <activity
             android:name=".view.profile.ProfileEditActivity"
             android:theme="@style/SplashTheme" />
-
         <activity
             android:name=".view.TrailScreenActivity"
             android:theme="@style/SplashTheme" />
-
-
         <activity
             android:name=".view.DiscoverDetailsScreenActivity"
             android:theme="@style/SplashTheme" />
-
         <activity
-            android:name="com.breadcrumbsapp.view.qrcode.DecoderActivity"
+            android:name=".view.qrcode.DecoderActivity"
             android:theme="@style/SplashTheme" />
-
         <activity
             android:name=".view.ChallengeActivity"
             android:theme="@style/SplashTheme" />
-
-
         <activity
             android:name=".view.MyAchievementScreenActivity"
             android:theme="@style/SplashTheme" />
-
         <activity
             android:name=".view.MyAchievementScreenDetailsActivity"
             android:theme="@style/SplashTheme" />
-
         <activity
             android:name=".camerafiles.activity.CameraActivity"
             android:theme="@style/SplashTheme" />
-
         <activity android:name=".camerafiles.activity.selfieChallengeImagePostActivity" />
         <activity android:name=".view.QuizChallengeQuestionActivity" />
-
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-
-
         <activity
-            android:name="com.breadcrumbsapp.camerafiles.fragments.MainActivity"
+            android:name=".camerafiles.fragments.MainActivity"
             android:theme="@style/SplashTheme" />
-
-        <activity android:name="com.breadcrumbsapp.view.profile.camera.ProfileScreenMainActivity" />
-
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"
-            tools:replace="android:value" />
-
+        <activity android:name=".view.profile.camera.ProfileScreenMainActivity" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
 
-        <!-- Foreground services in Q+ require type. -->
+        <meta-data
+            android:name="firebase_performance_logcat_enabled"
+            android:value="true" />
+        <meta-data
+            android:name="com.google.ar.core"
+            android:value="optional" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAdQlcPAwlydR_A_tTfoBQWx_a3RjdogjI" />
+        <meta-data
+            android:name="firebase_performance_collection_enabled"
+            android:value="true" />
+        <meta-data
+            android:name="firebase_performance_logcat_enabled"
+            android:value="true" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"
+            tools:replace="android:value" /> <!-- Foreground services in Q+ require type. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider" />
+        </provider>
+
         <service
             android:name=".service.LocationUpdatesService"
             android:enabled="true"
             android:exported="true" />
-
-
     </application>
+
+    <permission
+        android:name="com.example.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+    <queries>
+        <intent>
+            <action android:name="com.google.android.youtube.api.service.START" />
+        </intent>
+    </queries>
+
+    <queries>
+        <package android:name="com.facebook.katana" />
+    </queries>
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera.flash" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Required for foreground services on P+. -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="com.example.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
 </manifest>

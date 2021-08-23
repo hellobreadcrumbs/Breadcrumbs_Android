@@ -57,7 +57,7 @@ class RewardsDetailsActivity : AppCompatActivity() {
 
             tv_reward_details_show_title.text = redeem_msg_title
             tv_reward_details_show_message.text = redeem_msg_body
-            var imagePath=resources.getString(R.string.staging_url)+reward_img
+            var imagePath=resources.getString(R.string.live_url)+reward_img
             Glide.with(applicationContext).load(imagePath)
                 .into(iv_reward_details_image)
 

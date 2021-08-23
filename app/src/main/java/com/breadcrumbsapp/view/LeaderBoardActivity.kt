@@ -1,18 +1,24 @@
 package com.breadcrumbsapp.view
 
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.adapter.CustomDropDownAdapter
 import com.breadcrumbsapp.adapter.LeaderBoardPlayerListAdapter
 import com.breadcrumbsapp.databinding.LeaderBoardActivityLayoutBinding
-
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.util.CommonData
+import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.leader_board_activity_layout.*
 import kotlinx.coroutines.CoroutineScope
@@ -26,60 +32,139 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
+import java.io.FileOutputStream
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class LeaderBoardActivity : AppCompatActivity() {
+
+class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+
     private var interceptor = intercept()
+    private lateinit var sessionHandlerClass: SessionHandlerClass
     private lateinit var binding: LeaderBoardActivityLayoutBinding
     private lateinit var leaderBoardPlayerListAdapter: LeaderBoardPlayerListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LeaderBoardActivityLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sessionHandlerClass = SessionHandlerClass(applicationContext)
 
         leaderboardScreenBackButton.setOnClickListener { finish() }
-        leaderBoard_player_list.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        getRankingDetails()
+        leaderBoard_player_list.layoutManager =
+            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
+        if(CommonData.getRankData == null)
+        {
+
+            getRankingDetails()
+        }
+        else{
+            loaderImage.visibility = View.GONE
+
+            leaderBoardPlayerListAdapter =
+                LeaderBoardPlayerListAdapter(CommonData.getRankData!!)
+            leaderBoard_player_list.adapter = leaderBoardPlayerListAdapter
+        }
+
+        leaderBoard_playerName.text = sessionHandlerClass.getSession("player_name")
+        player_totalXP.text = "${sessionHandlerClass.getSession("player_experience_points")} XP"
+       // player_rank.text = "#${sessionHandlerClass.getSession("player_rank")}"
+        leaderBoard_player_level.text=sessionHandlerClass.getSession("level_text_value")
+
 
 
         val customDropDownAdapter = CustomDropDownAdapter(applicationContext)
-        spinner.adapter=customDropDownAdapter
-       /* if (spinner != null) {
-            val arrayAdapter = ArrayAdapter(this, R.layout.leaderboard_spinner_item, personNames)
-            spinner.adapter = arrayAdapter
+        spinner.adapter = customDropDownAdapter
+        spinner.onItemSelectedListener = this
 
-            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View,
-                    position: Int,
-                    id: Long
-                ) {
-                    Toast.makeText(
-                        this@LeaderBoardActivity,
-                        personNames[position],
-                        Toast.LENGTH_SHORT
-                    ).show()
+
+        /* if (spinner != null) {
+             val arrayAdapter = ArrayAdapter(this, R.layout.leaderboard_spinner_item, personNames)
+             spinner.adapter = arrayAdapter
+
+             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                 override fun onItemSelected(
+                     parent: AdapterView<*>,
+                     view: View,
+                     position: Int,
+                     id: Long
+                 ) {
+                     Toast.makeText(
+                         this@LeaderBoardActivity,
+                         personNames[position],
+                         Toast.LENGTH_SHORT
+                     ).show()
+                 }
+
+                 override fun onNothingSelected(parent: AdapterView<*>) {
+                     // Code to perform some action when nothing is selected
+                 }
+             }
+
+         }*/
+
+
+
+        share_lay.setOnClickListener {
+            val v1: View =
+                window.decorView.rootView.findViewById(R.id.payer_info_lay)
+
+            try {
+                // image naming and path  to include sd card  appending name you choose for file
+                val now = Date()
+                val mPath =
+                    externalCacheDir.toString() + "/" + now + ".jpg"
+
+                // create bitmap screen capture
+                //  val v1 = window.decorView.rootView
+                var bitmap: Bitmap
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    bitmap =
+                        Bitmap.createBitmap(v1.width, v1.height, Bitmap.Config.ARGB_8888)
+                    var canvas = Canvas(bitmap)
+                    v1.draw(canvas)
+                } else {
+                    v1.isDrawingCacheEnabled = true
+                    bitmap = Bitmap.createBitmap(v1.drawingCache)
+                    v1.isDrawingCacheEnabled = false
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                    // Code to perform some action when nothing is selected
-                }
+
+                val imageFile = File(mPath)
+                val outputStream = FileOutputStream(imageFile)
+                val quality = 100
+                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
+                outputStream.flush()
+                outputStream.close()
+                openScreenshot(imageFile)
+            } catch (e: Throwable) {
+                // Several error may come out with file handling or DOM
+                e.printStackTrace()
             }
+        }
 
-        }*/
+    }
 
-
-
-
+    private fun openScreenshot(imageFile: File) {
+        val intent = Intent()
+        intent.action = Intent.ACTION_VIEW
+        val photoURI = FileProvider.getUriForFile(
+            this,
+            applicationContext.packageName.toString() + ".provider",
+            imageFile
+        )
+        //val uri: Uri = Uri.fromFile(imageFile)
+        intent.setDataAndType(photoURI, "image/*")
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        startActivity(intent)
     }
 
 
     private fun getRankingDetails() {
         try {
             Glide.with(applicationContext).load(R.raw.loading).into(loaderImage)
-            loaderImage.visibility= View.VISIBLE
+            loaderImage.visibility = View.VISIBLE
             val okHttpClient = OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
@@ -91,17 +176,16 @@ class LeaderBoardActivity : AppCompatActivity() {
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.staging_url))
+                .baseUrl(resources.getString(R.string.live_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
-            // Create JSON using JSONObject
 
+            // Create JSON using JSONObject
             val jsonObject = JSONObject()
             jsonObject.put("trail_id", "4")
 
-            println("getRankingDetails Url = ${resources.getString(R.string.staging_url)}")
             println("getRankingDetails Input = $jsonObject")
 
 
@@ -131,10 +215,12 @@ class LeaderBoardActivity : AppCompatActivity() {
 
 
                                 println("UserName : ${CommonData.getRankData!![0].username}")
-                                loaderImage.visibility= View.GONE
+                                loaderImage.visibility = View.GONE
 
-                                leaderBoardPlayerListAdapter = LeaderBoardPlayerListAdapter(CommonData.getRankData!!)
+                                leaderBoardPlayerListAdapter =
+                                    LeaderBoardPlayerListAdapter(CommonData.getRankData!!)
                                 leaderBoard_player_list.adapter = leaderBoardPlayerListAdapter
+
 
                             }
 
@@ -154,22 +240,21 @@ class LeaderBoardActivity : AppCompatActivity() {
     }
 
 
-
     private fun intercept(): HttpLoggingInterceptor {
         val interceptors = HttpLoggingInterceptor()
         interceptors.level = HttpLoggingInterceptor.Level.BODY
         interceptor = interceptors
         return interceptor
     }
-    fun calculateRanking(expStr : String)
-    {
+
+    fun calculateRanking(expStr: String) {
         var ranking = "Recruit"
         var level = 1
         var base = 0
         var nextLevel = 1000
 
 
-        val exp=expStr.toInt()
+        val exp = expStr.toInt()
         when (exp) {
             in 1000..1999 -> { // 1000 thresh
                 ranking = "Recruit"
@@ -303,4 +388,21 @@ class LeaderBoardActivity : AppCompatActivity() {
 
 
     }
+
+    private var trailIcons = intArrayOf(
+        R.drawable.breadcrumbs_trail,
+        R.drawable.wild_about_twlight_icon,
+        R.drawable.anthology_trail_icon
+    )
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        binding.leaderBoardTrailIcon.setImageResource(trailIcons[position])
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+    }
+
+
+
 }

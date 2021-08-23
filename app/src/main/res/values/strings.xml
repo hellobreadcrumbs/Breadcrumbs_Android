@@ -167,4 +167,9 @@
     <string name="faq_question_14">Can POIs trails be in unsafe areas/private properties?</string>
     <string name="faq_answer_14">All POIs and trails are located in safe areas which are publicly accessible.</string>
 
+    <string name="search_username_email">Search username / email</string>
+    <string name="friend_requests">Friend Requests</string>
+    <string name="new_requests">New Requests</string>
+    <string name="pending_requests">Pending Requests</string>
+    <string name="no_data_found">No Data Found</string>
 </resources>

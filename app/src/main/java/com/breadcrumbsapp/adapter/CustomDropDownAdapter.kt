@@ -21,6 +21,7 @@ class CustomDropDownAdapter(val context: Context) : BaseAdapter() {
 
     )
     private var trailNameString: Array<String> = arrayOf("PIONEER TRAIL","WILD ABOUT TWILIGHT TRAIL","ANTHOLOGY TRAIL")
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
         val view: View
@@ -34,10 +35,31 @@ class CustomDropDownAdapter(val context: Context) : BaseAdapter() {
             vh = view.tag as ItemHolder
         }
         vh.label.text = trailNameString[position]
+        vh.img.visibility = View.GONE
 
-     //   val id = context.resources.getIdentifier(dataSource.get(position).url, "drawable", context.packageName)
-     //   vh.img.setBackgroundResource(id)
+        //   val id = context.resources.getIdentifier(dataSource.get(position).url, "drawable", context.packageName)
+        //   vh.img.setBackgroundResource(id)
 
+        return view
+    }
+
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val view: View
+        /*if (position == 0) {
+            view = layoutInflater.inflate(R.layout.header_country, parent, false)
+            view.setOnClickListener {
+                val root = parent.rootView
+                root.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK))
+                root.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK))
+            }
+        } else {*/
+
+        view = inflater.inflate(R.layout.leaderboard_spinner_item, parent, false)
+        val holderv = ItemHolder(view)
+        holderv.label.text = trailNameString[position]
+        holderv.img.setImageResource(trailIcons[position])
+
+        /*  }*/
         return view
     }
 

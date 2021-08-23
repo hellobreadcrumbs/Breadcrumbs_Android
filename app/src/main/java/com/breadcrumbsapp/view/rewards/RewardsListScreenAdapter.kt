@@ -65,7 +65,7 @@ internal class RewardsListScreenAdapter(
                 text = reward_id
             }
             holder.rewardsTitle.text = rewardtitle
-            var imagePath=context.resources.getString(R.string.staging_url)+reward_img
+            var imagePath=context.resources.getString(R.string.live_url)+reward_img
             Glide.with(context).load(imagePath)
                 .into(holder.imageViewRewardsIcon)
         }

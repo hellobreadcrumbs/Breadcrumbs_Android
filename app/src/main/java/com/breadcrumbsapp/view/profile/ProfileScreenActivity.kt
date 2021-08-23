@@ -214,7 +214,7 @@ class ProfileScreenActivity : AppCompatActivity() {
             val jsonObject = JSONObject()
             jsonObject.put("user_id", "66")
 
-            println("getUserAchievementsAPI Url = ${resources.getString(R.string.staging_url)}")
+            println("getUserAchievementsAPI Url = ${resources.getString(R.string.live_url)}")
             println("getUserAchievementsAPI Input = $jsonObject")
 
 
@@ -306,7 +306,7 @@ class ProfileScreenActivity : AppCompatActivity() {
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.staging_url))
+                .baseUrl(resources.getString(R.string.live_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

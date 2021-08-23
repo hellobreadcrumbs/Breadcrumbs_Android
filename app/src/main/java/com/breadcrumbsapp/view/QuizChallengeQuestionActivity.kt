@@ -713,7 +713,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                 .build()
             // Create Retrofit
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.staging_url))
+                .baseUrl(resources.getString(R.string.live_url))
                 .client(okHttpClient)
                 .build()
 

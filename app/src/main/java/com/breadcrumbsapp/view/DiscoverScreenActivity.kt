@@ -215,10 +215,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private lateinit var getTrailsData: GetTrailsModel
 
     //ranking,level,base,nextLevel
-    private var ranking: String = ""
-    private var level: Int = 0
-    private var base: Int = 0
-    private var nextLevel: Int = 0
+
     private lateinit var vibrator: Vibrator
     fun readJsonFromAssets(context: Context, filePath: String): String? {
         try {
@@ -1627,7 +1624,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.staging_url))
+                .baseUrl(resources.getString(R.string.live_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -1641,7 +1638,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
             jsonObject.put("trails", "1")
-            println("getEvents Url = ${resources.getString(R.string.staging_url)}")
+            println("getEvents Url = ${resources.getString(R.string.live_url)}")
             println("getEvents Input = $jsonObject")
 
 
@@ -1778,7 +1775,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.staging_url))
+                .baseUrl(resources.getString(R.string.live_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -1893,7 +1890,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         selectedPOIHintContent = CommonData.eventsModelMessage!![pos].description
         selectedPOIDuration = distanceMatrixApiModelObj[pos].duration
         selectedPOIImage =
-            resources.getString(R.string.staging_url) + CommonData.eventsModelMessage!![pos].poi_img
+            resources.getString(R.string.live_url) + CommonData.eventsModelMessage!![pos].poi_img
         println("poi_ID selectedPOIID = $selectedPOIID")
         mapListToggleButton.isChecked = false
 
@@ -2201,7 +2198,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.staging_url))
+                .baseUrl(resources.getString(R.string.live_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -2211,7 +2208,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
 
-            println("getUserDetails Url = ${resources.getString(R.string.staging_url)}")
+            println("getUserDetails Url = ${resources.getString(R.string.live_url)}")
             println("getUserDetails Input = $jsonObject")
 
 
@@ -2277,6 +2274,10 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     }
 
     private fun calculateUserLevel(exp: Int) {
+          var ranking: String = ""
+          var level: Int = 0
+          var base: Int = 0
+          var nextLevel: Int = 0
         when (exp) {
             in 0..999 -> { // 1000 thresh
                 ranking = "RECRUIT"

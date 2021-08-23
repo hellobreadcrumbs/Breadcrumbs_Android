@@ -51,8 +51,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="260dp"
                         android:scaleType="fitXY"
-                        android:background="@drawable/pioneer_trail_banner_details_screen"
-
                         tools:ignore="ContentDescription" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat

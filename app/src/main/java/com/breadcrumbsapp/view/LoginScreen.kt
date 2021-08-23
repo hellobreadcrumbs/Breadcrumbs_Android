@@ -405,7 +405,7 @@ class LoginScreen : AppCompatActivity() {
 
         // Create Retrofit
         val retrofit = Retrofit.Builder()
-            .baseUrl(resources.getString(R.string.staging_url))
+            .baseUrl(resources.getString(R.string.live_url))
             .build()
 
         // Create Service
@@ -492,7 +492,7 @@ class LoginScreen : AppCompatActivity() {
             .build()
         // Create Retrofit
         val retrofit = Retrofit.Builder()
-            .baseUrl(resources.getString(R.string.staging_url))
+            .baseUrl(resources.getString(R.string.live_url))
             .client(okHttpClient)
             .build()
 
@@ -595,7 +595,7 @@ class LoginScreen : AppCompatActivity() {
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.staging_url))
+                .baseUrl(resources.getString(R.string.live_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -605,7 +605,7 @@ class LoginScreen : AppCompatActivity() {
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
 
-            println("getUserDetails Url = ${resources.getString(R.string.staging_url)}")
+            println("getUserDetails Url = ${resources.getString(R.string.live_url)}")
             println("getUserDetails Input = $jsonObject")
 
 
@@ -634,16 +634,14 @@ class LoginScreen : AppCompatActivity() {
                             CommonData.getUserDetails = response.body()?.message
 
 
-
-
                             println("GetUseDetails = ${CommonData.getUserDetails!!.username}")
 
                             sharedPreference.saveSession("player_experience_points",CommonData.getUserDetails!!.experience)
                             sharedPreference.saveSession("player_register_date",CommonData.getUserDetails!!.created)
                             sharedPreference.saveSession("player_user_name",CommonData.getUserDetails!!.username)
                             sharedPreference.saveSession("player_email_id",CommonData.getUserDetails!!.email)
+                            sharedPreference.saveSession("player_rank",CommonData.getUserDetails!!.rank)
                             sharedPreference.saveSession("player_id",CommonData.getUserDetails!!.id)
-
 
 
 
