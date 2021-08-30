@@ -1,6 +1,7 @@
 package com.breadcrumbsapp.view
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -16,11 +17,14 @@ import com.breadcrumbsapp.R
 import com.breadcrumbsapp.adapter.CustomDropDownAdapter
 import com.breadcrumbsapp.adapter.LeaderBoardPlayerListAdapter
 import com.breadcrumbsapp.databinding.LeaderBoardActivityLayoutBinding
+
+
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.leader_board_activity_layout.*
+import kotlinx.android.synthetic.main.user_profile_screen_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,12 +42,15 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 
+@Suppress("DEPRECATION")
 class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private var interceptor = intercept()
     private lateinit var sessionHandlerClass: SessionHandlerClass
     private lateinit var binding: LeaderBoardActivityLayoutBinding
     private lateinit var leaderBoardPlayerListAdapter: LeaderBoardPlayerListAdapter
+
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LeaderBoardActivityLayoutBinding.inflate(layoutInflater)
@@ -54,12 +61,10 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         leaderBoard_player_list.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-        if(CommonData.getRankData == null)
-        {
+        if (CommonData.getRankData == null) {
 
             getRankingDetails()
-        }
-        else{
+        } else {
             loaderImage.visibility = View.GONE
 
             leaderBoardPlayerListAdapter =
@@ -69,9 +74,26 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
         leaderBoard_playerName.text = sessionHandlerClass.getSession("player_name")
         player_totalXP.text = "${sessionHandlerClass.getSession("player_experience_points")} XP"
-       // player_rank.text = "#${sessionHandlerClass.getSession("player_rank")}"
-        leaderBoard_player_level.text=sessionHandlerClass.getSession("level_text_value")
+        // player_rank.text = "#${sessionHandlerClass.getSession("player_rank")}"
+        leaderBoard_player_level.text = sessionHandlerClass.getSession("level_text_value")
 
+
+
+        if (sessionHandlerClass.getSession("player_photo_url") != null && sessionHandlerClass.getSession(
+                "player_photo_url"
+            ) != ""
+        ) {
+            Glide.with(applicationContext).load(sessionHandlerClass.getSession("player_photo_url"))
+                .into(leader_board_player_profile_pic)
+        } else {
+            Glide.with(applicationContext).load(R.drawable.no_image)
+                .into(leader_board_player_profile_pic)
+        }
+
+
+        refresh_icon.setOnClickListener {
+            getRankingDetails()
+        }
 
 
         val customDropDownAdapter = CustomDropDownAdapter(applicationContext)
@@ -107,8 +129,7 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
 
         share_lay.setOnClickListener {
-            val v1: View =
-                window.decorView.rootView.findViewById(R.id.payer_info_lay)
+            val v1: View = window.decorView.rootView.findViewById(R.id.payer_info_lay)
 
             try {
                 // image naming and path  to include sd card  appending name you choose for file
@@ -118,11 +139,11 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
                 // create bitmap screen capture
                 //  val v1 = window.decorView.rootView
-                var bitmap: Bitmap
+                val bitmap: Bitmap
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     bitmap =
                         Bitmap.createBitmap(v1.width, v1.height, Bitmap.Config.ARGB_8888)
-                    var canvas = Canvas(bitmap)
+                    val canvas = Canvas(bitmap)
                     v1.draw(canvas)
                 } else {
                     v1.isDrawingCacheEnabled = true
@@ -147,27 +168,30 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     }
 
     private fun openScreenshot(imageFile: File) {
-        val intent = Intent()
-        intent.action = Intent.ACTION_VIEW
+
         val photoURI = FileProvider.getUriForFile(
             this,
             applicationContext.packageName.toString() + ".provider",
             imageFile
         )
-        //val uri: Uri = Uri.fromFile(imageFile)
-        intent.setDataAndType(photoURI, "image/*")
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        startActivity(intent)
+        println("photoURI $photoURI")
+        val share = Intent(Intent.ACTION_SEND)
+        share.type = "image/*"
+        share.putExtra(Intent.EXTRA_STREAM, photoURI)
+
+        startActivity(Intent.createChooser(share, "Share Your Design!"))
+
     }
 
 
     private fun getRankingDetails() {
         try {
             Glide.with(applicationContext).load(R.raw.loading).into(loaderImage)
+            leaderBoard_player_list.visibility = View.GONE
             loaderImage.visibility = View.VISIBLE
             val okHttpClient = OkHttpClient.Builder()
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(50000, TimeUnit.SECONDS)
+                .readTimeout(50000, TimeUnit.SECONDS)
                 .addInterceptor(interceptor)
                 .protocols(Collections.singletonList(Protocol.HTTP_1_1))
                 .build()
@@ -215,8 +239,9 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
 
                                 println("UserName : ${CommonData.getRankData!![0].username}")
-                                loaderImage.visibility = View.GONE
 
+                                loaderImage.visibility = View.GONE
+                                leaderBoard_player_list.visibility = View.VISIBLE
                                 leaderBoardPlayerListAdapter =
                                     LeaderBoardPlayerListAdapter(CommonData.getRankData!!)
                                 leaderBoard_player_list.adapter = leaderBoardPlayerListAdapter
@@ -247,147 +272,6 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         return interceptor
     }
 
-    fun calculateRanking(expStr: String) {
-        var ranking = "Recruit"
-        var level = 1
-        var base = 0
-        var nextLevel = 1000
-
-
-        val exp = expStr.toInt()
-        when (exp) {
-            in 1000..1999 -> { // 1000 thresh
-                ranking = "Recruit"
-                level = 2
-                base = 1000
-                nextLevel = 2000
-            }
-            in 2000..2999 -> { // 1000 thresh
-                ranking = "Recruit"
-                level = 3
-                base = 2000
-                nextLevel = 3000
-            }
-            in 3000..3999 -> { // 1000 thresh
-                ranking = "Recruit"
-                level = 4
-                base = 3000
-                nextLevel = 4000
-            }
-            in 4000..5999 -> { // 2000 thresh
-                ranking = "Recruit"
-                level = 5
-                base = 4000
-                nextLevel = 6000
-            }
-            in 6000..7999 -> { // 2000 thresh
-                ranking = "Recruit"
-                level = 6
-                base = 6000
-                nextLevel = 8000
-            }
-            in 8000..9999 -> { // 2000 thresh
-                ranking = "Recruit"
-                level = 7
-                base = 8000
-                nextLevel = 10000
-            }
-            in 10000..11999 -> { // 2000 thresh
-                ranking = "Recruit"
-                level = 8
-                base = 10000
-                nextLevel = 12000
-            }
-            in 12000..13999 -> { // 2000 thresh
-                ranking = "Recruit"
-                level = 9
-                base = 12000
-                nextLevel = 14000
-            }
-            in 14000..16999 -> { // 2000 thresh
-                ranking = "Navigator"
-                level = 10
-                base = 14000
-                nextLevel = 17000
-                //    badge = badge2
-            }
-            in 17000..20499 -> { // 2000 thresh
-                ranking = "Navigator"
-                level = 11
-                base = 17000
-                nextLevel = 20500
-                //    badge = badge2
-            }
-            in 20500..24499 -> { // 2000 thresh
-                ranking = "Navigator"
-                level = 12
-                base = 20500
-                nextLevel = 24500
-                //    badge = badge2
-            }
-            in 24500..28499 -> { // 2000 thresh
-                ranking = "Navigator"
-                level = 13
-                base = 24500
-                nextLevel = 28500
-                //   badge = badge2
-            }
-            in 28500..33499 -> { // 2000 thresh
-                ranking = "Navigator"
-                level = 14
-                base = 28500
-                nextLevel = 33500
-                //   badge = badge2
-            }
-            in 33500..38999 -> { // 2000 thresh
-                ranking = "Navigator"
-                level = 15
-                base = 33500
-                nextLevel = 39000
-                //   badge = badge2
-            }
-            in 39000..44999 -> { // 2000 thresh
-                ranking = "Navigator"
-                level = 16
-                base = 39000
-                nextLevel = 45000
-                //   badge = badge2
-            }
-            in 45000..51499 -> { // 2000 thresh
-                ranking = "Navigator"
-                level = 17
-                base = 45000
-                nextLevel = 51500
-                // badge = badge2
-            }
-            in 51500..58499 -> { // 2000 thresh
-                ranking = "Navigator"
-                level = 18
-                base = 51500
-                nextLevel = 58500
-                // badge = badge2
-            }
-            in 58500..65999 -> { // 2000 thresh
-                ranking = "Navigator"
-                level = 19
-                base = 58500
-                nextLevel = 66000
-                // badge = badge2
-            }
-            in 66000..73999 -> { // 2000 thresh
-                ranking = "Captain"
-                level = 20
-                base = 66000
-                nextLevel = 74000
-                //   badge = badge3
-            }
-        }
-
-        val percent = (exp - base) / (nextLevel - base) * 100
-        val expToLevel = nextLevel - base - (exp - base)
-
-
-    }
 
     private var trailIcons = intArrayOf(
         R.drawable.breadcrumbs_trail,
@@ -402,7 +286,6 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
     }
-
 
 
 }

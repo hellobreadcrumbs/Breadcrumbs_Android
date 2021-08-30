@@ -76,7 +76,7 @@ class ProfileScreenActivity : AppCompatActivity() {
 
         val jsonFileString = readJsonFromAssets(applicationContext, "trails.json")
         getTrailsData=   Gson().fromJson(jsonFileString, GetTrailsModel::class.java)
-        print("CommonData.getTrailsData = ${jsonFileString.toString()}")
+        //print("CommonData.getTrailsData = ${jsonFileString.toString()}")
         CommonData.getTrailsData=getTrailsData.message
 
 
@@ -110,7 +110,7 @@ class ProfileScreenActivity : AppCompatActivity() {
             startActivity(Intent(applicationContext, MyFriendsListScreenActivity::class.java))
         })
 
-        achievement_icon_one.setOnClickListener(View.OnClickListener {
+        achievementLayout.setOnClickListener(View.OnClickListener {
 
 
             startActivity(Intent(applicationContext, MyAchievementScreenActivity::class.java))

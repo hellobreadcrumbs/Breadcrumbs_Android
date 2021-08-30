@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.borjabravo.readmoretextview.ReadMoreTextView
@@ -46,7 +47,7 @@ internal class CreatorPostAdapter(getFeed: List<GetMyFeedModel.Message>) :
         var userProfilePicture: CircularImageView =
             view.findViewById(R.id.creator_post_profile_picture)
         var createdDateTextView: TextView = view.findViewById(R.id.createdDateTextView)
-
+        var likeButton: ToggleButton = view.findViewById(R.id.creator_post_adapter_likeImageView)
 
     }
 
@@ -121,7 +122,7 @@ internal class CreatorPostAdapter(getFeed: List<GetMyFeedModel.Message>) :
             .load(localImageObj)
             .into(holder.imageView)
 
-        println("Like Count = ${getFeedsLocalObj[position]} , ${data.like_count}")
+        println("Like Count = $position , ${data.like_count}")
         if (data.like_count <= "1") {
             holder.likeCountText.text = data.like_count + " Like"
         } else {
@@ -208,37 +209,24 @@ internal class CreatorPostAdapter(getFeed: List<GetMyFeedModel.Message>) :
                 val drawable  = holder.imageView.drawable as BitmapDrawable
                 val bitmap=drawable.bitmap as Bitmap
                 saveBitmapAsImageToDevice(bitmap)
-                //saveImageToInternalStorage(holder.imageView.drawable)
-                // shareMethod(localImageObj)
+
+            }
+
+            holder.shareText.setOnClickListener {
+                val drawable  = holder.imageView.drawable as BitmapDrawable
+                val bitmap=drawable.bitmap as Bitmap
+                saveBitmapAsImageToDevice(bitmap)
+
             }
 
 
-            /*    val shareIntent: Intent = Intent().apply {
-                               action = Intent.ACTION_SEND
-                               putExtra(Intent.EXTRA_STREAM, uriToImage)
-                               type = "image/jpeg"
-                           }
-                           context.startActivity(Intent.createChooser(shareIntent, "Send To"))*/
-            // Log.e("toyBornTime", "" + toyBornTime);
+
         } catch (e: ParseException) {
             e.printStackTrace()
         }
     }
 
-    private fun shareMethod(uriString:String)
-    {
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        val screenshotUri: Uri = Uri.parse(uriString)
-        try {
-            val stream: InputStream = context.contentResolver.openInputStream(screenshotUri)!!
-        } catch (e: FileNotFoundException) {
-            // TODO Auto-generated catch block
-            e.printStackTrace()
-        }
-        sharingIntent.type = "image/jpeg"
-        sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri)
-        context.startActivity(Intent.createChooser(sharingIntent, "Share image using"))
-    }
+
 
     override fun getItemCount(): Int {
         return getFeedsLocalObj.size

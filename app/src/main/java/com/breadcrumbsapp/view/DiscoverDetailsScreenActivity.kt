@@ -17,6 +17,7 @@ import androidx.annotation.Nullable
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.breadcrumbsapp.R
+import com.breadcrumbsapp.camerafiles.activity.SelfieChallengeImagePostActivity
 import com.breadcrumbsapp.databinding.DiscoverDetailsScreenBinding
 import com.breadcrumbsapp.model.GetEventsModel
 import com.breadcrumbsapp.util.SessionHandlerClass
@@ -69,6 +70,8 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
         var bundle: Bundle? = intent.extras
         var from = bundle!!.getString("from")
 
+
+
         poiName =sharedPreference.getSession("selectedPOIName").toString()
         poiID = sharedPreference.getSession("selectedPOIID").toString()
         poiDistance =sharedPreference.getSession("poiDistance").toString()
@@ -83,6 +86,8 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
         println("poiQrCode $poiQrCode")
         println("poiChType $poiChType")
 
+        poiChType="0"
+        from=resources.getString(R.string.discover)
 
         if (poiArid == "1") {
             // needs open AR screen
@@ -269,19 +274,22 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
         val challengeTitle = dialog.findViewById<TextView>(R.id.challengeTitle)
         val challengeContent = dialog.findViewById<TextView>(R.id.challengeContent)
 
-        if (challengeName == "quiz") {
-            logoIconView.setImageDrawable(getDrawable(R.drawable.quiz_challenge_icon))
-            challengeTitle.text = resources.getString(R.string.about_quiz_challenge_title)
-            challengeContent.text = resources.getString(R.string.quiz_challenge_content)
-        } else if (challengeName == "selfie") {
-            logoIconView.setImageDrawable(getDrawable(R.drawable.selfie_challenge_icon))
-            challengeTitle.text = resources.getString(R.string.about_selfie_challenge_title)
-            challengeContent.text = resources.getString(R.string.selfie_challenge_content)
-        }
-        else if (challengeName == "ar_screen") {
-            logoIconView.setImageDrawable(getDrawable(R.drawable.ar_challenge_icon))
-            challengeTitle.text = resources.getString(R.string.about_mystery_challenge_title)
-            challengeContent.text = resources.getString(R.string.about_mystery_challenge_content)
+        when (challengeName) {
+            "quiz" -> {
+                logoIconView.setImageDrawable(getDrawable(R.drawable.quiz_challenge_icon))
+                challengeTitle.text = resources.getString(R.string.about_quiz_challenge_title)
+                challengeContent.text = resources.getString(R.string.quiz_challenge_content)
+            }
+            "selfie" -> {
+                logoIconView.setImageDrawable(getDrawable(R.drawable.selfie_challenge_icon))
+                challengeTitle.text = resources.getString(R.string.about_selfie_challenge_title)
+                challengeContent.text = resources.getString(R.string.selfie_challenge_content)
+            }
+            "ar_screen" -> {
+                logoIconView.setImageDrawable(getDrawable(R.drawable.ar_challenge_icon))
+                challengeTitle.text = resources.getString(R.string.about_mystery_challenge_title)
+                challengeContent.text = resources.getString(R.string.about_mystery_challenge_content)
+            }
         }
         okBtn.setOnClickListener {
             dialog.dismiss()
@@ -303,6 +311,9 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
                 .putExtra("challengeName", challengeName)
                 .putExtra("poiImage", poiImage).putExtra("poiArid", poiArid)
         )
+
+
+
 
 
     }

@@ -1,8 +1,11 @@
 package com.breadcrumbsapp.interfaces
 
 import com.breadcrumbsapp.model.*
+import com.google.gson.JsonObject
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -115,7 +118,6 @@ interface APIService {
     ): Response<ResponseBody>
 
 
-
     @Headers("Accept:application/json", "Content-Type:application/json;")
     @POST("v1/api/add_friend")
     suspend fun addFriend(
@@ -123,5 +125,38 @@ interface APIService {
         @Body requestBody: RequestBody
     ): Response<ResponseBody>
 
+    @Headers("Accept:application/json", "Content-Type:application/json;")
+    @POST("v1/api/process_friend_request")
+    suspend fun acceptORCancelFriendRequest(
+        @Header("Authorization") h1: String,
+        @Body requestBody: RequestBody
+    ): Response<JsonObject>
 
+    //update_profile
+
+    @Multipart
+    @POST("v1/api/update_profile")
+    suspend fun updateProfile(
+        @Header("Authorization") h1: String,
+        @Part("id")  id : RequestBody,
+        @Part  file :MultipartBody.Part
+    ): Response<JsonObject>
+
+    @Headers("Accept:application/json", "Content-Type:application/json;")
+    @POST("v1/api/begin_challenge")
+    suspend fun beginChallenge(
+        @Header("Authorization") h1: String,
+        @Body requestBody: RequestBody
+    ): Response<BeginChallengeModel>
+
+
+
+    @Multipart
+    @POST("v1/api/begin_selfie_challenge")
+    suspend fun uploadSelfieImage(
+        @Header("Authorization") h1: String,
+        @Part("user_id")  id : RequestBody,
+        @Part("poi_id")  poi_id : RequestBody,
+        @Part  file :MultipartBody.Part
+    ): Response<JsonObject>
 }

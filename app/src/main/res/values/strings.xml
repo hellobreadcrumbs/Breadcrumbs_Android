@@ -171,5 +171,16 @@
     <string name="friend_requests">Friend Requests</string>
     <string name="new_requests">New Requests</string>
     <string name="pending_requests">Pending Requests</string>
-    <string name="no_data_found">No Data Found</string>
+    <string name="no_pending_request_text">No pending requests</string>
+    <string name="no_new_request_text">No new requests</string>
+    <string name="retry">Retry</string>
+    <string name="internet_conection_lost">INTERNET CONNECTION LOST</string>
+    <string name="please_reconnect_to_the_internet_to_continue_playing">please reconnect to the internet to continue playing</string>
+    <string name="GPS_SPOOFING_APP_DETECTED">GPS SPOOFING APP DETECTED</string>
+    <string name="Please_disable_spoofing_apps_to_keep_playing">Please disable spoofing apps to keep playing.</string>
+    <string name="GPS_SIGNAL_LOST">GPS SIGNAL LOST</string>
+    <string name="Please_ensure_that_your_GPS_is_enabled">Please ensure that your GPS is enabled.</string>
+    <string name="select_file_upload">Choose your photo</string>
+    <string name="file_too_large">The selected file is too large. Select a new file with size less than 2mb</string>
+    <string name="give_permission">Kindly allow the permission, Otherwise you cannot take a photo.</string>
 </resources>

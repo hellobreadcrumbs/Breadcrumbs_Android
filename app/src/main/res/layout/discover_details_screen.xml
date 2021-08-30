@@ -152,14 +152,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="15dp"
-                    android:background="@drawable/take_me_there_bg"
+                    android:background="@drawable/take_me_discover"
                     android:fontFamily="@font/claritycity_semibold"
                     android:paddingStart="10dp"
                     android:paddingTop="5dp"
                     android:paddingEnd="10dp"
                     android:paddingBottom="5dp"
                     android:text="TAKE ME THERE"
-                    android:textColor="@color/white"
+                    android:textColor="#4B3B30"
                     android:textSize="@dimen/discovery_screen_player_name_text_size" />
 
                 <TextView

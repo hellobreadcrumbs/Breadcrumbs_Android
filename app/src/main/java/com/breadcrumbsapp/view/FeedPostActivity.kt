@@ -138,7 +138,6 @@ class FeedPostActivity : AppCompatActivity() {
     }
 
 
-
     private fun intercept(): HttpLoggingInterceptor {
         val interceptors = HttpLoggingInterceptor()
         interceptors.level = HttpLoggingInterceptor.Level.BODY

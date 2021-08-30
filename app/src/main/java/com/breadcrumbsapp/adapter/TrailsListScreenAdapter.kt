@@ -62,7 +62,7 @@ internal class TrailsListScreenAdapter(getTrails: List<GetTrailsModel.Message>) 
 
 
         val localImageUri =
-            context.resources.getString(R.string.live_url) + getTrailsList[position].banner_url
+            context.resources.getString(R.string.staging_url) + getTrailsList[position].banner_url
         println("localImageUri $localImageUri")
         Glide.with(context).load(localImageUri).into(holder.trailImage)
         holder.trailName.text = getTrailsList[position].name

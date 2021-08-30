@@ -89,7 +89,10 @@ internal class LeaderBoardPlayerListAdapter(
         holder.itemView.setOnClickListener {
             context!!.startActivity(
                 Intent(context, FriendProfileScreenActivity::class.java)
-                    .putExtra("ChosenFriendDetail", getRankDataObj[position])
+                    .putExtra("username", getRankDataObj[position].username)
+                    .putExtra("friend_id", getRankDataObj[position].id)
+                    .putExtra("total_xp", getRankDataObj[position].total_exp)
+                    .putExtra("profile_pic", getRankDataObj[position].profile_picture)
                     .putExtra("player_level",holder.playerLevel.text.toString())
             )
         }

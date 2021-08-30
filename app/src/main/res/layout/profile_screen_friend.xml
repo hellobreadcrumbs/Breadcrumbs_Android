@@ -77,7 +77,7 @@
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:layout_marginStart="20dp"
-                            android:src="@mipmap/breadcrumbs_app_icon_round"
+                            android:src="@drawable/com_facebook_profile_picture_blank_portrait"
                             app:civ_border_width="0dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -86,7 +86,7 @@
                             android:id="@+id/playerDetailsLayout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
+                            android:layout_marginStart="15dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/selected_player_userProfilePicture"
                             app:layout_constraintTop_toTopOf="parent">
@@ -152,6 +152,7 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
+                                android:visibility="visible"
                                 android:id="@+id/add_friend_btn"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -293,17 +294,16 @@
                                 app:layout_constraintTop_toTopOf="parent">
 
                                 <TextView
+                                    android:id="@+id/friend_profile_completed_poi_count"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:paddingStart="15dp"
-
                                     android:paddingTop="2dp"
                                     android:paddingEnd="15dp"
                                     android:paddingBottom="2dp"
                                     android:text="328"
                                     android:textColor="#4B3B30"
                                     android:textSize="@dimen/discover_screen_poi_distance_text_size"
-
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
@@ -349,17 +349,16 @@
                                 app:layout_constraintTop_toTopOf="parent">
 
                                 <TextView
+                                    android:id="@+id/friend_profile_completed_trail_count"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:paddingStart="15dp"
-
                                     android:paddingTop="2dp"
                                     android:paddingEnd="15dp"
                                     android:paddingBottom="2dp"
                                     android:text="328"
                                     android:textColor="#4B3B30"
                                     android:textSize="@dimen/discover_screen_poi_distance_text_size"
-
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
@@ -434,6 +433,21 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/selected_player_post_border_line"
                         tools:listitem="@layout/creator_post_adapter" />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/no_post_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/claritycity_bold"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_horizontal"
+                        android:text="No Post Available"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/trail_list_item_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/selected_player_post_border_line" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

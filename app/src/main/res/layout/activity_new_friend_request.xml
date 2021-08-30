@@ -5,47 +5,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.NewFriendRequestAct"
-    android:background="@drawable/discover_details_bg">
+    android:background="@color/bg_color">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/nfr_header_lay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <Button
             android:id="@+id/nfr_backButton"
-            android:layout_width="0dp"
+            android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_margin="20dp"
             android:background="@drawable/search_back_button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_weight="0.3"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2.3"
-            android:text="@string/friend_requests"
-            android:textColor="#4B3B30"
-            android:textSize="14dp"
-            android:fontFamily="@font/claritycity_bold"
-            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            />
-        <ImageView
-            android:layout_width="0dp"
+
+        <TextView
+            android:id="@+id/friends_list_screen_title_tv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/claritycity_bold"
+            android:text="Friend Requests"
+            android:textColor="#4B3B30"
+            android:textSize="@dimen/trail_tutorial_sub_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/nfr_add_friend_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="25dp"
             android:src="@drawable/friend_list_screen_add_btn"
-            android:layout_gravity="center"
-            android:layout_weight="0.4"/>
-    </LinearLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <View
         android:id="@+id/view_1"
         android:layout_width="match_parent"
@@ -54,7 +58,6 @@
         app:layout_constraintTop_toBottomOf="@+id/nfr_header_lay"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-
         />
 
     <LinearLayout
@@ -65,6 +68,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="vertical"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
         >
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -80,19 +86,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="27dp"
                 app:tabGravity="fill"
-                app:tabIndicatorColor="@color/rewards_active"
+                app:tabIndicatorColor="#93BCAC"
                 app:tabIndicatorGravity="stretch"
                 app:tabMaxWidth="0dp"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="#055D3A"
+
+                android:background="#D6E8E1"
+                app:tabSelectedTextColor="#4B3B30"
                 app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-                app:tabTextColor="#055D3A">
+                app:tabTextColor="#4B3B30">
             </com.google.android.material.tabs.TabLayout>
         </com.google.android.material.card.MaterialCardView>
-
     </LinearLayout>
-    <androidx.viewpager2.widget.ViewPager2
 
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/nfr_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -15,6 +15,7 @@ Details....
  */
 
 import android.Manifest
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
@@ -71,6 +72,7 @@ import com.google.maps.model.TravelMode
 import kotlinx.android.synthetic.main.available_trails_layout.*
 import kotlinx.android.synthetic.main.discover_screen_activity.*
 import kotlinx.android.synthetic.main.discover_screen_bottom_layout.*
+import kotlinx.android.synthetic.main.leader_board_activity_layout.*
 import kotlinx.android.synthetic.main.more_option_layout.*
 import kotlinx.android.synthetic.main.quiz_challenge_question_activity.*
 import kotlinx.android.synthetic.main.trails_screen_layout.*
@@ -246,7 +248,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
 
         Glide.with(applicationContext).load(R.raw.loading).into(loadingImage)
-
+        getRankingDetails()
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -289,7 +291,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         // Getting Crash .. when login after install from slack ro gdrive
 
         try {
-            var expPoints: Int =
+            val expPoints: Int =
                 Integer.parseInt(sharedPreference.getSession("player_experience_points"))
             println("expPoints= $expPoints")
             calculateUserLevel(expPoints)
@@ -301,7 +303,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(contxt: Context?, intent: Intent?) {
-
                 when (intent?.action) {
                     "NotifyUser" -> {
                         try {
@@ -887,9 +888,9 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             }
             println("Just:::::::::::::::::: distance  $distance")
             // discover area
-            if (distance.toDouble() in 0.0..285.0) {
+            if (distance.toDouble() in 0.0..300.0) {
 
-                Toast.makeText(this, "You Are Almost Reached", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "POI is nearby", Toast.LENGTH_LONG).show()
                 takeMeBtn.visibility = View.VISIBLE
                 takeMeBtn.text = resources.getString(R.string.discover)
                 takeMeBtn.background = getDrawable(take_me_discover)
@@ -936,7 +937,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
 
             if (!isGesturedOnMap) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng))
+               // mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng))
                 val cameraPosition = CameraPosition.Builder()
                     .target(latLng)
                     // Sets the center of the map to Mountain View
@@ -956,7 +957,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         } else {
             println("LatLng Is NULL from current Loc.,")
         }
-
+        changePositionSmoothly(currentLocationMarker,lastlatlng)
 
     }
 
@@ -1178,6 +1179,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
             dialog.dismiss()
             if (!isCheckBoxClicked) {
+
                 recycleViewWindow()
 
             }
@@ -1239,6 +1241,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         layoutParams.gravity = Gravity.TOP
         layoutParams.x = 0
         layoutParams.y = 160
+
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
@@ -1370,6 +1373,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
                 if (isCheckBoxClicked) {
                     isCheckBoxClicked = false
+
                     visibleItems()
                     updateCurrentLocation(latLng)
                 }
@@ -1379,6 +1383,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         })
 
 
+
+        dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
 
         dialog.window!!.attributes!!.windowAnimations = R.style.DialogTheme
         dialog.show()
@@ -1624,21 +1630,17 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
             // Create JSON using JSONObject
-            println(
-                "Login : ${
-                    sharedPreference.getSession("login_id")
-                }"
-            )
+
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
-            jsonObject.put("trails", "1")
-            println("getEvents Url = ${resources.getString(R.string.live_url)}")
+            jsonObject.put("trails", "4")
+            println("getEvents Url = ${resources.getString(R.string.staging_url)}")
             println("getEvents Input = $jsonObject")
 
 
@@ -1982,7 +1984,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         }
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng1))
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
+      //  mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
 
 
         markerAnimationHandler.removeCallbacks(markerAnimationRunnable)
@@ -2198,7 +2200,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -2208,7 +2210,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
 
-            println("getUserDetails Url = ${resources.getString(R.string.live_url)}")
+            println("getUserDetails Url = ${resources.getString(R.string.staging_url)}")
             println("getUserDetails Input = $jsonObject")
 
 
@@ -2439,5 +2441,88 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private fun vibrateOff() {
         vibrator.cancel()
 
+    }
+
+    private fun getRankingDetails() {
+        try {
+           /* loadingImage.visibility = View.VISIBLE
+            Glide.with(applicationContext).load(R.raw.loading).into(loaderImage)*/
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+                .build()
+
+
+            // Create Retrofit
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(resources.getString(R.string.staging_url))
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+
+            // Create JSON using JSONObject
+            val jsonObject = JSONObject()
+            jsonObject.put("trail_id", "4")
+
+            println("getRankingDetails Input = $jsonObject")
+
+
+            val mediaType = "application/json".toMediaTypeOrNull()
+            val requestBody = jsonObject.toString().toRequestBody(mediaType)
+
+
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                // Create Service
+                val service = retrofit.create(APIService::class.java)
+
+                val response = service.getRankingDetails(
+                    resources.getString(R.string.api_access_token),
+                    requestBody
+                )
+
+                if (response.isSuccessful) {
+                    if (response.body()!!.status) {
+
+                        CommonData.getRankData = response.body()?.message
+
+                        println("Discover Screen Ranking API:: ${CommonData.getRankData!!.size}")
+
+
+
+
+
+                    }
+
+                }
+
+
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun changePositionSmoothly(marker:Marker?, newLatLng: LatLng?){
+        if(marker == null){
+            return
+        }
+        val animation = ValueAnimator.ofFloat(0f, 10f)
+        var previousStep = 0f
+        val deltaLatitude = newLatLng!!.latitude - marker.position.latitude
+        val deltaLongitude = newLatLng!!.longitude - marker.position.longitude
+        animation.duration = 1500
+        animation.addUpdateListener { updatedAnimation ->
+            val deltaStep = updatedAnimation.animatedValue as Float - previousStep
+            previousStep = updatedAnimation.animatedValue as Float
+            marker.position = LatLng(marker.position.latitude + deltaLatitude * deltaStep * 1/10, marker.position.longitude + deltaStep * deltaLongitude * 1/10)
+        }
+        animation.start()
     }
 }

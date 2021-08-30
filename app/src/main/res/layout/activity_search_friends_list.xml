@@ -12,6 +12,8 @@
         android:id="@+id/sf_backButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
+
+        android:layout_marginStart="10dp"
         android:background="@drawable/search_back_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,34 +21,36 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sf_backButton"
+        android:background="@drawable/alert_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:weightSum="2"
+        app:layout_constraintBottom_toBottomOf="@+id/sf_search_view"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/sf_backButton"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:background="@drawable/alert_bg">
+        app:layout_constraintStart_toEndOf="@+id/sf_backButton"
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/sf_search_et"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_weight="1.8"
-            android:textColorHint="@color/hint_color_gray"
-            android:textSize="14sp"
+            android:background="@drawable/searchview_bg"
             android:fontFamily="@font/dinish_regular"
             android:hint="@string/search_username_email"
             android:textColor="@color/black"
-            />
+            android:textColorHint="@color/hint_color_gray"
+            android:textSize="14sp" />
+
         <ImageView
             android:id="@+id/sf_search_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/searchbar_icon"
-            android:layout_weight="0.2"/>
+
+            android:src="@drawable/searchbar_icon" />
 
     </LinearLayout>
 

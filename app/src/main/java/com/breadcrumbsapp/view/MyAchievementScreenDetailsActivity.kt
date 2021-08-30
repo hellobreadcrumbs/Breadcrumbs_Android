@@ -32,7 +32,7 @@ class MyAchievementScreenDetailsActivity : AppCompatActivity() {
         achievement_name.text=getUserAchievementsModel.title
 
 
-        Toast.makeText(applicationContext,"$isLocked",Toast.LENGTH_SHORT).show()
+        //Toast.makeText(applicationContext,"$isLocked",Toast.LENGTH_SHORT).show()
         if(isLocked)
         {
 

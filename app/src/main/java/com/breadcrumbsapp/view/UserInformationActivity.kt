@@ -66,6 +66,9 @@ class UserInformationActivity : AppCompatActivity() {
 
 
             var createdDateStr: String? = sessionHandlerClass.getSession("player_register_date")
+
+
+
             try {
 
                 println("formattedDate $createdDateStr")
@@ -78,7 +81,8 @@ class UserInformationActivity : AppCompatActivity() {
                 created_date_view.text = createdDateStr
             }
         }
-
+        println("User Info NickName :: ${nickname_text_view.text}")
+        println("User Info UserID :: ${user_id_text_view.text}")
         user_information_screen_backButton.setOnClickListener(View.OnClickListener {
             finish()
         })

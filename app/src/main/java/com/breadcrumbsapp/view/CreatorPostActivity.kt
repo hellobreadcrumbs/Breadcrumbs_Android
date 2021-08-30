@@ -41,8 +41,8 @@ class CreatorPostActivity:AppCompatActivity()
         setContentView(binding.root)
         creator_post_rv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-        var iconPath=intent.extras?.getString("title_icon")
-        Glide.with(applicationContext).load(iconPath).into(creator_icon_iv)
+     //   var iconPath=intent.extras?.getString("title_icon")
+        Glide.with(applicationContext).load(sharedPreference.getSession("player_photo_url")).into(creator_icon_iv)
 
         getFeedPostData()
         creator_post_back_button.setOnClickListener(View.OnClickListener {

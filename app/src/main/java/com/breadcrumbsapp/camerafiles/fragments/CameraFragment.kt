@@ -60,7 +60,7 @@ import androidx.navigation.Navigation
 import androidx.window.WindowManager
 
 import com.breadcrumbsapp.R
-import com.breadcrumbsapp.camerafiles.activity.selfieChallengeImagePostActivity
+import com.breadcrumbsapp.camerafiles.activity.SelfieChallengeImagePostActivity
 import com.breadcrumbsapp.camerafiles.utils.ANIMATION_FAST_MILLIS
 import com.breadcrumbsapp.camerafiles.utils.ANIMATION_SLOW_MILLIS
 import com.breadcrumbsapp.camerafiles.utils.simulateClick
@@ -430,7 +430,7 @@ class CameraFragment : Fragment() {
 
                         sharedPreference.saveSession("cameraUri",savedUri.toString())
 
-                        startActivity(Intent(requireContext(),selfieChallengeImagePostActivity::class.java))
+                        startActivity(Intent(requireContext(),SelfieChallengeImagePostActivity::class.java))
                         requireActivity().finish()
 
                         // We can only change the foreground Drawable using API level 23+ API

@@ -3,13 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.frag.NewFirendRequestFrag">
+    tools:context=".view.frag.NewFirendRequestFrag"
+
+    android:padding="24dp">
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fr_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="@color/black"/>
+        android:id="@+id/fr_no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_new_request_text"
+        android:fontFamily="@font/claritycity_bold"
+        android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+        android:textColor="#4B3B30"
+        android:visibility="gone"/>
 
 </FrameLayout>

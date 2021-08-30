@@ -5,7 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.breadcrumbsapp.R
+import com.breadcrumbsapp.adapter.NewFriendRequestAdapter
+import com.breadcrumbsapp.interfaces.FriendRequestListener
+import com.breadcrumbsapp.model.GetFriendsListModel
+import com.breadcrumbsapp.view.NewFriendRequestAct
+import com.breadcrumbsapp.viewmodel.NewFriendRequestViewModel
+import kotlinx.android.synthetic.main.fragment_new_firend_request.*
+import kotlinx.android.synthetic.main.rewards_screen_layout.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,10 +27,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [NewFirendRequestFrag.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NewFirendRequestFrag : Fragment() {
+class NewFirendRequestFrag : Fragment(), FriendRequestListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    lateinit var viewModel : NewFriendRequestViewModel
+    private var requestList = ArrayList<GetFriendsListModel.Message>()
+    lateinit var requestAdapter : NewFriendRequestAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +49,59 @@ class NewFirendRequestFrag : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_new_firend_request, container, false)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel = (requireActivity() as NewFriendRequestAct).viewModel
+
+
+        requestAdapter = NewFriendRequestAdapter(requireActivity(), requestList, this)
+        fr_rv.apply {
+            layoutManager =
+                LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+            adapter = requestAdapter
+        }
+
+        viewModel.receivedFriendRequestList.observe(viewLifecycleOwner, Observer {
+            println("Check::::::::::::::::::::: ")
+            requestList.clear()
+            if(it != null){
+                requestList.addAll(it)
+                requestAdapter.notifyDataSetChanged()
+                println("Frag New:: ${requestList.size}")
+
+                if(requestList.size==0)
+                {
+                    fr_no_data.visibility=View.VISIBLE
+                    fr_rv.visibility=View.GONE
+                }
+                else
+                {
+                    fr_no_data.visibility=View.GONE
+                    fr_rv.visibility=View.VISIBLE
+                }
+
+            }
+        })
+
+
+        viewModel.requestStatus.observe(viewLifecycleOwner, Observer {
+            println("Check::::::::::::::: New Rquest " )
+            it?.let {
+                println("Check::::::::::::::: New Rquest ${it}" )
+                var newList = ArrayList<GetFriendsListModel.Message>()
+                requestList.forEach{ item ->
+                    if(it != item.uf_id.toInt()){
+                        newList.add(item)
+                    }
+                }
+                requestList.clear()
+                requestList.addAll(newList)
+                requestAdapter.notifyDataSetChanged()
+            }
+        })
     }
 
     companion object {
@@ -56,5 +122,11 @@ class NewFirendRequestFrag : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+
+
+    override fun onAcceptItemClick(id: String, status: Boolean) {
+        viewModel.accepORCanceltFriendRequest(id, status)
     }
 }

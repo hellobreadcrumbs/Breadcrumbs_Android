@@ -6,7 +6,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.TrailDetailsLayoutBinding
+
 import com.breadcrumbsapp.model.GetTrailsModel
+import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.trail_details_layout.*
 
@@ -30,12 +32,13 @@ class TrailsDetailsActivity:AppCompatActivity()
 
     private lateinit var getTrailsModelList:GetTrailsModel.Message
     private lateinit var binding: TrailDetailsLayoutBinding
+    private lateinit var sessionHandlerClass:SessionHandlerClass
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= TrailDetailsLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        sessionHandlerClass= SessionHandlerClass(applicationContext)
         var positionInt:Int=intent.getIntExtra("position",0)
         getTrailsModelList = intent.extras?.get("getTrailsListData") as GetTrailsModel.Message
         println("positionStr : $positionInt")
@@ -48,7 +51,7 @@ class TrailsDetailsActivity:AppCompatActivity()
 
         // Live Data....
         var localImageUri =
-            resources.getString(R.string.live_url) + getTrailsModelList.banner_url
+            resources.getString(R.string.staging_url) + getTrailsModelList.banner_url
         println("localImageUri $localImageUri")
         Glide.with(applicationContext).load(localImageUri).into(trail_details_image)
         Glide.with(applicationContext).load(trailIcons[0]).into(trail_details_trailIcon)
@@ -56,8 +59,11 @@ class TrailsDetailsActivity:AppCompatActivity()
         trail_details_about_content.text=getTrailsModelList.description
         var localImageUriCreatorPost =
             resources.getString(R.string.live_url) + getTrailsModelList.profile_picture
-        Glide.with(applicationContext).load(localImageUriCreatorPost).into(iv_trail_details_creator_post)
-        tv_trail_by_content.text=getTrailsModelList.username
+        println("localImageUriCreatorPost $localImageUriCreatorPost")
+      //  Glide.with(applicationContext).load(localImageUriCreatorPost).into(iv_trail_details_creator_post)
+        Glide.with(applicationContext).load(sessionHandlerClass.getSession("player_photo_url")).into(iv_trail_details_creator_post)
+      //  tv_trail_by_content.text=getTrailsModelList.username
+        tv_trail_by_content.text=sessionHandlerClass.getSession("player_user_name")
 
 
         iv_open_leaderboard.setOnClickListener(View.OnClickListener {

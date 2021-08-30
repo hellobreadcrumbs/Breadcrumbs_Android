@@ -21,7 +21,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="35dp"
             app:civ_border_width="0dp"
-            android:src="@mipmap/breadcrumbs_app_icon_round"
+            android:src="@drawable/com_facebook_profile_picture_blank_portrait"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

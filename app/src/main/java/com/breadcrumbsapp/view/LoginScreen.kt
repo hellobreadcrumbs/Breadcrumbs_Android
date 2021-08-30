@@ -106,7 +106,9 @@ class LoginScreen : AppCompatActivity() {
             //signInGoogle()
 
             //loginViewModel.alertBeforeSignIn(1,applicationContext)
-            alertBeforeSignIn(1)
+           alertBeforeSignIn(1)
+
+
         }
 
 
@@ -405,7 +407,7 @@ class LoginScreen : AppCompatActivity() {
 
         // Create Retrofit
         val retrofit = Retrofit.Builder()
-            .baseUrl(resources.getString(R.string.live_url))
+            .baseUrl(resources.getString(R.string.staging_url))
             .build()
 
         // Create Service
@@ -492,7 +494,7 @@ class LoginScreen : AppCompatActivity() {
             .build()
         // Create Retrofit
         val retrofit = Retrofit.Builder()
-            .baseUrl(resources.getString(R.string.live_url))
+            .baseUrl(resources.getString(R.string.staging_url))
             .client(okHttpClient)
             .build()
 
@@ -595,7 +597,7 @@ class LoginScreen : AppCompatActivity() {
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -605,7 +607,7 @@ class LoginScreen : AppCompatActivity() {
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
 
-            println("getUserDetails Url = ${resources.getString(R.string.live_url)}")
+            println("getUserDetails Url = ${resources.getString(R.string.staging_url)}")
             println("getUserDetails Input = $jsonObject")
 
 

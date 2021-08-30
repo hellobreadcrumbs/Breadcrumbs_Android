@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/discover_details_bg"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/discover_details_bg">
+
     <Button
         android:id="@+id/profile_edit_screen_backButton"
         android:layout_width="40dp"
@@ -48,39 +49,58 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_edit_screen_backButton" />
 
-    <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/profile_edit_screen_profile_pic_iv"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_marginTop="20dp"
-        android:src="@mipmap/breadcrumbs_app_icon_round"
-        app:civ_border_width="0dp"
+    <FrameLayout
+        android:id="@+id/profile_image_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/profile_edit_screen_title_border_line" />
+        app:layout_constraintTop_toTopOf="@+id/profile_edit_screen_title_border_line">
 
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/profile_edit_screen_profile_pic_iv"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/breadcrumbs_app_icon_round"
+
+            app:civ_border_width="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/profile_edit_screen_title_border_line"
+
+            />
+
+        <TextView
+
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@drawable/my_profile_edit_icon"
+            android:layout_width="90dp"
+            android:layout_height="25dp"/>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tv_nick_name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="@font/claritycity_bold"
         android:text="NICKNAME"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="15dp"
         android:textColor="#4B3B30"
         android:textSize="@dimen/disclaimer_content_text_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_edit_screen_profile_pic_iv" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_image_layout" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/user_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
         android:background="@drawable/settings_category_bg"
         android:padding="18dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_nick_name_label">
 
@@ -101,12 +121,24 @@
             android:layout_marginStart="15dp"
             android:fontFamily="@font/claritycity_bold"
             android:text="nickname"
-            android:textColor="#4B3B30"
             android:textAllCaps="true"
+            android:textColor="#4B3B30"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/user_info_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/profile_edit_submit"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Submit"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_info_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

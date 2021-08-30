@@ -52,7 +52,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
     private lateinit var binding: QuizChallengeQuestionActivityBinding
     private var selectedPOIID: String = ""
-    private lateinit var sharedPreferences: SessionHandlerClass
+
     private var isClicked: Boolean = false
     private var clickedPos: Int = -1
     private var submitButtonClickingCount: Int = 0
@@ -78,8 +78,8 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = QuizChallengeQuestionActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        sharedPreferences = SessionHandlerClass(applicationContext)
-        selectedPOIID = sharedPreferences.getSession("selectedPOIID").toString()
+        sharedPreference = SessionHandlerClass(applicationContext)
+        selectedPOIID = sharedPreference.getSession("selectedPOIID").toString()
 
 
         val bundle: Bundle = intent.extras!!
@@ -350,7 +350,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                             quizChallengeLevelLayout.visibility = View.VISIBLE
                             quizChallenge_backButton.visibility = View.INVISIBLE
 
-                            poiTitle.text = sharedPreferences.getSession("selectedPOIName")
+                            poiTitle.text = sharedPreference.getSession("selectedPOIName")
                             // Glide.with(applicationContext).load(completeImagePath).into(challengeLevelImage)
 
                             if (completeImagePath.contains("https")) {
@@ -483,7 +483,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
                                     questionLayout.visibility = View.GONE
                                     quizChallengeLevelLayout.visibility = View.VISIBLE
-                                    poiTitle.text = sharedPreferences.getSession("selectedPOIName")
+                                    poiTitle.text = sharedPreference.getSession("selectedPOIName")
                                     //Glide.with(applicationContext).load(completeImagePath).into(challengeLevelImage)
 
                                     if (completeImagePath.contains("https")) {
@@ -688,10 +688,10 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
         // Updated One with API data..
 
-        var progressBarMaxValue = sharedPreferences.getIntegerSession("xp_point_nextLevel_value")
-        var expToLevel = sharedPreferences.getIntegerSession("expTo_level_value")
-        var completedPoints = sharedPreferences.getSession("player_experience_points")
-        val levelValue = sharedPreferences.getSession("lv_value")
+        var progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
+        var expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
+        var completedPoints = sharedPreference.getSession("player_experience_points")
+        val levelValue = sharedPreference.getSession("lv_value")
         scoredValue = discover_value + quiz_answer_value
         quiz_answer.text = "+$quiz_answer_value XP"
         determinateBar.max = progressBarMaxValue

@@ -2,8 +2,14 @@ package com.breadcrumbsapp.view.arcore
 
 import android.animation.ObjectAnimator
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.breadcrumbsapp.ARCoreActivity
@@ -31,12 +37,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -48,6 +62,7 @@ class ARImagePostScreen : AppCompatActivity() {
     private var overallValue = 12000
     private var discoverValue = 1000
     private var interceptor = intercept()
+    lateinit var selectedFile: File
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ArImagePostLayoutBinding.inflate(layoutInflater)
@@ -63,26 +78,26 @@ class ARImagePostScreen : AppCompatActivity() {
         CropImage.activity(imageUri).setAspectRatio(1, 1).setFixAspectRatio(true).start(this)
 
         arChallengeLevelCloseBtn.setOnClickListener {
-         /*   startActivity(
-                Intent(
-                    this@ARImagePostScreen,
-                    DiscoverScreenActivity::class.java
-                ).putExtra("isFromLogin", "no")
-            )
-            overridePendingTransition(
-                R.anim.anim_slide_in_left,
-                R.anim.anim_slide_out_left
-            )
-            finish()
-*/
+            /*   startActivity(
+                   Intent(
+                       this@ARImagePostScreen,
+                       DiscoverScreenActivity::class.java
+                   ).putExtra("isFromLogin", "no")
+               )
+               overridePendingTransition(
+                   R.anim.anim_slide_in_left,
+                   R.anim.anim_slide_out_left
+               )
+               finish()
+   */
             discoverPOI()
         }
-        binding.arImagePostBackButton.setOnClickListener(View.OnClickListener {
+        binding.arImagePostBackButton.setOnClickListener {
             //    CropImage.activity(imageUri).setAspectRatio(1, 1).setFixAspectRatio(true).start(this)
 
             startActivity(Intent(this@ARImagePostScreen, ARCoreActivity::class.java))
-        })
-        binding.imagePostButton.setOnClickListener(View.OnClickListener {
+        }
+        binding.imagePostButton.setOnClickListener {
 
 
             if (imagePostButton.text.equals("CONTINUE")) {
@@ -111,14 +126,25 @@ class ARImagePostScreen : AppCompatActivity() {
                 binding.arSelfieChallengeLevelLayout.visibility = View.GONE
 
                 binding.arImagePostBackButton.visibility = View.INVISIBLE
-                binding.titleText.text = "Photo posted successfully!"
+
+
+                try {
+
+                    val userID = sharedPreference.getSession("login_id") as String
+                    val poiID = sharedPreference.getSession("selectedPOIID") as String
+                    updateFile(userID, poiID)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+                /*binding.titleText.text = "Photo posted successfully!"
                 binding.didYouKnowTxt.visibility = View.VISIBLE
                 binding.didYouKnowContent.visibility = View.VISIBLE
                 imagePostButton.background = getDrawable(R.drawable.selfie_continue_btn)
-                imagePostButton.text = "CONTINUE"
+                imagePostButton.text = "CONTINUE"*/
             }
 
-        })
+        }
 
     }
 
@@ -130,7 +156,7 @@ class ARImagePostScreen : AppCompatActivity() {
             scoredValue = discoverValue + selfiePostValue
             arSelfiePostMark.text = "+$selfiePostValue XP"
 
-            var totalScore =0
+            var totalScore = 0
             for (i in 0 until CommonData.eventsModelMessage!!.count()) {
                 if (CommonData.eventsModelMessage!![i].disc_id != null) {
                     totalScore += CommonData.eventsModelMessage!![i].experience.toInt()
@@ -142,13 +168,14 @@ class ARImagePostScreen : AppCompatActivity() {
                 .setDuration(1000)
                 .start()
 
-            totalScore+=scoredValue
+            totalScore += scoredValue
             val subtractValue = overallValue - totalScore
             arBalanceScoreValue.text = "$subtractValue XP to Level 2"
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
+
     private fun discoverPOI() {
 
 
@@ -203,12 +230,11 @@ class ARImagePostScreen : AppCompatActivity() {
                     if (status) {
 
 
-
                         startActivity(
                             Intent(
                                 this@ARImagePostScreen,
                                 DiscoverScreenActivity::class.java
-                            ).putExtra("isFromLogin","no")
+                            ).putExtra("isFromLogin", "no")
                         )
                         overridePendingTransition(
                             R.anim.anim_slide_in_left,
@@ -224,6 +250,7 @@ class ARImagePostScreen : AppCompatActivity() {
             }
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -239,6 +266,23 @@ class ARImagePostScreen : AppCompatActivity() {
                    tempFile="uri:${result.uri}"+",type:'image/jpeg',name:'selfie_challenge_'$dateFormat+_$poiID.jpg"
                    println("tempFile $tempFile")*/
                 //    constraintLayout.setBackgroundColor(Color.parseColor("#F8F0DD"))
+
+
+                val f = File(resultUri!!.path)
+                val newFile = createImageFile()
+                val bitmap = BitmapFactory.decodeFile(f.path)
+                val newBitMap =
+                    setOrientationForImage(bitmap, f.path)
+                newBitMap?.compress(
+                    Bitmap.CompressFormat.JPEG,
+                    40,
+                    FileOutputStream(newFile)
+                )
+
+                selectedFile = f
+
+                println("Selfie :: 1  $selectedFile")
+                println("Selfie :: 2 ${selectedFile.name}")
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 val error = result.error
             }
@@ -248,6 +292,120 @@ class ARImagePostScreen : AppCompatActivity() {
     override fun onBackPressed() {
         //super.onBackPressed()
     }
+
+    private fun setOrientationForImage(scaledBitmap: Bitmap, filePath: String): Bitmap? {
+        val exif: ExifInterface
+        var newBitMap = scaledBitmap
+        try {
+            exif = ExifInterface(filePath)
+            val orientation: Int = exif.getAttributeInt(
+                ExifInterface.TAG_ORIENTATION, 0
+            )
+            Log.d("EXIF", "Exif: $orientation")
+            val matrix = Matrix()
+            when (orientation) {
+                6 -> {
+                    matrix.postRotate(90F)
+                    Log.d("EXIF", "Exif: $orientation")
+                }
+                3 -> {
+                    matrix.postRotate(180F)
+                    Log.d("EXIF", "Exif: $orientation")
+                }
+                8 -> {
+                    matrix.postRotate(270F)
+                    Log.d("EXIF", "Exif: $orientation")
+                }
+            }
+
+            newBitMap = Bitmap.createBitmap(
+                scaledBitmap, 0, 0,
+                scaledBitmap.width, scaledBitmap.height, matrix,
+                true
+            )
+            return newBitMap
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return null
+    }
+
+    private fun createImageFile(): File? {
+
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
+        val imageFileName = "ar_image_$timeStamp"
+        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        return File.createTempFile(
+            imageFileName,  /* prefix */
+            ".jpg",  /* suffix */
+            storageDir /* directory */
+        )
+    }
+
+    private fun updateFile(loginID: String, poiID: String) {
+
+        println("Selfie selectedFile.name == ${selectedFile.name}")
+        println("Selfie login == $loginID")
+        println("Selfie poiID == $poiID")
+
+        val id: RequestBody =
+            loginID.toRequestBody(contentType = "text/plain".toMediaTypeOrNull())
+        val poiId: RequestBody =
+            poiID.toRequestBody(contentType = "text/plain".toMediaTypeOrNull())
+        val reqFile: RequestBody =
+            selectedFile.asRequestBody("image/jpeg".toMediaTypeOrNull())//RequestBody.create( selectedFile, MediaType.parse("image/*"))
+        val multiPartFile = MultipartBody.Part.createFormData(
+            "file", selectedFile.name,
+            reqFile
+        )
+
+
+        val okHttpClient = OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .addInterceptor(intercept())
+            .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+            .build()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(resources.getString(R.string.staging_url))
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val apiService = retrofit.create(APIService::class.java)
+
+
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+
+                val response = apiService.uploadSelfieImage(
+                    resources.getString(R.string.api_access_token),
+                    id, poiId, multiPartFile
+                )
+
+
+                if (response.isSuccessful) {
+                    println("Selfie Image JSon Body if  ${response.body()}")
+                    runOnUiThread {
+                        binding.titleText.text = "Photo posted successfully!"
+                        binding.didYouKnowTxt.visibility = View.VISIBLE
+                        binding.didYouKnowContent.visibility = View.VISIBLE
+                        imagePostButton.background = getDrawable(R.drawable.selfie_continue_btn)
+                        imagePostButton.text = "CONTINUE"
+                    }
+
+                } else {
+                    println("Selfie Image JSon Body else  ${response.body()}")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        }
+
+
+    }
+
     private fun intercept(): HttpLoggingInterceptor {
         val interceptors = HttpLoggingInterceptor()
         interceptors.level = HttpLoggingInterceptor.Level.BODY

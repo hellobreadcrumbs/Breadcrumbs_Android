@@ -7,19 +7,18 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.SettingsActivityBinding
-import com.breadcrumbsapp.util.CommonData
-
 import com.breadcrumbsapp.util.SessionHandlerClass
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.android.synthetic.main.settings_activity.*
+
 
 class SettingsScreenAct : AppCompatActivity() {
     private lateinit var sessionHandlerClass: SessionHandlerClass
@@ -111,7 +110,25 @@ class SettingsScreenAct : AppCompatActivity() {
 
             //Toast.makeText(applicationContext,"Under Construction",Toast.LENGTH_SHORT).show()
             dialog.dismiss()
-            try {
+
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken( getString(R.string.default_web_client_id))
+                .requestEmail()
+                .requestProfile()
+                .build()
+            // Build a GoogleSignInClient with the options specified by gso.
+            // Build a GoogleSignInClient with the options specified by gso.
+            val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+            mGoogleSignInClient.signOut()
+            sessionHandlerClass.clearSession()
+           
+
+            Intent(this, LoginScreen::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }.also { startActivity(it) }
+            finish()
+        /*    try {
                 LoginScreen.mGoogleSignInClient.signOut().addOnCompleteListener(OnCompleteListener {
                     println("Clear Session Before: ${sessionHandlerClass.getBoolean("isLogin")}")
                     sessionHandlerClass.clearSession()
@@ -135,7 +152,7 @@ class SettingsScreenAct : AppCompatActivity() {
                 })
             } catch (e: Exception) {
                 e.printStackTrace()
-            }
+            }*/
         }
 
         dialog.window!!.attributes!!.windowAnimations = R.style.DialogTheme

@@ -3,7 +3,6 @@ package com.breadcrumbsapp.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +10,9 @@ import com.breadcrumbsapp.R
 import com.breadcrumbsapp.adapter.GetFriendListAdapter
 import com.breadcrumbsapp.databinding.FriendsListLayoutBinding
 import com.breadcrumbsapp.interfaces.APIService
+import com.breadcrumbsapp.model.GetFriendsListModel
 import com.breadcrumbsapp.util.CommonData
+import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.friends_list_layout.*
 import kotlinx.coroutines.CoroutineScope
@@ -28,34 +29,39 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class MyFriendsListScreenActivity:AppCompatActivity()
-{
+class MyFriendsListScreenActivity : AppCompatActivity() {
     private var interceptor = intercept()
-    private lateinit var getFriendListAdapter:GetFriendListAdapter
-    private lateinit var binding:FriendsListLayoutBinding
+    private lateinit var getFriendListAdapter: GetFriendListAdapter
+    private lateinit var binding: FriendsListLayoutBinding
+    private var newFriendRequestCount = 0
+    private lateinit var sessionHandlerClass: SessionHandlerClass
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= FriendsListLayoutBinding.inflate(layoutInflater)
+        binding = FriendsListLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        sessionHandlerClass= SessionHandlerClass(applicationContext)
         friends_list_rv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        getFeedPostData()
+        getUserFriendList()
 
         friends_list_screen_backButton.setOnClickListener(View.OnClickListener {
             finish()
         })
 
-        new_request_layout.setOnClickListener(View.OnClickListener {
-            startActivity(Intent(this, NewFriendRequestAct::class.java))
+        add_friend_iv.setOnClickListener(View.OnClickListener {
+            startActivity(Intent(this, SearchFriendsListAct::class.java))
         })
+
+        new_request_layout.setOnClickListener {
+            startActivity(Intent(this, NewFriendRequestAct::class.java))
+        }
 
 
     }
 
-    private fun getFeedPostData() {
+    private fun getUserFriendList() {
         try {
             Glide.with(applicationContext).load(R.raw.loading).into(friend_list_screen_loaderImage)
-            friend_list_screen_loaderImage.visibility= View.VISIBLE
+            friend_list_screen_loaderImage.visibility = View.VISIBLE
             val okHttpClient = OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
@@ -74,7 +80,7 @@ class MyFriendsListScreenActivity:AppCompatActivity()
 
 
             val jsonObject = JSONObject()
-            jsonObject.put("id", "66")
+            jsonObject.put("id", "4703")
 
             println("getFeedPostData Url = ${resources.getString(R.string.live_url)}")
             println("getFeedPostData Input = $jsonObject")
@@ -106,9 +112,25 @@ class MyFriendsListScreenActivity:AppCompatActivity()
 
                                 println("Friends Count :: ${CommonData.getFriendListModel!!.size}")
                                 friend_list_screen_loaderImage.visibility=View.GONE
+                                val friendList = ArrayList<GetFriendsListModel.Message>()
 
-                                getFriendListAdapter = GetFriendListAdapter(CommonData.getFriendListModel!!)
+                                CommonData.getFriendListModel?.forEach {
+                                    if (it.status == "1"){
+                                        friendList.add(it)
+                                    }else{
+                                        /*if(it.status=="0" && it.id == sessionHandlerClass.getSession("login_id"))
+                                        {
+                                            println("Notification:: ${it.status} ${it.id} ${sessionHandlerClass.getSession("login_id")}")
+                                            newFriendRequestCount++
+                                        }*/
+
+                                        newFriendRequestCount++
+                                    }
+                                }
+
+                                getFriendListAdapter = GetFriendListAdapter(friendList)
                                 friends_list_rv.adapter = getFriendListAdapter
+                                number_of_friends_request.text = newFriendRequestCount.toString()
 
                             }
 
@@ -126,7 +148,6 @@ class MyFriendsListScreenActivity:AppCompatActivity()
             e.printStackTrace()
         }
     }
-
 
 
     private fun intercept(): HttpLoggingInterceptor {

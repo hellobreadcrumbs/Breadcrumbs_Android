@@ -15,6 +15,8 @@ class CommonData {
         var getRecommendedFriendsModel:List<RecommendedFriendsModel.Message>?=null
         var getFriendListModel:List<GetFriendsListModel.Message>?=null
         var getUserAchievementsModel:List<GetUserAchievementsModel.Message>?=null
+        var getFriendAchievementsModel:List<GetUserAchievementsModel.Message>?=null
+        var getBeginChallengeModel:BeginChallengeModel.Message?=null
 
 
 

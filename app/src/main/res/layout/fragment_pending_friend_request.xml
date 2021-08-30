@@ -3,14 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.frag.PendingFriendRequestFrag">
+    tools:context=".view.frag.PendingFriendRequestFrag"
+    android:padding="24dp">
 
-    <!-- TODO: Update blank fragment layout -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pr_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/no_data_found"
-        android:layout_gravity="center"
-        android:textColor="@color/black"/>
+        android:id="@+id/pr_no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/no_pending_request_text"
+        android:gravity="center"
+        android:fontFamily="@font/claritycity_bold"
+        android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+        android:textColor="#4B3B30"
+        android:visibility="gone"/>
 
 </FrameLayout>

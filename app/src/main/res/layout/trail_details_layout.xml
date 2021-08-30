@@ -151,11 +151,12 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/arrived_btn"
                     android:fontFamily="@font/claritycity_semibold"
+                    android:textAllCaps="true"
                     android:paddingStart="15dp"
                     android:paddingTop="5dp"
                     android:paddingEnd="15dp"
                     android:paddingBottom="5dp"
-                    android:text="BREADCRUMBS"
+                    android:text="USERNAME"
                     android:textColor="@color/white"
                     android:textSize="@dimen/discovery_screen_player_name_text_size" />
 
@@ -203,30 +204,33 @@
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
                         android:gravity="center"
-                        android:weightSum="4"
+                        android:weightSum="3"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <ImageView
+                        <com.mikhaellopez.circularimageview.CircularImageView
                             android:id="@+id/iv_trail_details_creator_post"
-                            android:layout_width="0dip"
-                            android:layout_height="40dp"
-                            android:layout_weight="1"
-                            android:src="@drawable/breadcrumbs_trail" />
-
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="left"
+                            android:background="@mipmap/ic_launcher_round"
+                            app:civ_border_width="5dp"
+                          />
                         <TextView
                             android:id="@+id/creator_post"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="2"
+                            android:paddingStart="10dp"
                             android:fontFamily="@font/claritycity_bold"
                             android:gravity="center_vertical"
                             android:text="CREATOR POSTS"
                             android:textAllCaps="true"
                             android:textColor="#4B3B30"
                             android:textSize="@dimen/discovery_screen_player_name_text_size" />
+
 
                         <ImageView
                             android:id="@+id/iv_open_creator_post"
@@ -249,7 +253,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
-                        android:weightSum="4"
+                        android:weightSum="3"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -257,9 +261,8 @@
 
                         <ImageView
 
-                            android:layout_width="0dip"
-                            android:layout_height="40dp"
-                            android:layout_weight="1"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
                             android:src="@drawable/leaderboard_screen_logo" />
 
                         <TextView
@@ -267,6 +270,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="2"
+                            android:paddingStart="10dp"
                             android:fontFamily="@font/claritycity_bold"
                             android:gravity="center_vertical"
                             android:text="VIEW LEADERBOARD"

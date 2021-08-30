@@ -5,17 +5,35 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.breadcrumbsapp.R
+import com.breadcrumbsapp.adapter.FeedPostAdapter
 import com.breadcrumbsapp.databinding.ChallengeActivityBinding
+import com.breadcrumbsapp.interfaces.APIService
+import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.challenge_activity.*
+import kotlinx.android.synthetic.main.feed_layout.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Protocol
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONObject
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class ChallengeActivity : AppCompatActivity() {
 
     lateinit var binding: ChallengeActivityBinding
     lateinit var sharedPreference: SessionHandlerClass
-
+    private var interceptor = intercept()
+    private lateinit var poiImage:String
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +46,9 @@ class ChallengeActivity : AppCompatActivity() {
 
         val bundle: Bundle = intent.extras!!
         val challengeName = bundle.getString("challengeName")
-        val poiImage = bundle.getString("poiImage")
+          poiImage = bundle.getString("poiImage") as String
 
-        sharedPreference.saveSession("poi_image", poiImage.toString())
+        sharedPreference.saveSession("poi_image", poiImage)
 
         Glide.with(applicationContext).load(poiImage).into(binding.selfieImageView)
 
@@ -57,12 +75,14 @@ class ChallengeActivity : AppCompatActivity() {
         binding.beginButton.setOnClickListener {
             when (challengeName) {
                 "quiz" -> {
-                    startActivity(
+                   /* startActivity(
                         Intent(
                             this@ChallengeActivity,
                             QuizChallengeQuestionActivity::class.java
                         ).putExtra("poiImage", poiImage)
-                    )
+                    )*/
+
+                    beginChallengeAPI()
                 }
                 "selfie" -> {
                     startActivity(
@@ -75,5 +95,97 @@ class ChallengeActivity : AppCompatActivity() {
             }
         }
 
+    }
+    private fun beginChallengeAPI() {
+        try {
+
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+                .build()
+
+
+            // Create Retrofit
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(resources.getString(R.string.live_url))
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            // Create JSON using JSONObject
+
+            val jsonObject = JSONObject()
+            jsonObject.put("user_id", sharedPreference.getSession("login_id"))
+            //  jsonObject.put("user_id","66")
+
+
+            println("getFeedPostData Input = $jsonObject")
+
+
+            val mediaType = "application/json".toMediaTypeOrNull()
+            val requestBody = jsonObject.toString().toRequestBody(mediaType)
+
+
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                // Create Service
+                val service = retrofit.create(APIService::class.java)
+
+                val response = service.beginChallenge(
+                    resources.getString(R.string.api_access_token),
+                    requestBody
+                )
+
+                if (response.isSuccessful) {
+                    if (response.body()!!.status) {
+
+                        CommonData.getBeginChallengeModel = response.body()?.message
+
+                        runOnUiThread {
+
+                            if(CommonData.getBeginChallengeModel!!.equals("0"))
+                            {
+
+                            }
+                            else
+                            {
+                                println("Begin Challenge :: ${CommonData.getBeginChallengeModel!!.achievement}")
+                                println("Begin Challenge :: ${CommonData.getBeginChallengeModel!!.completed_trail}")
+                            }
+
+
+
+                            startActivity(
+                                Intent(
+                                    this@ChallengeActivity,
+                                    QuizChallengeQuestionActivity::class.java
+                                ).putExtra("poiImage", poiImage)
+                            )
+
+                        }
+
+
+                    }
+
+                }
+
+
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
+    private fun intercept(): HttpLoggingInterceptor {
+        val interceptors = HttpLoggingInterceptor()
+        interceptors.level = HttpLoggingInterceptor.Level.BODY
+        interceptor = interceptors
+        return interceptor
     }
 }
