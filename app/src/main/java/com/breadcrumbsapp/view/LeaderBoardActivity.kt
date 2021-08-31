@@ -274,7 +274,6 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
 
     private var trailIcons = intArrayOf(
-        R.drawable.breadcrumbs_trail,
         R.drawable.wild_about_twlight_icon,
         R.drawable.anthology_trail_icon
     )

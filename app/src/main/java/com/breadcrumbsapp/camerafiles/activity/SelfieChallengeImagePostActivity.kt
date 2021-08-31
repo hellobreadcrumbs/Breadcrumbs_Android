@@ -196,9 +196,11 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
         var expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
         var completedPoints = sharedPreference.getSession("player_experience_points")
         val levelValue = sharedPreference.getSession("lv_value")
+        val presentLevel = sharedPreference.getSession("current_level")
         scoredValue = discoverValue + selfiePostValue
         selfiePostMark.text = "+$selfiePostValue XP"
         selfieChallengeProgressBar.max = progressBarMaxValue
+        selfie_challenge_level_name.text=presentLevel
         balanceScoreValue.text = "$expToLevel XP TO $levelValue"
         ObjectAnimator.ofInt(selfieChallengeProgressBar, "progress", completedPoints!!.toInt())
             .setDuration(1000)

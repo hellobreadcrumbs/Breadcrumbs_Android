@@ -50,7 +50,7 @@
                         android:id="@+id/poiImageView"
                         android:layout_width="match_parent"
                         android:layout_height="260dp"
-                        android:scaleType="fitXY"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/poi_photo"
                         tools:ignore="ContentDescription" />
 
@@ -139,7 +139,7 @@
                                 android:layout_marginTop="20dp"
                                 android:layout_marginEnd="10dp"
                                 android:layout_marginBottom="20dp"
-                                android:src="@drawable/details_screen_qr_scan" />
+                               />
                         </androidx.appcompat.widget.LinearLayoutCompat>
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -223,14 +223,14 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-
+                            android:id="@+id/discover_detail_screen_trail_icon"
                             android:layout_width="0dip"
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:src="@drawable/breadcrumbs_trail" />
 
                         <TextView
-                            android:id="@+id/trailName"
+                            android:id="@+id/discover_detail_screen_trailName"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="2"

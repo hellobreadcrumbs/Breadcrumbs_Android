@@ -74,7 +74,7 @@ class ARImagePostScreen : AppCompatActivity() {
         val imageUri: Uri = Uri.parse(uri)
         binding.capturedImage.setImageURI(imageUri)
 
-
+        arPoiTitle.text = sharedPreference.getSession("selectedPOIName")
         CropImage.activity(imageUri).setAspectRatio(1, 1).setFixAspectRatio(true).start(this)
 
         arChallengeLevelCloseBtn.setOnClickListener {
@@ -150,7 +150,7 @@ class ARImagePostScreen : AppCompatActivity() {
 
     private fun calculateXPPoints() {
         try {
-            arSelfieChallengeProgressBar.max = overallValue
+            /*arSelfieChallengeProgressBar.max = overallValue
             discoverValue = CommonData.getUserDetails!!.experience.toInt()
             println("discover_value $discoverValue")
             scoredValue = discoverValue + selfiePostValue
@@ -171,6 +171,25 @@ class ARImagePostScreen : AppCompatActivity() {
             totalScore += scoredValue
             val subtractValue = overallValue - totalScore
             arBalanceScoreValue.text = "$subtractValue XP to Level 2"
+
+*/
+
+
+            // Updated One with API data..
+
+            var progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
+            var expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
+            var completedPoints = sharedPreference.getSession("player_experience_points")
+            val levelValue = sharedPreference.getSession("lv_value")
+            val presentLevel = sharedPreference.getSession("current_level")
+            scoredValue = discoverValue + selfiePostValue
+            arSelfiePostMark.text = "+$selfiePostValue XP"
+            arSelfieChallengeProgressBar.max = progressBarMaxValue
+            arBalanceScoreValue.text = "$expToLevel XP TO $levelValue"
+            ar_challenge_level_name.text=presentLevel
+            ObjectAnimator.ofInt(arSelfieChallengeProgressBar, "progress", completedPoints!!.toInt())
+                .setDuration(1000)
+                .start()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -187,7 +206,7 @@ class ARImagePostScreen : AppCompatActivity() {
             .build()
         // Create Retrofit
         val retrofit = Retrofit.Builder()
-            .baseUrl(resources.getString(R.string.live_url))
+            .baseUrl(resources.getString(R.string.staging_url))
             .client(okHttpClient)
             .build()
 

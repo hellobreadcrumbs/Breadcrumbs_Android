@@ -49,7 +49,9 @@
         app:layout_constraintTop_toBottomOf="@id/upArrow" />
 
 
+
     <RelativeLayout
+        android:visibility="visible"
         android:id="@+id/row1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,7 +67,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentStart="true"
-            android:src="@drawable/breadcrumbs_trail" />
+            android:src="@drawable/wild_about_twlight_icon" />
 
 
         <TextView
@@ -76,7 +78,7 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/image1"
             android:fontFamily="@font/claritycity_semibold"
-            android:text="Pioneer Trail"
+            android:text="Wild About Twilight"
             android:textColor="@color/black"
             android:textSize="@dimen/trail_list_item_size" />
 
@@ -100,7 +102,7 @@
         android:layout_marginTop="15dp"
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/row1">
@@ -109,7 +111,7 @@
             android:id="@+id/image2"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/wild_about_twlight_icon"
+            android:src="@drawable/anthology_trail_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -122,7 +124,7 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/image2"
             android:fontFamily="@font/claritycity_semibold"
-            android:text="Wild About Twilight Trail"
+            android:text="Hanse &amp; Grey's Adventure"
             android:textColor="@color/black"
             android:textSize="@dimen/trail_list_item_size"
             app:layout_constrainedWidth="true"

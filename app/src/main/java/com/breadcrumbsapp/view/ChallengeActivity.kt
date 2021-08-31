@@ -110,7 +110,7 @@ class ChallengeActivity : AppCompatActivity() {
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -119,10 +119,11 @@ class ChallengeActivity : AppCompatActivity() {
 
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
+            jsonObject.put("poi_id", sharedPreference.getSession("selectedPOIID"))
             //  jsonObject.put("user_id","66")
 
 
-            println("getFeedPostData Input = $jsonObject")
+            println("beginChallenge Input = $jsonObject")
 
 
             val mediaType = "application/json".toMediaTypeOrNull()
@@ -147,12 +148,9 @@ class ChallengeActivity : AppCompatActivity() {
 
                         runOnUiThread {
 
-                            if(CommonData.getBeginChallengeModel!!.equals("0"))
-                            {
+                            if (CommonData.getBeginChallengeModel!!.equals("0")) {
 
-                            }
-                            else
-                            {
+                            } else {
                                 println("Begin Challenge :: ${CommonData.getBeginChallengeModel!!.achievement}")
                                 println("Begin Challenge :: ${CommonData.getBeginChallengeModel!!.completed_trail}")
                             }
@@ -166,9 +164,14 @@ class ChallengeActivity : AppCompatActivity() {
                                 ).putExtra("poiImage", poiImage)
                             )
 
+
                         }
-
-
+                        startActivity(
+                            Intent(
+                                this@ChallengeActivity,
+                                QuizChallengeQuestionActivity::class.java
+                            ).putExtra("poiImage", poiImage)
+                        )
                     }
 
                 }

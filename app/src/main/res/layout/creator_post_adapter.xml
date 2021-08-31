@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/userName"
+        android:id="@+id/creator_post_screen_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/postImage"
+        android:id="@+id/creator_post_screen_imageView"
         android:layout_width="match_parent"
         android:layout_height="360dp"
         android:layout_marginTop="20dp"
@@ -54,7 +54,7 @@
         android:textOn=""
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postImage" />
+        app:layout_constraintTop_toBottomOf="@+id/creator_post_screen_imageView" />
 
     <TextView
         android:id="@+id/likeCount"
@@ -77,7 +77,7 @@
         android:layout_marginEnd="20dp"
         android:src="@drawable/feed_screen_share_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postImage" />
+        app:layout_constraintTop_toBottomOf="@+id/creator_post_screen_imageView" />
 
     <TextView
         android:id="@+id/shareText"

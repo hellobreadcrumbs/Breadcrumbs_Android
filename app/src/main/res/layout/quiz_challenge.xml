@@ -103,6 +103,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/quiz_challenge_level_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -155,7 +156,7 @@
                 <TextView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:background="@drawable/breadcrumbs_trail"
+                    android:background="@drawable/wild_about_twlight_icon"
                     android:gravity="center_horizontal" />
 
                 <TextView
@@ -164,7 +165,7 @@
                     android:layout_marginStart="3dp"
                     android:fontFamily="@font/claritycity_bold"
                     android:gravity="center_vertical"
-                    android:text="1/17"
+                    android:text="1/11"
                     android:textColor="#4B3B30"
                     android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -222,7 +223,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/dinish_bold"
-                    android:text="+100 XP"
+                    android:text="+200 XP"
                     android:textColor="#4B3B30"
                     android:textSize="@dimen/challenge_begin_screen_subtitle_text_size" />
             </RelativeLayout>
@@ -247,7 +248,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/dinish_bold"
-                    android:text="+100 XP"
+                    android:text="+50 XP"
                     android:textColor="#4B3B30"
                     android:textSize="@dimen/challenge_begin_screen_subtitle_text_size" />
             </RelativeLayout>

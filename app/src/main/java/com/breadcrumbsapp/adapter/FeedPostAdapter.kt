@@ -24,6 +24,7 @@ import com.breadcrumbsapp.R
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.model.GetFeedDataModel
 import com.breadcrumbsapp.util.CommonData
+import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
@@ -60,6 +61,7 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
     private var interceptor = intercept()
     private var local_loginID = loginID
 
+    private lateinit var sessionHandlerClass: SessionHandlerClass
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var imageView: ImageView = view.findViewById(R.id.postImage)
@@ -83,6 +85,7 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.feed_layout_adapter, parent, false)
         context = parent.context
+        sessionHandlerClass= SessionHandlerClass(context)
         return MyViewHolder(itemView)
     }
 
@@ -146,12 +149,12 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
 
 
         var localImageObj =
-            context.resources.getString(R.string.live_url) + data.photo_url
+            context.resources.getString(R.string.staging_url) + data.photo_url
 
         var localProfilePic =
-            context.resources.getString(R.string.live_url) + data.profile_picture
+            context.resources.getString(R.string.staging_url) + data.profile_picture
 
-        println("localProfilePic = $localProfilePic")
+        println("localProfilePic = $localImageObj")
 
         Glide.with(context)
             .load(localImageObj)
@@ -194,7 +197,17 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
         }
 
         holder.descriptionContent.text = data.description
-        holder.userNameTextView.text = data.username
+
+        if(data.username=="")
+        {
+            holder.userNameTextView.text = sessionHandlerClass.getSession("player_name")
+        }
+        else{
+            holder.userNameTextView.text = data.username
+        }
+
+
+
 
         if (data.profile_picture == "") {
             Glide.with(context)
@@ -296,7 +309,7 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(context.resources.getString(R.string.live_url))
+                .baseUrl(context.resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -375,7 +388,7 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(context.resources.getString(R.string.live_url))
+                .baseUrl(context.resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

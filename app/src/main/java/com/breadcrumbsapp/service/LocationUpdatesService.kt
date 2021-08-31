@@ -210,14 +210,6 @@ class LocationUpdatesService : Service() {
 
         val distance: Float = location.distanceTo(currentLocation)
 
-
-
-        println("Dist = IF : $distance")
-        println("Dist = accuracy : ${location.accuracy}")
-        println("Dist = isFirst : $isFirst")
-
-
-
         if (!isFirst)
         {
             isFirst=true

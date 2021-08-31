@@ -15,7 +15,7 @@ import java.util.*
 class UserInformationActivity : AppCompatActivity() {
     private val originalFormat: DateFormat =
         SimpleDateFormat("yyyy-mm-DD HH:MM:SS", Locale.ENGLISH)  //2020-11-27 12:27:04
-    val targetFormat: DateFormat = SimpleDateFormat("DD MMM yyyy")
+    val targetFormat: DateFormat = SimpleDateFormat("DD MMM yyyy", Locale.ENGLISH)
     private lateinit var sessionHandlerClass: SessionHandlerClass
     private lateinit var binding: UserInformationLayoutBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,13 +27,14 @@ class UserInformationActivity : AppCompatActivity() {
         if (CommonData.getUserDetails != null) {
 
             println("Data from :: Model class")
-            var createdDateStr: String = CommonData.getUserDetails!!.created
+            val createdDateStr: String = CommonData.getUserDetails!!.created
             try {
 
-                println("formattedDate $createdDateStr")
+                println("formattedDate 1 $createdDateStr")
                 val postCreatedDate: Date = originalFormat.parse(createdDateStr)
                 val formattedDate: String = targetFormat.format(postCreatedDate)
-                println("formattedDate $formattedDate")
+                println("formattedDate post $postCreatedDate")
+                println("formattedDate 2 $formattedDate")
                 created_date_view.text = formattedDate
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -63,18 +64,14 @@ class UserInformationActivity : AppCompatActivity() {
             }
             user_id_text_view.text = "#" +sessionHandlerClass.getSession("player_id")
             email_address_text_view.text = sessionHandlerClass.getSession("player_email_id")
-
-
-            var createdDateStr: String? = sessionHandlerClass.getSession("player_register_date")
-
-
+            val createdDateStr: String? = sessionHandlerClass.getSession("player_register_date")
 
             try {
 
-                println("formattedDate $createdDateStr")
+                println("formattedDate 3 $createdDateStr")
                 val postCreatedDate: Date = originalFormat.parse(createdDateStr)
                 val formattedDate: String = targetFormat.format(postCreatedDate)
-                println("formattedDate $formattedDate")
+                println("formattedDate 4 $formattedDate")
                 created_date_view.text = formattedDate
             } catch (e: Exception) {
                 e.printStackTrace()

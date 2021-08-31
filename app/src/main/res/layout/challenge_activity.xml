@@ -163,7 +163,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:fontFamily="@font/dinish_bold"
-                        android:text="+100 XP"
+                        android:text="+200 XP"
                         android:textColor="#4B3B30"
                         android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
                 </RelativeLayout>
@@ -188,7 +188,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:fontFamily="@font/dinish_bold"
-                        android:text="+100 XP"
+                        android:text="+50 XP"
                         android:textColor="#4B3B30"
                         android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
                 </RelativeLayout>

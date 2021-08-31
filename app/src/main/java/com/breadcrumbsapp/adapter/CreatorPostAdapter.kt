@@ -20,34 +20,46 @@ import com.borjabravo.readmoretextview.ReadMoreTextView
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.model.GetFeedDataModel
 import com.breadcrumbsapp.model.GetMyFeedModel
+import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
 import com.mikhaellopez.circularimageview.CircularImageView
+import kotlinx.android.synthetic.main.creator_post_layout.*
 import java.io.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-internal class CreatorPostAdapter(getFeed: List<GetMyFeedModel.Message>) :
+internal class CreatorPostAdapter(getFeed: List<GetFeedDataModel.Message>) :
     RecyclerView.Adapter<CreatorPostAdapter.MyViewHolder>() {
 
-    private var getFeedsLocalObj: List<GetMyFeedModel.Message> = getFeed
+    private var getFeedsLocalObj: List<GetFeedDataModel.Message> = getFeed
     private lateinit var context: Context
+    private lateinit var sessionHandlerClass: SessionHandlerClass
+    private var trailIcons = intArrayOf(
+        R.drawable.breadcrumbs_trail,
+        R.drawable.wild_about_twlight_icon,
+        R.drawable.anthology_trail_icon
+
+    )
+
+    private var trailNameString: Array<String> = arrayOf("PIONEER TRAIL","WILD ABOUT TWILIGHT TRAIL","Hanse & Grey's Adventure")
 
 
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        var imageView: ImageView = view.findViewById(R.id.postImage)
+        var imageView: ImageView = view.findViewById(R.id.creator_post_screen_imageView)
         var shareIcon: ImageView = view.findViewById(R.id.shareIcon)
         var likeCountText: TextView = view.findViewById(R.id.likeCount)
         var shareText: TextView = view.findViewById(R.id.shareText)
         // var descriptionContent: TextView = view.findViewById(R.id.descriptionContent)
         var descriptionContent: ReadMoreTextView = view.findViewById(R.id.descriptionContent)
-        var userNameTextView: TextView = view.findViewById(R.id.userName)
+
         var userProfilePicture: CircularImageView =
             view.findViewById(R.id.creator_post_profile_picture)
         var createdDateTextView: TextView = view.findViewById(R.id.createdDateTextView)
         var likeButton: ToggleButton = view.findViewById(R.id.creator_post_adapter_likeImageView)
+        var  username:TextView=view.findViewById(R.id.creator_post_screen_username)
 
     }
 
@@ -56,6 +68,7 @@ internal class CreatorPostAdapter(getFeed: List<GetMyFeedModel.Message>) :
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.creator_post_adapter, parent, false)
         context = parent.context
+        sessionHandlerClass= SessionHandlerClass(context)
         return MyViewHolder(itemView)
     }
 
@@ -106,17 +119,21 @@ internal class CreatorPostAdapter(getFeed: List<GetMyFeedModel.Message>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        println("getFeedsLocalObj:: ${getFeedsLocalObj.size}")
+
 
         val data = getFeedsLocalObj[position]
 
-        var localImageObj =
-            context.resources.getString(R.string.live_url) + data.photo_url
+        println("getFeedsLocalObj:: ${data.username}")
 
-        var localProfilePic =
-            context.resources.getString(R.string.live_url) + data.profile_picture
+       // holder.username.text=data.username
 
-        println("localProfilePic = $localProfilePic")
+        val localImageObj =
+            context.resources.getString(R.string.staging_url) + data.photo_url
+
+        val localProfilePic =
+            context.resources.getString(R.string.staging_url) + data.profile_picture
+
+        println("localProfilePic = $localImageObj")
 
         Glide.with(context)
             .load(localImageObj)
@@ -135,17 +152,28 @@ internal class CreatorPostAdapter(getFeed: List<GetMyFeedModel.Message>) :
 
         holder.descriptionContent.text=data.description
 
-        holder.userNameTextView.text = data.username
 
-        if (data.profile_picture == "") {
-            Glide.with(context)
-                .load(R.drawable.no_image)
+
+
+           /* Glide.with(context)
+                .load(R.drawable.breadcrumbs_trail).placeholder(R.drawable.breadcrumbs_trail)
                 .into(holder.userProfilePicture)
-        } else {
-            Glide.with(context)
-                .load(localProfilePic)
-                .into(holder.userProfilePicture)
+*/
+
+        if(sessionHandlerClass.getSession("temp_trail_id")=="4")
+        {
+            Glide.with(context).load(trailIcons[1]).into(holder.userProfilePicture)
+            holder.username.text=trailNameString[1]
+
         }
+        else if(sessionHandlerClass.getSession("temp_trail_id")=="6")
+        {
+            Glide.with(context).load(trailIcons[2]).into(holder.userProfilePicture)
+            holder.username.text=trailNameString[2]
+
+        }
+
+
 
 
         //"created": "2021-07-26 06:45:47",

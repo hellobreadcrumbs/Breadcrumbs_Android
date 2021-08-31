@@ -6,6 +6,7 @@ import com.breadcrumbsapp.model.*
 class CommonData {
 
     companion object {
+        val eventsList = java.util.ArrayList<GetEventsModel.Message>()
         var eventsModelMessage: List<GetEventsModel.Message>? = null
         var getUserDetails:GetUserModel.Message?=null
         var getFeedData:List<GetFeedDataModel.Message>?=null

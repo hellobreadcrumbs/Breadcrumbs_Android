@@ -427,7 +427,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/selected_player_post_border_line"
-                    tools:listitem="@layout/creator_post_adapter" />
+                    tools:listitem="@layout/feed_layout_adapter" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

@@ -104,7 +104,7 @@
     <string name="staging_url">http://13.212.34.85/breadcrumbs_staging/</string>
     <string name="sign_out_prompt_content">Your progress will be tied to your account- sign in any time to start exploring again.</string>
     <string name="reward_quiz_challenge_title">ABOUT REWARDS"</string>
-    <string name="reward_challenge_content">Earn exclusive rewards as you discover POIs and complete trails throughout your Breadcrumbs journey. Click redeem to scan the QR code at our approved vendors to cash in your reward. The History tab lists rewards that have already been redeemed or expired. If you believe there\'s an issue with your rewards, contact us at help@breadcrumbs.net</string>
+    <string name="reward_challenge_content">Earn exclusive rewards as you discover POIs and complete trails throughout your Breadcrumbs journey. Click redeem to scan the QR code at our approved vendors to cash in your reward. The History tab lists rewards that have already been redeemed or expired. If you believe there\'s an issue with your rewards, contact us at ....</string>
 
     <string name="rewards_screen_active_no_data_content">No rewards available</string>
     <string name="rewards_screen_past_no_data_content">No rewards redeemed yet</string>

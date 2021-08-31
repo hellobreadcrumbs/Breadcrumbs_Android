@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.breadcrumbsapp.R
-import com.breadcrumbsapp.adapter.CreatorPostAdapter
+import com.breadcrumbsapp.adapter.UserProfileScreenPostAdapter
 import com.breadcrumbsapp.databinding.UserProfileScreenLayoutBinding
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.model.GetTrailsModel
@@ -19,7 +19,6 @@ import com.breadcrumbsapp.view.MyAchievementScreenActivity
 import com.breadcrumbsapp.view.MyFriendsListScreenActivity
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.achievement_unlock_details_screen_layout.*
 import kotlinx.android.synthetic.main.user_profile_screen_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,7 +41,7 @@ import java.util.concurrent.TimeUnit
 class ProfileScreenActivity : AppCompatActivity() {
     var completedPOI: Int = 0
     var completedTrail: Int = 0
-    private lateinit var creatorPostAdapter: CreatorPostAdapter
+    private lateinit var userProfileScreenPostAdapter: UserProfileScreenPostAdapter
     private var interceptor = intercept()
     private lateinit var binding: UserProfileScreenLayoutBinding
     private lateinit var sessionHandlerClass: SessionHandlerClass
@@ -71,13 +70,13 @@ class ProfileScreenActivity : AppCompatActivity() {
             LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
         getMyFeedPostDetails()
         getUserAchievementsAPI()
-      //  getTrailDetails()
+       // getTrailDetails()
         setOnClickListeners()
 
-        val jsonFileString = readJsonFromAssets(applicationContext, "trails.json")
+        /*val jsonFileString = readJsonFromAssets(applicationContext, "trails.json")
         getTrailsData=   Gson().fromJson(jsonFileString, GetTrailsModel::class.java)
         //print("CommonData.getTrailsData = ${jsonFileString.toString()}")
-        CommonData.getTrailsData=getTrailsData.message
+        CommonData.getTrailsData=getTrailsData.message*/
 
 
     }
@@ -92,16 +91,13 @@ class ProfileScreenActivity : AppCompatActivity() {
             )
         })
 
-        if (sessionHandlerClass.getSession("player_photo_url") != null && sessionHandlerClass.getSession(
+       /* if (sessionHandlerClass.getSession("player_photo_url") != null && sessionHandlerClass.getSession(
                 "player_photo_url"
             ) != ""
-        ) {
-            Glide.with(applicationContext).load(sessionHandlerClass.getSession("player_photo_url"))
+        ) {*/
+            Glide.with(applicationContext).load(sessionHandlerClass.getSession("player_photo_url")).placeholder(R.drawable.no_image)
                 .into(profile_edit_screen_profile_pic_iv)
-        } else {
-            Glide.with(applicationContext).load(R.drawable.no_image)
-                .into(profile_edit_screen_profile_pic_iv)
-        }
+       // }
         user_profile_screen_backButton.setOnClickListener(View.OnClickListener {
             finish()
         })
@@ -133,7 +129,7 @@ class ProfileScreenActivity : AppCompatActivity() {
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -144,7 +140,7 @@ class ProfileScreenActivity : AppCompatActivity() {
               jsonObject.put("user_id", sessionHandlerClass.getSession("login_id"))
            // jsonObject.put("user_id", "198")
 
-            println("getFeedPostData Url = ${resources.getString(R.string.live_url)}")
+            println("getFeedPostData Url = ${resources.getString(R.string.staging_url)}")
             println("getFeedPostData Input = $jsonObject")
 
 
@@ -158,7 +154,7 @@ class ProfileScreenActivity : AppCompatActivity() {
                 // Create Service
                 val service = retrofit.create(APIService::class.java)
 
-                val response = service.getMyFeedDetails(
+                val response = service.getFeedDetails(
                     resources.getString(R.string.api_access_token),
                     requestBody
                 )
@@ -166,13 +162,15 @@ class ProfileScreenActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     if (response.body()!!.status) {
 
-                        CommonData.getMyFeedData = response.body()?.message
+                        CommonData.getFeedData = response.body()?.message
 
                         runOnUiThread {
 
-                            if (CommonData.getMyFeedData != null) {
-                                creatorPostAdapter = CreatorPostAdapter(CommonData.getMyFeedData!!)
-                                profile_screen_user_post_list.adapter = creatorPostAdapter
+                            if (CommonData.getFeedData != null) {
+
+
+                                userProfileScreenPostAdapter= UserProfileScreenPostAdapter(CommonData.getFeedData!!,sessionHandlerClass.getSession("login_id"))
+                                profile_screen_user_post_list.adapter = userProfileScreenPostAdapter
 
                             }
 
@@ -205,7 +203,7 @@ class ProfileScreenActivity : AppCompatActivity() {
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -214,7 +212,7 @@ class ProfileScreenActivity : AppCompatActivity() {
             val jsonObject = JSONObject()
             jsonObject.put("user_id", "66")
 
-            println("getUserAchievementsAPI Url = ${resources.getString(R.string.live_url)}")
+            println("getUserAchievementsAPI Url = ${resources.getString(R.string.staging_url)}")
             println("getUserAchievementsAPI Input = $jsonObject")
 
 
@@ -258,7 +256,7 @@ class ProfileScreenActivity : AppCompatActivity() {
                                 completed_poi_count.text = completedPOI.toString()
                                 completed_trail_count.text = completedTrail.toString()
                                 profile_screen_user_name.text =
-                                    sessionHandlerClass.getSession("player_user_name")
+                                    sessionHandlerClass.getSession("player_name")
 
                                 profile_screen_user_level.text=sessionHandlerClass.getSession("level_text_value")
                                 profile_screen_xp_point_value.text="${sessionHandlerClass.getSession("player_experience_points")} XP"
@@ -306,7 +304,7 @@ class ProfileScreenActivity : AppCompatActivity() {
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

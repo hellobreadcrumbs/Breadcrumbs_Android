@@ -9,6 +9,9 @@ import com.breadcrumbsapp.R
 import com.breadcrumbsapp.adapter.CreatorPostAdapter
 import com.breadcrumbsapp.databinding.CreatorPostLayoutBinding
 import com.breadcrumbsapp.interfaces.APIService
+import com.breadcrumbsapp.model.GetFeedDataModel
+import com.breadcrumbsapp.model.GetFriendsListModel
+import com.breadcrumbsapp.model.GetTrailsModel
 import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
@@ -34,6 +37,15 @@ class CreatorPostActivity:AppCompatActivity()
     private lateinit var binding:CreatorPostLayoutBinding
     private var interceptor = intercept()
     private lateinit var sharedPreference: SessionHandlerClass
+    private lateinit var getTrailsModelList: GetTrailsModel.Message
+    // R.drawable.breadcrumbs_trail,
+    private var trailIcons = intArrayOf(
+
+        R.drawable.wild_about_twlight_icon,
+        R.drawable.anthology_trail_icon
+
+    )
+    private var trailNameString: Array<String> = arrayOf("WILD ABOUT TWILIGHT TRAIL","Hanse & Grey's Adventure")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= CreatorPostLayoutBinding.inflate(layoutInflater)
@@ -41,8 +53,24 @@ class CreatorPostActivity:AppCompatActivity()
         setContentView(binding.root)
         creator_post_rv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
+
+        getTrailsModelList = intent.extras?.get("getTrailsListData") as GetTrailsModel.Message
      //   var iconPath=intent.extras?.getString("title_icon")
-        Glide.with(applicationContext).load(sharedPreference.getSession("player_photo_url")).into(creator_icon_iv)
+
+        if(getTrailsModelList.id=="4")
+        {
+            Glide.with(applicationContext).load(trailIcons[0]).into(creator_icon_iv)
+            creator_title_tv.text=trailNameString[0]
+            sharedPreference.saveSession("temp_trail_id","4")
+        }
+        else if(getTrailsModelList.id=="6")
+        {
+            Glide.with(applicationContext).load(trailIcons[1]).into(creator_icon_iv)
+            creator_title_tv.text=trailNameString[1]
+            sharedPreference.saveSession("temp_trail_id","6")
+        }
+
+
 
         getFeedPostData()
         creator_post_back_button.setOnClickListener(View.OnClickListener {
@@ -66,7 +94,7 @@ class CreatorPostActivity:AppCompatActivity()
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -80,7 +108,7 @@ class CreatorPostActivity:AppCompatActivity()
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
 
-            println("getFeedPostData Url = ${resources.getString(R.string.live_url)}")
+            println("getFeedPostData Url = ${resources.getString(R.string.staging_url)}")
             println("getFeedPostData Input = $jsonObject")
 
 
@@ -94,7 +122,7 @@ class CreatorPostActivity:AppCompatActivity()
                 // Create Service
                 val service = retrofit.create(APIService::class.java)
 
-                val response = service.getMyFeedDetails(
+                val response = service.getFeedDetails(
                     resources.getString(R.string.api_access_token),
                     requestBody
                 )
@@ -102,14 +130,22 @@ class CreatorPostActivity:AppCompatActivity()
                 if (response.isSuccessful) {
                     if (response.body()!!.status) {
 
-                        CommonData.getMyFeedData = response.body()?.message
+                        CommonData.getFeedData = response.body()?.message
 
                         runOnUiThread {
 
-                            if (CommonData.getMyFeedData != null) {
-                                creatorPostAdapter = CreatorPostAdapter(CommonData.getMyFeedData!!)
-                                creator_post_rv.adapter = creatorPostAdapter
+                            if (CommonData.getFeedData != null) {
 
+                                val feedList = ArrayList<GetFeedDataModel.Message>()
+
+                                CommonData.getFeedData?.forEach {
+                                    if(it.username=="NIGHT SAFARI")
+                                    {
+                                        feedList.add(it)
+                                    }
+                                }
+                                creatorPostAdapter = CreatorPostAdapter(feedList)
+                                creator_post_rv.adapter = creatorPostAdapter
                             }
 
                         }

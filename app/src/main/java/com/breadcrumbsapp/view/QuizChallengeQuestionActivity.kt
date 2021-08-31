@@ -692,10 +692,12 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         var expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
         var completedPoints = sharedPreference.getSession("player_experience_points")
         val levelValue = sharedPreference.getSession("lv_value")
+        val presentLevel = sharedPreference.getSession("current_level")
         scoredValue = discover_value + quiz_answer_value
         quiz_answer.text = "+$quiz_answer_value XP"
         determinateBar.max = progressBarMaxValue
         quizBalanceValue.text = "$expToLevel XP TO $levelValue"
+        quiz_challenge_level_name.text=presentLevel
         ObjectAnimator.ofInt(determinateBar, "progress", completedPoints!!.toInt())
             .setDuration(1000)
             .start()
@@ -713,7 +715,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                 .build()
             // Create Retrofit
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .build()
 

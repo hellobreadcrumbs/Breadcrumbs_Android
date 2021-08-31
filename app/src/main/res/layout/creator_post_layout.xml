@@ -42,6 +42,7 @@
             android:fontFamily="@font/claritycity_bold"
             android:gravity="center_horizontal"
             android:text="CREATOR POSTS"
+            android:textAllCaps="true"
             android:textColor="#4B3B30"
             android:textSize="@dimen/trail_tutorial_sub_text_size"
             app:layout_constraintEnd_toEndOf="parent"

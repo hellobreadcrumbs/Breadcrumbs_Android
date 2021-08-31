@@ -16,12 +16,15 @@ import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.breadcrumbsapp.ARCoreActivity
 import com.breadcrumbsapp.R
-import com.breadcrumbsapp.camerafiles.activity.SelfieChallengeImagePostActivity
 import com.breadcrumbsapp.databinding.DiscoverDetailsScreenBinding
 import com.breadcrumbsapp.model.GetEventsModel
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
@@ -72,22 +75,37 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
 
 
 
-        poiName =sharedPreference.getSession("selectedPOIName").toString()
+        poiName = sharedPreference.getSession("selectedPOIName").toString()
         poiID = sharedPreference.getSession("selectedPOIID").toString()
-        poiDistance =sharedPreference.getSession("poiDistance").toString()
+        poiDistance = sharedPreference.getSession("poiDistance").toString()
         poiImage = sharedPreference.getSession("selectedPOIImage").toString()
         poiETA = sharedPreference.getSession("selectedPOIDuration").toString()
         poiQuestion = sharedPreference.getSession("selectedPOIQuestion").toString()
         poiHint = sharedPreference.getSession("selectedPOIHintContent").toString()
         poiChType = sharedPreference.getSession("selectedPOIChallengeType").toString()
-        poiArid =sharedPreference.getSession("selectedPOIARid").toString()
+        poiArid = sharedPreference.getSession("selectedPOIARid").toString()
         poiQrCode = sharedPreference.getSession("selectedPOIQrCode").toString()
 
         println("poiQrCode $poiQrCode")
         println("poiChType $poiChType")
+        println("poiArid $poiArid")
 
-        poiChType="0"
-        from=resources.getString(R.string.discover)
+
+        discover_detail_screen_trailName.text=sharedPreference.getSession("selected_trails")
+        if(sharedPreference.getSession("selected_trail_id")=="4")
+        {
+            Glide.with(applicationContext).load(R.drawable.breadcrumbs_trail).into(discover_detail_screen_trail_icon)
+
+
+        }
+        else if(sharedPreference.getSession("selected_trail_id")=="6")
+        {
+            Glide.with(applicationContext).load(R.drawable.anthology_trail_icon).into(discover_detail_screen_trail_icon)
+
+        }
+
+
+        // poiChType = 1 means Quiz and 0 means Selfie
 
         if (poiArid == "1") {
             // needs open AR screen
@@ -97,20 +115,22 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
             Glide.with(applicationContext).load(R.drawable.ar_challenge_icon).into(challenge_image)
             //
             Glide.with(applicationContext).load(R.drawable.details_screen_ar_icon).into(scannerIcon)
-        }
-        else
-        {
+        } else {
 
             if (poiChType == "0") {
                 challengeName = "selfie"
                 challengeNameTv.text = "SELFIE CHALLENGE"
-                Glide.with(applicationContext).load(R.drawable.selfie_challenge_icon).into(challenge_image)
-                Glide.with(applicationContext).load(R.drawable.details_screen_qr_scan).into(scannerIcon)
+                Glide.with(applicationContext).load(R.drawable.selfie_challenge_icon)
+                    .into(challenge_image)
+                Glide.with(applicationContext).load(R.drawable.details_screen_camera)
+                    .into(scannerIcon)
             } else {
                 challengeName = "quiz"
                 challengeNameTv.text = "QUIZ CHALLENGE"
-                Glide.with(applicationContext).load(R.drawable.quiz_challenge_icon).into(challenge_image)
-                Glide.with(applicationContext).load(R.drawable.details_screen_qr_scan).into(scannerIcon)
+                Glide.with(applicationContext).load(R.drawable.quiz_challenge_icon)
+                    .into(challenge_image)
+                Glide.with(applicationContext).load(R.drawable.details_screen_qr_scan)
+                    .into(scannerIcon)
             }
         }
 
@@ -128,7 +148,15 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
         aboutContentImageView.visibility = View.GONE
 
         try {
-            Glide.with(applicationContext).load(poiImage).into(binding.poiImageView)
+            val options: RequestOptions = RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.loader_image)
+                .error(R.drawable.loader_image)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH)
+                .dontAnimate()
+                .dontTransform()
+            Glide.with(applicationContext).load(poiImage).apply(options).into(binding.poiImageView)
             sharedPreference.saveSession("poi_image", poiImage)
 
         } catch (e: Exception) {
@@ -156,21 +184,22 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
             }
             from.equals(resources.getString(R.string.discover)) -> {
                 binding.scannerIcon.alpha = 1f
-                binding.takeMeThereBtn.text="ARRIVED"
-                binding.takeMeThereBtn.background=getDrawable(R.drawable.arrived_btn)
-                binding.discoverStatusText.text="UNDISCOVERED"
+                binding.takeMeThereBtn.text = "ARRIVED"
+                binding.takeMeThereBtn.background = getDrawable(R.drawable.arrived_btn)
+                binding.discoverStatusText.text = "UNDISCOVERED"
             }
-            from== "discovered" -> {
+            from == "discovered" -> {
                 binding.scannerIcon.alpha = 0.5f
-                binding.takeMeThereBtn.text="TAKE ME THERE"
-                binding.takeMeThereBtn.background=getDrawable(R.drawable.take_me_there_bg)
-                binding.discoverStatusText.text="DISCOVERED"
+                binding.takeMeThereBtn.text = "TAKE ME THERE"
+                binding.takeMeThereBtn.background = getDrawable(R.drawable.take_me_there_bg)
+                binding.discoverStatusText.text = "DISCOVERED"
 
-                detailsPoiBackGround.background=getDrawable(R.drawable.trail_banner_discovered)
+                detailsPoiBackGround.background = getDrawable(R.drawable.trail_banner_discovered)
             }
         }
 
         binding.cameraIconLayout.setOnClickListener {
+
 
             if (from.equals("take_me_there")) {
 
@@ -180,7 +209,7 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
 
                 if (checkPermission()) {
 
-                     openQRCODEScannerScreen()
+                    openQRCODEScannerScreen()
 
                 } else {
                     requestPermission()
@@ -228,22 +257,16 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
 
 
 
+        breadcrumbsTrailInfoBtn.setOnClickListener(View.OnClickListener {
+            trailInfoWindow()
+        })
         binding.selfieChallengeInfo.setOnClickListener {
 
-           /* if (poiQuestion == "?") {
-                Toast.makeText(applicationContext, "Don't have Question", Toast.LENGTH_SHORT).show()
-            } else {*/
-                aboutWindow()
+            /* if (poiQuestion == "?") {
+                 Toast.makeText(applicationContext, "Don't have Question", Toast.LENGTH_SHORT).show()
+             } else {*/
+            aboutWindow()
 
-
-                /*if (checkPermission()) {
-
-                    startActivity(Intent(this@DiscoverDetailsScreenActivity, com.breadcrumbsapp.view.arcore.ArCoreUpdateAct::class.java))
-
-                } else {
-                    requestPermission()
-                }*/
-           // }
 
         }
 
@@ -254,10 +277,47 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
         }
 
 
-
-
     }
+    private fun trailInfoWindow() {
+        val dialog = Dialog(this, R.style.FirebaseUI_Transparent)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.about_trail)
+        dialog.window!!.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog.window?.setDimAmount(0.5f)
+        val okBtn = dialog.findViewById(R.id.okButton) as TextView
+        val trailName=dialog.findViewById(R.id.about_screen_trail_name) as TextView
+        val trailIcon=dialog.findViewById(R.id.about_screen_trail_icon) as ImageView
 
+
+        trailName.text=discover_detail_screen_trailName.text.toString()
+
+
+
+        if(sharedPreference.getSession("selected_trail_id")=="4")
+        {
+            Glide.with(applicationContext).load(R.drawable.wild_about_twlight_icon).into(trailIcon)
+
+
+        }
+        else if(sharedPreference.getSession("selected_trail_id")=="6")
+        {
+            Glide.with(applicationContext).load(R.drawable.anthology_trail_icon).into(trailIcon)
+
+        }
+
+
+        okBtn.setOnClickListener {
+            dialog.dismiss()
+
+        }
+
+        dialog.window!!.attributes!!.windowAnimations = R.style.DialogTheme
+        dialog.show()
+    }
     private fun aboutWindow() {
         val dialog = Dialog(this, R.style.FirebaseUI_Transparent)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -288,7 +348,8 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
             "ar_screen" -> {
                 logoIconView.setImageDrawable(getDrawable(R.drawable.ar_challenge_icon))
                 challengeTitle.text = resources.getString(R.string.about_mystery_challenge_title)
-                challengeContent.text = resources.getString(R.string.about_mystery_challenge_content)
+                challengeContent.text =
+                    resources.getString(R.string.about_mystery_challenge_content)
             }
         }
         okBtn.setOnClickListener {
@@ -303,21 +364,44 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
     }
 
     private fun openQRCODEScannerScreen() {
-        startActivity(
-            Intent(
-                this@DiscoverDetailsScreenActivity,
-                com.breadcrumbsapp.view.qrcode.DecoderActivity::class.java
-            ).putExtra("poiQrCode", poiQrCode)
-                .putExtra("challengeName", challengeName)
-                .putExtra("poiImage", poiImage).putExtra("poiArid", poiArid)
-        )
+
+        // If challenge Quiz means, needs to show QR code .,
+        // IF challenge Selfie & AR means, needs to skip QR code...
+
+        if(challengeName == "quiz")
+        {
+
+            startActivity(
+                Intent(
+                    this@DiscoverDetailsScreenActivity,
+                    com.breadcrumbsapp.view.qrcode.DecoderActivity::class.java
+                ).putExtra("poiQrCode", poiQrCode)
+                    .putExtra("challengeName", challengeName)
+                    .putExtra("poiImage", poiImage).putExtra("poiArid", poiArid)
+            )
+        }
+        else
+        {
+            if (poiArid == "1") {
+                startActivity(Intent(this@DiscoverDetailsScreenActivity, ARCoreActivity::class.java))
+
+            } else {
+                startActivity(
+                    Intent(
+                        this@DiscoverDetailsScreenActivity,
+                        ChallengeActivity::class.java
+                    ).putExtra("challengeName", challengeName)
+                        .putExtra("poiImage", poiImage)
+                )
+            }
+        }
+
 
 
 
 
 
     }
-
 
 
     private fun checkPermission(): Boolean {
@@ -373,10 +457,6 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
             .create()
             .show()
     }
-
-
-
-
 
 
 }

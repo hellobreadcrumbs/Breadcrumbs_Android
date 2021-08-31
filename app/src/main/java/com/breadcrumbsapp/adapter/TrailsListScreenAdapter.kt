@@ -69,6 +69,10 @@ internal class TrailsListScreenAdapter(getTrails: List<GetTrailsModel.Message>) 
         if (getTrailsList[position].name == "Wild About Twilight") {
             Glide.with(context).load(trailIcons[1]).into(holder.trailIcon)
         }
+        else
+        {
+            Glide.with(context).load(trailIcons[2]).into(holder.trailIcon)
+        }
 
 
         holder.itemView.setOnClickListener {

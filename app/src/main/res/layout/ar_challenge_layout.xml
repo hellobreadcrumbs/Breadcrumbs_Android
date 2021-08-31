@@ -33,7 +33,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/claritycity_bold"
-            android:text="Old National Theatre"
+            android:text=""
             android:textColor="#4B3B30"
             android:textSize="20sp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -53,11 +53,13 @@
         app:layout_constraintTop_toBottomOf="@+id/titleLayout">
 
         <TextView
+            android:id="@+id/ar_challenge_level_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="15dp"
+            android:textAllCaps="true"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/claritycity_bold"
             android:gravity="center"
@@ -104,7 +106,7 @@
             <TextView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:background="@drawable/breadcrumbs_trail"
+                android:background="@drawable/wild_about_twlight_icon"
                 android:gravity="center_horizontal" />
 
             <TextView
@@ -113,7 +115,7 @@
                 android:layout_marginStart="3dp"
                 android:fontFamily="@font/claritycity_bold"
                 android:gravity="center_vertical"
-                android:text="1/100"
+                android:text="1/11"
                 android:textColor="#4B3B30"
                 android:textSize="14sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -175,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:fontFamily="@font/dinish_bold"
-                android:text="+100 XP"
+                android:text="+200 XP"
                 android:textColor="#4B3B30"
                 android:textSize="14sp" />
         </RelativeLayout>
@@ -200,7 +202,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:fontFamily="@font/dinish_bold"
-                android:text="+100 XP"
+                android:text="+50 XP"
                 android:textColor="#4B3B30"
                 android:textSize="14sp" />
         </RelativeLayout>

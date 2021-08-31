@@ -63,7 +63,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
-import com.google.gson.Gson
 import com.google.maps.DirectionsApi
 import com.google.maps.GeoApiContext
 import com.google.maps.android.SphericalUtil
@@ -216,9 +215,12 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private var moreButtonClicked = 0
     private lateinit var getTrailsData: GetTrailsModel
 
+    //private var isTakeMeThereBtnClicked:Boolean=false
+
     //ranking,level,base,nextLevel
 
     private lateinit var vibrator: Vibrator
+    private var isVibrated: Boolean = false
     fun readJsonFromAssets(context: Context, filePath: String): String? {
         try {
             val source = context.assets.open(filePath).source().buffer()
@@ -248,13 +250,18 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
 
         Glide.with(applicationContext).load(R.raw.loading).into(loadingImage)
-        getRankingDetails()
+
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
 
-        // Construct a FusedLocationProviderClient.
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
+        try {
+            // Construct a FusedLocationProviderClient.
+            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        } catch (e: Exception) {
+            error("fusedLocationProviderClient :: ${e.printStackTrace()}")
+        }
 
 
         if (ContextCompat.checkSelfPermission(
@@ -278,14 +285,14 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             }
         }
         // Get the trail list
-        // getTrailDetails()
+        getTrailDetails()
 
-        val jsonFileString = readJsonFromAssets(applicationContext, "trails.json")
+        /*  val jsonFileString = readJsonFromAssets(applicationContext, "trails.json")
 
-        getTrailsData = Gson().fromJson(jsonFileString, GetTrailsModel::class.java)
-        print("CommonData.getTrailsData = ${jsonFileString.toString()}")
-        CommonData.getTrailsData = getTrailsData.message
-
+          getTrailsData = Gson().fromJson(jsonFileString, GetTrailsModel::class.java)
+          print("CommonData.getTrailsData = ${jsonFileString.toString()}")
+          CommonData.getTrailsData = getTrailsData.message
+  */
         getUserDetails()
 
         // Getting Crash .. when login after install from slack ro gdrive
@@ -318,9 +325,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
                             latLng = LatLng(lat!!.toDouble(), long!!.toDouble())
                             println("Updated Location : $latLng")
-                            // if (takeMeBtn.text.equals(resources.getString(R.string.travelling))) {
-                            //  updateCurrentLocation(latLng)
-                            //}
+
 
                             if (isDrawPathClicked) {
                                 updateCurrentLocation(latLng)
@@ -564,46 +569,62 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         }
 
         mapListToggleButton.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                // Open the poi list..
+            try {
+                if (isChecked) {
+                    // Open the poi list..
 
-                isListScreen = true
-                trailsListAdapter = TrailsListAdapter(
-                    CommonData.eventsModelMessage!!,
-                    this,
-                    distanceMatrixApiModelObj
-                ).also {
-                    listScreenRecycler.adapter = it
-                    listScreenRecycler.adapter!!.notifyDataSetChanged()
+
+                    if (CommonData.eventsModelMessage != null
+                        || CommonData.eventsModelMessage!!.isNotEmpty() && (distanceMatrixApiModelObj.size>=0)
+                    ) {
+                        isListScreen = true
+                        trailsListAdapter = TrailsListAdapter(
+                            CommonData.eventsModelMessage!!,
+                            this,
+                            distanceMatrixApiModelObj
+                        ).also {
+                            listScreenRecycler.adapter = it
+                            listScreenRecycler.adapter!!.notifyDataSetChanged()
+                        }
+
+                        println("trailsListAdapter = ${trailsListAdapter.itemCount} , ${listScreenRecycler.size}")
+
+                        profileLayout.visibility = View.VISIBLE
+                        trailsBtn.visibility = View.VISIBLE
+                        searchButton.visibility = View.VISIBLE
+                        markWindowConstraintLayout.visibility = View.GONE
+                        takeMeBtn.visibility = View.GONE
+
+                        trailsListLayout.visibility = View.VISIBLE
+                        recyclerView.visibility = View.GONE
+                        mapMainLayout.visibility = View.GONE
+                        currentLocation.visibility = View.GONE
+
+                        searchLayout.setBackgroundResource(0)
+                        backButton.visibility = View.GONE
+                        searchView.visibility = View.GONE
+                        recyclerView.visibility = View.GONE
+                        trailsBtn.visibility = View.VISIBLE
+
+                        searchButton.background = getDrawable(search_button)
+                    } else {
+                        getEventsList(sharedPreference.getSession("selected_trail_id") as String)
+                        Toast.makeText(applicationContext,"Please try again",Toast.LENGTH_SHORT).show()
+                    }
+
+
+
+
+                } else {
+                    // open the map screen
+                    isListScreen = false
+                    trailsListLayout.visibility = View.GONE
+                    recyclerView.visibility = View.GONE
+                    mapMainLayout.visibility = View.VISIBLE
+                    currentLocation.visibility = View.VISIBLE
                 }
-                println("trailsListAdapter = ${trailsListAdapter.itemCount} , ${listScreenRecycler.size}")
-                profileLayout.visibility = View.VISIBLE
-                trailsBtn.visibility = View.VISIBLE
-                searchButton.visibility = View.VISIBLE
-                markWindowConstraintLayout.visibility = View.GONE
-                takeMeBtn.visibility = View.GONE
-
-                trailsListLayout.visibility = View.VISIBLE
-                recyclerView.visibility = View.GONE
-                mapMainLayout.visibility = View.GONE
-                currentLocation.visibility = View.GONE
-
-                searchLayout.setBackgroundResource(0)
-                backButton.visibility = View.GONE
-                searchView.visibility = View.GONE
-                recyclerView.visibility = View.GONE
-                trailsBtn.visibility = View.VISIBLE
-
-                searchButton.background = getDrawable(search_button)
-
-
-            } else {
-                // open the map screen
-                isListScreen = false
-                trailsListLayout.visibility = View.GONE
-                recyclerView.visibility = View.GONE
-                mapMainLayout.visibility = View.VISIBLE
-                currentLocation.visibility = View.VISIBLE
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
 
         }
@@ -620,6 +641,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                   }*/
                 takeMeBtn.text.equals(resources.getString(R.string.take_me_there)) -> {
 
+                    // isTakeMeThereBtnClicked=true
                     drawPath()
 
                 }
@@ -639,7 +661,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         }
 
         markerWindowCloseButton.setOnClickListener {
-
+            // isTakeMeThereBtnClicked=false
             polyline?.remove()
 
             isGesturedOnMap = false
@@ -741,6 +763,17 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             LocalBroadcastManager.getInstance(this).registerReceiver(it, intentFilter)
         }
 
+        /* if (CommonData.getRankData == null) {
+             getRankingDetails()
+         }
+ */
+
+        if (sharedPreference.getSession("selected_trail_id") == "") {
+
+            getEventsList("4")
+        } else {
+            getEventsList(sharedPreference.getSession("selected_trail_id") as String)
+        }
 
     }
 
@@ -863,11 +896,19 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         // Get Trails ....
         //getTrailListFromAPI()
 
-        if (latLng != null) {
+        /* if (latLng != null) {
 
 
-            getEventsList()
-        }
+             if(sharedPreference.getSession("selected_trail_id")=="")
+             {
+                 getEventsList("4")
+             }
+             else
+             {
+
+                 getEventsList(sharedPreference.getSession("selected_trail_id") as String)
+             }
+         }*/
 
 
     }
@@ -881,14 +922,14 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 currentLocationMarker!!.remove()
             }
 
-            var distance = lastRouteLog?.let {
+            val distance = lastRouteLog?.let {
                 SphericalUtil.computeDistanceBetween(newLatLng, it)
             } ?: kotlin.run {
                 -1
             }
             println("Just:::::::::::::::::: distance  $distance")
             // discover area
-            if (distance.toDouble() in 0.0..300.0) {
+            if ((distance.toDouble() in 0.0..20.0)) {
 
                 Toast.makeText(this, "POI is nearby", Toast.LENGTH_LONG).show()
                 takeMeBtn.visibility = View.VISIBLE
@@ -897,7 +938,10 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
                 println("Vibrator Status = ${sharedPreference.getBoolean("isVibratorOn")}")
                 if (sharedPreference.getBoolean("isVibratorOn")) {
-                    vibrateOn()
+                    if (!isVibrated) {
+                        vibrateOn()
+
+                    }
                 } else {
                     vibrateOff()
                 }
@@ -937,7 +981,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
 
             if (!isGesturedOnMap) {
-               // mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng))
+                // mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng))
                 val cameraPosition = CameraPosition.Builder()
                     .target(latLng)
                     // Sets the center of the map to Mountain View
@@ -957,7 +1001,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         } else {
             println("LatLng Is NULL from current Loc.,")
         }
-        changePositionSmoothly(currentLocationMarker,lastlatlng)
+        changePositionSmoothly(currentLocationMarker, lastlatlng)
 
     }
 
@@ -1005,6 +1049,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         mMap.setOnMapClickListener {
 
 
+            //  isTakeMeThereBtnClicked=false
+
             isGesturedOnMap = false
 
             sharedPreference.saveSession("clicked_button", "")
@@ -1041,23 +1087,46 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 clickedMarker!!.remove()
 
                 println("selectedPOIDiscoverId Clicking Map = $selectedPOIDiscoverId")
-                if (selectedPOIDiscoverId == null || selectedPOIDiscoverId == "") {
-                    clickedMarker = mMap.addMarker(
-                        MarkerOptions().position(latLng1).icon(
-                            BitmapDescriptorFactory.fromResource(
-                                poi_breadcrumbs_marker_undiscovered_1
+                if (sharedPreference.getSession("selected_trail_id") == "4") {
+                    if (selectedPOIDiscoverId == null || selectedPOIDiscoverId == "") {
+
+                        clickedMarker = mMap.addMarker(
+                            MarkerOptions().position(latLng1).icon(
+                                BitmapDescriptorFactory.fromResource(
+                                    poi_breadcrumbs_marker_undiscovered_1
+                                )
                             )
                         )
-                    )
-                } else {
-                    clickedMarker = mMap.addMarker(
-                        MarkerOptions().position(latLng1).icon(
-                            BitmapDescriptorFactory.fromResource(
-                                poi_breadcrumbs_marker_discovered_1
+                    } else {
+                        clickedMarker = mMap.addMarker(
+                            MarkerOptions().position(latLng1).icon(
+                                BitmapDescriptorFactory.fromResource(
+                                    poi_breadcrumbs_marker_discovered_1
+                                )
                             )
                         )
-                    )
+                    }
+                } else if (sharedPreference.getSession("selected_trail_id") == "6") {
+                    if (selectedPOIDiscoverId == null || selectedPOIDiscoverId == "") {
+
+                        clickedMarker = mMap.addMarker(
+                            MarkerOptions().position(latLng1).icon(
+                                BitmapDescriptorFactory.fromResource(
+                                    hanse_poi_undiscovered
+                                )
+                            )
+                        )
+                    } else {
+                        clickedMarker = mMap.addMarker(
+                            MarkerOptions().position(latLng1).icon(
+                                BitmapDescriptorFactory.fromResource(
+                                    hanse_poi_discovered
+                                )
+                            )
+                        )
+                    }
                 }
+
 
             }
 
@@ -1266,6 +1335,14 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         val row3 = dialog.findViewById(R.id.row3) as ConstraintLayout
         val row4 = dialog.findViewById(R.id.row4) as ConstraintLayout
 
+        println("Trail Window :: ${CommonData.getTrailsData!!.size}")
+
+        /*
+        * Trail Id = 4 means, Wild About Twilight // Pioneer Trail
+        * Trail Id = 6 means, Anthology Trial
+        *
+        * Based on radio button choosing, needs to change the trail id value.
+        * */
 
         when (CommonData.getTrailsData!!.size) {
             1 -> {
@@ -1324,6 +1401,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             radioBtn3.setImageResource(radio_btn_deactive)
             radioBtn4.setImageResource(radio_btn_deactive)
             sharedPreference.saveSession("selected_trails", trailOne.text.toString())
+            sharedPreference.saveSession("selected_trail_id", "4")
         }
 
 
@@ -1335,6 +1413,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             radioBtn3.setImageResource(radio_btn_deactive)
             radioBtn4.setImageResource(radio_btn_deactive)
             sharedPreference.saveSession("selected_trails", trailTwo.text.toString())
+            sharedPreference.saveSession("selected_trail_id", "6")
         }
 
         radioBtn3.setOnClickListener {
@@ -1374,17 +1453,24 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 if (isCheckBoxClicked) {
                     isCheckBoxClicked = false
 
+
                     visibleItems()
                     updateCurrentLocation(latLng)
                 }
                 dialog.dismiss()
+                println("selected_trail_id:: ${sharedPreference.getSession("selected_trail_id")}")
+
+                getEventsList(sharedPreference.getSession("selected_trail_id") as String)
             }
 
         })
 
 
 
-        dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        dialog.window!!.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
 
         dialog.window!!.attributes!!.windowAnimations = R.style.DialogTheme
         dialog.show()
@@ -1465,7 +1551,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         if (polyline != null) {
             polyline!!.remove()
         }
-
+        isVibrated = false
         takeMeBtn.background = getDrawable(take_me_discover)
         takeMeBtn.text = resources.getString(R.string.take_me_there)
         closeButtonLayout.visibility = View.GONE
@@ -1490,16 +1576,15 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
 
         isDrawPathClicked = true
-        takeMeBtn.background = resources.getDrawable(travelling_bg)
-        takeMeBtn.text = resources.getString(R.string.travelling)
+
         markerWindowCloseButton.visibility = View.VISIBLE
         val pattern = listOf(
             Dot(), Gap(10F)
         )
 
-        closeButtonLayout.visibility = View.VISIBLE
 
-
+        println("drawPath - latLng :: $latLng")
+        println("drawPath - latLng1 :: $latLng1")
         var routes: MutableList<List<HashMap<String, String>>> = ArrayList()
         val url = getURL(latLng!!, latLng1!!)
 
@@ -1540,7 +1625,21 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         }
         mMap.animateCamera(CameraUpdateFactory.zoomTo(20.0f))
+        closeButtonLayout.visibility = View.VISIBLE
+        takeMeBtn.background = resources.getDrawable(travelling_bg)
+        takeMeBtn.text = resources.getString(R.string.travelling)
         polyline = mMap.addPolyline(polyLineOptions)
+        /* if(isTakeMeThereBtnClicked)
+         {
+             closeButtonLayout.visibility = View.VISIBLE
+             takeMeBtn.background = resources.getDrawable(travelling_bg)
+             takeMeBtn.text = resources.getString(R.string.travelling)
+             polyline = mMap.addPolyline(polyLineOptions)
+         }
+         else{
+             closeButtonLayout.visibility = View.GONE
+             polyline?.remove()
+         }*/
     }
 
     fun parse(jObject: JSONObject): List<List<HashMap<String, String>>>? {
@@ -1615,7 +1714,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         }
     }
 
-    private fun getEventsList() {
+    private fun getEventsList(trailID: String) {
 
         try {
 
@@ -1639,7 +1738,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
-            jsonObject.put("trails", "4")
+            jsonObject.put("trails", trailID)
             println("getEvents Url = ${resources.getString(R.string.staging_url)}")
             println("getEvents Input = $jsonObject")
 
@@ -1666,53 +1765,97 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                     if (response.isSuccessful) {
                         if (response.body()!!.status) {
 
-                            CommonData.eventsModelMessage = response.body()?.message
+                            if (CommonData.eventsList.size > 0) {
+                                CommonData.eventsList.clear()
+                            }
+                            runOnUiThread {
+                                markerPOI?.remove()
+                                mMap.clear()
+
+                            }
+                            response.body()?.message?.forEach {
+                                if (it.trail_id == trailID) {
+                                    println("NAME = ${it.title}")
+                                    CommonData.eventsList.add(it)
+
+                                    CommonData.eventsModelMessage = CommonData.eventsList
+                                }
+                            }
+
+
+                            //     CommonData.eventsModelMessage = response.body()?.message
                             println("Event Model = ${CommonData.eventsModelMessage!!.size}")
 
                             if (CommonData.eventsModelMessage != null) {
 
                                 for (i in 0 until CommonData.eventsModelMessage!!.count()) {
 
-                                    val latLng1 = LatLng(
+                                    latLng1 = LatLng(
                                         CommonData.eventsModelMessage!![i].latitude.toDouble(),
                                         CommonData.eventsModelMessage!![i].longitude.toDouble()
                                     )
                                     trailName = CommonData.eventsModelMessage!![i].title
                                     println("Trail Name : $trailName")
+                                    println("Events Size : ${CommonData.eventsModelMessage!!.size}")
 
                                     runOnUiThread {
 
-                                        if (CommonData.eventsModelMessage!![i].disc_id == null) {
-                                            markerPOI = mMap.addMarker(
-                                                MarkerOptions().position(latLng1)
-                                                    .icon(
-                                                        BitmapDescriptorFactory.fromResource(
-                                                            poi_breadcrumbs_marker_undiscovered_1
-                                                        )
-                                                    ).title(trailName)
-                                            )
+                                        if (trailID == "4") {
+                                            if (CommonData.eventsModelMessage!![i].disc_id == null) {
+                                                markerPOI = mMap.addMarker(
+                                                    MarkerOptions().position(latLng1)
+                                                        .icon(
+                                                            BitmapDescriptorFactory.fromResource(
+                                                                poi_breadcrumbs_marker_undiscovered_1
+                                                            )
+                                                        ).title(trailName)
+                                                )
 
-                                        } else {
-                                            markerPOI = mMap.addMarker(
-                                                MarkerOptions().position(latLng1)
-                                                    .icon(
-                                                        BitmapDescriptorFactory.fromResource(
-                                                            poi_breadcrumbs_marker_discovered_1
-                                                        )
-                                                    ).title(trailName)
-                                            )
+                                            } else {
+                                                markerPOI = mMap.addMarker(
+                                                    MarkerOptions().position(latLng1)
+                                                        .icon(
+                                                            BitmapDescriptorFactory.fromResource(
+                                                                poi_breadcrumbs_marker_discovered_1
+                                                            )
+                                                        ).title(trailName)
+                                                )
+                                            }
+                                            markerPOI!!.tag = i
+                                        } else if (trailID == "6") {
+                                            if (CommonData.eventsModelMessage!![i].disc_id == null) {
+                                                markerPOI = mMap.addMarker(
+                                                    MarkerOptions().position(latLng1)
+                                                        .icon(
+                                                            BitmapDescriptorFactory.fromResource(
+                                                                hanse_poi_undiscovered
+                                                            )
+                                                        ).title(trailName)
+                                                )
+
+                                            } else {
+                                                markerPOI = mMap.addMarker(
+                                                    MarkerOptions().position(latLng1)
+                                                        .icon(
+                                                            BitmapDescriptorFactory.fromResource(
+                                                                hanse_poi_discovered
+                                                            )
+                                                        ).title(trailName)
+                                                )
+                                            }
+                                            markerPOI!!.tag = i
                                         }
 
-                                        markerPOI!!.tag = i
-
                                     }
+                                    // THE BELOW CODE HELPS TO GET OVERALL POIs DURATION AND DISTANCE
                                     try {
                                         println("Current Latlng $latLng")
 
-                                        val distanceURl = getDistanceURL(latLng!!, latLng1)
+                                        val distanceURl = getDistanceURL(latLng!!, latLng1!!)
                                         println("distanceURl = $distanceURl")
                                         val result = URL(distanceURl).readText()
                                         val jsonObject = JSONObject(result)
+
 
 
                                         jRoutes = jsonObject.getJSONArray("rows")
@@ -1777,7 +1920,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -1806,14 +1949,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
                         CommonData.getTrailsData = response.body()?.message
 
-                        runOnUiThread {
 
-                            if (CommonData.getTrailsData != null) {
-
-
-                            }
-
-                        }
 
 
                     }
@@ -1840,7 +1976,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         CommonData.eventsModelMessage?.let {
             for (i in it.indices) {
                 if (it[i].id == id) {
-                    isMarkerClicked=false
+                    isMarkerClicked = false
                     selectedMarker(i)
                     break
                 }
@@ -1852,143 +1988,180 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
     private fun selectedMarker(pos: Int) {
 
-
-        isSelectedMarker = true
-        /* When user click / select the particular POI., that time needs to check either the POI discovered or not.*/
-
-        profileLayout.visibility = View.GONE
-        trailsBtn.visibility = View.GONE
-        searchButton.visibility = View.GONE
-        searchView.visibility = View.GONE
-        recyclerView.visibility = View.GONE
-        backButton.visibility = View.GONE
-        markWindowConstraintLayout.visibility = View.VISIBLE
-        takeMeBtn.visibility = View.VISIBLE
-
-        currentLocation.visibility = View.VISIBLE
-        trailsListLayout.visibility = View.GONE
-        mapMainLayout.visibility = View.VISIBLE
-
-        takeMeBtn.text = resources.getString(R.string.take_me_there)
-        poiDistance.text = distanceMatrixApiModelObj[pos].distance
-        trailsNameText.text = CommonData.eventsModelMessage!![pos].title
-        selectedPOIName = CommonData.eventsModelMessage!![pos].title
-        selectedPOIID = CommonData.eventsModelMessage!![pos].id
-        //  sharedPreference.saveSession("selectedPOIID",selectedPOIID)
-        selectedPOIQuestion = CommonData.eventsModelMessage!![pos].ch_question
-        selectedPOIChallengeType = CommonData.eventsModelMessage!![pos].ch_type
-        selectedPOIARid = CommonData.eventsModelMessage!![pos].ar_id
-
-        if (CommonData.eventsModelMessage!![pos].ar_id == "null" || CommonData.eventsModelMessage!![pos].ar_id == null) {
-            println("selectedPOIARid = Before = $selectedPOIARid")
-            selectedPOIARid = "0"
-            println("selectedPOIARid = After = $selectedPOIARid")
-        } else {
-            println("selectedPOIARid = ELSE = $selectedPOIARid")
-        }
-        selectedPOIDiscoverId = CommonData.eventsModelMessage!![pos].disc_id
-        selectedPOIQrCode = CommonData.eventsModelMessage!![pos].qr_code
-        // selectedPOIHintContent = CommonData.eventsModelMessage!![pos].hint
-        selectedPOIHintContent = CommonData.eventsModelMessage!![pos].description
-        selectedPOIDuration = distanceMatrixApiModelObj[pos].duration
-        selectedPOIImage =
-            resources.getString(R.string.live_url) + CommonData.eventsModelMessage!![pos].poi_img
-        println("poi_ID selectedPOIID = $selectedPOIID")
-        mapListToggleButton.isChecked = false
-
         try {
-            sharedPreference.saveSession("selectedPOIName", selectedPOIName)
-            sharedPreference.saveSession("selectedPOIID", selectedPOIID)
-            sharedPreference.saveSession("poiDistance", poiDistance.text.toString())
-            sharedPreference.saveSession("selectedPOIImage", selectedPOIImage)
-            sharedPreference.saveSession("selectedPOIDuration", selectedPOIDuration)
-            sharedPreference.saveSession("selectedPOIQuestion", selectedPOIQuestion)
-            sharedPreference.saveSession("selectedPOIHintContent", selectedPOIHintContent)
-            sharedPreference.saveSession("selectedPOIChallengeType", selectedPOIChallengeType)
-            if (selectedPOIARid != null) {
 
-                sharedPreference.saveSession("selectedPOIARid", selectedPOIARid)
+            isSelectedMarker = true
+            /* When user click / select the particular POI., that time needs to check either the POI discovered or not.*/
+
+            profileLayout.visibility = View.GONE
+            trailsBtn.visibility = View.GONE
+            searchButton.visibility = View.GONE
+            searchView.visibility = View.GONE
+            recyclerView.visibility = View.GONE
+            backButton.visibility = View.GONE
+            markWindowConstraintLayout.visibility = View.VISIBLE
+            takeMeBtn.visibility = View.VISIBLE
+
+            currentLocation.visibility = View.VISIBLE
+            trailsListLayout.visibility = View.GONE
+            mapMainLayout.visibility = View.VISIBLE
+
+            takeMeBtn.text = resources.getString(R.string.take_me_there)
+            poiDistance.text = distanceMatrixApiModelObj[pos].distance
+            trailsNameText.text = CommonData.eventsModelMessage!![pos].title
+            selectedPOIName = CommonData.eventsModelMessage!![pos].title
+            selectedPOIID = CommonData.eventsModelMessage!![pos].id
+            //  sharedPreference.saveSession("selectedPOIID",selectedPOIID)
+            selectedPOIQuestion = CommonData.eventsModelMessage!![pos].ch_question
+            selectedPOIChallengeType = CommonData.eventsModelMessage!![pos].ch_type
+            selectedPOIARid = CommonData.eventsModelMessage!![pos].ar_id
+
+            if (CommonData.eventsModelMessage!![pos].ar_id == "null" || CommonData.eventsModelMessage!![pos].ar_id == null) {
+                println("selectedPOIARid = Before = $selectedPOIARid")
+                selectedPOIARid = "0"
+                println("selectedPOIARid = After = $selectedPOIARid")
+            } else {
+                println("selectedPOIARid = ELSE = $selectedPOIARid")
             }
-            sharedPreference.saveSession("selectedPOIQrCode", selectedPOIQrCode)
+            selectedPOIDiscoverId = CommonData.eventsModelMessage!![pos].disc_id
+            selectedPOIQrCode = CommonData.eventsModelMessage!![pos].qr_code
+            // selectedPOIHintContent = CommonData.eventsModelMessage!![pos].hint
+            selectedPOIHintContent = CommonData.eventsModelMessage!![pos].description
+            selectedPOIDuration = distanceMatrixApiModelObj[pos].duration
+            selectedPOIImage =
+                resources.getString(R.string.staging_url) + CommonData.eventsModelMessage!![pos].poi_img
+            println("poi_ID selectedPOIID = $selectedPOIID")
+            mapListToggleButton.isChecked = false
+
+            try {
+                sharedPreference.saveSession("selectedPOIName", selectedPOIName)
+                sharedPreference.saveSession("selectedPOIID", selectedPOIID)
+                sharedPreference.saveSession("poiDistance", poiDistance.text.toString())
+                sharedPreference.saveSession("selectedPOIImage", selectedPOIImage)
+                sharedPreference.saveSession("selectedPOIDuration", selectedPOIDuration)
+                sharedPreference.saveSession("selectedPOIQuestion", selectedPOIQuestion)
+                sharedPreference.saveSession("selectedPOIHintContent", selectedPOIHintContent)
+                sharedPreference.saveSession("selectedPOIChallengeType", selectedPOIChallengeType)
+                if (selectedPOIARid != null) {
+
+                    sharedPreference.saveSession("selectedPOIARid", selectedPOIARid)
+                }
+                sharedPreference.saveSession("selectedPOIQrCode", selectedPOIQrCode)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            latLng1 = LatLng(
+                CommonData.eventsModelMessage!![pos].latitude.toDouble(),
+                CommonData.eventsModelMessage!![pos].longitude.toDouble()
+            )
+            // The below method helps to get Distance btw user and selected POI
+            //  drawPath()
+
+            clickedMarker?.remove()
+
+            println("selectedPOIDiscoverId = $selectedPOIID Discover_id = $selectedPOIDiscoverId")
+
+            if (selectedPOIDiscoverId == null) {
+                println("selectedPOIDiscoverId IF= $selectedPOIDiscoverId")
+                markerWindow_background.background =
+                    resources.getDrawable(trail_banner_undiscovered)
+                markerWindowDiscoverTextView.text = "Undiscovered"
+                Glide.with(applicationContext)
+                    .load(list_poi_icon)
+                    .into(markWindowPOIIcon)
+                isDiscovered = false
+                if (sharedPreference.getSession("selected_trail_id") == "4")
+                {
+                    clickedMarker = mMap.addMarker(
+                        MarkerOptions().position(latLng1).icon(
+                            BitmapDescriptorFactory.fromResource(
+                                poi_breadcrumbs_marker_undiscovered_2
+                            )
+                        )
+                    )
+
+                }
+                else if (sharedPreference.getSession("selected_trail_id") == "6")
+                {
+                    clickedMarker = mMap.addMarker(
+                        MarkerOptions().position(latLng1).icon(
+                            BitmapDescriptorFactory.fromResource(
+                                hanse_poi_undiscovered_2
+                            )
+                        )
+                    )
+
+                }
+
+                if (!isMarkerClicked) {
+                    val from = resources.getString(R.string.take_me_there)
+                    startActivity(
+                        Intent(
+                            this@DiscoverScreenActivity,
+                            DiscoverDetailsScreenActivity::class.java
+                        ).putExtra("from", from)
+                    )
+                }
+
+
+            } else {
+                println("selectedPOIDiscoverId ELSE= $selectedPOIDiscoverId")
+                markerWindow_background.background = resources.getDrawable(trail_banner_discovered)
+                markerWindowDiscoverTextView.text = "Discovered"
+                Glide.with(applicationContext)
+                    .load(discovered_poi_ico_banner)
+                    .into(markWindowPOIIcon)
+                isDiscovered = true
+                if (sharedPreference.getSession("selected_trail_id") == "4")
+                {
+                    clickedMarker = mMap.addMarker(
+                        MarkerOptions().position(latLng1).icon(
+                            BitmapDescriptorFactory.fromResource(
+                                poi_breadcrumbs_marker_discovered_2
+                            )
+                        )
+                    )
+                }
+                else if (sharedPreference.getSession("selected_trail_id") == "6")
+                {
+                    clickedMarker = mMap.addMarker(
+                        MarkerOptions().position(latLng1).icon(
+                            BitmapDescriptorFactory.fromResource(
+                                hanse_poi_discovered_2
+                            )
+                        )
+                    )
+                }
+
+
+
+                takeMeBtn.visibility = View.GONE
+
+                if (!isMarkerClicked) {
+                    val from = "discovered"
+                    startActivity(
+                        Intent(
+                            this@DiscoverScreenActivity,
+                            DiscoverDetailsScreenActivity::class.java
+                        ).putExtra("from", from)
+
+                    )
+                }
+
+            }
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng1))
+            //  mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
+
+
+            markerAnimationHandler.removeCallbacks(markerAnimationRunnable)
+            markerAnimationHandler.postDelayed(markerAnimationRunnable, 500)
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-        latLng1 = LatLng(
-            CommonData.eventsModelMessage!![pos].latitude.toDouble(),
-            CommonData.eventsModelMessage!![pos].longitude.toDouble()
-        )
 
-
-        clickedMarker?.remove()
-
-        println("selectedPOIDiscoverId = $selectedPOIID Discover_id = $selectedPOIDiscoverId")
-
-        if (selectedPOIDiscoverId == null) {
-            println("selectedPOIDiscoverId IF= $selectedPOIDiscoverId")
-            markerWindow_background.background = resources.getDrawable(trail_banner_undiscovered)
-            markerWindowDiscoverTextView.text = "Undiscovered"
-            Glide.with(applicationContext)
-                .load(list_poi_icon)
-                .into(markWindowPOIIcon)
-            isDiscovered = false
-            clickedMarker = mMap.addMarker(
-                MarkerOptions().position(latLng1).icon(
-                    BitmapDescriptorFactory.fromResource(
-                        poi_breadcrumbs_marker_undiscovered_2
-                    )
-                )
-            )
-
-            if (!isMarkerClicked) {
-                val from = resources.getString(R.string.take_me_there)
-                startActivity(
-                    Intent(
-                        this@DiscoverScreenActivity,
-                        DiscoverDetailsScreenActivity::class.java
-                    ).putExtra("from", from)
-                )
-            }
-
-
-        } else {
-            println("selectedPOIDiscoverId ELSE= $selectedPOIDiscoverId")
-            markerWindow_background.background = resources.getDrawable(trail_banner_discovered)
-            markerWindowDiscoverTextView.text = "Discovered"
-            Glide.with(applicationContext)
-                .load(discovered_poi_ico_banner)
-                .into(markWindowPOIIcon)
-            isDiscovered = true
-            clickedMarker = mMap.addMarker(
-                MarkerOptions().position(latLng1).icon(
-                    BitmapDescriptorFactory.fromResource(
-                        poi_breadcrumbs_marker_discovered_2
-                    )
-                )
-            )
-
-
-            takeMeBtn.visibility = View.GONE
-
-            if (!isMarkerClicked) {
-                val from = "discovered"
-                startActivity(
-                    Intent(
-                        this@DiscoverScreenActivity,
-                        DiscoverDetailsScreenActivity::class.java
-                    ).putExtra("from", from)
-
-                )
-            }
-
-        }
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng1))
-      //  mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
-
-
-        markerAnimationHandler.removeCallbacks(markerAnimationRunnable)
-        markerAnimationHandler.postDelayed(markerAnimationRunnable, 500)
     }
 
 
@@ -2015,116 +2188,231 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private fun markerAnimation() {
 
 
-        if (isDiscovered) {
-            when (iconPosition) {
-                1 -> {
-                    clickedMarker?.setIcon(
-                        BitmapDescriptorFactory.fromResource(
-                            poi_breadcrumbs_marker_discovered_1
+        if (sharedPreference.getSession("selected_trail_id") == "6") {
+            if (isDiscovered) {
+                when (iconPosition) {
+                    1 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                hanse_poi_discovered
+                            )
                         )
-                    )
-                    iconPosition = 2
-                }
-                2 -> {
-                    clickedMarker?.setIcon(
-                        BitmapDescriptorFactory.fromResource(
-                            poi_breadcrumbs_marker_discovered_2
-                        )
-                    )
-                    iconPosition = 3
-                }
-                3 -> {
-                    clickedMarker?.setIcon(
-                        BitmapDescriptorFactory.fromResource(
-                            poi_breadcrumbs_marker_discovered_3
-                        )
-                    )
-                    iconPosition = 4
-                    reverse = false
-
-                }
-                4 -> {
-                    clickedMarker?.setIcon(
-                        BitmapDescriptorFactory.fromResource(
-                            poi_breadcrumbs_marker_discovered_4
-                        )
-                    )
-
-                    iconPosition = if (reverse) {
-                        3
-                    } else {
-                        5
+                        iconPosition = 2
                     }
-                }
-                5 -> {
-                    clickedMarker?.setIcon(
-                        BitmapDescriptorFactory.fromResource(
-                            poi_breadcrumbs_marker_discovered_5
+                    2 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                hanse_poi_discovered_2
+                            )
                         )
-                    )
-                    iconPosition = 4
-                    reverse = true
+                        iconPosition = 3
+                    }
+                    3 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                hanse_poi_discovered_3
+                            )
+                        )
+                        iconPosition = 4
+                        reverse = false
+
+                    }
+                    4 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                hanse_poi_discovered_2
+                            )
+                        )
+
+                        iconPosition = if (reverse) {
+                            3
+                        } else {
+                            5
+                        }
+                    }
+                    5 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                hanse_poi_discovered_3
+                            )
+                        )
+                        iconPosition = 4
+                        reverse = true
+
+                    }
+
 
                 }
+            } else {
+                when (iconPosition) {
+                    1 -> {
+
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                hanse_poi_undiscovered
+                            )
+                        )
+                        iconPosition = 2
+                    }
+                    2 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                hanse_poi_undiscovered_2
+                            )
+                        )
+                        iconPosition = 3
+                    }
+                    3 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                hanse_poi_undiscovered_3
+                            )
+                        )
+                        iconPosition = 4
+                        reverse = false
+
+                    }
+                    4 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                hanse_poi_undiscovered_3
+                            )
+                        )
 
 
+
+                        iconPosition = if (reverse) {
+                            3
+                        } else {
+                            5
+                        }
+                    }
+                    5 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                hanse_poi_undiscovered_2
+                            )
+                        )
+                        iconPosition = 4
+                        reverse = true
+
+                    }
+
+
+                }
             }
-        } else {
-            when (iconPosition) {
-                1 -> {
-
-                    clickedMarker?.setIcon(
-                        BitmapDescriptorFactory.fromResource(
-                            poi_breadcrumbs_marker_undiscovered_1
+        } else if (sharedPreference.getSession("selected_trail_id") == "4") {
+            if (isDiscovered) {
+                when (iconPosition) {
+                    1 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                poi_breadcrumbs_marker_discovered_1
+                            )
                         )
-                    )
-                    iconPosition = 2
-                }
-                2 -> {
-                    clickedMarker?.setIcon(
-                        BitmapDescriptorFactory.fromResource(
-                            poi_breadcrumbs_marker_undiscovered_2
-                        )
-                    )
-                    iconPosition = 3
-                }
-                3 -> {
-                    clickedMarker?.setIcon(
-                        BitmapDescriptorFactory.fromResource(
-                            poi_breadcrumbs_marker_undiscovered_3
-                        )
-                    )
-                    iconPosition = 4
-                    reverse = false
-
-                }
-                4 -> {
-                    clickedMarker?.setIcon(
-                        BitmapDescriptorFactory.fromResource(
-                            poi_breadcrumbs_marker_undiscovered_4
-                        )
-                    )
-
-
-
-                    iconPosition = if (reverse) {
-                        3
-                    } else {
-                        5
+                        iconPosition = 2
                     }
-                }
-                5 -> {
-                    clickedMarker?.setIcon(
-                        BitmapDescriptorFactory.fromResource(
-                            poi_breadcrumbs_marker_undiscovered_5
+                    2 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                poi_breadcrumbs_marker_discovered_2
+                            )
                         )
-                    )
-                    iconPosition = 4
-                    reverse = true
+                        iconPosition = 3
+                    }
+                    3 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                poi_breadcrumbs_marker_discovered_3
+                            )
+                        )
+                        iconPosition = 4
+                        reverse = false
+
+                    }
+                    4 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                poi_breadcrumbs_marker_discovered_4
+                            )
+                        )
+
+                        iconPosition = if (reverse) {
+                            3
+                        } else {
+                            5
+                        }
+                    }
+                    5 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                poi_breadcrumbs_marker_discovered_5
+                            )
+                        )
+                        iconPosition = 4
+                        reverse = true
+
+                    }
+
 
                 }
+            } else {
+                when (iconPosition) {
+                    1 -> {
+
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                poi_breadcrumbs_marker_undiscovered_1
+                            )
+                        )
+                        iconPosition = 2
+                    }
+                    2 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                poi_breadcrumbs_marker_undiscovered_2
+                            )
+                        )
+                        iconPosition = 3
+                    }
+                    3 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                poi_breadcrumbs_marker_undiscovered_3
+                            )
+                        )
+                        iconPosition = 4
+                        reverse = false
+
+                    }
+                    4 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                poi_breadcrumbs_marker_undiscovered_4
+                            )
+                        )
 
 
+
+                        iconPosition = if (reverse) {
+                            3
+                        } else {
+                            5
+                        }
+                    }
+                    5 -> {
+                        clickedMarker?.setIcon(
+                            BitmapDescriptorFactory.fromResource(
+                                poi_breadcrumbs_marker_undiscovered_5
+                            )
+                        )
+                        iconPosition = 4
+                        reverse = true
+
+                    }
+
+
+                }
             }
         }
 
@@ -2210,6 +2498,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
 
+
             println("getUserDetails Url = ${resources.getString(R.string.staging_url)}")
             println("getUserDetails Input = $jsonObject")
 
@@ -2259,7 +2548,9 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                                 CommonData.getUserDetails!!.id
                             )
 
-                            calculateUserLevel(Integer.parseInt(CommonData.getUserDetails!!.experience))
+                            runOnUiThread {
+                                calculateUserLevel(Integer.parseInt(CommonData.getUserDetails!!.experience))
+                            }
 
                         } else {
 
@@ -2276,10 +2567,10 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     }
 
     private fun calculateUserLevel(exp: Int) {
-          var ranking: String = ""
-          var level: Int = 0
-          var base: Int = 0
-          var nextLevel: Int = 0
+        var ranking: String = ""
+        var level: Int = 0
+        var base: Int = 0
+        var nextLevel: Int = 0
         when (exp) {
             in 0..999 -> { // 1000 thresh
                 ranking = "RECRUIT"
@@ -2423,11 +2714,14 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         sharedPreference.saveSession("xp_point_base_value", base)
         sharedPreference.saveSession("xp_point_nextLevel_value", nextLevel)
         sharedPreference.saveSession("lv_value", "LV ${level + 1}")
+        sharedPreference.saveSession("current_level", "$ranking $level")
 
     }
 
     private fun vibrateOn() {
 
+        isVibrated = true
+        println("vibrateOn....")
         if (Build.VERSION.SDK_INT >= 26) {
             vibrator.vibrate(VibrationEffect.createOneShot(1500, VibrationEffect.DEFAULT_AMPLITUDE))
         } else {
@@ -2445,8 +2739,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
     private fun getRankingDetails() {
         try {
-           /* loadingImage.visibility = View.VISIBLE
-            Glide.with(applicationContext).load(R.raw.loading).into(loaderImage)*/
+            /* loadingImage.visibility = View.VISIBLE
+             Glide.with(applicationContext).load(R.raw.loading).into(loaderImage)*/
             val okHttpClient = OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
@@ -2491,12 +2785,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
                         CommonData.getRankData = response.body()?.message
 
-                        println("Discover Screen Ranking API:: ${CommonData.getRankData!!.size}")
-
-
-
-
-
                     }
 
                 }
@@ -2509,19 +2797,22 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         }
     }
 
-    private fun changePositionSmoothly(marker:Marker?, newLatLng: LatLng?){
-        if(marker == null){
+    private fun changePositionSmoothly(marker: Marker?, newLatLng: LatLng?) {
+        if (marker == null) {
             return
         }
         val animation = ValueAnimator.ofFloat(0f, 10f)
         var previousStep = 0f
         val deltaLatitude = newLatLng!!.latitude - marker.position.latitude
-        val deltaLongitude = newLatLng!!.longitude - marker.position.longitude
+        val deltaLongitude = newLatLng.longitude - marker.position.longitude
         animation.duration = 1500
         animation.addUpdateListener { updatedAnimation ->
             val deltaStep = updatedAnimation.animatedValue as Float - previousStep
             previousStep = updatedAnimation.animatedValue as Float
-            marker.position = LatLng(marker.position.latitude + deltaLatitude * deltaStep * 1/10, marker.position.longitude + deltaStep * deltaLongitude * 1/10)
+            marker.position = LatLng(
+                marker.position.latitude + deltaLatitude * deltaStep * 1 / 10,
+                marker.position.longitude + deltaStep * deltaLongitude * 1 / 10
+            )
         }
         animation.start()
     }

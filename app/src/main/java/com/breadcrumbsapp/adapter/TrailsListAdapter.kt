@@ -25,6 +25,7 @@ internal class TrailsListAdapter(
     private var localMarkers: List<GetEventsModel.Message> = markers
     var distanceObj: ArrayList<DistanceMatrixApiModel>? = distance
     private var context: Context? = null
+
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var imageView: ImageView = view.findViewById(R.id.discoveredIcon)
@@ -47,40 +48,48 @@ internal class TrailsListAdapter(
         //val bgImage = mResources[position]
         // holder.imageView.setImageResource(bgImage)
 
-        println("localSize = ${localMarkers.size}")
+
+        try {
+
+            println("localSize = ${localMarkers.size}")
+            println("distanceObj = ${distanceObj!!.size}")
 
 
-        holder.trailsName.text = localMarkers[position].title
-        holder.distance.text = distanceObj!![position].distance
-        println("mainLayout ${holder.trailsName.text}")
+            holder.trailsName.text = localMarkers[position].title
+            holder.distance.text = distanceObj!![position].distance
+            println("mainLayout ${holder.trailsName.text}")
 
-        holder.mainLayout.setOnClickListener {
-            //println("mainLayout ${holder.trailsName.text}")
-            poiListener.onClickedPOIItem(localMarkers[position].id)
-            notifyDataSetChanged()
-        }
-
-        if (localMarkers[position].disc_id == null) {
-            context?.let {
-                Glide.with(it)
-                    .load(R.drawable.list_poi_icon)
-                    .into(holder.imageView)
-            }
-            holder.poiBackground.background =
-                context!!.resources.getDrawable(R.drawable.trail_banner_undiscovered)
-            holder.discoverStatus.text = "Undiscovered"
-        } else {
-            context?.let {
-                Glide.with(it)
-                    .load(R.drawable.discovered_poi_ico_banner)
-                    .into(holder.imageView)
+            holder.mainLayout.setOnClickListener {
+                //println("mainLayout ${holder.trailsName.text}")
+                poiListener.onClickedPOIItem(localMarkers[position].id)
+                notifyDataSetChanged()
             }
 
-            holder.poiBackground.background =
-                context!!.resources.getDrawable(R.drawable.trail_banner_discovered)
-            holder.discoverStatus.text = "Discovered"
-        }
+            if (localMarkers[position].disc_id == null) {
+                context?.let {
+                    Glide.with(it)
+                        .load(R.drawable.list_poi_icon)
+                        .into(holder.imageView)
+                }
+                holder.poiBackground.background =
+                    context!!.resources.getDrawable(R.drawable.trail_banner_undiscovered)
+                holder.discoverStatus.text = "Undiscovered"
+            } else {
+                context?.let {
+                    Glide.with(it)
+                        .load(R.drawable.discovered_poi_ico_banner)
+                        .into(holder.imageView)
+                }
 
+                holder.poiBackground.background =
+                    context!!.resources.getDrawable(R.drawable.trail_banner_discovered)
+                holder.discoverStatus.text = "Discovered"
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+        }
 
     }
 

@@ -75,15 +75,15 @@ class FriendProfileScreenActivity : AppCompatActivity() {
         selected_player_leaderBoard_player_level.text = playerLevelString
 
 
-        Glide.with(applicationContext).load("${getString(R.string.live_url)}${profilePic}")
+        Glide.with(applicationContext).load("${getString(R.string.staging_url)}${profilePic}")
             .placeholder( resources.getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait, null)).into(selected_player_userProfilePicture)
 
         getMyFeedPostDetails(friendID)
         getUserAchievementsAPI(friendID)
 
-        add_friend_btn.setOnClickListener(View.OnClickListener {
+        add_friend_btn.setOnClickListener {
             addFriend(userID, friendID)
-        })
+        }
 
         // displayUiData(message)
     }
@@ -121,7 +121,7 @@ class FriendProfileScreenActivity : AppCompatActivity() {
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -132,7 +132,7 @@ class FriendProfileScreenActivity : AppCompatActivity() {
             jsonObject.put("user_id", userID)
             // jsonObject.put("user_id", "198")
 
-            println("getFeedPostData Url = ${resources.getString(R.string.live_url)}")
+            println("getFeedPostData Url = ${resources.getString(R.string.staging_url)}")
             println("getFeedPostData Input = $jsonObject")
 
 
@@ -158,8 +158,8 @@ class FriendProfileScreenActivity : AppCompatActivity() {
 
                         runOnUiThread {
                             if (CommonData.getMyFeedData!!.isNotEmpty()) {
-                                creatorPostAdapter = CreatorPostAdapter(CommonData.getMyFeedData!!)
-                                post_screen_friend_post_list.adapter = creatorPostAdapter
+                               // creatorPostAdapter = CreatorPostAdapter(CommonData.getMyFeedData!!)
+                               // post_screen_friend_post_list.adapter = creatorPostAdapter
                             }
                             else{
                                 post_screen_friend_post_list.visibility=View.GONE

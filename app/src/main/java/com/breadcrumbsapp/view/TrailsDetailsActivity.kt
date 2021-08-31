@@ -28,7 +28,7 @@ class TrailsDetailsActivity:AppCompatActivity()
 
     )
 
-    private var trailNameString: Array<String> = arrayOf("PIONEER TRAIL","WILD ABOUT TWILIGHT TRAIL","ANTHOLOGY TRAIL")
+    private var trailNameString: Array<String> = arrayOf("PIONEER TRAIL","WILD ABOUT TWILIGHT TRAIL","Hanse & Grey's Adventure")
 
     private lateinit var getTrailsModelList:GetTrailsModel.Message
     private lateinit var binding: TrailDetailsLayoutBinding
@@ -49,21 +49,37 @@ class TrailsDetailsActivity:AppCompatActivity()
         tv_trail_name_banner.text=trailNameString[positionInt]  */
 
 
+        if(getTrailsModelList.id=="4")
+        {
+            Glide.with(applicationContext).load(trailIcons[1]).into(trail_details_trailIcon)
+            Glide.with(applicationContext).load(trailIcons[1]).into(iv_trail_details_creator_post)
+            tv_trail_by_content.text=trailNameString[1]
+            post_creator_name.text=trailNameString[1]
+        }
+        if(getTrailsModelList.id=="6")
+        {
+            Glide.with(applicationContext).load(trailIcons[2]).into(trail_details_trailIcon)
+            Glide.with(applicationContext).load(trailIcons[2]).into(iv_trail_details_creator_post)
+            tv_trail_by_content.text=trailNameString[2]
+            post_creator_name.text=trailNameString[2]
+        }
+
+
         // Live Data....
         var localImageUri =
             resources.getString(R.string.staging_url) + getTrailsModelList.banner_url
         println("localImageUri $localImageUri")
         Glide.with(applicationContext).load(localImageUri).into(trail_details_image)
-        Glide.with(applicationContext).load(trailIcons[0]).into(trail_details_trailIcon)
+
         tv_trail_name_banner.text=getTrailsModelList.name
         trail_details_about_content.text=getTrailsModelList.description
         var localImageUriCreatorPost =
-            resources.getString(R.string.live_url) + getTrailsModelList.profile_picture
+            resources.getString(R.string.staging_url) + getTrailsModelList.profile_picture
         println("localImageUriCreatorPost $localImageUriCreatorPost")
       //  Glide.with(applicationContext).load(localImageUriCreatorPost).into(iv_trail_details_creator_post)
-        Glide.with(applicationContext).load(sessionHandlerClass.getSession("player_photo_url")).into(iv_trail_details_creator_post)
+
       //  tv_trail_by_content.text=getTrailsModelList.username
-        tv_trail_by_content.text=sessionHandlerClass.getSession("player_user_name")
+
 
 
         iv_open_leaderboard.setOnClickListener(View.OnClickListener {
@@ -75,7 +91,9 @@ class TrailsDetailsActivity:AppCompatActivity()
         })
 
         iv_open_creator_post.setOnClickListener(View.OnClickListener {
-            startActivity(Intent(applicationContext,CreatorPostActivity::class.java).putExtra("title_icon",localImageUriCreatorPost))
+            startActivity(Intent(applicationContext,CreatorPostActivity::class.java)
+                .putExtra("getTrailsListData", getTrailsModelList)
+                .putExtra("title_icon",localImageUriCreatorPost))
         })
 
 

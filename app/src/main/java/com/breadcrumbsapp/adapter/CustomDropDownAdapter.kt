@@ -13,14 +13,14 @@ import com.breadcrumbsapp.R
 class CustomDropDownAdapter(val context: Context) : BaseAdapter() {
 
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
+// R.drawable.breadcrumbs_trail,
     private var trailIcons = intArrayOf(
-        R.drawable.breadcrumbs_trail,
         R.drawable.wild_about_twlight_icon,
         R.drawable.anthology_trail_icon
 
     )
-    private var trailNameString: Array<String> = arrayOf("PIONEER TRAIL","WILD ABOUT TWILIGHT TRAIL","ANTHOLOGY TRAIL")
+    //"PIONEER TRAIL",
+    private var trailNameString: Array<String> = arrayOf("WILD ABOUT TWILIGHT TRAIL","Hanse & Grey's Adventure")
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
