@@ -23,6 +23,7 @@ import com.borjabravo.readmoretextview.ReadMoreTextView
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.model.GetFeedDataModel
+import com.breadcrumbsapp.model.GetMyFeedModel
 import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
@@ -53,10 +54,10 @@ import java.util.concurrent.TimeUnit
 // For toggle Animation
 //https://medium.com/@rashi.karanpuria/create-beautiful-toggle-buttons-in-android-64d299050dfb
 
-internal class UserProfileScreenPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID: String?) :
+internal class UserProfileScreenPostAdapter(getFeed: List<GetMyFeedModel.Message>, loginID: String?) :
     RecyclerView.Adapter<UserProfileScreenPostAdapter.MyViewHolder>() {
 
-    private var getFeedsLocalObj: List<GetFeedDataModel.Message> = getFeed
+    private var getFeedsLocalObj: List<GetMyFeedModel.Message> = getFeed
     private lateinit var context: Context
     private var interceptor = intercept()
     private var local_loginID = loginID
@@ -141,7 +142,7 @@ internal class UserProfileScreenPostAdapter(getFeed: List<GetFeedDataModel.Messa
 
         val data = getFeedsLocalObj[position]
 
-        println("Feed Id : ${data.f_id}")
+       // println("Feed Id : ${data.f_id}")
 
 
 

@@ -5,7 +5,6 @@ import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -56,21 +55,12 @@ interface APIService {
     @POST("v1/api/discover")
     suspend fun discoverPOI(@Body requestBody: RequestBody): Response<ResponseBody>
 
-
     @Headers("Accept:application/json", "Content-Type:application/json;")
     @POST("v1/api/get_user")
     suspend fun getUserDetails(
         @Header("Authorization") h1: String,
         @Body requestBody: RequestBody
     ): Response<GetUserModel>
-
-
-    @Headers("Accept:application/json", "Content-Type:application/json;")
-    @POST("v1/api/get_feed") // its for feed screen only. In React code., they used for feed screen only
-    suspend fun getFeedDetails(
-        @Header("Authorization") h1: String,
-        @Body requestBody: RequestBody
-    ): Response<GetFeedDataModel>
 
     @Headers("Accept:application/json", "Content-Type:application/json;")
     @POST("v1/api/get_rankings")
@@ -79,6 +69,12 @@ interface APIService {
         @Body requestBody: RequestBody
     ): Response<GetRankingModel>
 
+    @Headers("Accept:application/json", "Content-Type:application/json;")
+    @POST("v1/api/get_feed") // its for feed screen only. In React code., they used for feed screen only
+    suspend fun getFeedDetails(
+        @Header("Authorization") h1: String,
+        @Body requestBody: RequestBody
+    ): Response<GetFeedDataModel>
 
     @Headers("Accept:application/json", "Content-Type:application/json;")
     @POST("v1/api/get_my_feed") // For creator post and My Profile- My Post.
@@ -138,8 +134,8 @@ interface APIService {
     @POST("v1/api/update_profile")
     suspend fun updateProfile(
         @Header("Authorization") h1: String,
-        @Part("id")  id : RequestBody,
-        @Part  file :MultipartBody.Part
+        @Part("id") id: RequestBody,
+        @Part file: MultipartBody.Part
     ): Response<JsonObject>
 
     @Headers("Accept:application/json", "Content-Type:application/json;")
@@ -150,13 +146,12 @@ interface APIService {
     ): Response<BeginChallengeModel>
 
 
-
     @Multipart
     @POST("v1/api/begin_selfie_challenge")
     suspend fun uploadSelfieImage(
         @Header("Authorization") h1: String,
-        @Part("user_id")  id : RequestBody,
-        @Part("poi_id")  poi_id : RequestBody,
-        @Part  file :MultipartBody.Part
+        @Part("user_id") id: RequestBody,
+        @Part("poi_id") poi_id: RequestBody,
+        @Part file: MultipartBody.Part
     ): Response<JsonObject>
 }

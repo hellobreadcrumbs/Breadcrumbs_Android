@@ -757,7 +757,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
                         if (status) {
 
-
+                           // {"status":true,"message":0}
                             startActivity(
                                 Intent(
                                     this@QuizChallengeQuestionActivity,

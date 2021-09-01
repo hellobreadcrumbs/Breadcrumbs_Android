@@ -75,14 +75,21 @@ class ChallengeActivity : AppCompatActivity() {
         binding.beginButton.setOnClickListener {
             when (challengeName) {
                 "quiz" -> {
-                   /* startActivity(
+
+
+                   // beginChallengeAPI()
+
+                  /*  CommonData.getBeginChallengeModel!!.achievement=""
+                    CommonData.getBeginChallengeModel!!.completed_trail=false
+                    println("Begin Challenge :: ${CommonData.getBeginChallengeModel!!.achievement}")
+                    println("Begin Challenge :: ${CommonData.getBeginChallengeModel!!.completed_trail}")*/
+
+                    startActivity(
                         Intent(
                             this@ChallengeActivity,
                             QuizChallengeQuestionActivity::class.java
                         ).putExtra("poiImage", poiImage)
-                    )*/
-
-                    beginChallengeAPI()
+                    )
                 }
                 "selfie" -> {
                     startActivity(
@@ -141,22 +148,49 @@ class ChallengeActivity : AppCompatActivity() {
                     requestBody
                 )
 
-                if (response.isSuccessful) {
-                    if (response.body()!!.status) {
+                try {
+                    if (response.isSuccessful) {
+                        if (response.body()!!.status) {
 
-                        CommonData.getBeginChallengeModel = response.body()?.message
+                            if(response.body()?.message!!.equals("0"))
+                            {
 
-                        runOnUiThread {
 
-                            if (CommonData.getBeginChallengeModel!!.equals("0")) {
+                                runOnUiThread {
 
-                            } else {
-                                println("Begin Challenge :: ${CommonData.getBeginChallengeModel!!.achievement}")
-                                println("Begin Challenge :: ${CommonData.getBeginChallengeModel!!.completed_trail}")
+                                    if (response.body()?.message!!.equals("0")) {
+                                        startActivity(
+                                            Intent(
+                                                this@ChallengeActivity,
+                                                QuizChallengeQuestionActivity::class.java
+                                            ).putExtra("poiImage", poiImage)
+                                        )
+                                    } else {
+                                        CommonData.getBeginChallengeModel = response.body()?.message
+                                        println("Begin Challenge :: ${CommonData.getBeginChallengeModel!!.achievement}")
+                                        println("Begin Challenge :: ${CommonData.getBeginChallengeModel!!.completed_trail}")
+                                    }
+
+
+
+                                    startActivity(
+                                        Intent(
+                                            this@ChallengeActivity,
+                                            QuizChallengeQuestionActivity::class.java
+                                        ).putExtra("poiImage", poiImage)
+                                    )
+
+
+                                }
                             }
-
-
-
+                            else{
+                                startActivity(
+                                    Intent(
+                                        this@ChallengeActivity,
+                                        QuizChallengeQuestionActivity::class.java
+                                    ).putExtra("poiImage", poiImage)
+                                )
+                            }
                             startActivity(
                                 Intent(
                                     this@ChallengeActivity,
@@ -164,16 +198,19 @@ class ChallengeActivity : AppCompatActivity() {
                                 ).putExtra("poiImage", poiImage)
                             )
 
-
                         }
-                        startActivity(
-                            Intent(
-                                this@ChallengeActivity,
-                                QuizChallengeQuestionActivity::class.java
-                            ).putExtra("poiImage", poiImage)
-                        )
-                    }
 
+                    }
+                }
+                catch (e:Exception)
+                {
+                    e.printStackTrace()
+                    startActivity(
+                        Intent(
+                            this@ChallengeActivity,
+                            QuizChallengeQuestionActivity::class.java
+                        ).putExtra("poiImage", poiImage)
+                    )
                 }
 
 

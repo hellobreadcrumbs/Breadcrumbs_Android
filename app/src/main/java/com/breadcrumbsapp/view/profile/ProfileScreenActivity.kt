@@ -154,7 +154,7 @@ class ProfileScreenActivity : AppCompatActivity() {
                 // Create Service
                 val service = retrofit.create(APIService::class.java)
 
-                val response = service.getFeedDetails(
+                val response = service.getMyFeedDetails(
                     resources.getString(R.string.api_access_token),
                     requestBody
                 )
@@ -162,14 +162,14 @@ class ProfileScreenActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     if (response.body()!!.status) {
 
-                        CommonData.getFeedData = response.body()?.message
+                        CommonData.getMyFeedData = response.body()?.message
 
                         runOnUiThread {
 
-                            if (CommonData.getFeedData != null) {
+                            if (CommonData.getMyFeedData != null) {
 
 
-                                userProfileScreenPostAdapter= UserProfileScreenPostAdapter(CommonData.getFeedData!!,sessionHandlerClass.getSession("login_id"))
+                                userProfileScreenPostAdapter= UserProfileScreenPostAdapter(CommonData.getMyFeedData!!,sessionHandlerClass.getSession("login_id"))
                                 profile_screen_user_post_list.adapter = userProfileScreenPostAdapter
 
                             }
@@ -210,7 +210,7 @@ class ProfileScreenActivity : AppCompatActivity() {
 
 
             val jsonObject = JSONObject()
-            jsonObject.put("user_id", "66")
+            jsonObject.put("user_id", sessionHandlerClass.getSession("login_id"))
 
             println("getUserAchievementsAPI Url = ${resources.getString(R.string.staging_url)}")
             println("getUserAchievementsAPI Input = $jsonObject")
@@ -243,7 +243,7 @@ class ProfileScreenActivity : AppCompatActivity() {
                                 println("UserAchieve Data: ${CommonData.getUserAchievementsModel!!.size}")
 
 
-                                for (i in CommonData.getUserAchievementsModel!!.indices) {
+                             /*   for (i in CommonData.getUserAchievementsModel!!.indices) {
                                     if (CommonData.getUserAchievementsModel!![i].ua_id != null) {
                                         ++completedTrail
                                     }
@@ -251,7 +251,36 @@ class ProfileScreenActivity : AppCompatActivity() {
                                     if (CommonData.getUserAchievementsModel!![i].pois[i].uc_id != null) {
                                         ++completedPOI
                                     }
+                                }*/
+
+
+                                CommonData.getUserAchievementsModel!!.forEach {
+                                    if(it.trail_id=="6")
+                                    {
+                                        if(it.ua_id!=null)
+                                        {
+                                            ++completedTrail
+                                        }
+                                        println("Completed Trail :: ${it.trail_id}")
+                                        println("Completed Trail :: $completedTrail")
+                                    }
                                 }
+
+
+                                CommonData.eventsModelMessage!!.forEach {
+
+                                    if(it.trail_id=="6")
+                                    {
+                                        if (it.disc_id!=null)
+                                        {
+                                            ++completedPOI
+                                        }
+                                    }
+                                   println("Completed POI :: ${it}")
+                                    println("Completed POI :: $completedPOI")
+                                }
+
+
 
                                 completed_poi_count.text = completedPOI.toString()
                                 completed_trail_count.text = completedTrail.toString()

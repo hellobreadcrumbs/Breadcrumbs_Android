@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.adapter.CreatorPostAdapter
+import com.breadcrumbsapp.adapter.FeedPostAdapter
 import com.breadcrumbsapp.databinding.ProfileScreenFriendBinding
 
 import com.breadcrumbsapp.interfaces.APIService
@@ -33,7 +34,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 class FriendProfileScreenActivity : AppCompatActivity() {
-    private lateinit var creatorPostAdapter: CreatorPostAdapter
+    private lateinit var feedPostAdapter: FeedPostAdapter
     private var interceptor = intercept()
 
     //private lateinit var message: GetRankingModel.Message
@@ -160,6 +161,9 @@ class FriendProfileScreenActivity : AppCompatActivity() {
                             if (CommonData.getMyFeedData!!.isNotEmpty()) {
                                // creatorPostAdapter = CreatorPostAdapter(CommonData.getMyFeedData!!)
                                // post_screen_friend_post_list.adapter = creatorPostAdapter
+
+                                feedPostAdapter = FeedPostAdapter(CommonData.getFeedData!!,userID)
+                                post_screen_friend_post_list.adapter = feedPostAdapter
                             }
                             else{
                                 post_screen_friend_post_list.visibility=View.GONE

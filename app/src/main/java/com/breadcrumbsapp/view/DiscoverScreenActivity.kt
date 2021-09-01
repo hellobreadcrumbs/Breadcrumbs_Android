@@ -15,6 +15,7 @@ Details....
  */
 
 import android.Manifest
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -74,7 +75,9 @@ import kotlinx.android.synthetic.main.discover_screen_bottom_layout.*
 import kotlinx.android.synthetic.main.leader_board_activity_layout.*
 import kotlinx.android.synthetic.main.more_option_layout.*
 import kotlinx.android.synthetic.main.quiz_challenge_question_activity.*
+import kotlinx.android.synthetic.main.trail_notification.*
 import kotlinx.android.synthetic.main.trails_screen_layout.*
+import kotlinx.android.synthetic.main.user_profile_screen_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -221,6 +224,9 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
     private lateinit var vibrator: Vibrator
     private var isVibrated: Boolean = false
+    var completedPOI: Int = 0
+    var completedTrail: Int = 0
+    var overAllPOICount: Int = 0
     fun readJsonFromAssets(context: Context, filePath: String): String? {
         try {
             val source = context.assets.open(filePath).source().buffer()
@@ -757,6 +763,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
     override fun onResume() {
         super.onResume()
+        println("************** OnResume")
         val intentFilter = IntentFilter()
         intentFilter.addAction("NotifyUser")
         broadcastReceiver?.let {
@@ -1278,7 +1285,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         tutRecyclerView.adapter = trailTutorialAdapter
 
-        val checkBox = dialog.findViewById(checkBox) as CheckBox
+        val checkBox = dialog.findViewById(R.id.checkBox) as CheckBox
         checkBox.setOnCheckedChangeListener { _, isChecked ->
             checkBox.isChecked
             /*if (isChecked) {
@@ -1459,7 +1466,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 }
                 dialog.dismiss()
                 println("selected_trail_id:: ${sharedPreference.getSession("selected_trail_id")}")
-
+                getUserAchievementsAPI()
                 getEventsList(sharedPreference.getSession("selected_trail_id") as String)
             }
 
@@ -1487,7 +1494,13 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             WindowManager.LayoutParams.MATCH_PARENT
         )
 
-        val checkBox = dialog.findViewById(checkBox) as CheckBox
+        val learn_more_button=dialog.findViewById(R.id.learn_more_button)as TextView
+
+
+        learn_more_button.setOnClickListener(View.OnClickListener {
+            startActivity(Intent(applicationContext, TrailScreenActivity::class.java))
+        })
+        val checkBox = dialog.findViewById(R.id.checkBox) as CheckBox
         checkBox.setOnCheckedChangeListener { _, isChecked ->
             checkBox.isChecked
             /*if (isChecked) {
@@ -1717,7 +1730,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private fun getEventsList(trailID: String) {
 
         try {
-
+            println("************** getEventsList = $trailID")
             val okHttpClient = OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
@@ -1768,6 +1781,10 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                             if (CommonData.eventsList.size > 0) {
                                 CommonData.eventsList.clear()
                             }
+                            if(distanceMatrixApiModelObj.size>0)
+                            {
+                                distanceMatrixApiModelObj.clear()
+                            }
                             runOnUiThread {
                                 markerPOI?.remove()
                                 mMap.clear()
@@ -1775,7 +1792,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                             }
                             response.body()?.message?.forEach {
                                 if (it.trail_id == trailID) {
-                                    println("NAME = ${it.title}")
+                                    println("************** NAME = ${it.title}")
                                     CommonData.eventsList.add(it)
 
                                     CommonData.eventsModelMessage = CommonData.eventsList
@@ -1784,8 +1801,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
 
                             //     CommonData.eventsModelMessage = response.body()?.message
-                            println("Event Model = ${CommonData.eventsModelMessage!!.size}")
-
+                            println("************** Event Model = ${CommonData.eventsModelMessage!!.size}")
+                            println("************** getEventsList = $trailID")
                             if (CommonData.eventsModelMessage != null) {
 
                                 for (i in 0 until CommonData.eventsModelMessage!!.count()) {
@@ -1901,6 +1918,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         } catch (e: Exception) {
             e.printStackTrace()
+            println("************** getEventsList = ${e.printStackTrace()}")
         }
 
     }
@@ -2067,9 +2085,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 markerWindow_background.background =
                     resources.getDrawable(trail_banner_undiscovered)
                 markerWindowDiscoverTextView.text = "Undiscovered"
-                Glide.with(applicationContext)
-                    .load(list_poi_icon)
-                    .into(markWindowPOIIcon)
+
                 isDiscovered = false
                 if (sharedPreference.getSession("selected_trail_id") == "4")
                 {
@@ -2081,6 +2097,10 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                         )
                     )
 
+                    Glide.with(applicationContext)
+                        .load(list_poi_icon)
+                        .into(markWindowPOIIcon)
+
                 }
                 else if (sharedPreference.getSession("selected_trail_id") == "6")
                 {
@@ -2091,6 +2111,10 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                             )
                         )
                     )
+
+                    Glide.with(applicationContext)
+                        .load(hanse_trail_list_icon_undiscovered)
+                        .into(markWindowPOIIcon)
 
                 }
 
@@ -2109,9 +2133,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 println("selectedPOIDiscoverId ELSE= $selectedPOIDiscoverId")
                 markerWindow_background.background = resources.getDrawable(trail_banner_discovered)
                 markerWindowDiscoverTextView.text = "Discovered"
-                Glide.with(applicationContext)
-                    .load(discovered_poi_ico_banner)
-                    .into(markWindowPOIIcon)
+
                 isDiscovered = true
                 if (sharedPreference.getSession("selected_trail_id") == "4")
                 {
@@ -2122,6 +2144,10 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                             )
                         )
                     )
+
+                    Glide.with(applicationContext)
+                        .load(discovered_poi_ico_banner)
+                        .into(markWindowPOIIcon)
                 }
                 else if (sharedPreference.getSession("selected_trail_id") == "6")
                 {
@@ -2132,6 +2158,10 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                             )
                         )
                     )
+
+                    Glide.with(applicationContext)
+                        .load(hanse_trail_list_icon__discovered)
+                        .into(markWindowPOIIcon)
                 }
 
 
@@ -2220,7 +2250,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                     4 -> {
                         clickedMarker?.setIcon(
                             BitmapDescriptorFactory.fromResource(
-                                hanse_poi_discovered_2
+                                hanse_poi_discovered_4
                             )
                         )
 
@@ -2233,7 +2263,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                     5 -> {
                         clickedMarker?.setIcon(
                             BitmapDescriptorFactory.fromResource(
-                                hanse_poi_discovered_3
+                                hanse_poi_discovered_5
                             )
                         )
                         iconPosition = 4
@@ -2275,7 +2305,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                     4 -> {
                         clickedMarker?.setIcon(
                             BitmapDescriptorFactory.fromResource(
-                                hanse_poi_undiscovered_3
+                                    hanse_poi_undiscovered_4
                             )
                         )
 
@@ -2290,7 +2320,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                     5 -> {
                         clickedMarker?.setIcon(
                             BitmapDescriptorFactory.fromResource(
-                                hanse_poi_undiscovered_2
+                                hanse_poi_undiscovered_5
                             )
                         )
                         iconPosition = 4
@@ -2737,10 +2767,9 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
     }
 
-    private fun getRankingDetails() {
+    private fun getUserAchievementsAPI() {
         try {
-            /* loadingImage.visibility = View.VISIBLE
-             Glide.with(applicationContext).load(R.raw.loading).into(loaderImage)*/
+
             val okHttpClient = OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
@@ -2758,11 +2787,11 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 .build()
 
 
-            // Create JSON using JSONObject
             val jsonObject = JSONObject()
-            jsonObject.put("trail_id", "4")
+            jsonObject.put("user_id", sharedPreference.getSession("login_id"))
 
-            println("getRankingDetails Input = $jsonObject")
+            println("getUserAchievementsAPI Url = ${resources.getString(R.string.staging_url)}")
+            println("getUserAchievementsAPI Input = $jsonObject")
 
 
             val mediaType = "application/json".toMediaTypeOrNull()
@@ -2775,7 +2804,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 // Create Service
                 val service = retrofit.create(APIService::class.java)
 
-                val response = service.getRankingDetails(
+                val response = service.getUserAchievements(
                     resources.getString(R.string.api_access_token),
                     requestBody
                 )
@@ -2783,7 +2812,57 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 if (response.isSuccessful) {
                     if (response.body()!!.status) {
 
-                        CommonData.getRankData = response.body()?.message
+                        CommonData.getUserAchievementsModel = response.body()?.message
+
+                        runOnUiThread {
+
+                            if (CommonData.getUserAchievementsModel != null) {
+
+                                println("UserAchieve Data: ${CommonData.getUserAchievementsModel!!.size}")
+
+
+
+
+                                CommonData.getUserAchievementsModel!!.forEach {
+                                    if(it.trail_id=="6")
+                                    {
+                                        if(it.ua_id!=null)
+                                        {
+                                            ++completedTrail
+                                        }
+
+                                        overAllPOICount=CommonData.getUserAchievementsModel!!.size
+                                    }
+                                }
+
+
+                                CommonData.eventsModelMessage!!.forEach {
+
+                                    if(it.trail_id=="6")
+                                    {
+                                        if (it.disc_id!=null)
+                                        {
+                                            ++completedPOI
+                                        }
+
+
+                                    }
+
+                                }
+
+                                println("Completed POI :: $completedPOI")
+                                println("Completed Trail :: $completedTrail")
+                                println("Completed eventsModelMessage_size :: $overAllPOICount")
+
+                                sharedPreference.saveSession("completed_poi_count",completedPOI.toString())
+                                sharedPreference.saveSession("completed_trail_count",completedTrail.toString())
+                                sharedPreference.saveSession("overall_poi_count",overAllPOICount.toString())
+
+
+                            }
+
+                        }
+
 
                     }
 

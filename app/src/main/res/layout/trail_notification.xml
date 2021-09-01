@@ -40,7 +40,8 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/claritycity_bold"
             android:gravity="center"
-            android:text="THE PIONEER TRAIL : LIVE NOW!"
+            android:textAllCaps="true"
+            android:text="Hanse &amp; Grey's Adventure : LIVE NOW!"
             android:textColor="#4B3B30"
             android:textSize="@dimen/trail_notification_live_now_text_size"
             app:layout_constraintTop_toBottomOf="@+id/imageView2" />
@@ -89,6 +90,7 @@
               android:textColor="@color/black" />  -->
 
         <TextView
+            android:id="@+id/learn_more_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -129,7 +131,7 @@
             android:layout_marginBottom="171dp"
             android:background="@drawable/trail_notification_circle"
             android:padding="10dp"
-            android:src="@drawable/trail_notification_icon"
+            android:src="@drawable/anthology_trail_icon"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

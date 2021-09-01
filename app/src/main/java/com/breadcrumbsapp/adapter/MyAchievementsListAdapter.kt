@@ -56,7 +56,7 @@ internal class MyAchievementsListAdapter(getFeed: List<GetUserAchievementsModel.
         holder.trailName.text = getFeedsLocalObj[position].title
         holder.trailDescriptor.text = getFeedsLocalObj[position].description
         val localImagePath =
-            context.resources.getString(R.string.live_url) + getFeedsLocalObj[position].badge_img
+            context.resources.getString(R.string.staging_url) + getFeedsLocalObj[position].badge_img
         Glide.with(context).load(localImagePath).into(holder.trailIcon)
         println("Adapter Size = ${getFeedsLocalObj.size}")
 

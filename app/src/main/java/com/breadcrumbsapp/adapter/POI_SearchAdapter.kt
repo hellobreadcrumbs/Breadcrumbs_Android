@@ -14,18 +14,21 @@ import com.breadcrumbsapp.interfaces.POIclickedListener
 import com.breadcrumbsapp.model.DistanceMatrixApiModel
 
 import com.breadcrumbsapp.model.GetEventsModel
+import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
 
 class POI_SearchAdapter(
     var list: List<GetEventsModel.Message>, private val poiListener : POIclickedListener, var distanceObj: ArrayList<DistanceMatrixApiModel>
 ) : RecyclerView.Adapter<POI_SearchAdapter.ViewHolder>() {
 
-    private var context: Context?=null
+    private lateinit var context: Context
+    private lateinit var sessionHandlerClass: SessionHandlerClass
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.search_list_adapter, parent, false)
         context=parent.context
+        sessionHandlerClass= SessionHandlerClass(context)
         return ViewHolder(itemView)
     }
 
@@ -42,18 +45,33 @@ class POI_SearchAdapter(
 
 
         if (list[position].disc_id == null) {
-            context?.let {
-                Glide.with(it)
+            if (sessionHandlerClass.getSession("selected_trail_id") == "4")
+            {
+                Glide.with(context)
                     .load(R.drawable.list_poi_icon)
+                    .into(holder.imageView)
+
+            }
+            else if (sessionHandlerClass.getSession("selected_trail_id") == "6")
+            {
+                Glide.with(context)
+                    .load(R.drawable.hanse_trail_list_icon_undiscovered)
                     .into(holder.imageView)
             }
             holder.searchPoiBackground.background =
                 context!!.resources.getDrawable(R.drawable.trail_banner_undiscovered)
             holder.searchDiscoverStatus.text = "Undiscovered"
         } else {
-            context?.let {
-                Glide.with(it)
+            if (sessionHandlerClass.getSession("selected_trail_id") == "4")
+            {
+                Glide.with(context)
                     .load(R.drawable.discovered_poi_ico_banner)
+                    .into(holder.imageView)
+            }
+            else if (sessionHandlerClass.getSession("selected_trail_id") == "6")
+            {
+                Glide.with(context)
+                    .load(R.drawable.hanse_trail_list_icon__discovered)
                     .into(holder.imageView)
             }
 
