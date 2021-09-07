@@ -85,7 +85,7 @@
 
         <ImageView
 
-            android:id="@+id/radioBtn1"
+            android:id="@+id/wild_trail_radio_button"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
@@ -129,12 +129,12 @@
             android:textSize="@dimen/trail_list_item_size"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/radioBtn2"
+            app:layout_constraintEnd_toStartOf="@+id/hanse_trail_radio_button"
             app:layout_constraintStart_toEndOf="@+id/image2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/radioBtn2"
+            android:id="@+id/hanse_trail_radio_button"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/radio_button"

@@ -3,21 +3,28 @@ package com.breadcrumbsapp.view
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.QuizChallengeQuestionActivityBinding
+
 import com.breadcrumbsapp.interfaces.APIService
+import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.CommonData.Companion.eventsModelMessage
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.google.gson.*
 import kotlinx.android.synthetic.main.challenge_activity.*
 import kotlinx.android.synthetic.main.quiz_challenge.*
 import kotlinx.android.synthetic.main.quiz_challenge_question_activity.*
 import kotlinx.android.synthetic.main.selfie_challenge_level_layout.*
+import kotlinx.android.synthetic.main.trail_details_layout.*
 import kotlinx.android.synthetic.main.user_profile_screen_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +37,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -52,6 +60,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
     private lateinit var binding: QuizChallengeQuestionActivityBinding
     private var selectedPOIID: String = ""
+    private var selectedTrailID: String = ""
 
     private var isClicked: Boolean = false
     private var clickedPos: Int = -1
@@ -61,6 +70,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
     private lateinit var finalAnswerObj: JsonArray
     private var singleQuestion: String = ""
     private lateinit var questionType: String
+    private var extraExp:String="50"
     private var finalAnswer: String = ""
     private var chSetAnswers: String = ""
     private var continueBtn = 0
@@ -72,7 +82,12 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
     private var poiImage: String = ""
     private var interceptor = intercept()
     private lateinit var sharedPreference: SessionHandlerClass
+    private var trailIcons = intArrayOf(
+        R.drawable.breadcrumbs_trail,
+        R.drawable.wild_about_twlight_icon,
+        R.drawable.anthology_trail_icon
 
+    )
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +95,36 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         setContentView(binding.root)
         sharedPreference = SessionHandlerClass(applicationContext)
         selectedPOIID = sharedPreference.getSession("selectedPOIID").toString()
+        selectedTrailID = sharedPreference.getSession("selected_trail_id").toString()
+
+
+
+        for(i in CommonData.getTrailsData!!.indices)
+        {
+            if(CommonData.getTrailsData!![i].id==selectedTrailID)
+            {
+                println("Details IF ::: Trail ID = ${CommonData.getTrailsData!![i].id} Completed_POI == ${CommonData.getTrailsData!![i].completed_poi_count}")
+
+                val updatedPoiCount=CommonData.getTrailsData!![i].completed_poi_count.toInt()+1
+                println("updatedPoiCount = $updatedPoiCount")
+                quiz_challenge_screen_poi_completed_details.text="$updatedPoiCount /" +
+                        " ${CommonData.getTrailsData!![i].poi_count} POIs DISCOVERED"
+            }
+        }
+
+
+        if(selectedTrailID=="4")
+        {
+            Glide.with(applicationContext).load(trailIcons[1]).into(quiz_challenge_screen_trail_icon)
+        }
+        else if(selectedTrailID=="6")
+        {
+            Glide.with(applicationContext).load(trailIcons[2]).into(quiz_challenge_screen_trail_icon)
+        }
+
+
+        quiz_challenge_screen_discovery_value.text="+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
+        quiz_challenge_screen_quiz_answer_score_tv.text="+${sharedPreference.getSession("selectedPOIChallenge_XP_Value")} XP"
 
 
         val bundle: Bundle = intent.extras!!
@@ -139,7 +184,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         for (i in eventsModelMessage!!.indices) {
             if (eventsModelMessage!![i].id == selectedPOIID) {
 
-
+                extraExp=eventsModelMessage!![i].uc_extra_exp
                 questionType = eventsModelMessage!![i].ch_type
                 val chSelection = eventsModelMessage!![i].ch_question
 
@@ -163,25 +208,155 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
 
                             if (completeImagePath.contains("https") || completeImagePath.contains("http")) {
-                                Glide.with(applicationContext).load(completeImagePath)
-                                    .into(questionImage)
+                             /*   Glide.with(applicationContext).load(completeImagePath)
+                                    .into(questionImage)*/
+
+                                try {
+
+
+                                    Glide.with(applicationContext)
+                                        .load(completeImagePath)
+                                        .listener(object : RequestListener<Drawable?> {
+                                            override fun onLoadFailed(
+                                                e: GlideException?,
+                                                model: Any?,
+                                                target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                                                isFirstResource: Boolean
+                                            ): Boolean {
+                                                quiz_challenge_screen_loader.visibility = View.GONE
+                                                return false
+                                            }
+
+                                            override fun onResourceReady(
+                                                resource: Drawable?,
+                                                model: Any?,
+                                                target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                                                dataSource: DataSource?,
+                                                isFirstResource: Boolean
+                                            ): Boolean {
+                                                quiz_challenge_screen_loader.visibility = View.GONE
+                                                return false
+                                            }
+                                        })
+                                        .into(questionImage)
+
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
                             } else {
-                                Glide.with(applicationContext).load(poiImage).into(questionImage)
+                           //     Glide.with(applicationContext).load(poiImage).into(questionImage)
+
+
+                                try {
+                                    Glide.with(applicationContext)
+                                        .load(poiImage)
+                                        .listener(object : RequestListener<Drawable?> {
+                                            override fun onLoadFailed(
+                                                e: GlideException?,
+                                                model: Any?,
+                                                target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                                                isFirstResource: Boolean
+                                            ): Boolean {
+                                                quiz_challenge_screen_loader.visibility = View.GONE
+                                                return false
+                                            }
+
+                                            override fun onResourceReady(
+                                                resource: Drawable?,
+                                                model: Any?,
+                                                target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                                                dataSource: DataSource?,
+                                                isFirstResource: Boolean
+                                            ): Boolean {
+                                                quiz_challenge_screen_loader.visibility = View.GONE
+                                                return false
+                                            }
+                                        })
+                                        .into(questionImage)
+
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
                             }
 
 
                         } else {
                             println("Image = ELSE : ${eventsModelMessage!![i].ch_image}")
-                            Glide.with(applicationContext)
+                           /* Glide.with(applicationContext)
                                 .load(resources.getDrawable(R.drawable.poi_photo))
-                                .into(questionImage)
+                                .into(questionImage)*/
+
+
+                            try {
+                                Glide.with(applicationContext)
+                                    .load(resources.getDrawable(R.drawable.poi_photo))
+                                    .listener(object : RequestListener<Drawable?> {
+                                        override fun onLoadFailed(
+                                            e: GlideException?,
+                                            model: Any?,
+                                            target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                                            isFirstResource: Boolean
+                                        ): Boolean {
+                                            quiz_challenge_screen_loader.visibility = View.GONE
+                                            return false
+                                        }
+
+                                        override fun onResourceReady(
+                                            resource: Drawable?,
+                                            model: Any?,
+                                            target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                                            dataSource: DataSource?,
+                                            isFirstResource: Boolean
+                                        ): Boolean {
+                                            quiz_challenge_screen_loader.visibility = View.GONE
+                                            return false
+                                        }
+                                    })
+                                    .into(questionImage)
+
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
                         }
 
 
                     } else {
-                        Glide.with(applicationContext)
+                        println("_______________________________ ELSE")
+                    /*    Glide.with(applicationContext)
                             .load(poiImage)
-                            .into(questionImage)
+                            .into(questionImage)*/
+
+
+                        try {
+                            Glide.with(applicationContext)
+                                .load(poiImage)
+                                .listener(object : RequestListener<Drawable?> {
+                                    override fun onLoadFailed(
+                                        e: GlideException?,
+                                        model: Any?,
+                                        target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                                        isFirstResource: Boolean
+                                    ): Boolean {
+                                        quiz_challenge_screen_loader.visibility = View.GONE
+                                        return false
+                                    }
+
+                                    override fun onResourceReady(
+                                        resource: Drawable?,
+                                        model: Any?,
+                                        target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                                        dataSource: DataSource?,
+                                        isFirstResource: Boolean
+                                    ): Boolean {
+                                        quiz_challenge_screen_loader.visibility = View.GONE
+                                        return false
+                                    }
+                                })
+                                .into(questionImage)
+
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
 
                 } catch (e: Exception) {
@@ -200,6 +375,8 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                     questionType.toInt() == 2 -> {
                         try {
                             questionObj = JsonParser.parseString(chSelection) as JsonArray
+
+                            println("Question Screen ::: ${questionObj.size()}")
 
                             submitButtonClickingCount = 1
                             questionTitle.text =
@@ -387,7 +564,9 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
                             if (clickedPos == finalAnswer.toInt()) {
                                 println("Result : $clickedPos , $finalAnswer")
-                                quiz_answer_value = 50
+                             //   quiz_answer_value = 50
+                                quiz_answer_value = sharedPreference.getSession("selectedPOIChallenge_XP_Value") as Int
+                                beginChallengeAPI(finalAnswer,extraExp)
                                 when (clickedPos) {
                                     0 -> {
                                         answerOneLayout.background =
@@ -497,17 +676,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
 
                                     quizChallengeCloseButton.setOnClickListener(View.OnClickListener {
-                                        /* startActivity(
-                                             Intent(
-                                                 this@QuizChallengeQuestionActivity,
-                                                 DiscoverScreenActivity::class.java
-                                             ).putExtra("isFromLogin", "no")
-                                         )
-                                         overridePendingTransition(
-                                             R.anim.anim_slide_in_left,
-                                             R.anim.anim_slide_out_left
-                                         )
-                                         finish()*/
+
                                         discoverPOI()
                                     })
 
@@ -554,7 +723,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                                 if (clickedPos == finalAnswerObj[submitButtonClickingCount - 1].asInt) {
                                     println("Clicked Pos IF = $clickedPos , ${finalAnswerObj[submitButtonClickingCount - 1]}")
                                     if (finalAnswerObj[submitButtonClickingCount - 1].toString() == "0") {
-                                        println("Clicked Pos IF = Ama da ${finalAnswerObj[submitButtonClickingCount - 1]}")
+                                        println("Clicked Pos IF = ${finalAnswerObj[submitButtonClickingCount - 1]}")
 
                                         answerOneLayout.background =
                                             getDrawable(R.drawable.quiz_challenge_answer_bg_green)
@@ -563,7 +732,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                                             0 -> {
                                                 answerOneLayout.background =
                                                     getDrawable(R.drawable.quiz_challenge_answer_bg_green)
-
                                             }
                                             1 -> {
                                                 answerTwoLayout.background =
@@ -581,7 +749,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                                     quizChallenge_backButton.visibility = View.INVISIBLE
                                     println("Clicked Pos ELSE = $clickedPos , ${finalAnswerObj[submitButtonClickingCount - 1]}")
                                     if (finalAnswerObj[submitButtonClickingCount - 1].toString() == "0") {
-                                        println("Clicked Pos ELSE = Ama da ${finalAnswerObj[submitButtonClickingCount - 1]}")
+                                        println("Clicked Pos ELSE =${finalAnswerObj[submitButtonClickingCount - 1]}")
 
                                         answerOneLayout.background =
                                             getDrawable(R.drawable.quiz_challenge_answer_bg_green)
@@ -647,7 +815,53 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         }
     }
 
+    private fun beginChallengeAPI(answer:String,extraExp:String) {
+        try {
 
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+                .build()
+
+
+            // Create Retrofit
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(resources.getString(R.string.staging_url))
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            // Create JSON using JSONObject
+
+            val jsonObject = JSONObject()
+            jsonObject.put("user_id", sharedPreference.getSession("login_id"))
+            jsonObject.put("poi_id", sharedPreference.getSession("selectedPOIID"))
+            jsonObject.put("extra_exp", extraExp)
+            jsonObject.put("set_answers", answer)
+
+            println("beginChallenge Input = $jsonObject")
+            val mediaType = "application/json".toMediaTypeOrNull()
+            val requestBody = jsonObject.toString().toRequestBody(mediaType)
+            CoroutineScope(Dispatchers.IO).launch {
+
+                // Create Service
+                val service = retrofit.create(APIService::class.java)
+
+                val response = service.beginSetChallenge(
+                    resources.getString(R.string.api_access_token),
+                    requestBody
+                )
+
+
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
     override fun onBackPressed() {
         // super.onBackPressed()
         Toast.makeText(applicationContext, "Please click CLOSE button", Toast.LENGTH_SHORT).show()
@@ -662,39 +876,18 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
 
     private fun calculateXPPoints() {
-/*
 
-  With Default Data..
- determinateBar.max = overallValue
-        discover_value = CommonData.getUserDetails!!.experience.toInt()
-        scoredValue = discover_value + quiz_answer_value
-        quiz_answer.text = "+$quiz_answer_value XP"
-
-        var totalScore = 0
-        for (i in 0 until CommonData.eventsModelMessage!!.count()) {
-            if (eventsModelMessage!![i].disc_id != null) {
-                totalScore += eventsModelMessage!![i].experience.toInt()
-                println("totalScore :: $totalScore")
-            }
-        }
-        println("totalScore :: $totalScore")
-        ObjectAnimator.ofInt(determinateBar, "progress", totalScore)
-            .setDuration(1000)
-            .start()
-        totalScore += scoredValue
-        val subtractValue = overallValue - scoredValue
-        quizBalanceValue.text = "$subtractValue XP to Level 2"*/
 
 
         // Updated One with API data..
 
-        var progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
-        var expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
-        var completedPoints = sharedPreference.getSession("player_experience_points")
+        val progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
+        val expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
+        val completedPoints = sharedPreference.getSession("player_experience_points")
         val levelValue = sharedPreference.getSession("lv_value")
         val presentLevel = sharedPreference.getSession("current_level")
         scoredValue = discover_value + quiz_answer_value
-        quiz_answer.text = "+$quiz_answer_value XP"
+        quiz_challenge_screen_quiz_answer_score_tv.text = "+$quiz_answer_value XP"
         determinateBar.max = progressBarMaxValue
         quizBalanceValue.text = "$expToLevel XP TO $levelValue"
         quiz_challenge_level_name.text=presentLevel

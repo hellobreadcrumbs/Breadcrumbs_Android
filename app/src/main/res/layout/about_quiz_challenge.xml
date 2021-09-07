@@ -44,7 +44,7 @@
             android:fontFamily="@font/dinish_regular"
             android:gravity="center_horizontal"
             android:lineSpacingExtra="5dp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque varius orci eu aliquam lacinia. Praesent at massa molestie elit scelerisque ornare dapibus vel nisl. Pellentesque sed felis augue. Quisque tellus orci, cursus quis mattis id, pulvinar id nisi. Sed facilisis vel justo in iaculis. Aliquam mattis, dolor eget pulvinar tincidunt, lacus quam egestas velit, in condimentum mi est id ex."
+            android:text="@string/about_quiz_challenge_info_content"
             android:textColor="#4B3B30"
             android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
 

@@ -30,11 +30,10 @@ class UserInformationActivity : AppCompatActivity() {
             val createdDateStr: String = CommonData.getUserDetails!!.created
             try {
 
-                println("formattedDate 1 $createdDateStr")
+
                 val postCreatedDate: Date = originalFormat.parse(createdDateStr)
                 val formattedDate: String = targetFormat.format(postCreatedDate)
-                println("formattedDate post $postCreatedDate")
-                println("formattedDate 2 $formattedDate")
+
                 created_date_view.text = formattedDate
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -68,10 +67,10 @@ class UserInformationActivity : AppCompatActivity() {
 
             try {
 
-                println("formattedDate 3 $createdDateStr")
+
                 val postCreatedDate: Date = originalFormat.parse(createdDateStr)
                 val formattedDate: String = targetFormat.format(postCreatedDate)
-                println("formattedDate 4 $formattedDate")
+
                 created_date_view.text = formattedDate
             } catch (e: Exception) {
                 e.printStackTrace()

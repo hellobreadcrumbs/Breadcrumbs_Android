@@ -299,7 +299,7 @@
         android:src="@drawable/leader_board_refresh_icon"
         app:layout_constraintBottom_toBottomOf="@+id/players_list_title"
         app:layout_constraintEnd_toEndOf="parent"
-       android:layout_marginEnd="40dp"
+        android:layout_marginEnd="40dp"
         app:layout_constraintTop_toTopOf="@+id/players_list_title" />
 
 

@@ -153,13 +153,15 @@
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
-                <TextView
+                <ImageView
+                    android:id="@+id/quiz_challenge_screen_trail_icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:background="@drawable/wild_about_twlight_icon"
                     android:gravity="center_horizontal" />
 
                 <TextView
+                    android:id="@+id/quiz_challenge_screen_poi_completed_details"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="3dp"
@@ -218,12 +220,12 @@
                     android:textSize="@dimen/challenge_begin_screen_subtitle_text_size" />
 
                 <TextView
-                    android:id="@+id/discovery_valuej"
+                    android:id="@+id/quiz_challenge_screen_discovery_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/dinish_bold"
-                    android:text="+200 XP"
+                    android:text="+000 XP"
                     android:textColor="#4B3B30"
                     android:textSize="@dimen/challenge_begin_screen_subtitle_text_size" />
             </RelativeLayout>
@@ -243,12 +245,12 @@
                     android:textSize="@dimen/challenge_begin_screen_subtitle_text_size" />
 
                 <TextView
-                    android:id="@+id/quiz_answer"
+                    android:id="@+id/quiz_challenge_screen_quiz_answer_score_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/dinish_bold"
-                    android:text="+50 XP"
+                    android:text="+000 XP"
                     android:textColor="#4B3B30"
                     android:textSize="@dimen/challenge_begin_screen_subtitle_text_size" />
             </RelativeLayout>

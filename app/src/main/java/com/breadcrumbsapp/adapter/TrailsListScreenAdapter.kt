@@ -56,12 +56,7 @@ internal class TrailsListScreenAdapter(getTrails: List<GetTrailsModel.Message>) 
         holder.trailIcon.setImageResource(trailIcons[position])
         holder.trailName.text=trailNameString[position]  */
 
-
-        //   holder.trailImage.setImageResource(getFeedsLocalObj[position].)
-        //   holder.trailIcon.setImageResource(getFeedsLocalObj[position])
-
-
-        val localImageUri =
+     val localImageUri =
             context.resources.getString(R.string.staging_url) + getTrailsList[position].banner_url
         println("localImageUri $localImageUri")
         Glide.with(context).load(localImageUri).into(holder.trailImage)
@@ -82,7 +77,8 @@ internal class TrailsListScreenAdapter(getTrails: List<GetTrailsModel.Message>) 
                         context,
                         TrailsDetailsActivity::class.java
                     ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .putExtra("position", position)
+                     //   .putExtra("position", position)
+                        .putExtra("trail_id", getTrailsList[position].id)
                         .putExtra("getTrailsListData", getTrailsList[position])
                 )
             }

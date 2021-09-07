@@ -1,6 +1,7 @@
 package com.breadcrumbsapp.interfaces
 
 import com.breadcrumbsapp.model.*
+import com.breadcrumbsapp.view.rewards.GetRewardsDataModel
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -143,7 +144,14 @@ interface APIService {
     suspend fun beginChallenge(
         @Header("Authorization") h1: String,
         @Body requestBody: RequestBody
-    ): Response<BeginChallengeModel>
+    )
+
+    @Headers("Accept:application/json", "Content-Type:application/json;")
+    @POST("v1/api/begin_set_challenge")
+    suspend fun beginSetChallenge(
+        @Header("Authorization") h1: String,
+        @Body requestBody: RequestBody
+    )
 
 
     @Multipart
@@ -154,4 +162,19 @@ interface APIService {
         @Part("poi_id") poi_id: RequestBody,
         @Part file: MultipartBody.Part
     ): Response<JsonObject>
+
+    @Headers("Accept:application/json", "Content-Type:application/json;")
+    @POST("v1/api/add_survey")
+    suspend fun addSurvey(
+        @Header("Authorization") h1: String,
+        @Body requestBody: RequestBody
+    ): Response<ResponseBody>
+
+    @Headers("Accept:application/json", "Content-Type:application/json;")
+    @POST("v1/api/get_rewards")
+    suspend fun getRewardList(
+        @Header("Authorization") h1: String,
+        @Body requestBody: RequestBody
+    ): Response<GetRewardsDataModel>
+
 }

@@ -59,7 +59,7 @@ class SearchFriendsListAct : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable?) {
                 s?.let {
-                    if (s.length > 0){
+                    if (s.isNotEmpty()){
                         sf_search_img.setImageResource(R.drawable.places_ic_clear)
                         friendAdapter.filter.filter( s.toString())
                     }else{

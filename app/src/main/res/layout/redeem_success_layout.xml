@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:background="@drawable/about_challenge_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/about_screen_trail_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="15dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/reward_redeemed_icon" />
+
+        <TextView
+            android:id="@+id/about_screen_trail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/claritycity_extrabold"
+            android:gravity="center_horizontal"
+            android:textAllCaps="true"
+            android:text="REWARD REDEEMED!"
+            android:textColor="#4B3B30"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/redeem_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="33dp"
+            android:fontFamily="@font/dinish_regular"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="5dp"
+            android:text="Thank you for redeeming your reward!\nContinue playing Breadcrumbs to earn even more exciting gifts."
+            android:textColor="#4B3B30"
+            android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
+
+        <TextView
+            android:id="@+id/successButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/disclaimer_ok_button"
+            android:fontFamily="@font/claritycity_bold"
+            android:paddingStart="50dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="50dp"
+            android:paddingBottom="10dp"
+            android:text="OKAY"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

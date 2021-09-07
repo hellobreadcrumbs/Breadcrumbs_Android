@@ -45,6 +45,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp">
 
+                    <ProgressBar
+                        android:id="@+id/poi_details_loader"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="100dp"
+                        android:layout_gravity="center_horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                          />
 
                     <ImageView
                         android:id="@+id/poiImageView"
@@ -53,6 +64,9 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/poi_photo"
                         tools:ignore="ContentDescription" />
+
+
+
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/detailsPoiBackGround"

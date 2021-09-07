@@ -26,19 +26,16 @@
         <activity android:name=".view.LoginScreen" />
         <activity android:name=".view.TutorialActivity" />
         <activity android:name=".view.WebViewActivity" />
-        <activity android:name=".view.AchievementUnLockActivity"/>
+
         <activity
             android:name=".ScannerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".ARCoreActivity"
+            android:name=".view.arcore.ARCoreActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".view.arcore.ArCoreUpdateAct"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
         <activity
             android:name=".view.arcore.SampleARClass"
             android:screenOrientation="portrait"
@@ -114,10 +111,10 @@
             android:theme="@style/SplashTheme" />
         <activity
             android:name=".view.MyAchievementScreenActivity"
-            android:theme="@style/SplashTheme" />
+            />
         <activity
             android:name=".view.MyAchievementScreenDetailsActivity"
-            android:theme="@style/SplashTheme" />
+            />
         <activity
             android:name=".camerafiles.activity.CameraActivity"
             android:theme="@style/SplashTheme" />

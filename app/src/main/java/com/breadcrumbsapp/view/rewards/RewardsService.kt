@@ -9,7 +9,7 @@ import retrofit2.http.POST
 
 interface RewardsService {
     @Headers("Accept:application/json", "Content-Type:application/json;")
-    @POST("v1/api/get_rewards_all")
+    @POST("v1/api/get_rewards")
     suspend fun getUserRewardsList(
         @Header("Authorization") h1: String,
         @Body requestBody: RequestBody

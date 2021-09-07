@@ -290,7 +290,7 @@ class CameraFragment : Fragment() {
         val metrics = windowManager.getCurrentWindowMetrics().bounds
         Log.d(TAG, "Screen metrics: ${metrics.width()} x ${metrics.height()}")
 
-      //  val screenAspectRatio = aspectRatio(metrics.width(), metrics.height())
+        val screenAspectRatio = aspectRatio(metrics.width(), metrics.height())
        // Log.d(TAG, "Preview aspect ratio: $screenAspectRatio")
 
         val rotation = viewFinder.display.rotation
@@ -305,7 +305,7 @@ class CameraFragment : Fragment() {
         // Preview
         preview = Preview.Builder()
                 // We request aspect ratio but no resolution
-               // .setTargetAspectRatio(screenAspectRatio)
+               .setTargetAspectRatio(screenAspectRatio)
                 // Set initial target rotation
                 .setTargetRotation(rotation)
                 .build()

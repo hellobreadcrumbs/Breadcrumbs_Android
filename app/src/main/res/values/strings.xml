@@ -92,13 +92,12 @@
     <string name="about_mystery_challenge_title">ABOUT\nMYSTERY LANDMARKS</string>
     <string name="about_selfie_challenge_title">ABOUT THE \nSELFIE CHALLENGE</string>
     <string name="about_quiz_challenge_title">ABOUT THE \nQUIZ CHALLENGE</string>
-    <string name="about_mystery_challenge_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque varius orci eu aliquam lacinia. Praesent at massa molestie elit scelerisque ornare dapibus vel nisl. Pellentesque sed felis augue. Quisque tellus orci, cursus quis mattis id, pulvinar id nisi. Sed facilisis vel justo in iaculis. Aliquam mattis, dolor eget pulvinar tincidunt, lacus quam egestas velit, in condimentum mi est id ex.</string>
-    <string name="selfie_challenge_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque varius orci eu aliquam lacinia. Praesent at massa molestie elit scelerisque ornare dapibus vel nisl. Pellentesque sed felis augue. Quisque tellus orci, cursus quis mattis id, pulvinar id nisi. Sed facilisis vel justo in iaculis. Aliquam mattis, dolor eget pulvinar tincidunt, lacus quam egestas velit, in condimentum mi est id ex.</string>
-    <string name="quiz_challenge_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque varius orci eu aliquam lacinia. Praesent at massa molestie elit scelerisque ornare dapibus vel nisl. Pellentesque sed felis augue. Quisque tellus orci, cursus quis mattis id, pulvinar id nisi. Sed facilisis vel justo in iaculis. Aliquam mattis, dolor eget pulvinar tincidunt, lacus quam egestas velit, in condimentum mi est id ex.</string>
     <string name="selfie_challenge">Selfie Challenge</string>
     <string name="quiz_challenge">Quiz Challenge</string>
-    <string name="selfie_challenge_static_content">Snap a photo at</string>
-    <string name="quiz_challenge_static_content">Answer one question on</string>
+    <string name="about_quiz_challenge_info_content">Answer questions relating to this POI correctly to discover it and gain additional XP points.</string>
+    <string name="about_selfie_challenge_info_content">Snap a selfie with this POI to discover it and gain additional XP points. You might just learn a thing or two at the end of this challenge.</string>
+    <string name="about_mystery_challenge_info_content">Look for the AR Discovery using the Breadcrumb\'s AR camera and snap a photo to discover it and gain additional XP points.</string>
+
 
     <string name="live_url">https://hawktoberfest.sg/breadcrumbs/</string>
     <string name="staging_url">http://13.212.34.85/breadcrumbs_staging/</string>
@@ -183,4 +182,5 @@
     <string name="select_file_upload">Choose your photo</string>
     <string name="file_too_large">The selected file is too large. Select a new file with size less than 2mb</string>
     <string name="give_permission">Kindly allow the permission, Otherwise you cannot take a photo.</string>
+
 </resources>

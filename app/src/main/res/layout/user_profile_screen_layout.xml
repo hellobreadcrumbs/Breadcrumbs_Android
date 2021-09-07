@@ -112,8 +112,8 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/dinish_bold"
-                    android:textColor="#4B3B30"
                     android:text="RECRUIT LV. 1"
+                    android:textColor="#4B3B30"
                     app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_profile_pic_iv"
                     app:layout_constraintTop_toBottomOf="@+id/profile_screen_user_name" />
 
@@ -142,16 +142,17 @@
                     app:layout_constraintBottom_toBottomOf="@+id/profile_screen_user_level"
                     app:layout_constraintStart_toEndOf="@+id/imageView6"
                     app:layout_constraintTop_toBottomOf="@+id/profile_screen_user_name" />
+
                 <TextView
                     android:id="@+id/xp_to_next_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginEnd="20dp"
                     android:fontFamily="@font/dinish_bold"
-                    android:textColor="#4B3B30"
                     android:text="000 XP TO LV 0"
+                    android:textColor="#4B3B30"
 
                     app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_profile_pic_iv"
 
@@ -167,14 +168,13 @@
                     android:background="@drawable/xp_progress_bar"
                     android:padding="1dp"
                     app:indicatorColor="#F39949"
-                    app:trackColor="#F8F0DD"
-                    app:trackCornerRadius="150dp"
-                    app:trackThickness="20dp"
                     app:layout_constraintBottom_toBottomOf="@+id/profile_edit_screen_profile_pic_iv"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_profile_pic_iv"
-                    app:layout_constraintTop_toBottomOf="@+id/xp_to_next_level" />
-
+                    app:layout_constraintTop_toBottomOf="@+id/xp_to_next_level"
+                    app:trackColor="#F8F0DD"
+                    app:trackCornerRadius="150dp"
+                    app:trackThickness="20dp" />
 
 
                 <TextView
@@ -192,13 +192,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/profile_screen_progress_bar" />
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/achievement_edit_icon"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="20dp"
                     android:src="@drawable/achievement_edit_icon"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/achievement_title"
                     app:layout_constraintStart_toEndOf="@+id/achievement_title"
                     app:layout_constraintTop_toBottomOf="@+id/profile_screen_progress_bar" />
@@ -213,62 +213,211 @@
                     android:paddingBottom="5dp"
                     app:layout_constraintTop_toBottomOf="@+id/achievement_title">
 
-                    <ImageView
-                        android:id="@+id/achievement_icon_one"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/achievements_image_adapter"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_two_fl"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:listitem="@layout/profile_screen_achievement_image_arrangment_adapter" />
+
+
+                    <FrameLayout
+                        android:id="@+id/achievement_icon_one_fl"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginStart="30dp"
-                        android:src="@drawable/aardvark_achievement_icon"
-                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_two"
+                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_two_fl"
                         app:layout_constraintHorizontal_bias="0.8"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
 
+                        <ImageView
+                            android:id="@+id/achievement_icon_one"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/aardvark_achievement_icon"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/achievement_icon_one_lock_iv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/lock_achievement"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </FrameLayout>
 
                     <ImageView
-                        android:id="@+id/achievement_icon_two"
+                        android:id="@+id/achievement_icon_two1"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:src="@drawable/lock_achievement"
-                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_three"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_three_fl"
                         app:layout_constraintHorizontal_bias="0.8"
-                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_one"
+                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_one_fl"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <FrameLayout
+                        android:id="@+id/achievement_icon_two_fl"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_three_fl"
+                        app:layout_constraintHorizontal_bias="0.8"
+                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_one_fl"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/achievement_icon_two"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/aardvark_achievement_icon"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/achievement_icon_two_lock_iv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/lock_achievement"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </FrameLayout>
 
                     <ImageView
-                        android:id="@+id/achievement_icon_three"
+                        android:id="@+id/achievement_icon_three1"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:src="@drawable/lock_achievement"
-                        android:visibility="visible"
-                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_four"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_four_fl"
                         app:layout_constraintHorizontal_bias="0.8"
-                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_two"
+                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_two_fl"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <FrameLayout
+                        android:id="@+id/achievement_icon_three_fl"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_four_fl"
+                        app:layout_constraintHorizontal_bias="0.8"
+                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_two_fl"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/achievement_icon_three"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/aardvark_achievement_icon"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/achievement_icon_three_lock_iv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/lock_achievement"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </FrameLayout>
 
                     <ImageView
-                        android:id="@+id/achievement_icon_four"
+                        android:id="@+id/achievement_icon_four1"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:src="@drawable/lock_achievement"
-                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_five"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_four_fl"
                         app:layout_constraintHorizontal_bias="0.8"
-                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_three"
+                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_three_fl"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <FrameLayout
+                        android:id="@+id/achievement_icon_four_fl"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        app:layout_constraintEnd_toStartOf="@+id/achievement_icon_five_fl"
+                        app:layout_constraintHorizontal_bias="0.8"
+                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_three_fl"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/achievement_icon_four"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/aardvark_achievement_icon"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/achievement_icon_four_lock_iv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/lock_achievement"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </FrameLayout>
 
                     <ImageView
-                        android:id="@+id/achievement_icon_five"
+                        android:id="@+id/achievement_icon_five1"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="30dp"
                         android:src="@drawable/lock_achievement"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.8"
-                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_four"
+                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_four_fl"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <FrameLayout
+                        android:id="@+id/achievement_icon_five_fl"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="30dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.8"
+                        app:layout_constraintStart_toEndOf="@+id/achievement_icon_four_fl"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/achievement_icon_five"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/aardvark_achievement_icon"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/achievement_icon_five_lock_iv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/lock_achievement"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </FrameLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout

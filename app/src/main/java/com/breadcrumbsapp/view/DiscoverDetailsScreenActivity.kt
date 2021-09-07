@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -16,19 +17,21 @@ import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.breadcrumbsapp.ARCoreActivity
+import com.breadcrumbsapp.view.arcore.ARCoreActivity
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.DiscoverDetailsScreenBinding
 import com.breadcrumbsapp.model.GetEventsModel
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import kotlinx.android.synthetic.main.discover_details_screen.*
+import kotlinx.android.synthetic.main.discover_details_screen.detailsPoiBackGround
+import kotlinx.android.synthetic.main.leader_board_activity_layout.*
 import kotlinx.android.synthetic.main.quiz_challenge.*
 import kotlinx.android.synthetic.main.quiz_challenge_question_activity.*
 import java.util.*
@@ -72,6 +75,8 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
 
         var bundle: Bundle? = intent.extras
         var from = bundle!!.getString("from")
+
+
 
 
 
@@ -148,16 +153,33 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
         aboutContentImageView.visibility = View.GONE
 
         try {
-            val options: RequestOptions = RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.loader_image)
-                .error(R.drawable.loader_image)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH)
-                .dontAnimate()
-                .dontTransform()
-            Glide.with(applicationContext).load(poiImage).apply(options).into(binding.poiImageView)
-            sharedPreference.saveSession("poi_image", poiImage)
+
+
+            Glide.with(applicationContext)
+                .load(poiImage)
+                .listener(object : RequestListener<Drawable?> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        poi_details_loader.visibility = View.GONE
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        poi_details_loader.visibility = View.GONE
+                        return false
+                    }
+                })
+                .into(poiImageView)
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -221,6 +243,17 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
 
 
         binding.backButton.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@DiscoverDetailsScreenActivity,
+                    DiscoverScreenActivity::class.java
+                ).putExtra("isFromLogin", "no")
+            )
+            overridePendingTransition(
+                R.anim.anim_slide_in_right,
+                R.anim.anim_slide_out_right
+            )
+
             finish()
         }
 
@@ -336,27 +369,28 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
 
         when (challengeName) {
             "quiz" -> {
-                logoIconView.setImageDrawable(getDrawable(R.drawable.quiz_challenge_icon))
+
+                Glide.with(applicationContext).load(R.drawable.quiz_challenge_icon).into(logoIconView)
                 challengeTitle.text = resources.getString(R.string.about_quiz_challenge_title)
-                challengeContent.text = resources.getString(R.string.quiz_challenge_content)
+                challengeContent.text = resources.getString(R.string.about_quiz_challenge_info_content)
             }
             "selfie" -> {
-                logoIconView.setImageDrawable(getDrawable(R.drawable.selfie_challenge_icon))
+
+                Glide.with(applicationContext).load(R.drawable.selfie_challenge_icon).into(logoIconView)
                 challengeTitle.text = resources.getString(R.string.about_selfie_challenge_title)
-                challengeContent.text = resources.getString(R.string.selfie_challenge_content)
+                challengeContent.text = resources.getString(R.string.about_selfie_challenge_info_content)
             }
             "ar_screen" -> {
-                logoIconView.setImageDrawable(getDrawable(R.drawable.ar_challenge_icon))
+
+                Glide.with(applicationContext).load(R.drawable.ar_challenge_icon).into(logoIconView)
                 challengeTitle.text = resources.getString(R.string.about_mystery_challenge_title)
                 challengeContent.text =
-                    resources.getString(R.string.about_mystery_challenge_content)
+                    resources.getString(R.string.about_mystery_challenge_info_content)
             }
         }
         okBtn.setOnClickListener {
             dialog.dismiss()
-            /* startActivity(Intent(this@DiscoverDetailsScreenActivity, ChallengeActivity::class.java).putExtra("challengeName",challengeName)
-                 .putExtra("poiImage",poiImage)
-             )*/
+
         }
 
         dialog.window!!.attributes!!.windowAnimations = R.style.DialogTheme

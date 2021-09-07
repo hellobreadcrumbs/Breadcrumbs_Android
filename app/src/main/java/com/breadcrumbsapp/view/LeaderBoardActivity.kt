@@ -17,14 +17,11 @@ import com.breadcrumbsapp.R
 import com.breadcrumbsapp.adapter.CustomDropDownAdapter
 import com.breadcrumbsapp.adapter.LeaderBoardPlayerListAdapter
 import com.breadcrumbsapp.databinding.LeaderBoardActivityLayoutBinding
-
-
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.leader_board_activity_layout.*
-import kotlinx.android.synthetic.main.user_profile_screen_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,6 +46,7 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     private lateinit var sessionHandlerClass: SessionHandlerClass
     private lateinit var binding: LeaderBoardActivityLayoutBinding
     private lateinit var leaderBoardPlayerListAdapter: LeaderBoardPlayerListAdapter
+    private var trailID:String="4"
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +61,7 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
         if (CommonData.getRankData == null) {
 
-            getRankingDetails()
+            getRankingDetails(trailID)
         } else {
             loaderImage.visibility = View.GONE
 
@@ -92,40 +90,13 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
 
         refresh_icon.setOnClickListener {
-            getRankingDetails()
+            getRankingDetails(trailID)
         }
 
 
         val customDropDownAdapter = CustomDropDownAdapter(applicationContext)
         spinner.adapter = customDropDownAdapter
         spinner.onItemSelectedListener = this
-
-
-        /* if (spinner != null) {
-             val arrayAdapter = ArrayAdapter(this, R.layout.leaderboard_spinner_item, personNames)
-             spinner.adapter = arrayAdapter
-
-             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                 override fun onItemSelected(
-                     parent: AdapterView<*>,
-                     view: View,
-                     position: Int,
-                     id: Long
-                 ) {
-                     Toast.makeText(
-                         this@LeaderBoardActivity,
-                         personNames[position],
-                         Toast.LENGTH_SHORT
-                     ).show()
-                 }
-
-                 override fun onNothingSelected(parent: AdapterView<*>) {
-                     // Code to perform some action when nothing is selected
-                 }
-             }
-
-         }*/
-
 
 
         share_lay.setOnClickListener {
@@ -184,7 +155,7 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     }
 
 
-    private fun getRankingDetails() {
+    private fun getRankingDetails(trailID:String) {
         try {
             Glide.with(applicationContext).load(R.raw.loading).into(loaderImage)
             leaderBoard_player_list.visibility = View.GONE
@@ -200,7 +171,7 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -208,7 +179,7 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
             // Create JSON using JSONObject
             val jsonObject = JSONObject()
-            jsonObject.put("trail_id", "4")
+            jsonObject.put("trail_id", trailID)
 
             println("getRankingDetails Input = $jsonObject")
 
@@ -280,6 +251,17 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         binding.leaderBoardTrailIcon.setImageResource(trailIcons[position])
+        println("leaderBoardTrailIcon POS= $position")
+        if(position==0)
+        {
+            trailID="4"
+
+        }
+        else if (position==1)
+        {
+            trailID="6"
+        }
+        getRankingDetails(trailID)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

@@ -452,9 +452,15 @@ class LoginScreen : AppCompatActivity() {
                     } else {
 
                         println("isLogin From Login ")
+
+                        sharedPreference.saveBoolean("isLogin", true)
+                        val loginString = jsonObject.getAsJsonObject("message").get("id").asInt
+                        sharedPreference.saveSession("login_details", jsonElement.toString())
+                        sharedPreference.saveSession("login_id", loginString.toString())
                         sharedPreference.saveBoolean("isLogin", true)
 
-                        startActivity(
+                        getUserDetails()
+                       /* startActivity(
                             Intent(
                                 this@LoginScreen,
                                 DiscoverScreenActivity::class.java
@@ -464,7 +470,7 @@ class LoginScreen : AppCompatActivity() {
                             R.anim.anim_slide_in_left,
                             R.anim.anim_slide_out_left
                         )
-                        finish()
+                        finish()*/
                     }
                 } else {
 
@@ -627,8 +633,6 @@ class LoginScreen : AppCompatActivity() {
                 )
 
 
-
-
                 if (response.isSuccessful) {
                     if (response.body()!!.status) {
                         if (response.body()!!.message != null) {
@@ -644,8 +648,6 @@ class LoginScreen : AppCompatActivity() {
                             sharedPreference.saveSession("player_email_id",CommonData.getUserDetails!!.email)
                             sharedPreference.saveSession("player_rank",CommonData.getUserDetails!!.rank)
                             sharedPreference.saveSession("player_id",CommonData.getUserDetails!!.id)
-
-
 
                             startActivity(
                                 Intent(

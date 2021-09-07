@@ -8,9 +8,11 @@ import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.TrailDetailsLayoutBinding
 
 import com.breadcrumbsapp.model.GetTrailsModel
+import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.trail_details_layout.*
+import kotlinx.android.synthetic.main.user_profile_screen_layout.*
 
 class TrailsDetailsActivity:AppCompatActivity()
 {
@@ -39,14 +41,22 @@ class TrailsDetailsActivity:AppCompatActivity()
         setContentView(binding.root)
 
         sessionHandlerClass= SessionHandlerClass(applicationContext)
-        var positionInt:Int=intent.getIntExtra("position",0)
+       // val positionInt:Int=intent.getIntExtra("position",0)
+        val trailID=intent.extras?.get("trail_id") as String
         getTrailsModelList = intent.extras?.get("getTrailsListData") as GetTrailsModel.Message
-        println("positionStr : $positionInt")
+       // println("positionStr : $positionInt == $trailID")
 
+        for(i in CommonData.getTrailsData!!.indices)
+        {
+            if(CommonData.getTrailsData!![i].id==trailID)
+            {
+                println("Details IF ::: Trail ID = ${CommonData.getTrailsData!![i].id} Completed_POI == ${CommonData.getTrailsData!![i].completed_poi_count}")
 
-   /*     Glide.with(applicationContext).load(trailBanner[positionInt]).into(trail_details_image)
-        Glide.with(applicationContext).load(trailIcons[positionInt]).into(trail_details_trailIcon)
-        tv_trail_name_banner.text=trailNameString[positionInt]  */
+                tv_no_of_pois_report.text="${CommonData.getTrailsData!![i].completed_poi_count} /" +
+                        " ${CommonData.getTrailsData!![i].poi_count} POIs DISCOVERED"
+            }
+
+        }
 
 
         if(getTrailsModelList.id=="4")

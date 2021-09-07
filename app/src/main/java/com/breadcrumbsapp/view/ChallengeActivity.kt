@@ -2,17 +2,25 @@ package com.breadcrumbsapp.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.breadcrumbsapp.R
-import com.breadcrumbsapp.adapter.FeedPostAdapter
 import com.breadcrumbsapp.databinding.ChallengeActivityBinding
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.google.gson.JsonArray
+import com.google.gson.JsonParser
 import kotlinx.android.synthetic.main.challenge_activity.*
+import kotlinx.android.synthetic.main.discover_details_screen.*
 import kotlinx.android.synthetic.main.feed_layout.*
+import kotlinx.android.synthetic.main.quiz_challenge_question_activity.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,7 +41,16 @@ class ChallengeActivity : AppCompatActivity() {
     lateinit var binding: ChallengeActivityBinding
     lateinit var sharedPreference: SessionHandlerClass
     private var interceptor = intercept()
-    private lateinit var poiImage:String
+
+    private var poiQrCode = ""
+    private var challengeName = ""
+    private var poiImage = ""
+    private var poiArId = ""
+
+    private var selectedPOIID: String = ""
+    private var selectedTrailID: String = ""
+    private var noOfQuestions: String = ""
+
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,68 +58,138 @@ class ChallengeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPreference = SessionHandlerClass(applicationContext)
+        selectedPOIID = sharedPreference.getSession("selectedPOIID").toString()
+        selectedTrailID = sharedPreference.getSession("selected_trail_id").toString()
+        noOfQuestions= sharedPreference.getSession("noOfQuestions").toString()
+
+
         poiNameTextView.text = sharedPreference.getSession("selectedPOIName")
 
-
         val bundle: Bundle = intent.extras!!
-        val challengeName = bundle.getString("challengeName")
-          poiImage = bundle.getString("poiImage") as String
+
+        poiImage = bundle.getString("poiImage") as String
+        poiQrCode = bundle.getString("poiQrCode").toString()
+        challengeName = bundle.getString("challengeName").toString()
+        poiArId = bundle.getString("poiArid").toString()
 
         sharedPreference.saveSession("poi_image", poiImage)
 
-        Glide.with(applicationContext).load(poiImage).into(binding.selfieImageView)
+        //  Glide.with(applicationContext).load(poiImage).into(binding.selfieImageView)
+
+
+        try {
+
+
+            Glide.with(applicationContext)
+                .load(poiImage)
+                .listener(object : RequestListener<Drawable?> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        challenge_screen_loader.visibility = View.GONE
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        challenge_screen_loader.visibility = View.GONE
+                        return false
+                    }
+                })
+                .into(selfieImageView)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+
+
+        discoveryXP_Point.text="+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
+        taskCompleted_XP_Point.text="+${sharedPreference.getSession("selectedPOIChallenge_XP_Value")} XP"
 
         println("challengeName :: $challengeName")
 
         if (challengeName == "quiz") {
             challengeIcon.setImageDrawable(getDrawable(R.drawable.quiz_challenge_icon))
             challengeTitle.text = resources.getString(R.string.quiz_challenge)
-            subTileOfBeginChallenge.text =
-                resources.getString(R.string.quiz_challenge_static_content)
             questionTwoLabel.text = "Correct Answer"
+            subTileOfBeginChallenge.text = "$noOfQuestions"
+
         } else if (challengeName == "selfie") {
             challengeIcon.setImageDrawable(getDrawable(R.drawable.selfie_challenge_icon))
             challengeTitle.text = resources.getString(R.string.selfie_challenge)
-            subTileOfBeginChallenge.text =
-                resources.getString(R.string.selfie_challenge_static_content)
+            subTileOfBeginChallenge.text = "Snap a photo at"
             questionTwoLabel.text = "Selfie Posted"
         }
 
         challenge_backButton.setOnClickListener {
-            finish()
+            startActivity(
+                Intent(
+                    this@ChallengeActivity,
+                    com.breadcrumbsapp.view.qrcode.DecoderActivity::class.java
+                ).putExtra("poiQrCode", poiQrCode)
+                    .putExtra("challengeName", challengeName)
+                    .putExtra("poiImage", poiImage).putExtra("poiArid", poiArId)
+            )
         }
 
-        binding.beginButton.setOnClickListener {
-            when (challengeName) {
-                "quiz" -> {
+        beginButton.setOnClickListener {
 
+            try {
+                when (challengeName) {
+                    "quiz" -> {
 
-                   // beginChallengeAPI()
-
-                  /*  CommonData.getBeginChallengeModel!!.achievement=""
-                    CommonData.getBeginChallengeModel!!.completed_trail=false
-                    println("Begin Challenge :: ${CommonData.getBeginChallengeModel!!.achievement}")
-                    println("Begin Challenge :: ${CommonData.getBeginChallengeModel!!.completed_trail}")*/
-
-                    startActivity(
-                        Intent(
-                            this@ChallengeActivity,
-                            QuizChallengeQuestionActivity::class.java
-                        ).putExtra("poiImage", poiImage)
-                    )
-                }
-                "selfie" -> {
-                    startActivity(
-                        Intent(
-                            this@ChallengeActivity,
-                            com.breadcrumbsapp.camerafiles.fragments.MainActivity::class.java
+                        startActivity(
+                            Intent(
+                                this@ChallengeActivity,
+                                QuizChallengeQuestionActivity::class.java
+                            ).putExtra("poiImage", poiImage)
                         )
-                    )
+
+
+                    }
+                    "selfie" -> {
+                        startActivity(
+                            Intent(
+                                this@ChallengeActivity,
+                                com.breadcrumbsapp.camerafiles.fragments.MainActivity::class.java
+                            )
+                        )
+                    }
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        beginChallengeAPI()
+    }
+
+    override fun onBackPressed() {
+
+        startActivity(
+            Intent(
+                this@ChallengeActivity,
+                com.breadcrumbsapp.view.qrcode.DecoderActivity::class.java
+            ).putExtra("poiQrCode", poiQrCode)
+                .putExtra("challengeName", challengeName)
+                .putExtra("poiImage", poiImage).putExtra("poiArid", poiArId)
+        )
+    }
+
+
     private fun beginChallengeAPI() {
         try {
 
@@ -127,99 +214,28 @@ class ChallengeActivity : AppCompatActivity() {
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
             jsonObject.put("poi_id", sharedPreference.getSession("selectedPOIID"))
-            //  jsonObject.put("user_id","66")
-
 
             println("beginChallenge Input = $jsonObject")
-
-
             val mediaType = "application/json".toMediaTypeOrNull()
             val requestBody = jsonObject.toString().toRequestBody(mediaType)
+                CoroutineScope(Dispatchers.IO).launch {
 
+                    // Create Service
+                    val service = retrofit.create(APIService::class.java)
 
-
-            CoroutineScope(Dispatchers.IO).launch {
-
-                // Create Service
-                val service = retrofit.create(APIService::class.java)
-
-                val response = service.beginChallenge(
-                    resources.getString(R.string.api_access_token),
-                    requestBody
-                )
-
-                try {
-                    if (response.isSuccessful) {
-                        if (response.body()!!.status) {
-
-                            if(response.body()?.message!!.equals("0"))
-                            {
-
-
-                                runOnUiThread {
-
-                                    if (response.body()?.message!!.equals("0")) {
-                                        startActivity(
-                                            Intent(
-                                                this@ChallengeActivity,
-                                                QuizChallengeQuestionActivity::class.java
-                                            ).putExtra("poiImage", poiImage)
-                                        )
-                                    } else {
-                                        CommonData.getBeginChallengeModel = response.body()?.message
-                                        println("Begin Challenge :: ${CommonData.getBeginChallengeModel!!.achievement}")
-                                        println("Begin Challenge :: ${CommonData.getBeginChallengeModel!!.completed_trail}")
-                                    }
-
-
-
-                                    startActivity(
-                                        Intent(
-                                            this@ChallengeActivity,
-                                            QuizChallengeQuestionActivity::class.java
-                                        ).putExtra("poiImage", poiImage)
-                                    )
-
-
-                                }
-                            }
-                            else{
-                                startActivity(
-                                    Intent(
-                                        this@ChallengeActivity,
-                                        QuizChallengeQuestionActivity::class.java
-                                    ).putExtra("poiImage", poiImage)
-                                )
-                            }
-                            startActivity(
-                                Intent(
-                                    this@ChallengeActivity,
-                                    QuizChallengeQuestionActivity::class.java
-                                ).putExtra("poiImage", poiImage)
-                            )
-
-                        }
-
-                    }
-                }
-                catch (e:Exception)
-                {
-                    e.printStackTrace()
-                    startActivity(
-                        Intent(
-                            this@ChallengeActivity,
-                            QuizChallengeQuestionActivity::class.java
-                        ).putExtra("poiImage", poiImage)
+                    val response = service.beginChallenge(
+                        resources.getString(R.string.api_access_token),
+                        requestBody
                     )
+
+
                 }
-
-
-            }
 
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
+
 
 
     private fun intercept(): HttpLoggingInterceptor {

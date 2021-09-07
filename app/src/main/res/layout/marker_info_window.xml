@@ -1,109 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/markWindowConstraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="125dp"
+    android:layout_height="110dp"
     android:layout_marginStart="15dp"
     android:layout_marginEnd="15dp">
 
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/markerWindow_background"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginBottom="6dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/trail_banner_undiscovered"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:padding="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
+        <ImageView
+            android:id="@+id/markWindowPOIIcon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/breadcrumbs_trail"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/markWindowPOIIcon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="20dp"
-                  />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/playerDetailsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/markWindowPOIIcon"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/trailsName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:fontFamily="@font/claritycity_bold"
                 android:maxLines="2"
-                android:text="Point-of-interest #2 "
+                android:paddingBottom="2dp"
+                android:text="PlayerName"
                 android:textColor="#4B3B30"
-                android:textSize="@dimen/discover_screen_poi_name_text_size" />
+                android:textSize="@dimen/trail_list_item_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <TextView
+                android:id="@+id/markerWindowDiscoverTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/markerWindowDiscoverTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/dinish_regular"
-                    android:text="Undiscovered"
-                    android:textColor="#4B3B30"
-                    android:textSize="@dimen/discover_screen_poi_discover_status_text_size" />
-
-                <ImageView
-                    android:layout_width="4dp"
-                    android:layout_height="4dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginEnd="4dp"
-                    android:background="@drawable/trail_banner_dot"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/tv_distance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/dinish_regular"
-                    android:text="0.4km"
-                    android:textColor="#4B3B30"
-                    android:textSize="@dimen/discover_screen_poi_distance_text_size" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/closeButtonLayout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="20dp"
-            android:layout_weight="0.5"
-            android:gravity="right"
-            android:visibility="visible">
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/dinish_regular"
+                android:paddingBottom="2dp"
+                android:text="status"
+                android:textColor="#4B3B30"
+                android:textSize="@dimen/discover_screen_take_me_there_text_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trailsName" />
 
             <ImageView
-                android:visibility="gone"
-                android:id="@+id/closeButton"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center|end"
-                android:background="@drawable/exit_navigation_mode" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+                android:id="@+id/dot_level"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/trail_banner_dot"
+                android:textSize="@dimen/discover_screen_take_me_there_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/markerWindowDiscoverTextView"
+                app:layout_constraintTop_toBottomOf="@+id/trailsName"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tv_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/dinish_regular"
+                android:text="distance"
+                android:textColor="#4B3B30"
+                android:textSize="@dimen/discover_screen_take_me_there_text_size"
+                app:layout_constraintStart_toEndOf="@+id/dot_level"
+                app:layout_constraintTop_toBottomOf="@+id/trailsName" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <ImageView
+            android:id="@+id/poi_layout_closeButton"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/exit_navigation_mode"
+            android:visibility="visible"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/playerDetailsLayout"
+            app:layout_constraintEnd_toEndOf="@+id/playerDetailsLayout"
+            app:layout_constraintTop_toTopOf="@+id/playerDetailsLayout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
 
@@ -122,6 +120,4 @@
         android:textColor="#4B3B30"
         android:textSize="@dimen/discover_screen_take_me_there_text_size"
         android:visibility="gone" />
-
-
 </FrameLayout>

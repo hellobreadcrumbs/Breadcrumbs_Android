@@ -95,7 +95,7 @@
                 android:layout_gravity="center"
                 android:layout_toEndOf="@+id/image3"
                 android:fontFamily="@font/claritycity_bold"
-                android:text="Supertree Grove"
+                android:text="Under Construction..."
                 android:textColor="#4B3B30"
                 android:textSize="12sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -133,7 +133,6 @@
                 android:lineSpacingExtra="1.5dp"
                 android:maxLines="4"
                 android:scrollbars="vertical"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec rutrum nulla, ac porta nisi. Nulla ornare imperdiet purus vitae fermentum."
                 android:textColor="#454D5A"
                 android:textSize="14sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>

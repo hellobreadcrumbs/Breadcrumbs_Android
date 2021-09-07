@@ -137,7 +137,6 @@
                 android:lineSpacingExtra="1.5dp"
                 android:maxLines="4"
                 android:scrollbars="vertical"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec rutrum nulla, ac porta nisi. Nulla ornare imperdiet purus vitae fermentum."
                 android:textColor="#454D5A"
                 android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
         </androidx.appcompat.widget.LinearLayoutCompat>

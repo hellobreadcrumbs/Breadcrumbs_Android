@@ -45,14 +45,14 @@ internal class RewardsListScreenAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         rewardsList[position].apply {
            // holder.rewardsExpDate.text = enddate
-            val originalFormat: DateFormat = SimpleDateFormat("yyyy-MM-DD HH:MM:SS", Locale.ENGLISH)  //2020-11-27 12:27:04
-            val targetFormat: DateFormat = SimpleDateFormat("DD MMMM, yyyy")
+            val originalFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)  //2020-11-27 12:27:04
+            val targetFormat: DateFormat =SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH)
 
             try
             {
                 val postCreatedDate: Date = originalFormat.parse(enddate)
                 val formattedDate: String = targetFormat.format(postCreatedDate)
-                println("formattedDate $formattedDate")
+
                 holder.rewardsExpDate.text = "Valid until $formattedDate"
             }
             catch (e: Exception)
@@ -65,7 +65,7 @@ internal class RewardsListScreenAdapter(
                 text = reward_id
             }
             holder.rewardsTitle.text = rewardtitle
-            var imagePath=context.resources.getString(R.string.live_url)+reward_img
+            var imagePath=context.resources.getString(R.string.staging_url)+reward_img
             Glide.with(context).load(imagePath)
                 .into(holder.imageViewRewardsIcon)
         }
@@ -73,7 +73,7 @@ internal class RewardsListScreenAdapter(
             with(context) {
                 startActivity(
                     Intent(
-                        this,
+                        applicationContext,
                         RewardsDetailsActivity::class.java
                     ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         .putExtra("rewardModelData", rewardsList[position])

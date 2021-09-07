@@ -131,10 +131,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <include
-                    layout="@layout/poi_search_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
 
                 <Button
                     android:id="@+id/backButton"
@@ -155,21 +151,21 @@
                     android:layout_toEndOf="@+id/backButton"
                     android:orientation="horizontal">
 
-
-                    <SearchView
-                        android:id="@+id/searchView"
+                    <EditText
+                        android:visibility="gone"
+                        android:id="@+id/editTextSearchView"
                         android:layout_width="match_parent"
-                        android:layout_height="32dp"
+                        android:layout_height="40dp"
                         android:layout_margin="10dp"
                         android:elevation="1dp"
-                        android:queryHint="Search"
-                        android:searchIcon="@color/fui_transparent"
-                        android:visibility="visible"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        android:paddingStart="20dp"
+                        android:background="@drawable/searchview_bg"
+                        android:fontFamily="@font/dinish_regular"
+                        android:hint="Search POI name"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/hint_color_gray"
+                        android:textSize="14sp" />
 
-                    </SearchView>
 
                     <Button
                         android:id="@+id/trailsBtn"
@@ -192,6 +188,22 @@
                         android:background="@drawable/search_button"
                         android:visibility="gone" />
                 </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="10dp"
+                    android:paddingBottom="130dp"
+                    android:layout_below="@+id/searchLayout"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/trail_list_adapter" />
+
             </RelativeLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat

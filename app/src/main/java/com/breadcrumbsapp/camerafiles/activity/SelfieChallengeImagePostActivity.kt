@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.ImageActivityBinding
 import com.breadcrumbsapp.interfaces.APIService
+import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.FilePathUtils
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.breadcrumbsapp.view.DiscoverScreenActivity
@@ -67,7 +68,13 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
     private var overallValue = 12000
     private var selfiePostValue = 50
     private var discoverValue = 50
+    private var selectedTrailID: String = ""
+    private var trailIcons = intArrayOf(
+        R.drawable.breadcrumbs_trail,
+        R.drawable.wild_about_twlight_icon,
+        R.drawable.anthology_trail_icon
 
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ImageActivityBinding.inflate(layoutInflater)
@@ -87,6 +94,46 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 
 
         poiName.text = sharedPreference.getSession("selectedPOIName")
+        selectedTrailID = sharedPreference.getSession("selected_trail_id").toString()
+
+
+        if(sharedPreference.getSession("selectedPOITrivia")!="")
+        {
+            did_you_know_txt.visibility=View.VISIBLE
+            did_you_know_content.visibility=View.VISIBLE
+
+            did_you_know_content.text=sharedPreference.getSession("selectedPOITrivia")
+
+        }
+        else
+        {
+            did_you_know_txt.visibility=View.GONE
+            did_you_know_content.visibility=View.GONE
+        }
+
+
+        for(i in CommonData.getTrailsData!!.indices)
+        {
+            if(CommonData.getTrailsData!![i].id==selectedTrailID)
+            {
+                println("Details IF ::: Trail ID = ${CommonData.getTrailsData!![i].id} Completed_POI == ${CommonData.getTrailsData!![i].completed_poi_count}")
+
+                val updatedPoiCount= CommonData.getTrailsData!![i].completed_poi_count.toInt()+1
+                println("updatedPoiCount = $updatedPoiCount")
+                selfie_challenge_screen_poi_completed_details.text="$updatedPoiCount /" +
+                        " ${CommonData.getTrailsData!![i].poi_count} POIs DISCOVERED"
+            }
+        }
+
+
+        if(selectedTrailID=="4")
+        {
+            Glide.with(applicationContext).load(trailIcons[1]).into(selfie_challenge_screen_trail_icon)
+        }
+        else if(selectedTrailID=="6")
+        {
+            Glide.with(applicationContext).load(trailIcons[2]).into(selfie_challenge_screen_trail_icon)
+        }
 
         selfieImagePostBackButton.setOnClickListener {
             //f
@@ -140,11 +187,6 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                 }
 
 
-                /*       titleText.text="Photo posted successfully!"
-                       did_you_know_txt.visibility=View.VISIBLE
-                       did_you_know_content.visibility=View.VISIBLE
-                       imagePostButton.background=getDrawable(R.drawable.selfie_continue_btn)
-                       imagePostButton.text="CONTINUE"*/
 
             }
         }
@@ -192,9 +234,9 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
           balanceScoreValue.text = "$subtractValue XP to Level 2"*/
 
 
-        var progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
-        var expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
-        var completedPoints = sharedPreference.getSession("player_experience_points")
+        val progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
+        val expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
+        val completedPoints = sharedPreference.getSession("player_experience_points")
         val levelValue = sharedPreference.getSession("lv_value")
         val presentLevel = sharedPreference.getSession("current_level")
         scoredValue = discoverValue + selfiePostValue
@@ -370,7 +412,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
             .build()
         // Create Retrofit
         val retrofit = Retrofit.Builder()
-            .baseUrl(resources.getString(R.string.live_url))
+            .baseUrl(resources.getString(R.string.staging_url))
             .client(okHttpClient)
             .build()
 
@@ -533,8 +575,8 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 
                     runOnUiThread {
                         titleText.text="Photo posted successfully!"
-                        did_you_know_txt.visibility=View.VISIBLE
-                        did_you_know_content.visibility=View.VISIBLE
+
+
                         imagePostButton.background=getDrawable(R.drawable.selfie_continue_btn)
                         imagePostButton.text="CONTINUE"
 

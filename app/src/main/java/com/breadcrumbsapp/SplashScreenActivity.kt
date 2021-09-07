@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.net.Uri.encode
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,7 +13,6 @@ import com.breadcrumbsapp.util.SessionHandlerClass
 import com.breadcrumbsapp.view.DiscoverScreenActivity
 import com.breadcrumbsapp.view.TutorialActivity
 import com.google.firebase.FirebaseApp
-import java.net.URLEncoder.encode
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -26,18 +24,16 @@ class SplashScreenActivity : AppCompatActivity() {
 
         setContentView(R.layout.splash_screen)
 
-       // setContentView(R.layout.splash_screen)
+
         FirebaseApp.initializeApp(this)
-        // myReceiver=BreadcrumbsReceiver()
+
         sharedPreference = SessionHandlerClass(applicationContext)
 
-        printHashKey(this)
+      //  printHashKey(this)
 
 
         Handler(Looper.getMainLooper()).postDelayed({
            // startActivity(Intent(this@SplashScreenActivity, LoginScreenActivity::class.java))
-
-
 
             val isLogin:Boolean =sharedPreference.getBoolean("isLogin")
             println("isLogin = $isLogin")
@@ -55,9 +51,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 startActivity(Intent(this@SplashScreenActivity, TutorialActivity::class.java))
                 overridePendingTransition(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left)
                 finish()
-             /*   startActivity(Intent(this@SplashScreenActivity, TutorialActivity::class.java))
-                overridePendingTransition(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left)
-                finish()*/
+
             }
 
         }, 1500)

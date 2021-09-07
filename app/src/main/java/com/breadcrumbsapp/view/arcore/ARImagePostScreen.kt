@@ -11,8 +11,8 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.breadcrumbsapp.ARCoreActivity
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.ArImagePostLayoutBinding
 import com.breadcrumbsapp.interfaces.APIService
@@ -63,6 +63,13 @@ class ARImagePostScreen : AppCompatActivity() {
     private var discoverValue = 1000
     private var interceptor = intercept()
     lateinit var selectedFile: File
+    private var selectedTrailID: String = ""
+    private var trailIcons = intArrayOf(
+        R.drawable.breadcrumbs_trail,
+        R.drawable.wild_about_twlight_icon,
+        R.drawable.anthology_trail_icon
+
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ArImagePostLayoutBinding.inflate(layoutInflater)
@@ -77,19 +84,50 @@ class ARImagePostScreen : AppCompatActivity() {
         arPoiTitle.text = sharedPreference.getSession("selectedPOIName")
         CropImage.activity(imageUri).setAspectRatio(1, 1).setFixAspectRatio(true).start(this)
 
+
+        selectedTrailID = sharedPreference.getSession("selected_trail_id").toString()
+
+
+        if(sharedPreference.getSession("selectedPOITrivia")!="")
+        {
+            binding.didYouKnowTxt.visibility=View.VISIBLE
+            binding.didYouKnowContent.visibility=View.VISIBLE
+
+            binding.didYouKnowContent.text=sharedPreference.getSession("selectedPOITrivia")
+
+
+        }
+        else
+        {
+            binding.didYouKnowTxt.visibility=View.GONE
+            binding.didYouKnowContent.visibility=View.GONE
+        }
+
+
+        for(i in CommonData.getTrailsData!!.indices)
+        {
+            if(CommonData.getTrailsData!![i].id==selectedTrailID)
+            {
+                println("Details IF ::: Trail ID = ${CommonData.getTrailsData!![i].id} Completed_POI == ${CommonData.getTrailsData!![i].completed_poi_count}")
+
+                val updatedPoiCount= CommonData.getTrailsData!![i].completed_poi_count.toInt()+1
+                println("updatedPoiCount = $updatedPoiCount")
+                ar_challenge_screen_poi_completed_details.text="$updatedPoiCount /" +
+                        " ${CommonData.getTrailsData!![i].poi_count} POIs DISCOVERED"
+            }
+        }
+        if(selectedTrailID=="4")
+        {
+            Glide.with(applicationContext).load(trailIcons[1]).into(ar_challenge_screen_trail_icon)
+        }
+        else if(selectedTrailID=="6")
+        {
+            Glide.with(applicationContext).load(trailIcons[2]).into(ar_challenge_screen_trail_icon)
+        }
+
+
         arChallengeLevelCloseBtn.setOnClickListener {
-            /*   startActivity(
-                   Intent(
-                       this@ARImagePostScreen,
-                       DiscoverScreenActivity::class.java
-                   ).putExtra("isFromLogin", "no")
-               )
-               overridePendingTransition(
-                   R.anim.anim_slide_in_left,
-                   R.anim.anim_slide_out_left
-               )
-               finish()
-   */
+
             discoverPOI()
         }
         binding.arImagePostBackButton.setOnClickListener {
@@ -177,9 +215,9 @@ class ARImagePostScreen : AppCompatActivity() {
 
             // Updated One with API data..
 
-            var progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
-            var expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
-            var completedPoints = sharedPreference.getSession("player_experience_points")
+            val progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
+            val expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
+            val completedPoints = sharedPreference.getSession("player_experience_points")
             val levelValue = sharedPreference.getSession("lv_value")
             val presentLevel = sharedPreference.getSession("current_level")
             scoredValue = discoverValue + selfiePostValue
@@ -404,20 +442,22 @@ class ARImagePostScreen : AppCompatActivity() {
 
 
                 if (response.isSuccessful) {
-                    println("Selfie Image JSon Body if  ${response.body()}")
+                    println("AR Image JSon Body if  ${response.body()}")
                     runOnUiThread {
                         binding.titleText.text = "Photo posted successfully!"
-                        binding.didYouKnowTxt.visibility = View.VISIBLE
-                        binding.didYouKnowContent.visibility = View.VISIBLE
+
+
                         imagePostButton.background = getDrawable(R.drawable.selfie_continue_btn)
                         imagePostButton.text = "CONTINUE"
                     }
 
                 } else {
-                    println("Selfie Image JSon Body else  ${response.body()}")
+                    println("AR Image JSon Body else  ${response.body()}")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                Toast.makeText(applicationContext,"Please try again...",Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this@ARImagePostScreen, ARCoreActivity::class.java))
             }
 
         }

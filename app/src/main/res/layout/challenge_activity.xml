@@ -63,20 +63,34 @@
                 android:textSize="@dimen/challenge_begin_screen_title_text_size" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <ImageView
-            android:id="@+id/selfieImageView"
-            android:layout_width="match_parent"
-            android:layout_height="260dp"
+        <FrameLayout
             android:layout_below="@+id/titleLayout"
-            android:layout_marginTop="10dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/poi_photo" />
-
+            android:id="@+id/imageFrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/selfieImageView"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/poi_photo" />
+            <ProgressBar
+                android:id="@+id/challenge_screen_loader"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+        </FrameLayout>
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/subTitleLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/selfieImageView"
+            android:layout_below="@+id/imageFrameLayout"
             android:layout_marginTop="18dp"
             android:orientation="vertical">
 
@@ -86,7 +100,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/claritycity_regular"
                 android:gravity="center_horizontal"
-                android:text="Snap a photo at"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
                 android:textColor="#4B3B30"
                 android:textSize="@dimen/challenge_subtitle_text_size" />
 
@@ -159,11 +174,12 @@
                         android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
 
                     <TextView
+                        android:id="@+id/discoveryXP_Point"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:fontFamily="@font/dinish_bold"
-                        android:text="+200 XP"
+                        android:text="+000 XP"
                         android:textColor="#4B3B30"
                         android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
                 </RelativeLayout>
@@ -184,11 +200,12 @@
                         android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
 
                     <TextView
+                        android:id="@+id/taskCompleted_XP_Point"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:fontFamily="@font/dinish_bold"
-                        android:text="+50 XP"
+                        android:text="+000 XP"
                         android:textColor="#4B3B30"
                         android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
                 </RelativeLayout>

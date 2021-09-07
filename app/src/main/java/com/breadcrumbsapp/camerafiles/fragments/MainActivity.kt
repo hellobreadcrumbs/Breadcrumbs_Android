@@ -29,6 +29,7 @@ import androidx.annotation.RequiresApi
 
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.camerafiles.utils.FLAGS_FULLSCREEN
+import com.breadcrumbsapp.view.DiscoverDetailsScreenActivity
 
 const val KEY_EVENT_ACTION = "key_event_action"
 const val KEY_EVENT_EXTRA = "key_event_extra"
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        startActivity(Intent(applicationContext,DiscoverDetailsScreenActivity::class.java))
         finish()
     }
     override fun onResume() {

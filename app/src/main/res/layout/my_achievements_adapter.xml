@@ -14,29 +14,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/my_achievement_adapter_icon_iv"
+
+        <FrameLayout
+            android:id="@+id/details_frameLayout"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginStart="30dp"
             android:src="@drawable/aardvark_achievement_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/my_achievement_adapter_icon_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/aardvark_achievement_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/achievement_list_lock_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/lock_achievement"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+               android:visibility="gone"
+                />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/my_achievement_adapter_trail_name_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
             android:fontFamily="@font/claritycity_bold"
             android:text="Twilight Explorer"
             android:textColor="@color/white"
             android:textSize="@dimen/disclaimer_content_text_size"
-            app:layout_constraintBottom_toBottomOf="@+id/my_achievement_adapter_icon_iv"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/my_achievement_adapter_icon_iv"
+            app:layout_constraintStart_toEndOf="@+id/details_frameLayout"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -50,7 +72,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/discovery_screen_level_name_text_size"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/my_achievement_adapter_icon_iv"
+            app:layout_constraintStart_toEndOf="@+id/details_frameLayout"
             app:layout_constraintTop_toBottomOf="@+id/my_achievement_adapter_trail_name_tv" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -59,11 +81,11 @@
             android:layout_height="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/achievement_progress_bar_bg"
             android:layout_marginEnd="30dp"
+            android:background="@drawable/achievement_progress_bar_bg"
             app:indicatorColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/my_achievement_adapter_icon_iv"
+            app:layout_constraintStart_toEndOf="@+id/details_frameLayout"
             app:layout_constraintTop_toBottomOf="@+id/my_achievement_adapter_trail_description" />
 
         <TextView

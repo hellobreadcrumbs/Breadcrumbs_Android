@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.SearchFriendsListAct"
+    android:background="#F8F0DD"
     android:padding="16dp"
-    android:background="#F8F0DD">
+    tools:context=".view.SearchFriendsListAct">
 
     <Button
         android:id="@+id/sf_backButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
-
         android:layout_marginStart="10dp"
         android:background="@drawable/search_back_button"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +23,7 @@
         android:background="@drawable/alert_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
         android:weightSum="2"
         app:layout_constraintBottom_toBottomOf="@+id/sf_search_view"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,42 +41,38 @@
             android:fontFamily="@font/dinish_regular"
             android:hint="@string/search_username_email"
             android:textColor="@color/black"
+
             android:textColorHint="@color/hint_color_gray"
             android:textSize="14sp" />
-
+        <requestFocus/>
         <ImageView
             android:id="@+id/sf_search_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:src="@drawable/searchbar_icon" />
 
     </LinearLayout>
 
 
-
-
-
-
     <androidx.appcompat.widget.SearchView
+        android:visibility="invisible"
         android:id="@+id/sf_search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Search Here"
-        android:iconifiedByDefault="false"
         android:elevation="1dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search Here"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        app:layout_constraintStart_toStartOf="parent"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sf_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/sf_search_view"
+        android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/sf_search_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

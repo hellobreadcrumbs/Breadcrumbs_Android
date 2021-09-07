@@ -12,9 +12,10 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
-import com.breadcrumbsapp.ARCoreActivity
+import com.breadcrumbsapp.view.arcore.ARCoreActivity
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.view.ChallengeActivity
+import com.breadcrumbsapp.view.DiscoverDetailsScreenActivity
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView.OnQRCodeReadListener
 import com.google.android.material.snackbar.Snackbar
@@ -110,8 +111,10 @@ class DecoderActivity : AppCompatActivity(), OnRequestPermissionsResultCallback,
                     Intent(
                         this@DecoderActivity,
                         ChallengeActivity::class.java
-                    ).putExtra("challengeName", challengeName)
+                    ).putExtra("poiQrCode", poiQrCode)
+                        .putExtra("challengeName", challengeName)
                         .putExtra("poiImage", poiImage)
+                        .putExtra("poiArid", poiArId)
                 )
             }
 
@@ -163,7 +166,11 @@ class DecoderActivity : AppCompatActivity(), OnRequestPermissionsResultCallback,
 
         backButton!!.setOnClickListener {
 
-            finish()
+            startActivity(
+                Intent(
+                    applicationContext,
+                    DiscoverDetailsScreenActivity::class.java
+                ).putExtra("from", resources.getString(R.string.discover)))
         }
 
 
