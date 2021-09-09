@@ -47,20 +47,19 @@ class FeedPostActivity : AppCompatActivity() {
             finish()
         }
 
-        if(sharedPreference.getSession("player_photo_url")!=null && sharedPreference.getSession("player_photo_url")!="")
-        {
-            Glide.with(applicationContext).load(sharedPreference.getSession("player_photo_url")).into(FeedScreenUserProfilePicture)
+        val localProfilePic =
+             resources.getString(R.string.staging_url) +sharedPreference.getSession("player_photo_url")
+        Glide.with(applicationContext).load(localProfilePic)
+            .placeholder(R.drawable.no_image).into(FeedScreenUserProfilePicture)
 
-        }
-        else
-        {
-            Glide.with(applicationContext).load(R.drawable.no_image).into(FeedScreenUserProfilePicture)
-        }
+
 
         FeedScreenUserProfilePicture.setOnClickListener {
-            startActivity(Intent(applicationContext, ProfileScreenActivity::class.java).addFlags(
-                Intent.FLAG_ACTIVITY_NEW_TASK
-            ))
+            startActivity(
+                Intent(applicationContext, ProfileScreenActivity::class.java).addFlags(
+                    Intent.FLAG_ACTIVITY_NEW_TASK
+                )
+            )
         }
     }
 
@@ -87,8 +86,8 @@ class FeedPostActivity : AppCompatActivity() {
             // Create JSON using JSONObject
 
             val jsonObject = JSONObject()
-           jsonObject.put("user_id", sharedPreference.getSession("login_id"))
-          //  jsonObject.put("user_id","66")
+            jsonObject.put("user_id", sharedPreference.getSession("login_id"))
+            //  jsonObject.put("user_id","66")
 
 
             println("getFeedPostData Input = $jsonObject")
@@ -112,17 +111,51 @@ class FeedPostActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     if (response.body()!!.status) {
 
-                        CommonData.getFeedData = response.body()?.message
+                        println("Size == ${response.body()!!.message.size}")
 
+                       // CommonData.getFeedData = response.body()!!.message
+
+                      //  println("Feed Post :: ${CommonData.getFeedData!!.size}")
                         runOnUiThread {
 
-                            if (CommonData.getFeedData != null) {
-                                feedPostAdapter = FeedPostAdapter(CommonData.getFeedData!!,sharedPreference.getSession("login_id"))
+                          /*  if (CommonData.getFeedData != null) {
+                                feedPostAdapter = FeedPostAdapter(
+                                    CommonData.getFeedData!!,
+                                    sharedPreference.getSession("login_id")
+                                )
                                 feedList.adapter = feedPostAdapter
 
+                            }*/
+
+                            if(response.body()!!.message!=null)
+                            {
+                                if(CommonData.feedList.size>0)
+                                {
+                                    CommonData.feedList.clear()
+                                }
+                                response.body()?.message?.forEach {
+                                    if (it.user_id != "54") {
+                                        println("************** NAME = ${it.title}")
+                                        CommonData.feedList.add(it)
+
+                                        CommonData.getFeedData = CommonData.feedList
+
+                                        if (CommonData.getFeedData!!.isNotEmpty()) {
+                                            feedPostAdapter = FeedPostAdapter(
+                                                CommonData.feedList,
+                                                sharedPreference.getSession("login_id")
+                                            )
+                                            feedList.adapter = feedPostAdapter
+
+                                        }
+                                    }
+                                }
                             }
 
                         }
+
+
+
 
 
                     }

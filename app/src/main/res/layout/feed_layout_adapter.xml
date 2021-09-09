@@ -40,35 +40,79 @@
         app:layout_constraintStart_toEndOf="@+id/feedPostUserProfilePicture"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/postImage"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/adapter_imageParentLayout"
         android:layout_width="match_parent"
-        android:layout_height="360dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:scaleType="fitXY"
-        android:src="@mipmap/breadcrumbs_app_icon_round"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/feedPostUserProfilePicture" />
+        app:layout_constraintTop_toBottomOf="@+id/feedPostUserProfilePicture">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/postImage"
+                android:layout_width="match_parent"
+                android:layout_height="360dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/breadcrumbs_app_icon_round" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/poiNameBar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/image_label_bg"
+                android:orientation="horizontal">
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/feed_post_banner_trail_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/breadcrumbs_trail"
+                    app:civ_border_width="0dp" />
+
+                <TextView
+                    android:id="@+id/feed_post_banner_trail_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/claritycity_bold"
+                    android:text="PIONEER TRAIL"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </FrameLayout>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     <ToggleButton
         android:id="@+id/feed_layout_adapter_likeImageView"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/feed_post_like_toggle"
         android:textOff=""
         android:textOn=""
-
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postImage" />
+        app:layout_constraintTop_toBottomOf="@+id/adapter_imageParentLayout" />
 
     <TextView
         android:id="@+id/likeCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
+
         android:fontFamily="@font/dinish_bold"
         android:text="21 Likes"
         android:textColor="#4B3B30"
@@ -81,11 +125,11 @@
         android:id="@+id/shareIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
         android:src="@drawable/feed_screen_share_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postImage" />
+        app:layout_constraintTop_toBottomOf="@+id/adapter_imageParentLayout" />
 
     <TextView
         android:id="@+id/shareText"
@@ -124,17 +168,17 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
-        app:colorClickableText="#66828D"
-
-        app:trimLines="3"
         android:fontFamily="@font/dinish_regular"
+
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         android:textColor="#4B3B30"
+        app:colorClickableText="#66828D"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shareText"
         app:showTrimExpandedText="false"
-        app:trimLength="100" />
+        app:trimLength="100"
+        app:trimLines="3" />
 
 
     <TextView
@@ -150,5 +194,6 @@
         android:textColor="#4B3B30"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descriptionContent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

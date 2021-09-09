@@ -147,18 +147,19 @@ class FriendProfileScreenActivity : AppCompatActivity() {
                 // Create Service
                 val service = retrofit.create(APIService::class.java)
 
-                val response = service.getMyFeedDetails(
+                val response = service.getFeedDetails(
                     resources.getString(R.string.api_access_token),
                     requestBody
                 )
 
+
                 if (response.isSuccessful) {
                     if (response.body()!!.status) {
 
-                        CommonData.getMyFeedData = response.body()?.message
+                        CommonData.getFeedData = response.body()?.message
 
                         runOnUiThread {
-                            if (CommonData.getMyFeedData!!.isNotEmpty()) {
+                            if (CommonData.getFeedData!!.isNotEmpty()) {
                                // creatorPostAdapter = CreatorPostAdapter(CommonData.getMyFeedData!!)
                                // post_screen_friend_post_list.adapter = creatorPostAdapter
 

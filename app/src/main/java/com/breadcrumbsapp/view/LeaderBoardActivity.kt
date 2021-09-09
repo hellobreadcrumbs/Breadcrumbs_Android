@@ -61,7 +61,8 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
         if (CommonData.getRankData == null) {
 
-            getRankingDetails(trailID)
+
+            getUserRankingDetails(trailID)
         } else {
             loaderImage.visibility = View.GONE
 
@@ -90,7 +91,8 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
 
         refresh_icon.setOnClickListener {
-            getRankingDetails(trailID)
+
+            getUserRankingDetails(trailID)
         }
 
 
@@ -234,7 +236,82 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             e.printStackTrace()
         }
     }
+    private fun getUserRankingDetails(trailID:String) {
+        try {
+            Glide.with(applicationContext).load(R.raw.loading).into(loaderImage)
+            leaderBoard_player_list.visibility = View.GONE
+            loaderImage.visibility = View.VISIBLE
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(50000, TimeUnit.SECONDS)
+                .readTimeout(50000, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+                .build()
 
+
+            // Create Retrofit
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(resources.getString(R.string.staging_url))
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+
+            // Create JSON using JSONObject
+            val jsonObject = JSONObject()
+            jsonObject.put("trail_id", trailID)
+            jsonObject.put("user_id", sessionHandlerClass.getSession("login_id"))
+
+            println("getRankingDetails Input = $jsonObject")
+
+
+            val mediaType = "application/json".toMediaTypeOrNull()
+            val requestBody = jsonObject.toString().toRequestBody(mediaType)
+
+
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                // Create Service
+                val service = retrofit.create(APIService::class.java)
+
+                val response = service.getUserRankingDetails(
+                    resources.getString(R.string.api_access_token),
+                    requestBody
+                )
+
+                if (response.isSuccessful) {
+                    if (response.body()!!.status) {
+
+                        CommonData.getUserRankData = response.body()?.message
+
+                        runOnUiThread {
+
+                            if (CommonData.getUserRankData != null) {
+
+
+                                println("UserName : ${CommonData.getUserRankData!!.username}")
+
+
+
+
+                            }
+                            getRankingDetails(trailID)
+                        }
+
+
+                    }
+
+                }
+
+
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
     private fun intercept(): HttpLoggingInterceptor {
         val interceptors = HttpLoggingInterceptor()
@@ -261,7 +338,8 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         {
             trailID="6"
         }
-        getRankingDetails(trailID)
+
+        getUserRankingDetails(trailID)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

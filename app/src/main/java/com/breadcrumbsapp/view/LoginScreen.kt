@@ -642,6 +642,7 @@ class LoginScreen : AppCompatActivity() {
 
                             println("GetUseDetails = ${CommonData.getUserDetails!!.created}")
 
+                            sharedPreference.saveSession("player_photo_url",CommonData.getUserDetails!!.profile_picture)
                             sharedPreference.saveSession("player_experience_points",CommonData.getUserDetails!!.experience)
                             sharedPreference.saveSession("player_register_date",CommonData.getUserDetails!!.created)
                             sharedPreference.saveSession("player_user_name",CommonData.getUserDetails!!.username)

@@ -4,6 +4,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
@@ -18,6 +20,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.annotation.NonNull
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.borjabravo.readmoretextview.ReadMoreTextView
 import com.breadcrumbsapp.R
@@ -65,6 +68,7 @@ internal class UserProfileScreenPostAdapter(getFeed: List<GetMyFeedModel.Message
     private lateinit var sessionHandlerClass: SessionHandlerClass
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+        var imageParentLayout: LinearLayoutCompat =view.findViewById(R.id.adapter_imageParentLayout)
         var imageView: ImageView = view.findViewById(R.id.postImage)
         var shareIcon: ImageView = view.findViewById(R.id.shareIcon)
         var likeCountText: TextView = view.findViewById(R.id.likeCount)
@@ -143,10 +147,6 @@ internal class UserProfileScreenPostAdapter(getFeed: List<GetMyFeedModel.Message
         val data = getFeedsLocalObj[position]
 
        // println("Feed Id : ${data.f_id}")
-
-
-
-
 
 
         var localImageObj =
@@ -289,8 +289,11 @@ internal class UserProfileScreenPostAdapter(getFeed: List<GetMyFeedModel.Message
             }
 
             holder.shareIcon.setOnClickListener {
-                val drawable = holder.imageView.drawable as BitmapDrawable
+              /*  val drawable = holder.imageView.drawable as BitmapDrawable
                 val bitmap = drawable.bitmap as Bitmap
+                saveBitmapAsImageToDevice(bitmap)*/
+
+                val bitmap = getBitmapFromView(holder.imageParentLayout)
                 saveBitmapAsImageToDevice(bitmap)
 
             }
@@ -301,7 +304,25 @@ internal class UserProfileScreenPostAdapter(getFeed: List<GetMyFeedModel.Message
 
     }
 
-
+    private fun getBitmapFromView(view: View): Bitmap? {
+        //Define a bitmap with the same size as the view
+        val returnedBitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        //Bind a canvas to it
+        val canvas = Canvas(returnedBitmap)
+        //Get the view's background
+        val bgDrawable = view.background
+        if (bgDrawable != null) {
+            //has background drawable, then draw it on the canvas
+            bgDrawable.draw(canvas)
+        } else {
+            //does not have background drawable, then draw white background on the canvas
+            canvas.drawColor(Color.WHITE)
+        }
+        // draw the view on the canvas
+        view.draw(canvas)
+        //return the bitmap
+        return returnedBitmap
+    }
     override fun getItemCount(): Int {
         return getFeedsLocalObj.size
     }

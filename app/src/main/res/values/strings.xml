@@ -89,7 +89,8 @@
     <string name="delete_dialog">Delete current photo?</string>
     <string name="delete_title">Confirm</string>
 
-    <string name="about_mystery_challenge_title">ABOUT\nMYSTERY LANDMARKS</string>
+   <!-- <string name="about_mystery_challenge_title">ABOUT\nMYSTERY LANDMARKS</string>-->
+    <string name="about_mystery_challenge_title">ABOUT\nAR Discovery</string>
     <string name="about_selfie_challenge_title">ABOUT THE \nSELFIE CHALLENGE</string>
     <string name="about_quiz_challenge_title">ABOUT THE \nQUIZ CHALLENGE</string>
     <string name="selfie_challenge">Selfie Challenge</string>

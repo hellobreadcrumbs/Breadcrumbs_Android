@@ -1,6 +1,7 @@
 package com.breadcrumbsapp.view.rewards
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.Window
@@ -16,6 +17,7 @@ import com.breadcrumbsapp.databinding.RewardsScreenLayoutBinding
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.retrofit.ApiCalls
 import com.breadcrumbsapp.util.SessionHandlerClass
+import com.breadcrumbsapp.view.DiscoverScreenActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.rewards_screen_layout.*
 import kotlinx.android.synthetic.main.trails_screen_layout.trails_screen_back_button
@@ -146,7 +148,14 @@ class RewardsScreenActivity : AppCompatActivity() {
     }
 
     private fun setOnclickListeners() {
-        trails_screen_back_button.setOnClickListener {
+        rewards_screen_back_button.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@RewardsScreenActivity,
+                    DiscoverScreenActivity::class.java
+                ).putExtra("isFromLogin", "no")
+            )
+
             finish()
         }
 
@@ -362,5 +371,18 @@ class RewardsScreenActivity : AppCompatActivity() {
         private const val REDEEM_DATA = "1"
         private const val NOT_REDEEM_DATA = "0"
         private const val MEDIA_TYPE = "application/json"
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(
+            Intent(
+                this@RewardsScreenActivity,
+                DiscoverScreenActivity::class.java
+            ).putExtra("isFromLogin", "no")
+        )
+
+        finish()
+
     }
 }

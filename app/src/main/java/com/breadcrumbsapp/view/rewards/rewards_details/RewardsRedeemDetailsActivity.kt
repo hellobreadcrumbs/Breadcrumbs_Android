@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
@@ -13,7 +12,6 @@ import android.os.Looper
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.breadcrumbsapp.R
@@ -55,8 +53,6 @@ class RewardsRedeemDetailsActivity : AppCompatActivity() {
     private var interceptor = intercept()
     private lateinit var rewardsListModel: List<GetRewardsDataModel.Message>
 
-    private lateinit var myTimer: Timer
-    private lateinit var handler:HandlerThread
     val mainHandler = Handler(Looper.getMainLooper())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,23 +67,27 @@ class RewardsRedeemDetailsActivity : AppCompatActivity() {
             val redeemDetails = bundle.getString(REDEEM_DETAILS)
             selectedRewardID = bundle.getString(REWARD_ID)
 
-
-
-
             redeemMsgBody = bundle.getString(RewardsDetailsActivity.REDEEM_MSG_BODY)
             popStr = message + "\n" + redeemMsgBody
             displayUiData(redeemQrCode, message, redeemDetails, redeemMsgBody)
         }
 
         reward_qr_details_screen_back_button.setOnClickListener {
+
+            startActivity(Intent(applicationContext, RewardsScreenActivity::class.java))
             finish()
         }
-
-
 
         mainHandler.post(updateTextTask)
 
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(applicationContext, RewardsScreenActivity::class.java))
+        finish()
+    }
+
     private val updateTextTask = object : Runnable {
         override fun run() {
             getRewardsList()
@@ -154,7 +154,7 @@ class RewardsRedeemDetailsActivity : AppCompatActivity() {
 
         val okButton = dialog.findViewById(R.id.successButton) as TextView
         val redeemContent = dialog.findViewById(R.id.redeem_content) as TextView
-
+        //about_screen_trail_name
         redeemContent.text = popStr
         okButton.setOnClickListener(View.OnClickListener {
 
@@ -172,41 +172,7 @@ class RewardsRedeemDetailsActivity : AppCompatActivity() {
         mainHandler.removeCallbacks(updateTextTask)
     }
 
-    override fun onResume() {
-        super.onResume()
-        showAlert()
-    }
-    private fun showAlert()
-    {
-        val dialog = Dialog(applicationContext, R.style.FirebaseUI_Transparent)
 
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(true)
-        dialog.setContentView(R.layout.redeem_success_layout)
-        dialog.window?.setDimAmount(0.3f)
-
-        dialog.window!!.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
-        )
-
-        val imageV=dialog.findViewById(R.id.about_screen_trail_icon) as ImageView
-        val okButton = dialog.findViewById(R.id.successButton) as TextView
-        val redeemContent = dialog.findViewById(R.id.redeem_content) as TextView
-
-        imageV.visibility=View.GONE
-
-        redeemContent.text = "Only open this page when you're ready to scan"
-        okButton.setOnClickListener(View.OnClickListener {
-
-            dialog.dismiss()
-
-        })
-
-
-        dialog.window!!.attributes!!.windowAnimations = R.style.DialogTheme
-        dialog.show()
-    }
     private fun getRewardsList() {
         try {
 

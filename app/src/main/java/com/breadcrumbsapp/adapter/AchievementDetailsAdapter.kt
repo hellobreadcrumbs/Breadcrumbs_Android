@@ -48,7 +48,7 @@ internal class AchievementDetailsAdapter(getFeed: List<GetUserAchievementsModel.
 
         holder.trailName.text = getFeedsLocalObj[position].title
 
-        if(getFeedsLocalObj[position].uc_id==null)
+        if(getFeedsLocalObj[position].uc_id!=null)
         {
             holder.trailName.text=Html.fromHtml("<strike>${getFeedsLocalObj[position].title}</strike>")
         }

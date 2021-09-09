@@ -37,6 +37,7 @@ import java.nio.charset.Charset
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+
 class ProfileScreenActivity : AppCompatActivity() {
 
     private lateinit var userProfileScreenPostAdapter: UserProfileScreenPostAdapter
@@ -122,7 +123,10 @@ class ProfileScreenActivity : AppCompatActivity() {
                  "player_photo_url"
              ) != ""
          ) {*/
-        Glide.with(applicationContext).load(sessionHandlerClass.getSession("player_photo_url"))
+
+        val localProfilePic =
+            resources.getString(R.string.staging_url) +sessionHandlerClass.getSession("player_photo_url")
+        Glide.with(applicationContext).load(localProfilePic)
             .placeholder(R.drawable.no_image)
             .into(profile_edit_screen_profile_pic_iv)
         // }
@@ -150,6 +154,20 @@ class ProfileScreenActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        try {
+            val localProfilePic =
+                resources.getString(R.string.staging_url) +sessionHandlerClass.getSession("player_photo_url")
+            Glide.with(applicationContext).load(localProfilePic)
+                .placeholder(R.drawable.no_image)
+                .into(profile_edit_screen_profile_pic_iv)
+        }
+        catch (e:java.lang.Exception)
+        {
+            e.printStackTrace()
+        }
+    }
     private fun getMyFeedPostDetails() {
         try {
 
@@ -210,6 +228,8 @@ class ProfileScreenActivity : AppCompatActivity() {
                                 )
                                 profile_screen_user_post_list.adapter = userProfileScreenPostAdapter
 
+
+
                             }
 
                         }
@@ -248,8 +268,8 @@ class ProfileScreenActivity : AppCompatActivity() {
 
 
             val jsonObject = JSONObject()
-            // jsonObject.put("user_id", sessionHandlerClass.getSession("login_id"))
-            jsonObject.put("user_id", "4755")
+            jsonObject.put("user_id", sessionHandlerClass.getSession("login_id"))
+
 
             println("getUserAchievementsAPI Url = ${resources.getString(R.string.staging_url)}")
             println("getUserAchievementsAPI Input = $jsonObject")
@@ -275,6 +295,31 @@ class ProfileScreenActivity : AppCompatActivity() {
 
                         CommonData.getUserAchievementsModel = response.body()?.message
 
+
+                       /* var temp_complete_trail:Int=0
+                        var temp_compelete_poi=0
+                        for(i in CommonData.getUserAchievementsModel!!.indices)
+                        {
+                            val achievement = CommonData.getUserAchievementsModel!![i]
+                            if(achievement.ua_id!=null)
+                            {
+                                ++temp_complete_trail
+                            }
+
+                            for(j in achievement.pois!!.indices)
+                            {
+                                val poiss=achievement.pois[j]
+                                if(poiss.uc_id!=null)
+                                {
+                                    ++temp_compelete_poi
+                                }
+
+                            }
+                            println("Temp Data ====> $temp_complete_trail <> $temp_compelete_poi")
+                        }*/
+
+
+
                         runOnUiThread {
 
                             if (CommonData.getUserAchievementsModel != null) {
@@ -284,7 +329,7 @@ class ProfileScreenActivity : AppCompatActivity() {
 
                                 if(sessionHandlerClass.getSession("player_experience_points")=="")
                                 {
-                                    profile_screen_progress_bar.max = 100
+                                    profile_screen_progress_bar.max =  CommonData.getUserDetails!!.experience.toInt()
                                     ObjectAnimator.ofInt(
                                         profile_screen_progress_bar,
                                         "progress",
@@ -300,18 +345,40 @@ class ProfileScreenActivity : AppCompatActivity() {
 
                                     profile_screen_user_level.text =
                                         sessionHandlerClass.getSession("level_text_value")
-                                    profile_screen_xp_point_value.text =
-                                        "${sessionHandlerClass.getSession("player_experience_points")} XP"
+                                   /* profile_screen_xp_point_value.text =
+                                        "${sessionHandlerClass.getSession("player_experience_points")} XP"*/
 
                                     val progressBarMaxValue =
                                         sessionHandlerClass.getIntegerSession("xp_point_nextLevel_value")
-                                    val expToLevel =
+                                    var expToLevel =
                                         sessionHandlerClass.getIntegerSession("expTo_level_value")
                                     val completedPoints =
                                         sessionHandlerClass.getSession("player_experience_points")
                                     val levelValue = sessionHandlerClass.getSession("lv_value")
 
-                                    xp_to_next_level.text = "$expToLevel XP TO $levelValue"
+                                    //val expInt=expToLevel-50
+
+                                   // xp_to_next_level.text = "$expToLevel XP TO $levelValue"
+
+
+                                    if(sessionHandlerClass.getSession("balance_xp_string")=="")
+                                    {
+                                        xp_to_next_level.text = "$expToLevel XP TO $levelValue"
+                                    }
+                                    else{
+                                        xp_to_next_level.text=sessionHandlerClass.getSession("balance_xp_string")
+                                    }
+
+                                    if(sessionHandlerClass.getIntegerSession("total_gained_xp")==0)
+                                    {
+                                        profile_screen_xp_point_value.text ="250 XP"
+                                    }
+                                    else
+                                    {
+                                        profile_screen_xp_point_value.text="${sessionHandlerClass.getIntegerSession("total_gained_xp")} XP"
+                                    }
+
+
 
                                     profile_screen_progress_bar.max = progressBarMaxValue
                                     ObjectAnimator.ofInt(
@@ -339,6 +406,7 @@ class ProfileScreenActivity : AppCompatActivity() {
                                        loadAchievements()
 
                                     }
+
                                 }
 
 
@@ -362,8 +430,11 @@ class ProfileScreenActivity : AppCompatActivity() {
 
     private fun loadAchievements() {
         println("load::: ${CommonData.getUserAchievementsModel!!.size}")
+
+        var completedPOI=0
         when (CommonData.getUserAchievementsModel!!.size) {
             1 -> {
+
                 val badgeImg =
                     resources.getString(R.string.staging_url) + CommonData.getUserAchievementsModel!![0].badge_img
                 Glide.with(applicationContext).load(badgeImg).into(achievement_icon_one)
@@ -377,7 +448,16 @@ class ProfileScreenActivity : AppCompatActivity() {
                 achievement_icon_five.visibility=View.GONE
                 achievement_icon_five_lock_iv.visibility=View.VISIBLE
 
-                if(CommonData.getUserAchievementsModel!![0].ua_id != null)
+                completedPOI=0
+                for (j in CommonData.getUserAchievementsModel!![0].pois.indices)
+                {
+                    if (CommonData.getUserAchievementsModel!![0].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                //if(CommonData.getUserAchievementsModel!![0].ua_id != null)
+                if(completedPOI==CommonData.getUserAchievementsModel!![0].pois.size)
                 {
 
                     achievement_icon_one.alpha=1.0f
@@ -408,8 +488,17 @@ class ProfileScreenActivity : AppCompatActivity() {
                 achievement_icon_five.visibility=View.GONE
                 achievement_icon_five_lock_iv.visibility=View.VISIBLE
 
+                completedPOI=0
+                for (j in CommonData.getUserAchievementsModel!![0].pois.indices)
+                {
+                    if (CommonData.getUserAchievementsModel!![0].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getUserAchievementsModel!![0].pois.size}")
 
-                if(CommonData.getUserAchievementsModel!![0].ua_id != null)
+                //if(CommonData.getUserAchievementsModel!![0].ua_id != null)
+                if(completedPOI == CommonData.getUserAchievementsModel!![0].pois.size)
                 {
 
                     achievement_icon_one.alpha=1.0f
@@ -421,7 +510,17 @@ class ProfileScreenActivity : AppCompatActivity() {
                     achievement_icon_one_lock_iv.visibility=View.VISIBLE
                 }
 
-                if(CommonData.getUserAchievementsModel!![1].ua_id != null)
+                completedPOI=0
+                for (j in CommonData.getUserAchievementsModel!![1].pois.indices)
+                {
+                    if (CommonData.getUserAchievementsModel!![1].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getUserAchievementsModel!![1].pois.size}")
+
+                //if(CommonData.getUserAchievementsModel!![1].ua_id != null)
+                if(completedPOI == CommonData.getUserAchievementsModel!![1].pois.size)
                 {
 
                     achievement_icon_two.alpha=1.0f
@@ -434,6 +533,8 @@ class ProfileScreenActivity : AppCompatActivity() {
                 }
             }
             3 -> {
+
+
                 val badgeImg1 =
                     resources.getString(R.string.staging_url) + CommonData.getUserAchievementsModel!![0].badge_img
                 Glide.with(applicationContext).load(badgeImg1).into(achievement_icon_one)
@@ -451,7 +552,17 @@ class ProfileScreenActivity : AppCompatActivity() {
                 achievement_icon_five.visibility=View.GONE
                 achievement_icon_five_lock_iv.visibility=View.VISIBLE
 
-                if(CommonData.getUserAchievementsModel!![0].ua_id != null)
+                completedPOI=0
+                for (j in CommonData.getUserAchievementsModel!![0].pois.indices)
+                {
+                    if (CommonData.getUserAchievementsModel!![0].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getUserAchievementsModel!![0].pois.size}")
+
+                //if(CommonData.getUserAchievementsModel!![0].ua_id != null)
+                if(completedPOI == CommonData.getUserAchievementsModel!![0].pois.size)
                 {
 
                     achievement_icon_one.alpha=1.0f
@@ -463,7 +574,17 @@ class ProfileScreenActivity : AppCompatActivity() {
                     achievement_icon_one_lock_iv.visibility=View.VISIBLE
                 }
 
-                if(CommonData.getUserAchievementsModel!![1].ua_id != null)
+                completedPOI=0
+                for (j in CommonData.getUserAchievementsModel!![1].pois.indices)
+                {
+                    if (CommonData.getUserAchievementsModel!![1].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getUserAchievementsModel!![1].pois.size}")
+
+                //if(CommonData.getUserAchievementsModel!![1].ua_id != null)
+                if(completedPOI == CommonData.getUserAchievementsModel!![1].pois.size)
                 {
 
                     achievement_icon_two.alpha=1.0f
@@ -474,7 +595,18 @@ class ProfileScreenActivity : AppCompatActivity() {
                     achievement_icon_two.alpha=0.5f
                     achievement_icon_two_lock_iv.visibility=View.VISIBLE
                 }
-                if(CommonData.getUserAchievementsModel!![2].ua_id != null)
+
+                completedPOI=0
+                for (j in CommonData.getUserAchievementsModel!![2].pois.indices)
+                {
+                    if (CommonData.getUserAchievementsModel!![2].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getUserAchievementsModel!![2].pois.size}")
+
+                //if(CommonData.getUserAchievementsModel!![2].ua_id != null)
+                if(completedPOI == CommonData.getUserAchievementsModel!![2].pois.size)
                 {
 
                     achievement_icon_three.alpha=1.0f
@@ -508,7 +640,17 @@ class ProfileScreenActivity : AppCompatActivity() {
                 achievement_icon_five_lock_iv.visibility=View.VISIBLE
 
 
-                if(CommonData.getUserAchievementsModel!![0].ua_id != null)
+                completedPOI=0
+                for (j in CommonData.getUserAchievementsModel!![0].pois.indices)
+                {
+                    if (CommonData.getUserAchievementsModel!![0].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getUserAchievementsModel!![0].pois.size}")
+
+                //if(CommonData.getUserAchievementsModel!![0].ua_id != null)
+                if(completedPOI == CommonData.getUserAchievementsModel!![0].pois.size)
                 {
 
                     achievement_icon_one.alpha=1.0f
@@ -520,7 +662,17 @@ class ProfileScreenActivity : AppCompatActivity() {
                     achievement_icon_one_lock_iv.visibility=View.VISIBLE
                 }
 
-                if(CommonData.getUserAchievementsModel!![1].ua_id != null)
+                completedPOI=0
+                for (j in CommonData.getUserAchievementsModel!![1].pois.indices)
+                {
+                    if (CommonData.getUserAchievementsModel!![1].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getUserAchievementsModel!![1].pois.size}")
+
+                //if(CommonData.getUserAchievementsModel!![1].ua_id != null)
+                if(completedPOI == CommonData.getUserAchievementsModel!![1].pois.size)
                 {
 
                     achievement_icon_two.alpha=1.0f
@@ -531,7 +683,17 @@ class ProfileScreenActivity : AppCompatActivity() {
                     achievement_icon_two.alpha=0.5f
                     achievement_icon_two_lock_iv.visibility=View.VISIBLE
                 }
-                if(CommonData.getUserAchievementsModel!![2].ua_id != null)
+                completedPOI=0
+                for (j in CommonData.getUserAchievementsModel!![2].pois.indices)
+                {
+                    if (CommonData.getUserAchievementsModel!![2].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getUserAchievementsModel!![2].pois.size}")
+
+                //if(CommonData.getUserAchievementsModel!![2].ua_id != null)
+                if(completedPOI == CommonData.getUserAchievementsModel!![2].pois.size)
                 {
 
                     achievement_icon_three.alpha=1.0f
@@ -542,7 +704,17 @@ class ProfileScreenActivity : AppCompatActivity() {
                     achievement_icon_three.alpha=0.5f
                     achievement_icon_three_lock_iv.visibility=View.VISIBLE
                 }
-                if(CommonData.getUserAchievementsModel!![3].ua_id != null)
+                completedPOI=0
+                for (j in CommonData.getUserAchievementsModel!![3].pois.indices)
+                {
+                    if (CommonData.getUserAchievementsModel!![3].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getUserAchievementsModel!![3].pois.size}")
+
+                //if(CommonData.getUserAchievementsModel!![3].ua_id != null)
+                if(completedPOI == CommonData.getUserAchievementsModel!![3].pois.size)
                 {
 
                     achievement_icon_four.alpha=1.0f
@@ -577,7 +749,17 @@ class ProfileScreenActivity : AppCompatActivity() {
                 Glide.with(applicationContext).load(badgeImg5).into(achievement_icon_five)
 
 
-                if(CommonData.getUserAchievementsModel!![0].ua_id != null)
+                completedPOI=0
+                for (j in CommonData.getUserAchievementsModel!![0].pois.indices)
+                {
+                    if (CommonData.getUserAchievementsModel!![0].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getUserAchievementsModel!![0].pois.size}")
+
+                //if(CommonData.getUserAchievementsModel!![0].ua_id != null)
+                if(completedPOI == CommonData.getUserAchievementsModel!![0].pois.size)
                 {
 
                     achievement_icon_one.alpha=1.0f
@@ -589,7 +771,17 @@ class ProfileScreenActivity : AppCompatActivity() {
                     achievement_icon_one_lock_iv.visibility=View.VISIBLE
                 }
 
-                if(CommonData.getUserAchievementsModel!![1].ua_id != null)
+                completedPOI=0
+                for (j in CommonData.getUserAchievementsModel!![1].pois.indices)
+                {
+                    if (CommonData.getUserAchievementsModel!![1].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getUserAchievementsModel!![1].pois.size}")
+
+                //if(CommonData.getUserAchievementsModel!![1].ua_id != null)
+                if(completedPOI == CommonData.getUserAchievementsModel!![1].pois.size)
                 {
 
                     achievement_icon_two.alpha=1.0f
@@ -600,7 +792,18 @@ class ProfileScreenActivity : AppCompatActivity() {
                     achievement_icon_two.alpha=0.5f
                     achievement_icon_two_lock_iv.visibility=View.VISIBLE
                 }
-                if(CommonData.getUserAchievementsModel!![2].ua_id != null)
+
+                completedPOI=0
+                for (j in CommonData.getUserAchievementsModel!![2].pois.indices)
+                {
+                    if (CommonData.getUserAchievementsModel!![2].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getUserAchievementsModel!![2].pois.size}")
+
+                //if(CommonData.getUserAchievementsModel!![2].ua_id != null)
+                if(completedPOI == CommonData.getUserAchievementsModel!![2].pois.size)
                 {
 
                     achievement_icon_three.alpha=1.0f
@@ -611,7 +814,18 @@ class ProfileScreenActivity : AppCompatActivity() {
                     achievement_icon_three.alpha=0.5f
                     achievement_icon_three_lock_iv.visibility=View.VISIBLE
                 }
-                if(CommonData.getUserAchievementsModel!![3].ua_id != null)
+
+                completedPOI=0
+                for (j in CommonData.getUserAchievementsModel!![3].pois.indices)
+                {
+                    if (CommonData.getUserAchievementsModel!![3].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getUserAchievementsModel!![3].pois.size}")
+
+                //if(CommonData.getUserAchievementsModel!![3].ua_id != null)
+                if(completedPOI == CommonData.getUserAchievementsModel!![3].pois.size)
                 {
 
                     achievement_icon_four.alpha=1.0f
@@ -622,7 +836,17 @@ class ProfileScreenActivity : AppCompatActivity() {
                     achievement_icon_four.alpha=0.5f
                     achievement_icon_four_lock_iv.visibility=View.VISIBLE
                 }
-                if(CommonData.getUserAchievementsModel!![4].ua_id != null)
+                completedPOI=0
+                for (j in CommonData.getUserAchievementsModel!![4].pois.indices)
+                {
+                    if (CommonData.getUserAchievementsModel!![4].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getUserAchievementsModel!![4].pois.size}")
+
+                //if(CommonData.getUserAchievementsModel!![4].ua_id != null)
+                if(completedPOI == CommonData.getUserAchievementsModel!![4].pois.size)
                 {
 
                     achievement_icon_five.alpha=1.0f

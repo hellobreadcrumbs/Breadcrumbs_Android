@@ -44,18 +44,21 @@ class MyAchievementScreenDetailsActivity : AppCompatActivity() {
 
         trailIcon = resources.getString(R.string.staging_url) + getUserAchievementsModel.icon
         println("trailIcon = ${getUserAchievementsModel.trail_id}")
-        Glide.with(applicationContext).load(trailIcon).into(achievement_details_lock_trail_icon)
 
 
 
+
+        println("Ach Det ::: ${getUserAchievementsModel.trail_id}")
 
         if(getUserAchievementsModel.trail_id=="4")
         {
             Glide.with(applicationContext).load(trailIcons[1]).into(achievement_details_trail_icon)
+            Glide.with(applicationContext).load(trailIcons[1]).into(achievement_details_lock_trail_icon)
         }
         else if(getUserAchievementsModel.trail_id=="6")
         {
             Glide.with(applicationContext).load(trailIcons[2]).into(achievement_details_trail_icon)
+            Glide.with(applicationContext).load(trailIcons[2]).into(achievement_details_lock_trail_icon)
         }
 
         unlock_screen_trail_name.text=getUserAchievementsModel.name

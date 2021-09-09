@@ -1,5 +1,6 @@
 package com.breadcrumbsapp.view.rewards.rewards_details
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -7,6 +8,10 @@ import android.text.Html
 import android.text.TextUtils.SimpleStringSplitter
 import android.text.TextUtils.StringSplitter
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -46,7 +51,7 @@ class RewardsDetailsActivity : AppCompatActivity() {
         with(getRewardsDataModelMessage) {
             tv_reward_details_title.text = rewardtitle
             tv_reward_details_show_message.text=redeem_msg_body
-            redeem_details_tv.text=details
+            redeem_details_tv.text=details+"\n\n"+redeem_msg_body
 
             //tv_reward_details_terms_conditions_one.text=Html.fromHtml(tnc)
 
@@ -74,8 +79,6 @@ class RewardsDetailsActivity : AppCompatActivity() {
             }
             val originalFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)  //2020-11-27 12:27:04
             val targetFormat: DateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH)
-
-
 
 
             try
@@ -153,9 +156,32 @@ class RewardsDetailsActivity : AppCompatActivity() {
         }
     }
 
+    private fun showAlert()
+    {
+        val dialog = Dialog(this, R.style.FirebaseUI_Transparent)
 
-    private fun setOnclickListeners() {
-        tv_reward_details_redeem.setOnClickListener {
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.redeem_success_layout)
+        dialog.window?.setDimAmount(0.3f)
+
+        dialog.window!!.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+
+        val imageV=dialog.findViewById(R.id.about_screen_trail_icon) as ImageView
+        val okButton = dialog.findViewById(R.id.successButton) as TextView
+        val redeemContent = dialog.findViewById(R.id.redeem_content) as TextView
+        val redeemTitle = dialog.findViewById(R.id.success_redeem_title) as TextView
+
+        imageV.visibility=View.GONE
+
+        redeemTitle.text="Alert!"
+        redeemContent.text = "Only open this page when you're ready to scan"
+        okButton.setOnClickListener(View.OnClickListener {
+
+            dialog.dismiss()
             val qrData = Bundle().apply {
                 putString(MESSAGE_QR, message.qr)
                 putString(MESSAGE_QR_TITLE, message.redeem_msg_title)
@@ -171,6 +197,18 @@ class RewardsDetailsActivity : AppCompatActivity() {
                 ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     .putExtras(qrData)
             )
+        })
+
+
+        dialog.window!!.attributes!!.windowAnimations = R.style.DialogTheme
+        dialog.show()
+    }
+    private fun setOnclickListeners() {
+        tv_reward_details_redeem.setOnClickListener {
+
+
+
+            showAlert()
         }
 
         reward_details_screen_back_button.setOnClickListener {

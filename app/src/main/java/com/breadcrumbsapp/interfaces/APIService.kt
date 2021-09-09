@@ -44,15 +44,6 @@ interface APIService {
         @Body requestBody: RequestBody
     ): Response<GetEventsModel>
 
-
-    @Headers("Accept:application/json", "Content-Type:application/json;")
-    @POST("v1/api/begin_selfie_challenge")
-    suspend fun beginSelfieChallenge(
-        @Header("Authorization") h1: String,
-        @Body requestBody: RequestBody
-    ): Response<ResponseBody>
-
-
     @POST("v1/api/discover")
     suspend fun discoverPOI(@Body requestBody: RequestBody): Response<ResponseBody>
 
@@ -69,6 +60,14 @@ interface APIService {
         @Header("Authorization") h1: String,
         @Body requestBody: RequestBody
     ): Response<GetRankingModel>
+
+
+    @Headers("Accept:application/json", "Content-Type:application/json;")
+    @POST("v1/api/get_user_ranking")
+    suspend fun getUserRankingDetails(
+        @Header("Authorization") h1: String,
+        @Body requestBody: RequestBody
+    ): Response<GetUserRankingModel>
 
     @Headers("Accept:application/json", "Content-Type:application/json;")
     @POST("v1/api/get_feed") // its for feed screen only. In React code., they used for feed screen only

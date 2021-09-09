@@ -29,7 +29,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/claritycity_extrabold"
             android:gravity="center_horizontal"
-            android:text="ABOUT \nMYSTERY LANDMARKS"
+            android:text="@string/about_mystery_challenge_title"
             android:textColor="#4B3B30"
             android:textSize="20sp" />
 

@@ -14,8 +14,8 @@ import java.util.*
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class UserInformationActivity : AppCompatActivity() {
     private val originalFormat: DateFormat =
-        SimpleDateFormat("yyyy-mm-DD HH:MM:SS", Locale.ENGLISH)  //2020-11-27 12:27:04
-    val targetFormat: DateFormat = SimpleDateFormat("DD MMM yyyy", Locale.ENGLISH)
+        SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)  //2020-11-27 12:27:04
+    val targetFormat: DateFormat = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
     private lateinit var sessionHandlerClass: SessionHandlerClass
     private lateinit var binding: UserInformationLayoutBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +33,8 @@ class UserInformationActivity : AppCompatActivity() {
 
                 val postCreatedDate: Date = originalFormat.parse(createdDateStr)
                 val formattedDate: String = targetFormat.format(postCreatedDate)
+
+                println("Data from :: Model class $postCreatedDate == $formattedDate")
 
                 created_date_view.text = formattedDate
             } catch (e: Exception) {
@@ -70,7 +72,7 @@ class UserInformationActivity : AppCompatActivity() {
 
                 val postCreatedDate: Date = originalFormat.parse(createdDateStr)
                 val formattedDate: String = targetFormat.format(postCreatedDate)
-
+                println("Data from :: Session class $postCreatedDate == $formattedDate")
                 created_date_view.text = formattedDate
             } catch (e: Exception) {
                 e.printStackTrace()

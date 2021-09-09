@@ -26,7 +26,7 @@
             android:src="@drawable/reward_redeemed_icon" />
 
         <TextView
-            android:id="@+id/about_screen_trail_name"
+            android:id="@+id/success_redeem_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

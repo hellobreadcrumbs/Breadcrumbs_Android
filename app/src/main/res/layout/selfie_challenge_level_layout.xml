@@ -29,7 +29,7 @@
             android:id="@+id/titleLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/selfieChallengeImageView"
+            android:layout_below="@+id/imageFrameLayout"
             android:layout_marginTop="25dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
@@ -52,13 +52,36 @@
 
 
         <ImageView
-            android:id="@+id/selfieChallengeImageView"
+            android:visibility="gone"
+            android:id="@+id/selfieChallengeImageView1"
             android:layout_width="match_parent"
             android:layout_height="205dp"
             android:layout_below="@+id/backButton"
             android:scaleType="centerCrop"
             android:src="@drawable/quiz_challenge_bg" />
+        <FrameLayout
 
+            android:id="@+id/imageFrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/selfieChallengeImageView"
+                android:layout_width="match_parent"
+                android:layout_height="205dp"
+
+                android:scaleType="centerCrop"
+                android:src="@drawable/quiz_challenge_bg" />
+            <ProgressBar
+                android:id="@+id/selfie_challenge_screen_loader"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/poiName"
@@ -235,6 +258,7 @@
                 android:layout_marginTop="5dp">
 
                 <TextView
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/dinish_regular"

@@ -31,8 +31,10 @@ import androidx.core.content.ContextCompat
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.ProfileEditLayoutBinding
 import com.breadcrumbsapp.interfaces.APIService
+import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.FilePathUtils
 import com.breadcrumbsapp.util.SessionHandlerClass
+import com.breadcrumbsapp.view.DiscoverScreenActivity
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.profile_edit_layout.*
 import kotlinx.coroutines.CoroutineScope
@@ -46,6 +48,7 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
@@ -80,14 +83,15 @@ class ProfileEditActivity : AppCompatActivity() {
         setContentView(binding.root)
         nick_name_text.text = sharedPreference.getSession("player_name")
         loginID=sharedPreference.getSession("login_id") as String
-        if (sharedPreference.getSession("player_photo_url") != null && sharedPreference.getSession("player_photo_url") != "") {
 
-            Glide.with(applicationContext).load(sharedPreference.getSession("player_photo_url"))
+
+
+        val localProfilePic =
+            resources.getString(R.string.staging_url) +sharedPreference.getSession("player_photo_url")
+
+            Glide.with(applicationContext).load(localProfilePic).placeholder(R.drawable.no_image)
                 .into(profile_edit_screen_profile_pic_iv)
-        } else {
-            Glide.with(applicationContext).load(R.drawable.no_image)
-                .into(profile_edit_screen_profile_pic_iv)
-        }
+
 
 
         profile_edit_screen_backButton.setOnClickListener(View.OnClickListener {
@@ -470,6 +474,8 @@ class ProfileEditActivity : AppCompatActivity() {
                             "Image uploaded successfully",
                             Toast.LENGTH_SHORT
                         ).show()
+
+                        getUserDetails()
                     } else {
                         Toast.makeText(applicationContext, "Please try again", Toast.LENGTH_SHORT)
                             .show()
@@ -485,7 +491,83 @@ class ProfileEditActivity : AppCompatActivity() {
 
 
     }
+    private fun getUserDetails() {
 
+        try {
+
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(intercept())
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+                .build()
+
+
+            // Create Retrofit
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(resources.getString(R.string.staging_url))
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            // Create JSON using JSONObject
+
+            val jsonObject = JSONObject()
+            jsonObject.put("user_id", sharedPreference.getSession("login_id"))
+
+            println("getUserDetails Url = ${resources.getString(R.string.staging_url)}")
+            println("getUserDetails Input = $jsonObject")
+
+
+            val mediaType = "application/json".toMediaTypeOrNull()
+            val requestBody = jsonObject.toString().toRequestBody(mediaType)
+
+
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                // Create Service
+                val service = retrofit.create(APIService::class.java)
+
+                val response = service.getUserDetails(
+                    resources.getString(R.string.api_access_token),
+                    requestBody
+                )
+
+
+                if (response.isSuccessful) {
+                    if (response.body()!!.status) {
+                        if (response.body()!!.message != null) {
+
+                            CommonData.getUserDetails = response.body()?.message
+
+
+                            println("GetUseDetails = ${CommonData.getUserDetails!!.profile_picture}")
+
+                            sharedPreference.saveSession("player_photo_url", CommonData.getUserDetails!!.profile_picture)
+                            sharedPreference.saveSession("player_experience_points", CommonData.getUserDetails!!.experience)
+                            sharedPreference.saveSession("player_register_date", CommonData.getUserDetails!!.created)
+                            sharedPreference.saveSession("player_user_name", CommonData.getUserDetails!!.username)
+                            sharedPreference.saveSession("player_email_id", CommonData.getUserDetails!!.email)
+                            sharedPreference.saveSession("player_rank", CommonData.getUserDetails!!.rank)
+                            sharedPreference.saveSession("player_id", CommonData.getUserDetails!!.id)
+
+                        } else {
+
+                        }
+                    }
+                }
+
+
+            }
+
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
     private fun intercept(): HttpLoggingInterceptor {
         val interceptors = HttpLoggingInterceptor()
         interceptors.level = HttpLoggingInterceptor.Level.BODY

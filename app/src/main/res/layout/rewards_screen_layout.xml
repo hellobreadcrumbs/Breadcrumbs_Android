@@ -8,7 +8,7 @@
     android:paddingTop="20dp">
 
     <Button
-        android:id="@+id/trails_screen_back_button"
+        android:id="@+id/rewards_screen_back_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_margin="20dp"
@@ -36,9 +36,9 @@
         android:layout_height="60dp"
         android:contentDescription="rewards"
         android:src="@drawable/rewards_screen_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/trails_screen_back_button"
+        app:layout_constraintBottom_toBottomOf="@+id/rewards_screen_back_button"
         app:layout_constraintEnd_toStartOf="@id/rewards_details_screen_info"
-        app:layout_constraintStart_toEndOf="@id/trails_screen_back_button"
+        app:layout_constraintStart_toEndOf="@id/rewards_screen_back_button"
         app:layout_constraintTop_toTopOf="@+id/rewards_details_screen_info" />
 
     <TextView

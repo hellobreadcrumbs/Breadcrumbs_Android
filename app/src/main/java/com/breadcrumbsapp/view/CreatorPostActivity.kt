@@ -38,14 +38,7 @@ class CreatorPostActivity:AppCompatActivity()
     private var interceptor = intercept()
     private lateinit var sharedPreference: SessionHandlerClass
     private lateinit var getTrailsModelList: GetTrailsModel.Message
-    // R.drawable.breadcrumbs_trail,
-    private var trailIcons = intArrayOf(
 
-        R.drawable.wild_about_twlight_icon,
-        R.drawable.anthology_trail_icon
-
-    )
-    private var trailNameString: Array<String> = arrayOf("WILD ABOUT TWILIGHT TRAIL","Hanse & Grey's Adventure")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= CreatorPostLayoutBinding.inflate(layoutInflater)
@@ -55,22 +48,12 @@ class CreatorPostActivity:AppCompatActivity()
 
 
         getTrailsModelList = intent.extras?.get("getTrailsListData") as GetTrailsModel.Message
-     //   var iconPath=intent.extras?.getString("title_icon")
-
-        if(getTrailsModelList.id=="4")
-        {
-            Glide.with(applicationContext).load(trailIcons[0]).into(creator_icon_iv)
-            creator_title_tv.text=trailNameString[0]
-            sharedPreference.saveSession("temp_trail_id","4")
-        }
-        else if(getTrailsModelList.id=="6")
-        {
-            Glide.with(applicationContext).load(trailIcons[1]).into(creator_icon_iv)
-            creator_title_tv.text=trailNameString[1]
-            sharedPreference.saveSession("temp_trail_id","6")
-        }
+        sharedPreference.saveSession("temp_trail_id",getTrailsModelList.id)
 
 
+        val profileImage=resources.getString(R.string.staging_url)+getTrailsModelList.profile_picture
+        Glide.with(applicationContext).load(profileImage).into(creator_icon_iv)
+        creator_title_tv.text=getTrailsModelList.username
 
         getFeedPostData()
         creator_post_back_button.setOnClickListener(View.OnClickListener {

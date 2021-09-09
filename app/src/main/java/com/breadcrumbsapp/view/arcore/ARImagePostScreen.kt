@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.graphics.drawable.Drawable
 import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
@@ -20,6 +21,9 @@ import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.breadcrumbsapp.view.DiscoverScreenActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -114,16 +118,27 @@ class ARImagePostScreen : AppCompatActivity() {
                 println("updatedPoiCount = $updatedPoiCount")
                 ar_challenge_screen_poi_completed_details.text="$updatedPoiCount /" +
                         " ${CommonData.getTrailsData!![i].poi_count} POIs DISCOVERED"
+
+
+                val localImagePath=resources.getString(R.string.staging_url)+CommonData.getTrailsData!![i].map_icon_dt_url
+                Glide.with(applicationContext).load(localImagePath).into(ar_challenge_screen_trail_icon)
+                Glide.with(applicationContext).load(localImagePath).into(ar_image_post_banner_trail_image)
+                ar_image_post_banner_trail_name.text=CommonData.getTrailsData!![i].name
+
+
+
+
+
             }
         }
-        if(selectedTrailID=="4")
+       /* if(selectedTrailID=="4")
         {
             Glide.with(applicationContext).load(trailIcons[1]).into(ar_challenge_screen_trail_icon)
         }
         else if(selectedTrailID=="6")
         {
             Glide.with(applicationContext).load(trailIcons[2]).into(ar_challenge_screen_trail_icon)
-        }
+        }*/
 
 
         arChallengeLevelCloseBtn.setOnClickListener {
@@ -139,7 +154,34 @@ class ARImagePostScreen : AppCompatActivity() {
 
 
             if (imagePostButton.text.equals("CONTINUE")) {
-                Glide.with(applicationContext).load(sharedPreference.getSession("poi_image"))
+
+
+                println("AR IMAGE :: ${sharedPreference.getSession("selectedPOIImage")}")
+
+                Glide.with(applicationContext)
+                    .load(sharedPreference.getSession("selectedPOIImage"))
+                    .listener(object : RequestListener<Drawable?> {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            ar_challenge_screen_loader.visibility = View.GONE
+                            return false
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any?,
+                            target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            ar_challenge_screen_loader.visibility = View.GONE
+                            return false
+                        }
+                    })
                     .into(arChallengeImageView)
 
                 binding.imagePostLayout.visibility = View.GONE
@@ -214,6 +256,7 @@ class ARImagePostScreen : AppCompatActivity() {
 
 
             // Updated One with API data..
+/*
 
             val progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
             val expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
@@ -226,6 +269,67 @@ class ARImagePostScreen : AppCompatActivity() {
             arBalanceScoreValue.text = "$expToLevel XP TO $levelValue"
             ar_challenge_level_name.text=presentLevel
             ObjectAnimator.ofInt(arSelfieChallengeProgressBar, "progress", completedPoints!!.toInt())
+                .setDuration(1000)
+                .start()
+*/
+
+
+
+
+
+            println("AR XP Details : progressBarMaxValue = calculate points")
+            var progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
+            val expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
+            val completedPoints = sharedPreference.getSession("player_experience_points")
+            var levelValue = sharedPreference.getSession("lv_value")
+            val presentLevel = sharedPreference.getSession("current_level")
+
+
+            println("AR XP Details : progressBarMaxValue = $progressBarMaxValue")
+            println("AR XP Details : completedPoints = $completedPoints")
+            println("AR XP Details : presentLevel = $presentLevel")
+            println("AR XP Details : levelValue = $levelValue")
+            println("AR XP Details : expToLevel = $expToLevel")
+
+
+
+
+            val POIDiscoverXP:Int=sharedPreference.getSession("selectedPOIDiscovery_XP_Value")!!.toInt()
+            val POIchallengeXP:Int=sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
+            val completedPointIntValue=completedPoints!!.toInt()
+            println("AR XP Details : POIDiscoverXP = $POIDiscoverXP")
+            println("AR XP Details : POIchallengeXP = $POIchallengeXP")
+
+            val totalXP:Int=POIDiscoverXP+POIchallengeXP+completedPointIntValue
+            println("AR XP Details : totalXP = $totalXP")
+
+            arDiscoveryMark.text="+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
+            arSelfiePostMark.text="+${sharedPreference.getSession("selectedPOIChallenge_XP_Value")} XP"
+            //scoredValue = discoverValue + selfiePostValue
+           // selfiePostMark.text = "+$selfiePostValue XP"
+            ar_challenge_level_name.text=presentLevel
+
+            /*val totalGainedXP:Int=sharedPreference.getSession("selectedPOIDiscovery_XP_Value")!!.toInt()
+            +sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()+expToLevel.toInt()
+    */
+            println("AR XP Details : totalGainedXP = $totalXP")
+
+            var balanceVal:Int=progressBarMaxValue-totalXP
+            if(balanceVal<0)
+            {
+                progressBarMaxValue += 2000
+                balanceVal=progressBarMaxValue-totalXP
+                levelValue="LV ${sharedPreference.getIntegerSession("current_level")}"
+            }
+
+            arBalanceScoreValue.text = "$balanceVal XP TO $levelValue"
+
+            sharedPreference.saveSession("xp_balance_value",balanceVal)
+            sharedPreference.saveSession("total_gained_xp",totalXP)
+            sharedPreference.saveSession("balance_xp_string",arBalanceScoreValue.text.toString())
+
+            arSelfieChallengeProgressBar.max = progressBarMaxValue
+            ObjectAnimator.ofInt(arSelfieChallengeProgressBar, "progress", totalXP)
                 .setDuration(1000)
                 .start()
         } catch (e: Exception) {
@@ -338,8 +442,8 @@ class ARImagePostScreen : AppCompatActivity() {
 
                 selectedFile = f
 
-                println("Selfie :: 1  $selectedFile")
-                println("Selfie :: 2 ${selectedFile.name}")
+                println("AR :: 1  $selectedFile")
+                println("AR :: 2 ${selectedFile.name}")
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 val error = result.error
             }
@@ -401,9 +505,9 @@ class ARImagePostScreen : AppCompatActivity() {
 
     private fun updateFile(loginID: String, poiID: String) {
 
-        println("Selfie selectedFile.name == ${selectedFile.name}")
-        println("Selfie login == $loginID")
-        println("Selfie poiID == $poiID")
+        println("AR selectedFile.name == ${selectedFile.name}")
+        println("AR login == $loginID")
+        println("AR poiID == $poiID")
 
         val id: RequestBody =
             loginID.toRequestBody(contentType = "text/plain".toMediaTypeOrNull())

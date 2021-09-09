@@ -81,7 +81,7 @@
             android:layout_marginEnd="45dp" >
 
             <ImageView
-                android:id="@+id/image3"
+                android:id="@+id/ar_image_post_banner_trail_image"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
@@ -89,11 +89,11 @@
                 android:src="@drawable/breadcrumbs_trail" />
 
             <TextView
-                android:id="@+id/image_post_screen"
+                android:id="@+id/ar_image_post_banner_trail_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_toEndOf="@+id/image3"
+                android:layout_marginStart="5dp"
                 android:fontFamily="@font/claritycity_bold"
                 android:text="Under Construction..."
                 android:textColor="#4B3B30"

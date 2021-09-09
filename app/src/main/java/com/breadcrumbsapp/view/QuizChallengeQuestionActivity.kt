@@ -40,6 +40,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 
 /*
@@ -67,6 +68,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
     private var submitButtonClickingCount: Int = 0
     private lateinit var questionObj: JsonArray
     private lateinit var answerObj: JsonArray
+    private lateinit var clickedAnswerArrayList:ArrayList<String>
     private lateinit var finalAnswerObj: JsonArray
     private var singleQuestion: String = ""
     private lateinit var questionType: String
@@ -98,6 +100,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         selectedTrailID = sharedPreference.getSession("selected_trail_id").toString()
 
 
+        clickedAnswerArrayList = arrayListOf<String>()
 
         for(i in CommonData.getTrailsData!!.indices)
         {
@@ -124,7 +127,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
 
         quiz_challenge_screen_discovery_value.text="+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
-        quiz_challenge_screen_quiz_answer_score_tv.text="+${sharedPreference.getSession("selectedPOIChallenge_XP_Value")} XP"
+
 
 
         val bundle: Bundle = intent.extras!!
@@ -184,7 +187,8 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         for (i in eventsModelMessage!!.indices) {
             if (eventsModelMessage!![i].id == selectedPOIID) {
 
-                extraExp=eventsModelMessage!![i].uc_extra_exp
+             //   extraExp=eventsModelMessage!![i].uc_extra_exp
+                extraExp=eventsModelMessage!![i].ch_experience
                 questionType = eventsModelMessage!![i].ch_type
                 val chSelection = eventsModelMessage!![i].ch_question
 
@@ -192,7 +196,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                 println("Set of question = $chSelection")
 
                 try {
-//eventsModelMessage!![i].ch_image != "1" || eventsModelMessage!![i].ch_image != "0" ||
+                    //eventsModelMessage!![i].ch_image != "1" || eventsModelMessage!![i].ch_image != "0" ||
                     println("Image = ${eventsModelMessage!![i].ch_image}")
                     if (eventsModelMessage!![i].ch_image != null) {
                         println("Image = IF 1 : ${eventsModelMessage!![i].ch_image}")
@@ -212,7 +216,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                                     .into(questionImage)*/
 
                                 try {
-
 
                                     Glide.with(applicationContext)
                                         .load(completeImagePath)
@@ -245,7 +248,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                                 }
                             } else {
                            //     Glide.with(applicationContext).load(poiImage).into(questionImage)
-
 
                                 try {
                                     Glide.with(applicationContext)
@@ -282,14 +284,12 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
                         } else {
                             println("Image = ELSE : ${eventsModelMessage!![i].ch_image}")
-                           /* Glide.with(applicationContext)
-                                .load(resources.getDrawable(R.drawable.poi_photo))
-                                .into(questionImage)*/
+
 
 
                             try {
                                 Glide.with(applicationContext)
-                                    .load(resources.getDrawable(R.drawable.poi_photo))
+                                    .load(completeImagePath)
                                     .listener(object : RequestListener<Drawable?> {
                                         override fun onLoadFailed(
                                             e: GlideException?,
@@ -565,8 +565,9 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                             if (clickedPos == finalAnswer.toInt()) {
                                 println("Result : $clickedPos , $finalAnswer")
                              //   quiz_answer_value = 50
-                                quiz_answer_value = sharedPreference.getSession("selectedPOIChallenge_XP_Value") as Int
-                                beginChallengeAPI(finalAnswer,extraExp)
+
+                                quiz_answer_value = sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
+
                                 when (clickedPos) {
                                     0 -> {
                                         answerOneLayout.background =
@@ -653,6 +654,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                                 continueBtn++
 
                                 println("Submit Btn Ctnue : $continueBtn")
+                                // 3 will become no.of.questions...
                                 if (continueBtn == 3) {
                                     submitButton.text = "CONTINUE"
                                     submitButton.background =
@@ -672,6 +674,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                                         Glide.with(applicationContext).load(poiImage)
                                             .into(challengeLevelImage)
                                     }
+                                    //beginChallengeAPI(clickedAnswerArrayList.toString(),extraExp)
                                     calculateXPPoints()
 
 
@@ -720,14 +723,18 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
                             } else if (submitButton.text == "SUBMIT") {
                                 quizChallenge_backButton.visibility = View.INVISIBLE
+
+
                                 if (clickedPos == finalAnswerObj[submitButtonClickingCount - 1].asInt) {
-                                    println("Clicked Pos IF = $clickedPos , ${finalAnswerObj[submitButtonClickingCount - 1]}")
+                                    println("Multiple Questions Clicked Pos IF :: $clickedPos")
+                                    println("Clicked Pos IF 1= $clickedPos , ${finalAnswerObj[submitButtonClickingCount - 1]}")
                                     if (finalAnswerObj[submitButtonClickingCount - 1].toString() == "0") {
-                                        println("Clicked Pos IF = ${finalAnswerObj[submitButtonClickingCount - 1]}")
+                                        println("Clicked Pos IF 2= ${finalAnswerObj[submitButtonClickingCount - 1]}")
 
                                         answerOneLayout.background =
                                             getDrawable(R.drawable.quiz_challenge_answer_bg_green)
                                     } else {
+                                        println("Multiple Questions Clicked Pos ELSE :: $clickedPos")
                                         when (clickedPos) {
                                             0 -> {
                                                 answerOneLayout.background =
@@ -790,15 +797,18 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
                                 }
                                 submitButton.text = "CONTINUE"
+
                                 submitButton.background =
                                     getDrawable(R.drawable.selfie_continue_btn)
                                 submitButtonClickingCount += 1
-
+                                println("Multiple Questions Clicked Pos :: $clickedPos")
+                                clickedAnswerArrayList.add(clickedPos.toString())
+                                println("Multiple Questions Clicked Pos :: clickedAnswerArrayList = ${clickedAnswerArrayList.size}")
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
-
+                       // beginChallengeAPI(finalAnswer,extraExp)
 
                     }
                     questionType.toInt() == 0 -> {
@@ -818,6 +828,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
     private fun beginChallengeAPI(answer:String,extraExp:String) {
         try {
 
+            println("beginChallengeAPI Quiz Input = Before = $answer , $extraExp")
             val okHttpClient = OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
@@ -839,10 +850,10 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
             jsonObject.put("poi_id", sharedPreference.getSession("selectedPOIID"))
-            jsonObject.put("extra_exp", extraExp)
             jsonObject.put("set_answers", answer)
+            jsonObject.put("extra_exp","0")
 
-            println("beginChallenge Input = $jsonObject")
+            println("begin_set_challenge Input = $jsonObject")
             val mediaType = "application/json".toMediaTypeOrNull()
             val requestBody = jsonObject.toString().toRequestBody(mediaType)
             CoroutineScope(Dispatchers.IO).launch {
@@ -881,19 +892,122 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
         // Updated One with API data..
 
-        val progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
+     /*   val progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
         val expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
         val completedPoints = sharedPreference.getSession("player_experience_points")
         val levelValue = sharedPreference.getSession("lv_value")
         val presentLevel = sharedPreference.getSession("current_level")
         scoredValue = discover_value + quiz_answer_value
-        quiz_challenge_screen_quiz_answer_score_tv.text = "+$quiz_answer_value XP"
+
         determinateBar.max = progressBarMaxValue
         quizBalanceValue.text = "$expToLevel XP TO $levelValue"
         quiz_challenge_level_name.text=presentLevel
         ObjectAnimator.ofInt(determinateBar, "progress", completedPoints!!.toInt())
             .setDuration(1000)
+            .start()*/
+
+
+        // Updated on 09-09-2021
+
+        println("Question XP Details : progressBarMaxValue = calculate points")
+        var progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
+        val expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
+        val completedPoints = sharedPreference.getSession("player_experience_points")
+        var levelValue = sharedPreference.getSession("lv_value")
+        val presentLevel = sharedPreference.getSession("current_level")
+
+
+        println("Question XP Details : progressBarMaxValue = $progressBarMaxValue")
+        println("Question XP Details : completedPoints = $completedPoints")
+        println("Question XP Details : presentLevel = $presentLevel")
+        println("Question XP Details : levelValue = $levelValue")
+        println("Question XP Details : expToLevel = $expToLevel")
+
+
+        val poiDiscoverXP:Int=sharedPreference.getSession("selectedPOIDiscovery_XP_Value")!!.toInt()
+        var poiChallengeXP:Int=sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
+        val completedPointIntValue=completedPoints!!.toInt()
+        println("Question XP Details : POIDiscoverXP = $poiDiscoverXP")
+        println("Question XP Details : POIchallengeXP = $poiChallengeXP")
+
+        println("Question XP Details : clickedPos = $clickedPos ${finalAnswer.toInt()}")
+        println("Question XP Details : questionType = $questionType")
+        // if question type 1 means, clickedPos value is Integer;
+        // if question type 2 means, clickedPos value is array;
+
+
+
+        if(questionType.toInt()==1)
+        {
+            if(clickedPos!=finalAnswer.toInt())
+            {
+                poiChallengeXP=0
+                println("Question XP Details : clickedPos = IF  $clickedPos ${finalAnswer.toInt()} == $poiChallengeXP")
+                quiz_challenge_screen_quiz_answer_score_tv.text="+$poiChallengeXP XP"
+            }
+            else if(clickedPos==finalAnswer.toInt())
+            {
+                poiChallengeXP=50
+                println("Question XP Details : clickedPos = ELSE IF $clickedPos ${finalAnswer.toInt()} == $poiChallengeXP")
+                quiz_challenge_screen_quiz_answer_score_tv.text="+$poiChallengeXP XP"
+            }
+            else
+            {
+                poiChallengeXP=sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
+                println("Question XP Details : clickedPos = ELSE  $clickedPos ${finalAnswer.toInt()} == $poiChallengeXP")
+                quiz_challenge_screen_quiz_answer_score_tv.text="+$poiChallengeXP XP"
+            }
+        }
+        else if (questionType.toInt()==2)
+        {
+            var count:Int=0
+            println("Question XP Details : Final Answers : $clickedAnswerArrayList <> $finalAnswerObj")
+            for (i in 0 until finalAnswerObj.size())
+            {
+
+                if(finalAnswerObj[i].asInt==clickedAnswerArrayList[i].toInt())
+                {
+                    ++count
+                }
+
+            }
+            poiChallengeXP *= count
+            quiz_challenge_screen_quiz_answer_score_tv.text="+$poiChallengeXP XP"
+            println("Question XP Details : count Answers : $count")
+        }
+
+        val totalXP:Int=poiDiscoverXP+poiChallengeXP+completedPointIntValue
+        println("Question XP Details : totalXP = $totalXP")
+
+        quiz_challenge_screen_discovery_value.text="+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
+
+
+        quiz_challenge_level_name.text=presentLevel
+
+        println("Question XP Details : totalGainedXP = $totalXP")
+
+        var balanceVal:Int=progressBarMaxValue-totalXP
+        if(balanceVal<0)
+        {
+            progressBarMaxValue += 2000
+            balanceVal=progressBarMaxValue-totalXP
+            levelValue="LV ${sharedPreference.getIntegerSession("current_level")}"
+        }
+
+        quizBalanceValue.text = "$balanceVal XP TO $levelValue"
+
+        sharedPreference.saveSession("xp_balance_value",balanceVal)
+        sharedPreference.saveSession("total_gained_xp",totalXP)
+        sharedPreference.saveSession("balance_xp_string",quizBalanceValue.text.toString())
+
+
+        determinateBar.max = progressBarMaxValue
+        ObjectAnimator.ofInt(determinateBar, "progress", totalXP)
+            .setDuration(1000)
             .start()
+
+        println("beginChallenge Input = Calc = ${poiChallengeXP}")
+        beginChallengeAPI(finalAnswer,poiChallengeXP.toString())
     }
 
     private fun discoverPOI() {

@@ -78,8 +78,6 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
 
 
 
-
-
         poiName = sharedPreference.getSession("selectedPOIName").toString()
         poiID = sharedPreference.getSession("selectedPOIID").toString()
         poiDistance = sharedPreference.getSession("poiDistance").toString()
@@ -115,7 +113,8 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
         if (poiArid == "1") {
             // needs open AR screen
             challengeName = "ar_screen"
-            challengeNameTv.text = "MYSTERY LANDMARK"
+           // challengeNameTv.text = "MYSTERY LANDMARK"
+            challengeNameTv.text = "AR Discovery"  // Changed on Aug'9
 
             Glide.with(applicationContext).load(R.drawable.ar_challenge_icon).into(challenge_image)
             //
@@ -324,10 +323,11 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
         val okBtn = dialog.findViewById(R.id.okButton) as TextView
         val trailName=dialog.findViewById(R.id.about_screen_trail_name) as TextView
         val trailIcon=dialog.findViewById(R.id.about_screen_trail_icon) as ImageView
-
+//
+        val trailContent=dialog.findViewById(R.id.about_trail_content) as TextView
 
         trailName.text=discover_detail_screen_trailName.text.toString()
-
+        trailContent.text="Hanse the cat needs your help on a quest to rescue his friend Grey the pigeon, who was kidnapped by a mysterious witch. The explorer will need to follow the trail of breadcrumbs with Hanse to find and save Grey before it's too late."
 
 
         if(sharedPreference.getSession("selected_trail_id")=="4")

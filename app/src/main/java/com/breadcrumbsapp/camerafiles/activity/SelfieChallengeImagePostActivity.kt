@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.graphics.drawable.Drawable
 import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
@@ -18,16 +19,19 @@ import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.ImageActivityBinding
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.util.CommonData
-import com.breadcrumbsapp.util.FilePathUtils
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.breadcrumbsapp.view.DiscoverScreenActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import kotlinx.android.synthetic.main.challenge_activity.*
 import kotlinx.android.synthetic.main.image_activity.*
 import kotlinx.android.synthetic.main.profile_edit_layout.*
 import kotlinx.android.synthetic.main.quiz_challenge.*
@@ -69,12 +73,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
     private var selfiePostValue = 50
     private var discoverValue = 50
     private var selectedTrailID: String = ""
-    private var trailIcons = intArrayOf(
-        R.drawable.breadcrumbs_trail,
-        R.drawable.wild_about_twlight_icon,
-        R.drawable.anthology_trail_icon
 
-    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ImageActivityBinding.inflate(layoutInflater)
@@ -122,18 +121,24 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                 println("updatedPoiCount = $updatedPoiCount")
                 selfie_challenge_screen_poi_completed_details.text="$updatedPoiCount /" +
                         " ${CommonData.getTrailsData!![i].poi_count} POIs DISCOVERED"
+
+                val localImagePath=resources.getString(R.string.staging_url)+CommonData.getTrailsData!![i].map_icon_dt_url
+                Glide.with(applicationContext).load(localImagePath).into(selfie_image_post_banner_trail_image)
+                Glide.with(applicationContext).load(localImagePath).into(selfie_challenge_screen_trail_icon)
+                selfie_image_post_banner_trail_name.text=CommonData.getTrailsData!![i].name
             }
         }
 
 
-        if(selectedTrailID=="4")
+    /*    for(i in CommonData.getTrailsData!!.indices)
         {
-            Glide.with(applicationContext).load(trailIcons[1]).into(selfie_challenge_screen_trail_icon)
-        }
-        else if(selectedTrailID=="6")
-        {
-            Glide.with(applicationContext).load(trailIcons[2]).into(selfie_challenge_screen_trail_icon)
-        }
+            if(CommonData.getTrailsData!![i].id==selectedTrailID)
+            {
+                val localImagePath=resources.getString(R.string.staging_url)+CommonData.getTrailsData!![i].map_icon_dt_url
+                Glide.with(applicationContext).load(localImagePath).into(selfie_image_post_banner_trail_image)
+                Glide.with(applicationContext).load(localImagePath).into(selfie_challenge_screen_trail_icon)
+            }
+        }*/
 
         selfieImagePostBackButton.setOnClickListener {
             //f
@@ -151,7 +156,33 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 
             if (imagePostButton.text.equals("CONTINUE")) {
 
-                Glide.with(applicationContext).load(sharedPreference.getSession("poi_image"))
+                /*Glide.with(applicationContext).load(sharedPreference.getSession("poi_image"))
+                    .into(selfieChallengeImageView)*/
+                println("SELFIE IMAGE :: ${sharedPreference.getSession("poi_image")}")
+                Glide.with(applicationContext)
+                    .load(sharedPreference.getSession("poi_image"))
+                    .listener(object : RequestListener<Drawable?> {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            selfie_challenge_screen_loader.visibility = View.GONE
+                            return false
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any?,
+                            target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            selfie_challenge_screen_loader.visibility = View.GONE
+                            return false
+                        }
+                    })
                     .into(selfieChallengeImageView)
 
                 selfieChallengeLevelLayout.visibility = View.VISIBLE
@@ -185,7 +216,6 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-
 
 
             }
@@ -234,17 +264,56 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
           balanceScoreValue.text = "$subtractValue XP to Level 2"*/
 
 
-        val progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
+        println("Selfie XP Details : progressBarMaxValue = calculate points")
+        var progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
         val expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
         val completedPoints = sharedPreference.getSession("player_experience_points")
-        val levelValue = sharedPreference.getSession("lv_value")
+        var levelValue = sharedPreference.getSession("lv_value")
         val presentLevel = sharedPreference.getSession("current_level")
-        scoredValue = discoverValue + selfiePostValue
-        selfiePostMark.text = "+$selfiePostValue XP"
-        selfieChallengeProgressBar.max = progressBarMaxValue
+
+
+        println("Selfie XP Details : progressBarMaxValue = $progressBarMaxValue")
+        println("Selfie XP Details : completedPoints = $completedPoints")
+        println("Selfie XP Details : presentLevel = $presentLevel")
+        println("Selfie XP Details : levelValue = $levelValue")
+        println("Selfie XP Details : expToLevel = $expToLevel")
+
+
+
+
+        val POIDiscoverXP:Int=sharedPreference.getSession("selectedPOIDiscovery_XP_Value")!!.toInt()
+        val POIchallengeXP:Int=sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
+        val completedPointIntValue=completedPoints!!.toInt()
+        println("Selfie XP Details : POIDiscoverXP = $POIDiscoverXP")
+        println("Selfie XP Details : POIchallengeXP = $POIchallengeXP")
+
+        val totalXP:Int=POIDiscoverXP+POIchallengeXP+completedPointIntValue
+        println("Selfie XP Details : totalXP = $totalXP")
+
+        selfieDiscoveryMark.text="+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
+        selfiePostMark.text="+${sharedPreference.getSession("selectedPOIChallenge_XP_Value")} XP"
+
         selfie_challenge_level_name.text=presentLevel
-        balanceScoreValue.text = "$expToLevel XP TO $levelValue"
-        ObjectAnimator.ofInt(selfieChallengeProgressBar, "progress", completedPoints!!.toInt())
+
+        println("Selfie XP Details : totalGainedXP = $totalXP")
+        sharedPreference.saveSession("total_gained_xp",totalXP)
+        var balanceVal:Int=progressBarMaxValue-totalXP
+        if(balanceVal<0)
+        {
+            progressBarMaxValue += 2000
+            balanceVal=progressBarMaxValue-totalXP
+            levelValue="LV ${sharedPreference.getIntegerSession("current_level")}"
+        }
+
+        balanceScoreValue.text = "$balanceVal XP TO $levelValue"
+
+        sharedPreference.saveSession("xp_balance_value",balanceVal)
+
+        sharedPreference.saveSession("balance_xp_string",balanceScoreValue.text.toString())
+
+
+        selfieChallengeProgressBar.max = progressBarMaxValue
+        ObjectAnimator.ofInt(selfieChallengeProgressBar, "progress", totalXP)
             .setDuration(1000)
             .start()
     }
@@ -401,69 +470,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 */
 
 
-    private fun beginSelfieChallenge() {
 
-
-        val okHttpClient = OkHttpClient.Builder()
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .addInterceptor(interceptor)
-            .protocols(Collections.singletonList(Protocol.HTTP_1_1))
-            .build()
-        // Create Retrofit
-        val retrofit = Retrofit.Builder()
-            .baseUrl(resources.getString(R.string.staging_url))
-            .client(okHttpClient)
-            .build()
-
-        // Create Service
-        val service = retrofit.create(APIService::class.java)
-
-        // Create JSON using JSONObject
-        val jsonObject = JSONObject()
-        jsonObject.put("user_id", sharedPreference.getSession("login_id").toString())
-        jsonObject.put("poi_id", sharedPreference.getSession("selectedPOIID").toString())
-        jsonObject.put("file", tempFile)
-
-        println("selfie_challenge Input = $jsonObject")
-        // Convert JSONObject to String
-        val jsonObjectString = jsonObject.toString()
-
-        // Create RequestBody ( We're not using any converter, like GsonConverter, MoshiConverter e.t.c, that's why we use RequestBody )
-        val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
-
-        CoroutineScope(Dispatchers.IO).launch {
-            // Do the POST request and get response
-            val response = service.beginSelfieChallenge(
-                resources.getString(R.string.api_access_token),
-                requestBody
-            )
-
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-
-                    // Convert raw JSON to  JSON using GSON library
-                    val gson = GsonBuilder().setPrettyPrinting().create()
-                    val registerJSON = gson.toJson(
-                        JsonParser.parseString(
-                            response.body()
-                                ?.string()
-                        )
-                    )
-                    val jsonElement: JsonElement? = JsonParser.parseString(registerJSON)
-                    val jsonObject: JsonObject? = jsonElement?.asJsonObject
-
-                    val status: Boolean = jsonObject?.get("status")!!.asBoolean
-                    println("selfie_challenge Status = $jsonObject")
-
-                } else {
-
-                    println("Printed JSON ELSE : ${response.code()}")
-
-                }
-            }
-        }
-    }
 
     private fun getRealPathFromURI(uri: Uri?): String? {
         var path = ""

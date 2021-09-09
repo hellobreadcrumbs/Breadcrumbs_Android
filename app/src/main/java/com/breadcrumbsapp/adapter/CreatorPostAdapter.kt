@@ -36,7 +36,7 @@ internal class CreatorPostAdapter(getFeed: List<GetFeedDataModel.Message>) :
     private var getFeedsLocalObj: List<GetFeedDataModel.Message> = getFeed
     private lateinit var context: Context
     private lateinit var sessionHandlerClass: SessionHandlerClass
-    private var trailIcons = intArrayOf(
+   /* private var trailIcons = intArrayOf(
         R.drawable.breadcrumbs_trail,
         R.drawable.wild_about_twlight_icon,
         R.drawable.anthology_trail_icon
@@ -44,7 +44,7 @@ internal class CreatorPostAdapter(getFeed: List<GetFeedDataModel.Message>) :
     )
 
     private var trailNameString: Array<String> = arrayOf("PIONEER TRAIL","WILD ABOUT TWILIGHT TRAIL","Hanse & Grey's Adventure")
-
+*/
 
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -160,7 +160,7 @@ internal class CreatorPostAdapter(getFeed: List<GetFeedDataModel.Message>) :
                 .into(holder.userProfilePicture)
 */
 
-        if(sessionHandlerClass.getSession("temp_trail_id")=="4")
+      /*  if(sessionHandlerClass.getSession("temp_trail_id")=="4")
         {
             Glide.with(context).load(trailIcons[1]).into(holder.userProfilePicture)
             holder.username.text=trailNameString[1]
@@ -172,9 +172,11 @@ internal class CreatorPostAdapter(getFeed: List<GetFeedDataModel.Message>) :
             holder.username.text=trailNameString[2]
 
         }
+*/
 
-
-
+        val imagePath=context.resources.getString(R.string.staging_url)+data.profile_picture
+        Glide.with(context).load(imagePath).into(holder.userProfilePicture)
+        holder.username.text=data.username
 
         //"created": "2021-07-26 06:45:47",
 

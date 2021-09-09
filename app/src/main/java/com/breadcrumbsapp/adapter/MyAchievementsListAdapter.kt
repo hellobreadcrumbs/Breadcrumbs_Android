@@ -32,6 +32,8 @@ internal class MyAchievementsListAdapter(
 
     // private var completedPOI: Int = 0
     private var isLocked: Boolean = false
+    private var completedTrails:Int=0
+    private var completedPOI:Int=0
 
 
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -45,6 +47,7 @@ internal class MyAchievementsListAdapter(
             view.findViewById(R.id.my_achievement_adapter_trail_progress_bar)
         val trailLayout: ConstraintLayout = view.findViewById(R.id.twilight_trail_layout)
         val achievementListLockIv: ImageView = view.findViewById(R.id.achievement_list_lock_iv)
+        val achievementAdapterConstrainLayout: ConstraintLayout = view.findViewById(R.id.achievement_adapter_constrain_layout)
 
     }
 
@@ -75,21 +78,29 @@ internal class MyAchievementsListAdapter(
                ++completedPOI
            }*/
 
+        for (i in getFeedsLocalObj[position].pois.indices) {
+            if (getFeedsLocalObj[position].pois[i].uc_id != null) {
+                ++completedPOI
+            }
+        }
+
+
 
         // ua_id !=null means, This achievement completed already.
-        if (getFeedsLocalObj[position].ua_id != null) {
+       // if (getFeedsLocalObj[position].ua_id != null)
+        if(completedPOI==getFeedsLocalObj[position].pois.size)
+        {
+
+            isLocked=false
+            println("Adapter : Lock 1 = $isLocked")
+
             var completedPOI: Int = 0
             holder.trailIcon.alpha = 1.0f
             holder.achievementListLockIv.visibility = View.GONE
-            holder.completedPOICount.text =
-                "${getTrailListObj[position].completed_poi_count} / ${getFeedsLocalObj[position].pois.size}"
-
-            holder.progressBar.background = context.resources.getDrawable(R.drawable.achievement_progress_full_bar_bg)
-
-            holder.progressBar.max = getFeedsLocalObj[position].pois.size
 
 
-            println("Adapter Count = IF = ${getFeedsLocalObj[position].pois.size} / ${getFeedsLocalObj[position].pois.size}")
+           // holder.progressBar.background = context.resources.getDrawable(R.drawable.achievement_progress_full_bar_bg)
+
 
             for (i in getFeedsLocalObj[position].pois.indices) {
                 if (getFeedsLocalObj[position].pois[i].uc_id != null) {
@@ -97,11 +108,24 @@ internal class MyAchievementsListAdapter(
                 }
             }
 
-            holder.completedPOICount.text =
-                "$completedPOI/ ${getFeedsLocalObj[position].pois.size}"
+            holder.completedPOICount.text = "$completedPOI/ ${getFeedsLocalObj[position].pois.size}"
 
-        } else if (getFeedsLocalObj[position].ua_id == null) {
+            holder.progressBar.max = getFeedsLocalObj[position].pois.size
 
+            ObjectAnimator.ofInt(holder.progressBar, "progress", completedPOI)
+                .setDuration(100)
+                .start()
+
+
+
+        }
+       // else if (getFeedsLocalObj[position].ua_id == null)
+        else
+        {
+
+            isLocked=true
+
+            println("Adapter : Lock 2 = $isLocked")
             var completedPOI: Int = 0
 
             for (i in getFeedsLocalObj[position].pois.indices) {
@@ -111,11 +135,12 @@ internal class MyAchievementsListAdapter(
             }
 
 
-            holder.completedPOICount.text =
-                "$completedPOI / ${getFeedsLocalObj[position].pois.size}"
+            holder.completedPOICount.text = "$completedPOI / ${getFeedsLocalObj[position].pois.size}"
 
             println("POI Completion :: $position== ${getFeedsLocalObj[position].completed} / ${getFeedsLocalObj[position].pois.size}")
+
             holder.progressBar.max = getFeedsLocalObj[position].pois.size
+
             ObjectAnimator.ofInt(holder.progressBar, "progress", completedPOI)
                 .setDuration(100)
                 .start()
@@ -123,20 +148,29 @@ internal class MyAchievementsListAdapter(
             holder.trailIcon.alpha = 0.5f
             holder.achievementListLockIv.visibility = View.VISIBLE
 
-
         }
 
 
         println("completedTrail = ${getFeedsLocalObj[position].title} :: ${getFeedsLocalObj[position].ua_id}")
 
 
+
+
+
         holder.itemView.setOnClickListener(View.OnClickListener {
 
 
+            completedPOI=0
+            for (i in getFeedsLocalObj[position].pois.indices) {
+                println("Clicked View : uc_id = $position = ${getFeedsLocalObj[position].pois[i].uc_id}")
+                if (getFeedsLocalObj[position].pois[i].uc_id != null) {
+                    ++completedPOI
+                }
+            }
 
-            isLocked = getFeedsLocalObj[position].ua_id == null
+            isLocked = completedPOI != getFeedsLocalObj[position].pois.size
 
-
+            println("Clicked View : $position = $isLocked")
 
             context.startActivity(
                 Intent(
@@ -145,7 +179,6 @@ internal class MyAchievementsListAdapter(
                 ).putExtra("isLocked", isLocked)
                     .putExtra("userAchievementModelData", getFeedsLocalObj[position])
             )
-
 
         })
 

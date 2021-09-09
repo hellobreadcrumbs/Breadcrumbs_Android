@@ -11,9 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-
-
-
         custom:layout_constraintBottom_toBottomOf="parent"
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintStart_toStartOf="parent"
@@ -83,20 +80,20 @@
             android:layout_marginStart="45dp"
             android:layout_marginEnd="45dp" >
 
-            <ImageView
-                android:id="@+id/image3"
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/selfie_image_post_banner_trail_image"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
+                custom:civ_border_width="0dp"
                 android:layout_marginStart="10dp"
                 android:src="@drawable/breadcrumbs_trail" />
 
             <TextView
-                android:id="@+id/trailThree"
+                android:id="@+id/selfie_image_post_banner_trail_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_toEndOf="@+id/image3"
                 android:layout_marginStart="5dp"
                 android:fontFamily="@font/claritycity_bold"
                 android:text="PIONEER TRAIL"

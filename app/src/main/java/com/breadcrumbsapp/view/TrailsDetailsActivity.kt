@@ -63,16 +63,21 @@ class TrailsDetailsActivity:AppCompatActivity()
         {
             Glide.with(applicationContext).load(trailIcons[1]).into(trail_details_trailIcon)
             Glide.with(applicationContext).load(trailIcons[1]).into(iv_trail_details_creator_post)
-            tv_trail_by_content.text=trailNameString[1]
-            post_creator_name.text=trailNameString[1]
+
+
         }
         if(getTrailsModelList.id=="6")
         {
             Glide.with(applicationContext).load(trailIcons[2]).into(trail_details_trailIcon)
             Glide.with(applicationContext).load(trailIcons[2]).into(iv_trail_details_creator_post)
-            tv_trail_by_content.text=trailNameString[2]
-            post_creator_name.text=trailNameString[2]
+
         }
+
+        post_creator_name.text=getTrailsModelList.username
+        tv_trail_by_content.text=getTrailsModelList.username
+
+        val posterImage=resources.getString(R.string.staging_url)+getTrailsModelList.profile_picture
+        Glide.with(applicationContext).load(posterImage).into(iv_trail_details_creator_post)
 
 
         // Live Data....
@@ -83,10 +88,8 @@ class TrailsDetailsActivity:AppCompatActivity()
 
         tv_trail_name_banner.text=getTrailsModelList.name
         trail_details_about_content.text=getTrailsModelList.description
-        var localImageUriCreatorPost =
-            resources.getString(R.string.staging_url) + getTrailsModelList.profile_picture
-        println("localImageUriCreatorPost $localImageUriCreatorPost")
-      //  Glide.with(applicationContext).load(localImageUriCreatorPost).into(iv_trail_details_creator_post)
+
+
 
       //  tv_trail_by_content.text=getTrailsModelList.username
 
@@ -103,7 +106,7 @@ class TrailsDetailsActivity:AppCompatActivity()
         iv_open_creator_post.setOnClickListener(View.OnClickListener {
             startActivity(Intent(applicationContext,CreatorPostActivity::class.java)
                 .putExtra("getTrailsListData", getTrailsModelList)
-                .putExtra("title_icon",localImageUriCreatorPost))
+                )
         })
 
 

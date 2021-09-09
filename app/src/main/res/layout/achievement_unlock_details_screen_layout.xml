@@ -412,7 +412,6 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-
                         android:paddingTop="20dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -420,32 +419,32 @@
                         app:layout_constraintTop_toBottomOf="@+id/rewards_static_content">
 
                         <ImageView
-                            android:id="@+id/limited_edition_enamel_pin_icon_iv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/achievement_details_reward_icon"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_marginStart="70dp"
-                            android:src="@drawable/limited_edition_enamel_pin"
+                            android:src="@drawable/bread_talk_reward_thumb"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView7"
+                            android:id="@+id/achievement_details_reward_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/claritycity_bold"
                             android:gravity="center_horizontal"
-                            android:text="LIMITED EDITION\nENAMEL PIN"
+                            android:text="$20 Breadtalk\nVoucher"
                             android:textColor="#4B3B30"
                             android:textSize="@dimen/discovery_screen_level_name_text_size"
-                            app:layout_constraintEnd_toEndOf="@+id/limited_edition_enamel_pin_icon_iv"
-                            app:layout_constraintStart_toStartOf="@+id/limited_edition_enamel_pin_icon_iv"
-                            app:layout_constraintTop_toBottomOf="@+id/limited_edition_enamel_pin_icon_iv" />
+                            app:layout_constraintEnd_toEndOf="@+id/achievement_details_reward_icon"
+                            app:layout_constraintStart_toStartOf="@+id/achievement_details_reward_icon"
+                            app:layout_constraintTop_toBottomOf="@+id/achievement_details_reward_icon" />
 
                         <ImageView
                             android:id="@+id/achievements_details_page_xp_icon_iv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_marginEnd="70dp"
                             android:src="@drawable/achievements_details_page_xp_icon"
                             app:layout_constraintEnd_toEndOf="parent"

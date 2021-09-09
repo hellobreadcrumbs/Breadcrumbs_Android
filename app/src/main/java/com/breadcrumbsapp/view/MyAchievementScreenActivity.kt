@@ -65,6 +65,7 @@ class MyAchievementScreenActivity : AppCompatActivity() {
     }
     private fun arrangeAchievements()
     {
+        var completedPOI=0
         when (getUserAchievementsModel!!.size) {
             1 -> {
                 val badgeImg =
@@ -80,7 +81,16 @@ class MyAchievementScreenActivity : AppCompatActivity() {
                 my_achievement_icon_five.visibility=View.GONE
                 my_achievement_icon_five_lock_iv.visibility=View.VISIBLE
 
-                if(getUserAchievementsModel!![0].ua_id != null)
+
+                completedPOI=0
+                for (j in  getUserAchievementsModel!![0].pois.indices)
+                {
+                    if ( getUserAchievementsModel!![0].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                if(completedPOI== getUserAchievementsModel!![0].pois.size)
                 {
 
                     my_achievement_icon_one.alpha=1.0f
@@ -112,7 +122,15 @@ class MyAchievementScreenActivity : AppCompatActivity() {
                 my_achievement_icon_five_lock_iv.visibility=View.VISIBLE
 
 
-                if(getUserAchievementsModel!![0].ua_id != null)
+                completedPOI=0
+                for (j in  getUserAchievementsModel!![0].pois.indices)
+                {
+                    if ( getUserAchievementsModel!![0].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                if(completedPOI== getUserAchievementsModel!![0].pois.size)
                 {
 
                     my_achievement_icon_one.alpha=1.0f
@@ -124,7 +142,15 @@ class MyAchievementScreenActivity : AppCompatActivity() {
                     my_achievement_icon_one_lock_iv.visibility=View.VISIBLE
                 }
 
-                if(getUserAchievementsModel!![1].ua_id != null)
+                completedPOI=0
+                for (j in  getUserAchievementsModel!![1].pois.indices)
+                {
+                    if ( getUserAchievementsModel!![1].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                if(completedPOI== getUserAchievementsModel!![1].pois.size)
                 {
 
                     my_achievement_icon_two.alpha=1.0f
@@ -154,7 +180,15 @@ class MyAchievementScreenActivity : AppCompatActivity() {
                 my_achievement_icon_five.visibility=View.GONE
                 my_achievement_icon_five_lock_iv.visibility=View.VISIBLE
 
-                if(getUserAchievementsModel!![0].ua_id != null)
+                completedPOI=0
+                for (j in  getUserAchievementsModel!![0].pois.indices)
+                {
+                    if ( getUserAchievementsModel!![0].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                if(completedPOI== getUserAchievementsModel!![0].pois.size)
                 {
 
                     my_achievement_icon_one.alpha=1.0f
@@ -166,7 +200,15 @@ class MyAchievementScreenActivity : AppCompatActivity() {
                     my_achievement_icon_one_lock_iv.visibility=View.VISIBLE
                 }
 
-                if(getUserAchievementsModel!![1].ua_id != null)
+                completedPOI=0
+                for (j in  getUserAchievementsModel!![1].pois.indices)
+                {
+                    if ( getUserAchievementsModel!![1].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                if(completedPOI== getUserAchievementsModel!![1].pois.size)
                 {
 
                     my_achievement_icon_two.alpha=1.0f
@@ -177,7 +219,15 @@ class MyAchievementScreenActivity : AppCompatActivity() {
                     my_achievement_icon_two.alpha=0.5f
                     my_achievement_icon_two_lock_iv.visibility=View.VISIBLE
                 }
-                if(getUserAchievementsModel!![2].ua_id != null)
+                completedPOI=0
+                for (j in  getUserAchievementsModel!![2].pois.indices)
+                {
+                    if ( getUserAchievementsModel!![2].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                if(completedPOI== getUserAchievementsModel!![2].pois.size)
                 {
 
                     my_achievement_icon_three.alpha=1.0f
@@ -211,7 +261,15 @@ class MyAchievementScreenActivity : AppCompatActivity() {
                 my_achievement_icon_five_lock_iv.visibility=View.VISIBLE
 
 
-                if(getUserAchievementsModel!![0].ua_id != null)
+                completedPOI=0
+                for (j in  getUserAchievementsModel!![0].pois.indices)
+                {
+                    if ( getUserAchievementsModel!![0].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                if(completedPOI== getUserAchievementsModel!![0].pois.size)
                 {
 
                     my_achievement_icon_one.alpha=1.0f
@@ -223,7 +281,15 @@ class MyAchievementScreenActivity : AppCompatActivity() {
                     my_achievement_icon_one_lock_iv.visibility=View.VISIBLE
                 }
 
-                if(getUserAchievementsModel!![1].ua_id != null)
+                completedPOI=0
+                for (j in  getUserAchievementsModel!![1].pois.indices)
+                {
+                    if ( getUserAchievementsModel!![1].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                if(completedPOI== getUserAchievementsModel!![1].pois.size)
                 {
 
                     my_achievement_icon_two.alpha=1.0f
@@ -234,7 +300,15 @@ class MyAchievementScreenActivity : AppCompatActivity() {
                     my_achievement_icon_two.alpha=0.5f
                     my_achievement_icon_two_lock_iv.visibility=View.VISIBLE
                 }
-                if(getUserAchievementsModel!![2].ua_id != null)
+                completedPOI=0
+                for (j in  getUserAchievementsModel!![2].pois.indices)
+                {
+                    if ( getUserAchievementsModel!![2].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                if(completedPOI== getUserAchievementsModel!![2].pois.size)
                 {
 
                     my_achievement_icon_three.alpha=1.0f
@@ -245,7 +319,15 @@ class MyAchievementScreenActivity : AppCompatActivity() {
                     my_achievement_icon_three.alpha=0.5f
                     my_achievement_icon_three_lock_iv.visibility=View.VISIBLE
                 }
-                if(getUserAchievementsModel!![3].ua_id != null)
+                completedPOI=0
+                for (j in  getUserAchievementsModel!![3].pois.indices)
+                {
+                    if ( getUserAchievementsModel!![3].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                if(completedPOI== getUserAchievementsModel!![3].pois.size)
                 {
 
                     my_achievement_icon_four.alpha=1.0f
@@ -280,7 +362,15 @@ class MyAchievementScreenActivity : AppCompatActivity() {
                 Glide.with(applicationContext).load(badgeImg5).into(my_achievement_icon_five)
 
 
-                if(getUserAchievementsModel!![0].ua_id != null)
+                completedPOI=0
+                for (j in  getUserAchievementsModel!![0].pois.indices)
+                {
+                    if ( getUserAchievementsModel!![0].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                if(completedPOI== getUserAchievementsModel!![0].pois.size)
                 {
 
                     my_achievement_icon_one.alpha=1.0f
@@ -292,7 +382,15 @@ class MyAchievementScreenActivity : AppCompatActivity() {
                     my_achievement_icon_one_lock_iv.visibility=View.VISIBLE
                 }
 
-                if(getUserAchievementsModel!![1].ua_id != null)
+                completedPOI=0
+                for (j in  getUserAchievementsModel!![1].pois.indices)
+                {
+                    if ( getUserAchievementsModel!![1].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                if(completedPOI== getUserAchievementsModel!![1].pois.size)
                 {
 
                     my_achievement_icon_two.alpha=1.0f
@@ -303,7 +401,15 @@ class MyAchievementScreenActivity : AppCompatActivity() {
                     my_achievement_icon_two.alpha=0.5f
                     my_achievement_icon_two_lock_iv.visibility=View.VISIBLE
                 }
-                if(getUserAchievementsModel!![2].ua_id != null)
+                completedPOI=0
+                for (j in  getUserAchievementsModel!![2].pois.indices)
+                {
+                    if ( getUserAchievementsModel!![2].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                if(completedPOI== getUserAchievementsModel!![2].pois.size)
                 {
 
                     my_achievement_icon_three.alpha=1.0f
@@ -314,7 +420,23 @@ class MyAchievementScreenActivity : AppCompatActivity() {
                     my_achievement_icon_three.alpha=0.5f
                     my_achievement_icon_three_lock_iv.visibility=View.VISIBLE
                 }
-                if(getUserAchievementsModel!![3].ua_id != null)
+                completedPOI=0
+                for (j in  getUserAchievementsModel!![3].pois.indices)
+                {
+                    if ( getUserAchievementsModel!![3].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                completedPOI=0
+                for (j in  getUserAchievementsModel!![4].pois.indices)
+                {
+                    if ( getUserAchievementsModel!![4].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                if(completedPOI== getUserAchievementsModel!![4].pois.size)
                 {
 
                     my_achievement_icon_four.alpha=1.0f
