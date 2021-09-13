@@ -543,18 +543,18 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
 
                             quizChallengeCloseButton.setOnClickListener {
-                                /*  startActivity(
-                                      Intent(
-                                          this@QuizChallengeQuestionActivity,
-                                          DiscoverScreenActivity::class.java
-                                      ).putExtra("isFromLogin", "no")
-                                  )
-                                  overridePendingTransition(
-                                      R.anim.anim_slide_in_left,
-                                      R.anim.anim_slide_out_left
-                                  )
-                                  finish()*/
-                                discoverPOI()
+                                startActivity(
+                                    Intent(
+                                        this@QuizChallengeQuestionActivity,
+                                        DiscoverScreenActivity::class.java
+                                    ).putExtra("isFromLogin", "no")
+                                )
+                                overridePendingTransition(
+                                    R.anim.anim_slide_in_left,
+                                    R.anim.anim_slide_out_left
+                                )
+                                finish()
+                              //  discoverPOI()
                             }
                         } else {
                             submitButton.text = "CONTINUE"
@@ -679,8 +679,18 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
 
                                     quizChallengeCloseButton.setOnClickListener(View.OnClickListener {
-
-                                        discoverPOI()
+                                        startActivity(
+                                            Intent(
+                                                this@QuizChallengeQuestionActivity,
+                                                DiscoverScreenActivity::class.java
+                                            ).putExtra("isFromLogin", "no")
+                                        )
+                                        overridePendingTransition(
+                                            R.anim.anim_slide_in_left,
+                                            R.anim.anim_slide_out_left
+                                        )
+                                        finish()
+                                        //discoverPOI()
                                     })
 
                                 } else {
@@ -851,7 +861,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
             jsonObject.put("poi_id", sharedPreference.getSession("selectedPOIID"))
             jsonObject.put("set_answers", answer)
-            jsonObject.put("extra_exp","0")
+            jsonObject.put("extra_exp",extraExp)
 
             println("begin_set_challenge Input = $jsonObject")
             val mediaType = "application/json".toMediaTypeOrNull()
@@ -866,6 +876,13 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                     requestBody
                 )
 
+                runOnUiThread {
+
+
+
+                    discoverPOI()
+                }
+
 
             }
 
@@ -876,6 +893,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
     override fun onBackPressed() {
         // super.onBackPressed()
         Toast.makeText(applicationContext, "Please click CLOSE button", Toast.LENGTH_SHORT).show()
+
     }
 
     private fun intercept(): HttpLoggingInterceptor {
@@ -991,7 +1009,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         {
             progressBarMaxValue += 2000
             balanceVal=progressBarMaxValue-totalXP
-            levelValue="LV ${sharedPreference.getIntegerSession("current_level")}"
+            levelValue="LV ${sharedPreference.getIntegerSession("lv_value_int")}"
         }
 
         quizBalanceValue.text = "$balanceVal XP TO $levelValue"
@@ -1000,6 +1018,9 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         sharedPreference.saveSession("total_gained_xp",totalXP)
         sharedPreference.saveSession("balance_xp_string",quizBalanceValue.text.toString())
 
+        println("Question XP Details : levelValue = $levelValue")
+        println("Question XP Details : balanceVal = $balanceVal")
+        println("Question XP Details : quizBalanceValue.text = ${quizBalanceValue.text}")
 
         determinateBar.max = progressBarMaxValue
         ObjectAnimator.ofInt(determinateBar, "progress", totalXP)
@@ -1064,18 +1085,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
                         if (status) {
 
-                           // {"status":true,"message":0}
-                            startActivity(
-                                Intent(
-                                    this@QuizChallengeQuestionActivity,
-                                    DiscoverScreenActivity::class.java
-                                ).putExtra("isFromLogin", "no")
-                            )
-                            overridePendingTransition(
-                                R.anim.anim_slide_in_left,
-                                R.anim.anim_slide_out_left
-                            )
-                            finish()
                         }
                     } else {
 

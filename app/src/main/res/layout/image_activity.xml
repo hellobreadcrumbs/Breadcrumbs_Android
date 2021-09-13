@@ -58,55 +58,58 @@
             android:textColor="#454D5A"
             android:textSize="@dimen/image_post_main_text_size" />
 
-
-        <ImageView
-            android:id="@+id/capturedImage"
-            android:layout_width="320dp"
-            android:layout_height="270dp"
-            android:layout_below="@id/titleText"
-            android:scaleType="fitXY"
-            android:layout_marginTop="70dp"
-            android:layout_marginStart="45dp"
-            android:layout_marginEnd="45dp"
-            android:foregroundGravity="center_horizontal" />
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/poiNameBar"
+        <FrameLayout
+            android:id="@+id/selfie_image_frame_layout"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="#FFC627"
-            android:orientation="horizontal"
-            android:layout_below="@id/capturedImage"
+            android:layout_height="310dp"
+            android:layout_below="@id/titleText"
             android:layout_marginStart="45dp"
-            android:layout_marginEnd="45dp" >
+            android:layout_marginTop="70dp"
+            android:layout_marginEnd="45dp">
 
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/selfie_image_post_banner_trail_image"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                custom:civ_border_width="0dp"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/breadcrumbs_trail" />
+            <ImageView
+                android:id="@+id/capturedImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:foregroundGravity="center_horizontal"
+                android:scaleType="centerCrop" />
 
-            <TextView
-                android:id="@+id/selfie_image_post_banner_trail_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="5dp"
-                android:fontFamily="@font/claritycity_bold"
-                android:text="PIONEER TRAIL"
-                android:textColor="#4B3B30"
-                android:textSize="12sp" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/poiNameBar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/image_label_bg"
+                android:orientation="horizontal">
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/selfie_image_post_banner_trail_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/breadcrumbs_trail"
+                    custom:civ_border_width="0dp" />
+
+                <TextView
+                    android:id="@+id/selfie_image_post_banner_trail_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/claritycity_bold"
+                    android:text="PIONEER TRAIL"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </FrameLayout>
 
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/didU_knowLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/poiNameBar"
+            android:layout_below="@id/selfie_image_frame_layout"
             android:layout_marginStart="80dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="80dp"

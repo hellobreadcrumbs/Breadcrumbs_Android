@@ -1,15 +1,15 @@
 package com.breadcrumbsapp.view.profile
 
+
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.breadcrumbsapp.R
-import com.breadcrumbsapp.adapter.CreatorPostAdapter
 import com.breadcrumbsapp.adapter.FeedPostAdapter
 import com.breadcrumbsapp.databinding.ProfileScreenFriendBinding
-
 import com.breadcrumbsapp.interfaces.APIService
 import com.breadcrumbsapp.util.CommonData
 import com.breadcrumbsapp.util.SessionHandlerClass
@@ -64,10 +64,11 @@ class FriendProfileScreenActivity : AppCompatActivity() {
         }
 
 
-        var username = intent.getStringExtra("username").toString()
-        var totalExp = intent.getStringExtra("total_xp").toString()
-        var friendID = intent.getStringExtra("friend_id").toString()
-        var profilePic = intent.getStringExtra("profile_pic").toString()
+        val username = intent.getStringExtra("username").toString()
+        val totalExp = intent.getStringExtra("total_xp").toString()
+        val friendID = intent.getStringExtra("friend_id").toString()
+        val profilePic = intent.getStringExtra("profile_pic").toString()
+        val friendStatus = intent.getStringExtra("friend_status").toString()
 
         selected_player_profile_name.text = "${username}'s Profile"
         selected_player_leaderBoard_playerName.text = username
@@ -76,14 +77,39 @@ class FriendProfileScreenActivity : AppCompatActivity() {
         selected_player_leaderBoard_player_level.text = playerLevelString
 
 
+        if(friendStatus=="1")
+        {
+            Glide.with(applicationContext).load(R.drawable.selected_player_screen_remove_friend_btn).into(add_friend_btn)
+        }
+        else
+        {
+            //selected_player_screen_add_friend_btn
+            Glide.with(applicationContext).load(R.drawable.selected_player_screen_add_friend_btn).into(add_friend_btn)
+        }
+
+
         Glide.with(applicationContext).load("${getString(R.string.staging_url)}${profilePic}")
-            .placeholder( resources.getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait, null)).into(selected_player_userProfilePicture)
+            .placeholder(
+                resources.getDrawable(
+                    R.drawable.com_facebook_profile_picture_blank_portrait,
+                    null
+                )
+            ).into(selected_player_userProfilePicture)
 
         getMyFeedPostDetails(friendID)
         getUserAchievementsAPI(friendID)
 
         add_friend_btn.setOnClickListener {
-            addFriend(userID, friendID)
+
+            if(friendStatus=="1")
+            {
+                unFriend(friendID)
+            }
+            else
+            {
+                addFriend(userID, friendID)
+            }
+
         }
 
         // displayUiData(message)
@@ -156,10 +182,10 @@ class FriendProfileScreenActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     if (response.body()!!.status) {
 
-                        CommonData.getFeedData = response.body()?.message
+                        //   CommonData.getFeedData = response.body()?.message
 
                         runOnUiThread {
-                            if (CommonData.getFeedData!!.isNotEmpty()) {
+                            /*if (CommonData.getFeedData!!.isNotEmpty()) {
                                // creatorPostAdapter = CreatorPostAdapter(CommonData.getMyFeedData!!)
                                // post_screen_friend_post_list.adapter = creatorPostAdapter
 
@@ -169,6 +195,41 @@ class FriendProfileScreenActivity : AppCompatActivity() {
                             else{
                                 post_screen_friend_post_list.visibility=View.GONE
                                 no_post_text.visibility=View.VISIBLE
+                            }*/
+
+
+
+                            if (response.body()!!.message != null) {
+                                if (CommonData.feedList.size > 0) {
+                                    CommonData.feedList.clear()
+                                }
+                                response.body()?.message?.forEach {
+
+                                    println("Friend Userid REs:: ${it.user_id}")
+                                    //  if (it.user_id != "54" || it.user_id !="null"||it.user_id !=null && it.title!=null)
+                                    if (it.user_id != "54") {
+                                        println("************** NAME = ${it.title}")
+                                        CommonData.feedList.add(it)
+
+                                    }
+                                }
+                                if (CommonData.feedList.size > 0) {
+                                    post_screen_friend_post_list.visibility = View.VISIBLE
+                                    no_post_text.visibility = View.GONE
+                                    CommonData.getFeedData = CommonData.feedList
+
+                                    if (CommonData.getFeedData!!.isNotEmpty()) {
+                                        feedPostAdapter = FeedPostAdapter(
+                                            CommonData.feedList,
+                                            userID
+                                        )
+                                        post_screen_friend_post_list.adapter = feedPostAdapter
+
+                                    }
+                                } else {
+                                    post_screen_friend_post_list.visibility = View.GONE
+                                    no_post_text.visibility = View.VISIBLE
+                                }
                             }
                         }
 
@@ -183,7 +244,87 @@ class FriendProfileScreenActivity : AppCompatActivity() {
             e.printStackTrace()
         }
     }
+    private fun unFriend(friendID: String) {
+        try {
 
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+                .build()
+
+
+            // Create Retrofit
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(resources.getString(R.string.staging_url))
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            // Create JSON using JSONObject
+
+            val jsonObject = JSONObject()
+
+            jsonObject.put("friend_id", friendID)
+
+
+            println("unFriend API Url = ${resources.getString(R.string.staging_url)}")
+            println("unFriend API Input = $jsonObject")
+
+
+            val mediaType = "application/json".toMediaTypeOrNull()
+            val requestBody = jsonObject.toString().toRequestBody(mediaType)
+
+
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                // Create Service
+                val service = retrofit.create(APIService::class.java)
+
+                val response = service.unFriend(
+                    resources.getString(R.string.api_access_token),
+                    requestBody
+                )
+
+                if (response.isSuccessful) {
+                    // Convert raw JSON to  JSON using GSON library
+                    val gson = GsonBuilder().setPrettyPrinting().create()
+                    val registerJSON = gson.toJson(
+                        JsonParser.parseString(
+                            response.body()
+                                ?.string()
+                        )
+                    )
+                    val jsonElement: JsonElement? = JsonParser.parseString(registerJSON)
+                    val jsonObject: JsonObject? = jsonElement?.asJsonObject
+
+                    val status: Boolean = jsonObject!!.get("status")!!.asBoolean
+                    val message: String = jsonObject.get("message")!!.asString
+                    println("unFriend API Status = $status")
+
+                    if (status) {
+                        runOnUiThread {
+                            println("Friend Profile Screen runOnUIThread...")
+                            Glide.with(applicationContext)
+                                .load(R.drawable.selected_player_screen_add_friend_btn)
+                                .into(add_friend_btn)
+
+                            Toast.makeText(applicationContext,"Removed Successful",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                }
+
+
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
     private fun addFriend(userID: String, friendID: String) {
         try {
@@ -199,7 +340,7 @@ class FriendProfileScreenActivity : AppCompatActivity() {
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -209,9 +350,9 @@ class FriendProfileScreenActivity : AppCompatActivity() {
             val jsonObject = JSONObject()
             jsonObject.put("id", userID)
             jsonObject.put("friend_id", friendID)
-            // jsonObject.put("user_id", "198")
 
-            println("addFriend API Url = ${resources.getString(R.string.live_url)}")
+
+            println("addFriend API Url = ${resources.getString(R.string.staging_url)}")
             println("addFriend API Input = $jsonObject")
 
 
@@ -279,7 +420,7 @@ class FriendProfileScreenActivity : AppCompatActivity() {
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -288,7 +429,7 @@ class FriendProfileScreenActivity : AppCompatActivity() {
             val jsonObject = JSONObject()
             jsonObject.put("user_id", friendID)
 
-            println("getUserAchievementsAPI Url = ${resources.getString(R.string.live_url)}")
+            println("getUserAchievementsAPI Url = ${resources.getString(R.string.staging_url)}")
             println("getUserAchievementsAPI Input = $jsonObject")
 
 

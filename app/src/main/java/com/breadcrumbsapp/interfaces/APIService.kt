@@ -16,7 +16,6 @@ interface APIService {
     @POST("v1/api/social_register")
     suspend fun socialRegister(@Body requestBody: RequestBody): Response<ResponseBody>
 
-
     @POST("v1/api/social_login")
     suspend fun socialLogin(@Body requestBody: RequestBody): Response<ResponseBody>
 
@@ -120,6 +119,17 @@ interface APIService {
         @Header("Authorization") h1: String,
         @Body requestBody: RequestBody
     ): Response<ResponseBody>
+
+    @Headers("Accept:application/json", "Content-Type:application/json;")
+    @POST("v1/api/un_friend")
+    suspend fun unFriend(
+        @Header("Authorization") h1: String,
+        @Body requestBody: RequestBody
+    ): Response<ResponseBody>
+
+
+
+
 
     @Headers("Accept:application/json", "Content-Type:application/json;")
     @POST("v1/api/process_friend_request")

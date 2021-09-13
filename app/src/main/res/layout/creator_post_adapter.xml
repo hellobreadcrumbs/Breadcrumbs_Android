@@ -38,7 +38,7 @@
         android:layout_height="360dp"
         android:layout_marginTop="20dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/breadcrumbs_app_icon_round"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/creator_post_profile_picture" />
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:fontFamily="@font/dinish_bold"
-        android:text="21 Likes"
+        android:text="0 Like"
         android:textColor="#4B3B30"
         android:textSize="@dimen/discovery_screen_player_name_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/creator_post_adapter_likeImageView"

@@ -143,7 +143,18 @@ class ARImagePostScreen : AppCompatActivity() {
 
         arChallengeLevelCloseBtn.setOnClickListener {
 
-            discoverPOI()
+            startActivity(
+                Intent(
+                    this@ARImagePostScreen,
+                    DiscoverScreenActivity::class.java
+                ).putExtra("isFromLogin", "no")
+            )
+            overridePendingTransition(
+                R.anim.anim_slide_in_left,
+                R.anim.anim_slide_out_left
+            )
+            finish()
+
         }
         binding.arImagePostBackButton.setOnClickListener {
             //    CropImage.activity(imageUri).setAspectRatio(1, 1).setFixAspectRatio(true).start(this)
@@ -315,7 +326,7 @@ class ARImagePostScreen : AppCompatActivity() {
             println("AR XP Details : totalGainedXP = $totalXP")
 
             var balanceVal:Int=progressBarMaxValue-totalXP
-            if(balanceVal<0)
+            if(balanceVal<=0)
             {
                 progressBarMaxValue += 2000
                 balanceVal=progressBarMaxValue-totalXP
@@ -328,10 +339,20 @@ class ARImagePostScreen : AppCompatActivity() {
             sharedPreference.saveSession("total_gained_xp",totalXP)
             sharedPreference.saveSession("balance_xp_string",arBalanceScoreValue.text.toString())
 
+            println("AR XP Details : levelValue = $levelValue")
+            println("AR XP Details : balanceVal = $balanceVal")
+            println("AR XP Details : arBalanceScoreValue.text = ${arBalanceScoreValue.text}")
+
+
+
+
+
             arSelfieChallengeProgressBar.max = progressBarMaxValue
             ObjectAnimator.ofInt(arSelfieChallengeProgressBar, "progress", totalXP)
                 .setDuration(1000)
                 .start()
+
+            discoverPOI()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -391,17 +412,7 @@ class ARImagePostScreen : AppCompatActivity() {
                     if (status) {
 
 
-                        startActivity(
-                            Intent(
-                                this@ARImagePostScreen,
-                                DiscoverScreenActivity::class.java
-                            ).putExtra("isFromLogin", "no")
-                        )
-                        overridePendingTransition(
-                            R.anim.anim_slide_in_left,
-                            R.anim.anim_slide_out_left
-                        )
-                        finish()
+
                     }
                 } else {
 

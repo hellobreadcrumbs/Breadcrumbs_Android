@@ -2,7 +2,6 @@ package com.breadcrumbsapp.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Message
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.lifecycle.Observer
@@ -12,31 +11,32 @@ import androidx.recyclerview.widget.RecyclerView
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.adapter.RecommendedFriendsAdapter
 import com.breadcrumbsapp.databinding.ActivitySearchFriendsListBinding
-import com.breadcrumbsapp.viewmodel.SearchFirendsViewModel
+import com.breadcrumbsapp.util.SessionHandlerClass
+import com.breadcrumbsapp.viewmodel.SearchFriendsViewModel
 import kotlinx.android.synthetic.main.activity_search_friends_list.*
-import kotlinx.android.synthetic.main.friends_list_layout.*
-import okhttp3.internal.connection.ConnectInterceptor
 
 class SearchFriendsListAct : AppCompatActivity() {
     lateinit var dataBinding : ActivitySearchFriendsListBinding
-    lateinit var viewModel : SearchFirendsViewModel
+    lateinit var viewModel : SearchFriendsViewModel
     private lateinit var friendAdapter : RecommendedFriendsAdapter
     var friendList = ArrayList<com.breadcrumbsapp.model.RecommendedFriendsModel.Message>()
-
+    private lateinit var sessionHandlerClass: SessionHandlerClass
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dataBinding = ActivitySearchFriendsListBinding.inflate(layoutInflater)
         setContentView(dataBinding.root)
-        viewModel = ViewModelProvider(this).get(SearchFirendsViewModel::class.java)
+        sessionHandlerClass= SessionHandlerClass(applicationContext)
+
+        viewModel = ViewModelProvider(this).get(SearchFriendsViewModel::class.java)
         viewModel.setApi(this)
 
         friendAdapter = RecommendedFriendsAdapter()
         dataBinding.sfRv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         dataBinding.sfRv.adapter = friendAdapter
 
-        viewModel.getFirends()
+        viewModel.getFriends(sessionHandlerClass.getSession("login_id")!!)
         viewModel.mContext = this
-        viewModel.firendsList.observe(this, Observer {
+        viewModel.friendList.observe(this, Observer {
             if (it != null){
                 friendList.clear()
                 friendList.addAll(it)

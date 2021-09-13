@@ -8,7 +8,7 @@
 
 
     <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/feedPostUserProfilePicture"
+        android:id="@+id/recommendedFriendAdapterProfile"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginStart="20dp"
@@ -29,9 +29,9 @@
         android:textSize="@dimen/disclaimer_content_text_size"
         android:text="Anna Vo"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/feedPostUserProfilePicture"
+        app:layout_constraintBottom_toBottomOf="@+id/recommendedFriendAdapterProfile"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/feedPostUserProfilePicture"
+        app:layout_constraintStart_toEndOf="@+id/recommendedFriendAdapterProfile"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -45,9 +45,9 @@
         android:layout_marginEnd="60dp"
         android:fontFamily="@font/dinish_regular"
         android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
-        app:layout_constraintBottom_toBottomOf="@+id/feedPostUserProfilePicture"
+        app:layout_constraintBottom_toBottomOf="@+id/recommendedFriendAdapterProfile"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/feedPostUserProfilePicture"
+        app:layout_constraintStart_toEndOf="@+id/recommendedFriendAdapterProfile"
         app:layout_constraintTop_toBottomOf="@+id/friendName"/>
 
 

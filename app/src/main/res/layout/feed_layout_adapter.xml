@@ -10,7 +10,7 @@
         android:layout_height="45dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:src="@mipmap/breadcrumbs_app_icon_round"
+        android:src="@drawable/com_facebook_profile_picture_blank_portrait"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="360dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/breadcrumbs_app_icon_round" />
+                  />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/poiNameBar"
@@ -75,7 +75,7 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/breadcrumbs_trail"
+                    android:src="@drawable/no_image"
                     app:civ_border_width="0dp" />
 
                 <TextView
@@ -114,7 +114,7 @@
         android:layout_marginStart="5dp"
 
         android:fontFamily="@font/dinish_bold"
-        android:text="21 Likes"
+        android:text="0 Like"
         android:textColor="#4B3B30"
         android:textSize="@dimen/discovery_screen_player_name_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/feed_layout_adapter_likeImageView"

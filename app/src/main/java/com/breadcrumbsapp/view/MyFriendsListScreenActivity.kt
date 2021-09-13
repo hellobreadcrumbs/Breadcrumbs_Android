@@ -41,7 +41,7 @@ class MyFriendsListScreenActivity : AppCompatActivity() {
         setContentView(binding.root)
         sessionHandlerClass= SessionHandlerClass(applicationContext)
         friends_list_rv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        getUserFriendList()
+        //getUserFriendList()
 
         friends_list_screen_backButton.setOnClickListener(View.OnClickListener {
             finish()
@@ -58,8 +58,13 @@ class MyFriendsListScreenActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        getUserFriendList()
+    }
     private fun getUserFriendList() {
         try {
+            newFriendRequestCount=0
             Glide.with(applicationContext).load(R.raw.loading).into(friend_list_screen_loaderImage)
             friend_list_screen_loaderImage.visibility = View.VISIBLE
             val okHttpClient = OkHttpClient.Builder()
@@ -73,17 +78,17 @@ class MyFriendsListScreenActivity : AppCompatActivity() {
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.live_url))
+                .baseUrl(resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
 
             val jsonObject = JSONObject()
-            jsonObject.put("id", "4703")
+            jsonObject.put("id", sessionHandlerClass.getSession("login_id"))
 
-            println("getFeedPostData Url = ${resources.getString(R.string.live_url)}")
-            println("getFeedPostData Input = $jsonObject")
+            println("getUserFriendList Url = ${resources.getString(R.string.staging_url)}")
+            println("getUserFriendList Input = $jsonObject")
 
 
             val mediaType = "application/json".toMediaTypeOrNull()
@@ -110,27 +115,44 @@ class MyFriendsListScreenActivity : AppCompatActivity() {
 
                             if (CommonData.getFriendListModel != null) {
 
-                                println("Friends Count :: ${CommonData.getFriendListModel!!.size}")
+                                println("getUserFriendList Count :: ${CommonData.getFriendListModel!!.size}")
                                 friend_list_screen_loaderImage.visibility=View.GONE
                                 val friendList = ArrayList<GetFriendsListModel.Message>()
 
                                 CommonData.getFriendListModel?.forEach {
                                     if (it.status == "1"){
                                         friendList.add(it)
-                                    }else{
-                                        /*if(it.status=="0" && it.id == sessionHandlerClass.getSession("login_id"))
+                                    }
+                                    else  if (it.status == "0")
+                                    {
+
+                                        if(it.status=="0" && it.id == sessionHandlerClass.getSession("login_id"))
                                         {
                                             println("Notification:: ${it.status} ${it.id} ${sessionHandlerClass.getSession("login_id")}")
-                                            newFriendRequestCount++
-                                        }*/
+                                            ++newFriendRequestCount
+                                        }
 
-                                        newFriendRequestCount++
+                                       // newFriendRequestCount++
                                     }
                                 }
-
+                                println("friendList.size => ${friendList.size}")
+                                if(friendList.size>0)
+                                {
+                                    friends_list_rv.visibility=View.VISIBLE
+                                    friend_list_screen_no_data_found.visibility=View.GONE
+                                }
+                                else
+                                {
+                                    friend_list_screen_no_data_found.visibility=View.VISIBLE
+                                    friends_list_rv.visibility=View.GONE
+                                }
                                 getFriendListAdapter = GetFriendListAdapter(friendList)
                                 friends_list_rv.adapter = getFriendListAdapter
                                 number_of_friends_request.text = newFriendRequestCount.toString()
+                                println("number_of_friends_request.text => ${number_of_friends_request.text} <> $newFriendRequestCount")
+
+
+
 
                             }
 

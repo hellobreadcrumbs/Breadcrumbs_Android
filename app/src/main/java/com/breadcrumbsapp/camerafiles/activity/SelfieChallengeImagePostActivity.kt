@@ -125,10 +125,12 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                 val localImagePath=resources.getString(R.string.staging_url)+CommonData.getTrailsData!![i].map_icon_dt_url
                 Glide.with(applicationContext).load(localImagePath).into(selfie_image_post_banner_trail_image)
                 Glide.with(applicationContext).load(localImagePath).into(selfie_challenge_screen_trail_icon)
-                selfie_image_post_banner_trail_name.text=CommonData.getTrailsData!![i].name
+
             }
         }
 
+        //selectedPOIName
+        selfie_image_post_banner_trail_name.text="${sharedPreference.getSession("selectedPOIName")}"
 
     /*    for(i in CommonData.getTrailsData!!.indices)
         {
@@ -207,6 +209,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                 selfieImagePostBackButton.visibility = View.INVISIBLE
 
 
+                println("imagePostButton ELSE AREA...........")
 
                 try {
 
@@ -222,18 +225,19 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
         }
 
         selfieChallengeLevelCloseBtn.setOnClickListener {
-            /*  startActivity(
-                  Intent(
-                      this@selfieChallengeImagePostActivity,
-                      DiscoverScreenActivity::class.java
-                  ).putExtra("isFromLogin","no")
-              )
-              overridePendingTransition(
-                  R.anim.anim_slide_in_left,
-                  R.anim.anim_slide_out_left
-              )
-              finish()*/
-            discoverPOI()
+
+            startActivity(
+                Intent(
+                    this@SelfieChallengeImagePostActivity,
+                    DiscoverScreenActivity::class.java
+                ).putExtra("isFromLogin", "no")
+            )
+            overridePendingTransition(
+                R.anim.anim_slide_in_left,
+                R.anim.anim_slide_out_left
+            )
+            finish()
+          //  discoverPOI()
         }
 
 
@@ -267,13 +271,13 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
         println("Selfie XP Details : progressBarMaxValue = calculate points")
         var progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
         val expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
-        val completedPoints = sharedPreference.getSession("player_experience_points")
+        val previousPoints = sharedPreference.getSession("player_experience_points")
         var levelValue = sharedPreference.getSession("lv_value")
         val presentLevel = sharedPreference.getSession("current_level")
 
 
         println("Selfie XP Details : progressBarMaxValue = $progressBarMaxValue")
-        println("Selfie XP Details : completedPoints = $completedPoints")
+        println("Selfie XP Details : previousPoints = $previousPoints")
         println("Selfie XP Details : presentLevel = $presentLevel")
         println("Selfie XP Details : levelValue = $levelValue")
         println("Selfie XP Details : expToLevel = $expToLevel")
@@ -283,7 +287,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 
         val POIDiscoverXP:Int=sharedPreference.getSession("selectedPOIDiscovery_XP_Value")!!.toInt()
         val POIchallengeXP:Int=sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
-        val completedPointIntValue=completedPoints!!.toInt()
+        val completedPointIntValue=previousPoints!!.toInt()
         println("Selfie XP Details : POIDiscoverXP = $POIDiscoverXP")
         println("Selfie XP Details : POIchallengeXP = $POIchallengeXP")
 
@@ -296,21 +300,25 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
         selfie_challenge_level_name.text=presentLevel
 
         println("Selfie XP Details : totalGainedXP = $totalXP")
-        sharedPreference.saveSession("total_gained_xp",totalXP)
+
         var balanceVal:Int=progressBarMaxValue-totalXP
         if(balanceVal<0)
         {
             progressBarMaxValue += 2000
             balanceVal=progressBarMaxValue-totalXP
-            levelValue="LV ${sharedPreference.getIntegerSession("current_level")}"
+            levelValue="LV ${sharedPreference.getSession("current_level")as Int}"
         }
 
         balanceScoreValue.text = "$balanceVal XP TO $levelValue"
 
         sharedPreference.saveSession("xp_balance_value",balanceVal)
-
+        sharedPreference.saveSession("total_gained_xp",totalXP)
         sharedPreference.saveSession("balance_xp_string",balanceScoreValue.text.toString())
 
+
+        println("Selfie XP Details : levelValue = $levelValue")
+        println("Selfie XP Details : balanceVal = $balanceVal")
+        println("Selfie XP Details : balanceScoreValue.text = ${balanceScoreValue.text}")
 
         selfieChallengeProgressBar.max = progressBarMaxValue
         ObjectAnimator.ofInt(selfieChallengeProgressBar, "progress", totalXP)
@@ -372,17 +380,6 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                     if (status) {
 
 
-                        startActivity(
-                            Intent(
-                                this@SelfieChallengeImagePostActivity,
-                                DiscoverScreenActivity::class.java
-                            ).putExtra("isFromLogin", "no")
-                        )
-                        overridePendingTransition(
-                            R.anim.anim_slide_in_left,
-                            R.anim.anim_slide_out_left
-                        )
-                        finish()
                     }
                 } else {
 
@@ -586,6 +583,8 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 
                         imagePostButton.background=getDrawable(R.drawable.selfie_continue_btn)
                         imagePostButton.text="CONTINUE"
+
+                        discoverPOI()
 
                     }
                 } else {

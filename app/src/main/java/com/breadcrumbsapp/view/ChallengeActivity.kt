@@ -76,6 +76,7 @@ class ChallengeActivity : AppCompatActivity() {
 
         //  Glide.with(applicationContext).load(poiImage).into(binding.selfieImageView)
 
+      //  beginChallengeAPI()
 
         try {
 
@@ -111,7 +112,7 @@ class ChallengeActivity : AppCompatActivity() {
         }
 
 
-
+        println("selectedPOIDiscoveryXP => Challenge Screen:  ${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")}")
         discoveryXP_Point.text="+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
         taskCompleted_XP_Point.text="+${sharedPreference.getSession("selectedPOIChallenge_XP_Value")} XP"
 
@@ -134,11 +135,9 @@ class ChallengeActivity : AppCompatActivity() {
             startActivity(
                 Intent(
                     this@ChallengeActivity,
-                    com.breadcrumbsapp.view.qrcode.DecoderActivity::class.java
-                ).putExtra("poiQrCode", poiQrCode)
-                    .putExtra("challengeName", challengeName)
-                    .putExtra("poiImage", poiImage).putExtra("poiArid", poiArId)
-            )
+                    DiscoverDetailsScreenActivity::class.java
+                ).putExtra("from", resources.getString(R.string.discover)))
+            finish()
         }
 
         beginButton.setOnClickListener {
@@ -172,21 +171,16 @@ class ChallengeActivity : AppCompatActivity() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        beginChallengeAPI()
-    }
+
 
     override fun onBackPressed() {
 
         startActivity(
             Intent(
                 this@ChallengeActivity,
-                com.breadcrumbsapp.view.qrcode.DecoderActivity::class.java
-            ).putExtra("poiQrCode", poiQrCode)
-                .putExtra("challengeName", challengeName)
-                .putExtra("poiImage", poiImage).putExtra("poiArid", poiArId)
-        )
+                DiscoverDetailsScreenActivity::class.java
+            ).putExtra("from", resources.getString(R.string.discover)))
+        finish()
     }
 
 

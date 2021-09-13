@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.adapter.FriendRequestViewPagerAdapter
+import com.breadcrumbsapp.util.SessionHandlerClass
 import com.breadcrumbsapp.viewmodel.NewFriendRequestViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_new_friend_request.*
@@ -14,9 +15,11 @@ import kotlinx.android.synthetic.main.activity_new_friend_request.*
 class NewFriendRequestAct : AppCompatActivity() {
     val tab_names = ArrayList<String>()
     lateinit var viewModel : NewFriendRequestViewModel
+    private lateinit var sessionHandlerClass: SessionHandlerClass
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_friend_request)
+        sessionHandlerClass= SessionHandlerClass(applicationContext)
         viewModel = ViewModelProvider(this).get(NewFriendRequestViewModel::class.java)
         viewModel.setApi(this)
 
@@ -31,7 +34,7 @@ class NewFriendRequestAct : AppCompatActivity() {
             tab.text = tab_names[position]
 
         }.attach()
-        viewModel.getFriend("4700")
+        viewModel.getFriend(sessionHandlerClass.getSession("login_id")!!)
 
         nfr_add_friend_btn.setOnClickListener {
             startActivity(Intent(this, SearchFriendsListAct::class.java))

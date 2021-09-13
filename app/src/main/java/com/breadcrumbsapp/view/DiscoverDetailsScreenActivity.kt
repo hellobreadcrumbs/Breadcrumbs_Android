@@ -413,12 +413,13 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
                     .putExtra("challengeName", challengeName)
                     .putExtra("poiImage", poiImage).putExtra("poiArid", poiArid)
             )
+            finish()
         }
         else
         {
             if (poiArid == "1") {
                 startActivity(Intent(this@DiscoverDetailsScreenActivity, ARCoreActivity::class.java))
-
+                finish()
             } else {
                 startActivity(
                     Intent(
@@ -427,6 +428,7 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
                     ).putExtra("challengeName", challengeName)
                         .putExtra("poiImage", poiImage)
                 )
+                finish()
             }
         }
 

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.model.GetFriendsListModel
+import com.breadcrumbsapp.util.SessionHandlerClass
 import com.breadcrumbsapp.view.profile.FriendProfileScreenActivity
 import com.bumptech.glide.Glide
 import com.mikhaellopez.circularimageview.CircularImageView
@@ -19,6 +20,7 @@ internal class GetFriendListAdapter(getFriendsListModel: List<GetFriendsListMode
 
     private var getFriendsListModelLocalObj: List<GetFriendsListModel.Message> = getFriendsListModel
     private lateinit var context: Context
+    private lateinit var sessionHandlerClass: SessionHandlerClass
 
 
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -26,7 +28,7 @@ internal class GetFriendListAdapter(getFriendsListModel: List<GetFriendsListMode
 
         var friendNameTv: TextView = view.findViewById(R.id.friendName)
         var friendLevelTv: TextView = view.findViewById(R.id.friend_level_name)
-        var feedPostUserProfilePicture: CircularImageView = view.findViewById(R.id.feedPostUserProfilePicture)
+        var recommendedFriendAdapterProfile: CircularImageView = view.findViewById(R.id.recommendedFriendAdapterProfile)
 
 
     }
@@ -36,6 +38,7 @@ internal class GetFriendListAdapter(getFriendsListModel: List<GetFriendsListMode
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.friend_list_adapter, parent, false)
         context = parent.context
+        sessionHandlerClass= SessionHandlerClass(context)
         return MyViewHolder(itemView)
     }
 
@@ -49,27 +52,82 @@ internal class GetFriendListAdapter(getFriendsListModel: List<GetFriendsListMode
 
         println("*** status = ${data.status}")
 
-        Glide.with(context).load("${context.getString(R.string.live_url)}${data.profile_picture}")
+    /*    Glide.with(context).load("${context.getString(R.string.staging_url)}${data.u_profile_picture}")
             .placeholder(context.resources.getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait, null))
-            .into(holder.feedPostUserProfilePicture)
+            .into(holder.recommendedFriendAdapterProfile)
 
-        holder.friendNameTv.text = data.username
-        try {
-            val expIntVal: Int = Integer.parseInt(data.experience)
-            holder.friendLevelTv.text = calculateUserLevel(expIntVal)
-        } catch (e: Exception) {
-            e.printStackTrace()
+        holder.friendNameTv.text = data.u_username*/
+
+
+        // both id same means, use u_profile picture
+        // both id not same means, user profile picture
+
+        val playerID:Int=sessionHandlerClass.getSession("login_id")!!.toInt()
+        val dataID:Int=data.id.toInt()
+        println("FRIEND ADAPTER::: INT => $playerID <> $dataID")
+        if(playerID==dataID)
+        {
+            println("FRIEND ADAPTER::: IF => $playerID <> $dataID")
+            Glide.with(context).load("${context.getString(R.string.staging_url)}${data.u_profile_picture}")
+                .placeholder(context.resources.getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait, null))
+                .into(holder.recommendedFriendAdapterProfile)
+
+            holder.friendNameTv.text = data.u_username
+
+            try {
+                val expIntVal: Int = Integer.parseInt(data.u_experience)
+                holder.friendLevelTv.text = calculateUserLevel(expIntVal)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        }
+        else
+        {
+            println("FRIEND ADAPTER::: ELSE => $playerID <> $dataID")
+            Glide.with(context).load("${context.getString(R.string.staging_url)}${data.profile_picture}")
+                .placeholder(context.resources.getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait, null))
+                .into(holder.recommendedFriendAdapterProfile)
+
+            holder.friendNameTv.text = data.username
+
+            try {
+                val expIntVal: Int = Integer.parseInt(data.experience)
+                holder.friendLevelTv.text = calculateUserLevel(expIntVal)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
         }
 
+
+
+
         holder.itemView.setOnClickListener {
-            context.startActivity(
-                Intent(context, FriendProfileScreenActivity::class.java)
-                    .putExtra("username", data.username)
-                    .putExtra("friend_id", data.id)
-                    .putExtra("total_xp", data.experience)
-                    .putExtra("profile_pic", data.profile_picture)
-                    .putExtra("player_level", holder.friendLevelTv.text.toString())
-            )
+            if(playerID==dataID)
+            {
+                context.startActivity(
+                    Intent(context, FriendProfileScreenActivity::class.java)
+                        .putExtra("username", data.u_username)
+                        .putExtra("friend_id", data.user_id)
+                        .putExtra("total_xp", data.u_experience)
+                        .putExtra("profile_pic", data.u_profile_picture)
+                        .putExtra("friend_status", data.status)
+                        .putExtra("player_level", holder.friendLevelTv.text.toString())
+                )
+            }
+            else{
+                context.startActivity(
+                    Intent(context, FriendProfileScreenActivity::class.java)
+                        .putExtra("username", data.username)
+                        .putExtra("friend_id", data.friend_id)
+                        .putExtra("total_xp", data.experience)
+                        .putExtra("profile_pic", data.profile_picture)
+                        .putExtra("friend_status", data.status)
+                        .putExtra("player_level", holder.friendLevelTv.text.toString())
+                )
+            }
+
         }
 
     }

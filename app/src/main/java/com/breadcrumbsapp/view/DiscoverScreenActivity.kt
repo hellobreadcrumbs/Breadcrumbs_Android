@@ -11,6 +11,7 @@ Details....
 4.  getTrailListFromAPI() - This method helps to load POI
 5.  POI Image name - poi_breadcrumbs_marker_undiscovered_1,poi_breadcrumbs_marker_undiscovered_2
 6.  ch_type = 0 means, selfie. Else, quiz.
+6.  ch_type = 0 means, selfie. Else, quiz.
 
  */
 
@@ -156,6 +157,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private lateinit var poiDistance: TextView
     private var selectedPOIName: String = ""
     private var selectedPOIID: String = ""
+    private var selectedPOIDiscoveryXP: String = ""
     private var selectedPOIImage: String = ""
     private var selectedPOIDuration: String = ""
     private var selectedPOIQuestion: String = ""
@@ -848,10 +850,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             LocalBroadcastManager.getInstance(this).registerReceiver(it, intentFilter)
         }
 
-        /* if (CommonData.getRankData == null) {
-             getRankingDetails()
-         }
- */
 
 
         isFromOnResume = true
@@ -1135,6 +1133,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
             mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
             markerAnimationHandler.removeCallbacks(markerAnimationRunnable)
+
+            isDrawPathClicked = false
 
             isTakeMeThereBtnClicked = false
 
@@ -2023,8 +2023,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         try {
 
             val okHttpClient = OkHttpClient.Builder()
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(1000, TimeUnit.SECONDS)
+                .readTimeout(1000, TimeUnit.SECONDS)
                 .addInterceptor(interceptor)
                 .protocols(Collections.singletonList(Protocol.HTTP_1_1))
                 .build()
@@ -2063,18 +2063,12 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                         CommonData.getTrailsData = response.body()?.message
 
                         for (i in CommonData.getTrailsData!!.indices) {
-                            /*   if(CommonData.getTrailsData!![i].id==sharedPreference.getSession("selected_trail_id"))
-                               {
-                                   println("Details IF ::: ${CommonData.getTrailsData!![i].id} == ${CommonData.getTrailsData!![i].completed_poi_count}")
-                               }
-                               else
-                               {
-                                   println("Details ELSE ::: ${CommonData.getTrailsData!![i].id} == ${CommonData.getTrailsData!![i].completed_poi_count}")
 
-                               }*/
                             println("Details about POIs ::: ${CommonData.getTrailsData!![i].id} == ${CommonData.getTrailsData!![i].completed_poi_count}")
 
-
+                        /*    if (CommonData.getRankData == null) {
+                                getRankingDetails("4")
+                            }*/
                         }
 
 
@@ -2116,6 +2110,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         try {
 
+            isDrawPathClicked = false
             isSelectedMarker = true
             /* When user click / select the particular POI., that time needs to check either the POI discovered or not.*/
 
@@ -2137,6 +2132,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             trailsNameText.text = CommonData.eventsModelMessage!![pos].title
             selectedPOIName = CommonData.eventsModelMessage!![pos].title
             selectedPOIID = CommonData.eventsModelMessage!![pos].id
+            selectedPOIDiscoveryXP=CommonData.eventsModelMessage!![pos].experience
+            println("selectedPOIDiscoveryXP => $selectedPOIDiscoveryXP")
             //  sharedPreference.saveSession("selectedPOIID",selectedPOIID)
             selectedPOIQuestion = CommonData.eventsModelMessage!![pos].ch_question
             selectedPOIChallengeType = CommonData.eventsModelMessage!![pos].ch_type
@@ -2190,10 +2187,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 sharedPreference.saveSession("selectedPOIChallengeType", selectedPOIChallengeType)
                 sharedPreference.saveSession("selectedPOITrivia", selectedPOITrivia)
                 sharedPreference.saveSession("noOfQuestions", noOfQuestions)
-                sharedPreference.saveSession(
-                    "selectedPOIDiscovery_XP_Value",
-                    CommonData.eventsModelMessage!![pos].experience
-                )
+                sharedPreference.saveSession("selectedPOIDiscovery_XP_Value", selectedPOIDiscoveryXP)
                 sharedPreference.saveSession(
                     "selectedPOIChallenge_XP_Value",
                     CommonData.eventsModelMessage!![pos].ch_experience
@@ -2712,6 +2706,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                             )
 
                             runOnUiThread {
+                                println("From Get User :: ${Integer.parseInt(CommonData.getUserDetails!!.experience)}")
                                 calculateUserLevel(Integer.parseInt(CommonData.getUserDetails!!.experience))
                             }
 
@@ -2868,10 +2863,13 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             }
         }
         levelTextView.text = "$ranking Lv. $level"
-
-        var expToLevel = (nextLevel - base) - (exp - base)
+        level = 1
+        base = 1000
+        nextLevel = 2000
+        val expToLevel = (nextLevel - base) - (exp - base) // (2000-1000) - (400-1000) = (1000)-(-600)=1600
 
         println("expToLevel= $expToLevel")
+
         sharedPreference.saveSession("level_text_value", levelTextView.text.toString())
         sharedPreference.saveSession("expTo_level_value", expToLevel)
         sharedPreference.saveSession("xp_point_base_value", base)

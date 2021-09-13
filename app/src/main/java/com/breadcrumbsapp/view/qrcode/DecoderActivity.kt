@@ -103,6 +103,7 @@ class DecoderActivity : AppCompatActivity(), OnRequestPermissionsResultCallback,
             if(poiArId=="1")
             {
                 startActivity(Intent(this@DecoderActivity, ARCoreActivity::class.java))
+                finish()
 
             }
             else
@@ -116,6 +117,7 @@ class DecoderActivity : AppCompatActivity(), OnRequestPermissionsResultCallback,
                         .putExtra("poiImage", poiImage)
                         .putExtra("poiArid", poiArId)
                 )
+                finish()
             }
 
         } else {

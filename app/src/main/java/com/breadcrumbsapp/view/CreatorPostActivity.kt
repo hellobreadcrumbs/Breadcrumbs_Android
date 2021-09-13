@@ -38,6 +38,8 @@ class CreatorPostActivity:AppCompatActivity()
     private var interceptor = intercept()
     private lateinit var sharedPreference: SessionHandlerClass
     private lateinit var getTrailsModelList: GetTrailsModel.Message
+    private lateinit var  profileImage:String
+    private lateinit var  userName:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +53,12 @@ class CreatorPostActivity:AppCompatActivity()
         sharedPreference.saveSession("temp_trail_id",getTrailsModelList.id)
 
 
-        val profileImage=resources.getString(R.string.staging_url)+getTrailsModelList.profile_picture
+
+        profileImage=resources.getString(R.string.staging_url)+getTrailsModelList.profile_picture
+        println("profileImage :: $profileImage")
         Glide.with(applicationContext).load(profileImage).into(creator_icon_iv)
         creator_title_tv.text=getTrailsModelList.username
+        userName=getTrailsModelList.username
 
         getFeedPostData()
         creator_post_back_button.setOnClickListener(View.OnClickListener {
@@ -127,7 +132,7 @@ class CreatorPostActivity:AppCompatActivity()
                                         feedList.add(it)
                                     }
                                 }
-                                creatorPostAdapter = CreatorPostAdapter(feedList)
+                                creatorPostAdapter = CreatorPostAdapter(feedList,profileImage,userName)
                                 creator_post_rv.adapter = creatorPostAdapter
                             }
 

@@ -214,7 +214,7 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
                 holder.userNameTextView.text = data.username
             }
 
-            holder.trailName.text=data.name
+            holder.trailName.text=data.title
 
             val trailImagePath =
                 context.resources.getString(R.string.staging_url) + data.map_icon_dt_url
@@ -295,7 +295,6 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
                     /*val drawable = holder.imageView.drawable as BitmapDrawable
                     val bitmap = drawable.bitmap as Bitmap
                     saveBitmapAsImageToDevice(bitmap)*/
-
 
 
                     val bitmap = getBitmapFromView(holder.imageParentLayout)

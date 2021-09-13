@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/claritycity_bold"
-                    android:text="mastergrey64"
+                    android:text="PlayerName"
                     android:textColor="#4B3B30"
                     android:textSize="@dimen/disclaimer_content_text_size"
                     app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_profile_pic_iv"
@@ -147,7 +147,7 @@
                     android:id="@+id/xp_to_next_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="9dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/dinish_bold"
@@ -477,7 +477,7 @@
                                 android:paddingTop="2dp"
                                 android:paddingEnd="15dp"
                                 android:paddingBottom="2dp"
-                                android:text="328"
+                                android:text="0"
                                 android:textColor="#4B3B30"
                                 android:textSize="@dimen/discover_screen_poi_distance_text_size"
 
@@ -534,7 +534,7 @@
                                 android:paddingTop="2dp"
                                 android:paddingEnd="15dp"
                                 android:paddingBottom="2dp"
-                                android:text="328"
+                                android:text="0"
                                 android:textColor="#4B3B30"
                                 android:textSize="@dimen/discover_screen_poi_distance_text_size"
 
@@ -577,6 +577,24 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/selected_player_post_border_line"
                     tools:listitem="@layout/feed_layout_adapter" />
+
+                <TextView
+                    android:id="@+id/feed_post_screen_no_data_found"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/claritycity_bold"
+                    android:layout_marginTop="20dp"
+                    android:text="No data found"
+                    android:textColor="#4B3B30"
+                    android:visibility="visible"
+                    android:gravity="center_horizontal"
+                    app:layout_constraintTop_toBottomOf="@+id/selected_player_post_border_line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

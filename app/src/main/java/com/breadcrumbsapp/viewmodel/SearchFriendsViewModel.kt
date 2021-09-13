@@ -5,17 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.interfaces.APIService
-
 import com.breadcrumbsapp.model.RecommendedFriendsModel
+import com.breadcrumbsapp.util.SessionHandlerClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.internal.connection.ConnectInterceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.Retrofit
@@ -23,17 +21,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class SearchFirendsViewModel: ViewModel() {
-    val firendsList = MutableLiveData<List<RecommendedFriendsModel.Message>>()
-     var mContext : Context? = null
+class SearchFriendsViewModel : ViewModel() {
+    val friendList = MutableLiveData<List<RecommendedFriendsModel.Message>>()
+    var mContext: Context? = null
 
     private var interceptor = intercept()
 
-   lateinit var okHttpClient : OkHttpClient.Builder
-    lateinit var retrofit : Retrofit.Builder
-    lateinit var   apiService : APIService
+    lateinit var okHttpClient: OkHttpClient.Builder
+    lateinit var retrofit: Retrofit.Builder
+    lateinit var apiService: APIService
 
-    fun setApi(context: Context){
+    fun setApi(context: Context) {
+
+
         mContext = context
         val okHttpClient = OkHttpClient.Builder()
             .connectTimeout(60, TimeUnit.SECONDS)
@@ -43,7 +43,7 @@ class SearchFirendsViewModel: ViewModel() {
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(mContext?.resources?.getString(R.string.live_url))
+            .baseUrl(mContext?.resources?.getString(R.string.staging_url))
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -52,33 +52,32 @@ class SearchFirendsViewModel: ViewModel() {
     }
 
 
+    fun getFriends(id:String) {
 
-    fun getFirends(){
+        println("Search model :: $id")
         val jsonObject = JSONObject()
-        jsonObject.put("id", "66")
+        jsonObject.put("id", id)
 
         val mediaType = "application/json".toMediaTypeOrNull()
         val requestBody = jsonObject.toString().toRequestBody(mediaType)
         CoroutineScope(Dispatchers.IO).launch {
             val response = apiService.getRecommendedFriends(
-                mContext?.resources?.getString(R.string.api_access_token)?:"",
+                mContext?.resources?.getString(R.string.api_access_token) ?: "",
                 requestBody
             )
             if (response.isSuccessful) {
                 if (response.body()!!.status) {
-                    val resObj = response?.body()?.message
-                    firendsList.postValue( resObj)
+                    val resObj = response.body()?.message
+                    friendList.postValue(resObj)
                 }
-            }else{
-                firendsList.postValue( null)
+            } else {
+                friendList.postValue(null)
             }
 
         }
 
 
-
     }
-
 
 
     private fun intercept(): HttpLoggingInterceptor {

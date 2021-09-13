@@ -134,8 +134,8 @@
 
                 <Button
                     android:id="@+id/backButton"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/search_back_button"
@@ -152,19 +152,19 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:visibility="gone"
                         android:id="@+id/editTextSearchView"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_margin="10dp"
-                        android:elevation="1dp"
-                        android:paddingStart="20dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
                         android:background="@drawable/searchview_bg"
+                        android:elevation="1dp"
                         android:fontFamily="@font/dinish_regular"
                         android:hint="Search POI name"
+                        android:paddingStart="20dp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/hint_color_gray"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
+                        android:visibility="gone" />
 
 
                     <Button
@@ -193,9 +193,9 @@
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_below="@+id/searchLayout"
                     android:layout_marginVertical="10dp"
                     android:paddingBottom="130dp"
-                    android:layout_below="@+id/searchLayout"
                     android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"

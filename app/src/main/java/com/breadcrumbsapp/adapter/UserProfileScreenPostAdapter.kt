@@ -80,8 +80,11 @@ internal class UserProfileScreenPostAdapter(getFeed: List<GetMyFeedModel.Message
         var userProfilePicture: CircularImageView =
             view.findViewById(R.id.feedPostUserProfilePicture)
         var createdDateTextView: TextView = view.findViewById(R.id.createdDateTextView)
+        var poiName: TextView = view.findViewById(R.id.user_profile_post_banner_trail_name)
 
         var likeButton: ImageView = view.findViewById(R.id.user_profile_screen_post_adapter_like_button)
+        var trailPic: CircularImageView = view.findViewById(R.id.user_profile_post_banner_trail_image)
+
 
     }
 
@@ -149,13 +152,22 @@ internal class UserProfileScreenPostAdapter(getFeed: List<GetMyFeedModel.Message
        // println("Feed Id : ${data.f_id}")
 
 
-        var localImageObj =
+
+        holder.poiName.text=data.title
+        val localImageObj =
             context.resources.getString(R.string.staging_url) + data.photo_url
 
-        var localProfilePic =
+        val localProfilePic =
             context.resources.getString(R.string.staging_url) + data.profile_picture
 
         println("localProfilePic = $localImageObj")
+
+        val trailImagePath =
+            context.resources.getString(R.string.staging_url) + data.map_icon_dt_url
+
+        Glide.with(context)
+            .load(trailImagePath).placeholder(R.drawable.no_image)
+            .into(holder.trailPic)
 
         Glide.with(context)
             .load(localImageObj)
@@ -341,7 +353,7 @@ internal class UserProfileScreenPostAdapter(getFeed: List<GetMyFeedModel.Message
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(context.resources.getString(R.string.live_url))
+                .baseUrl(context.resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -420,7 +432,7 @@ internal class UserProfileScreenPostAdapter(getFeed: List<GetMyFeedModel.Message
             // Create Retrofit
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(context.resources.getString(R.string.live_url))
+                .baseUrl(context.resources.getString(R.string.staging_url))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

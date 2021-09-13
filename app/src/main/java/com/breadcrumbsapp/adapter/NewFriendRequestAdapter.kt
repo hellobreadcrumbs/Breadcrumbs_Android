@@ -16,26 +16,21 @@ class NewFriendRequestAdapter(val mContext : Context,
                               val list :ArrayList<GetFriendsListModel.Message>,val listener : FriendRequestListener) : RecyclerView.Adapter<NewFriendRequestAdapter.VH>(){
 
     inner class VH(itemView : View) : RecyclerView.ViewHolder(itemView){
-        var profile_img : ImageView
-        var name_txt : TextView
-        var des_txt : TextView
-        var add_img : ImageView
-        var cancel_img : ImageView
+        var profileImg : ImageView = itemView.findViewById(R.id.anf_profile_picture)
+        var nameTxt : TextView = itemView.findViewById(R.id.anf_name_txt)
+        var desTxt : TextView = itemView.findViewById(R.id.anf_desnigation_txt)
+        var addImg : ImageView = itemView.findViewById(R.id.anf_add_friend_img)
+        var cancelImg : ImageView = itemView.findViewById(R.id.anf_close_img)
+
         init {
 
-            profile_img = itemView.findViewById(R.id.anf_profile_picture)
-            name_txt = itemView.findViewById(R.id.anf_name_txt)
-            des_txt = itemView.findViewById(R.id.anf_desnigation_txt)
-            add_img = itemView.findViewById(R.id.anf_add_friend_img)
-            cancel_img = itemView.findViewById(R.id.anf_close_img)
-
-            add_img.setOnClickListener {
+            addImg.setOnClickListener {
                 listener?.let {
                     it.onAcceptItemClick(list[adapterPosition].uf_id, true)
                 }
             }
 
-            cancel_img.setOnClickListener {
+            cancelImg.setOnClickListener {
                 listener?.let {
                     it.onAcceptItemClick(list[adapterPosition].uf_id, false)
                 }
@@ -51,13 +46,17 @@ class NewFriendRequestAdapter(val mContext : Context,
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val data = list[position]
-        Glide.with(mContext).load("${mContext.getString(R.string.live_url)}${data.profile_picture}").placeholder(mContext.resources.getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait, null)).into(holder.profile_img)
-        holder.name_txt.text = data.u_username
+        println("data ::: $data")
+        Glide.with(mContext).load("${mContext.getString(R.string.staging_url)}${data.u_profile_picture}")
+            .placeholder(mContext.resources.getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait, null))
+            .into(holder.profileImg)
+        holder.nameTxt.text = data.u_username
+
 
 
         try {
             val expIntVal: Int = Integer.parseInt(data.experience)
-            holder.des_txt.text = calculateUserLevel(expIntVal)
+            holder.desTxt.text = calculateUserLevel(expIntVal)
         } catch (e: Exception) {
             e.printStackTrace()
         }

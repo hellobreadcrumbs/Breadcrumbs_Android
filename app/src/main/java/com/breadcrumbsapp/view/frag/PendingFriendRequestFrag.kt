@@ -14,7 +14,6 @@ import com.breadcrumbsapp.interfaces.FriendRequestListener
 import com.breadcrumbsapp.model.GetFriendsListModel
 import com.breadcrumbsapp.view.NewFriendRequestAct
 import com.breadcrumbsapp.viewmodel.NewFriendRequestViewModel
-import kotlinx.android.synthetic.main.fragment_new_firend_request.*
 import kotlinx.android.synthetic.main.fragment_pending_friend_request.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -121,6 +120,6 @@ class PendingFriendRequestFrag : Fragment(), FriendRequestListener {
     }
 
     override fun onAcceptItemClick(id: String, status: Boolean) {
-        viewModel.accepORCanceltFriendRequest(id, status)
+        viewModel.acceptORCancelFriendRequest(id, status)
     }
 }

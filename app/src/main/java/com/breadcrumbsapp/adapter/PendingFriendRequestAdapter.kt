@@ -44,7 +44,7 @@ class PendingFriendRequestAdapter(val mContext : Context,
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val data = list[position]
-        Glide.with(mContext).load("${mContext.getString(R.string.live_url)}${data.profile_picture}").placeholder(mContext.resources.getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait, null)).into(holder.profile_img)
+        Glide.with(mContext).load("${mContext.getString(R.string.staging_url)}${data.profile_picture}").placeholder(mContext.resources.getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait, null)).into(holder.profile_img)
         holder.name_txt.text = data.username
         try {
             val expIntVal: Int = Integer.parseInt(data.experience)

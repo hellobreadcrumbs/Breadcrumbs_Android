@@ -15,7 +15,6 @@ import com.breadcrumbsapp.model.GetFriendsListModel
 import com.breadcrumbsapp.view.NewFriendRequestAct
 import com.breadcrumbsapp.viewmodel.NewFriendRequestViewModel
 import kotlinx.android.synthetic.main.fragment_new_firend_request.*
-import kotlinx.android.synthetic.main.rewards_screen_layout.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,11 +23,11 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [NewFirendRequestFrag.newInstance] factory method to
+ * Use the [NewFriendRequestFrag.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NewFirendRequestFrag : Fragment(), FriendRequestListener {
-    // TODO: Rename and change types of parameters
+class NewFriendRequestFrag : Fragment(), FriendRequestListener {
+
     private var param1: String? = null
     private var param2: String? = null
     lateinit var viewModel : NewFriendRequestViewModel
@@ -88,10 +87,10 @@ class NewFirendRequestFrag : Fragment(), FriendRequestListener {
 
 
         viewModel.requestStatus.observe(viewLifecycleOwner, Observer {
-            println("Check::::::::::::::: New Rquest " )
+            println("Check::::::::::::::: New Request " )
             it?.let {
-                println("Check::::::::::::::: New Rquest ${it}" )
-                var newList = ArrayList<GetFriendsListModel.Message>()
+                println("Check::::::::::::::: New Request $it" )
+                val newList = ArrayList<GetFriendsListModel.Message>()
                 requestList.forEach{ item ->
                     if(it != item.uf_id.toInt()){
                         newList.add(item)
@@ -111,12 +110,12 @@ class NewFirendRequestFrag : Fragment(), FriendRequestListener {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment NewFirendRequestFrag.
+         * @return A new instance of fragment NewFriendRequestFrag.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            NewFirendRequestFrag().apply {
+            NewFriendRequestFrag().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
@@ -127,6 +126,6 @@ class NewFirendRequestFrag : Fragment(), FriendRequestListener {
 
 
     override fun onAcceptItemClick(id: String, status: Boolean) {
-        viewModel.accepORCanceltFriendRequest(id, status)
+        viewModel.acceptORCancelFriendRequest(id, status)
     }
 }

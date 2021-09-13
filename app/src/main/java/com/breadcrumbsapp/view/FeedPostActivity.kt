@@ -2,6 +2,7 @@ package com.breadcrumbsapp.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -48,7 +49,7 @@ class FeedPostActivity : AppCompatActivity() {
         }
 
         val localProfilePic =
-             resources.getString(R.string.staging_url) +sharedPreference.getSession("player_photo_url")
+            resources.getString(R.string.staging_url) + sharedPreference.getSession("player_photo_url")
         Glide.with(applicationContext).load(localProfilePic)
             .placeholder(R.drawable.no_image).into(FeedScreenUserProfilePicture)
 
@@ -113,24 +114,22 @@ class FeedPostActivity : AppCompatActivity() {
 
                         println("Size == ${response.body()!!.message.size}")
 
-                       // CommonData.getFeedData = response.body()!!.message
+                        // CommonData.getFeedData = response.body()!!.message
 
-                      //  println("Feed Post :: ${CommonData.getFeedData!!.size}")
+                        //  println("Feed Post :: ${CommonData.getFeedData!!.size}")
                         runOnUiThread {
 
-                          /*  if (CommonData.getFeedData != null) {
-                                feedPostAdapter = FeedPostAdapter(
-                                    CommonData.getFeedData!!,
-                                    sharedPreference.getSession("login_id")
-                                )
-                                feedList.adapter = feedPostAdapter
+                            /*  if (CommonData.getFeedData != null) {
+                                  feedPostAdapter = FeedPostAdapter(
+                                      CommonData.getFeedData!!,
+                                      sharedPreference.getSession("login_id")
+                                  )
+                                  feedList.adapter = feedPostAdapter
 
-                            }*/
+                              }*/
 
-                            if(response.body()!!.message!=null)
-                            {
-                                if(CommonData.feedList.size>0)
-                                {
+                            if (response.body()!!.message != null) {
+                                if (CommonData.feedList.size > 0) {
                                     CommonData.feedList.clear()
                                 }
                                 response.body()?.message?.forEach {
@@ -138,24 +137,28 @@ class FeedPostActivity : AppCompatActivity() {
                                         println("************** NAME = ${it.title}")
                                         CommonData.feedList.add(it)
 
-                                        CommonData.getFeedData = CommonData.feedList
-
-                                        if (CommonData.getFeedData!!.isNotEmpty()) {
-                                            feedPostAdapter = FeedPostAdapter(
-                                                CommonData.feedList,
-                                                sharedPreference.getSession("login_id")
-                                            )
-                                            feedList.adapter = feedPostAdapter
-
-                                        }
                                     }
+                                }
+                                if (CommonData.feedList.size > 0) {
+                                    feedList.visibility = View.VISIBLE
+                                    feed_post_screen_no_data_found.visibility = View.GONE
+                                    CommonData.getFeedData = CommonData.feedList
+
+                                    if (CommonData.getFeedData!!.isNotEmpty()) {
+                                        feedPostAdapter = FeedPostAdapter(
+                                            CommonData.feedList,
+                                            sharedPreference.getSession("login_id")
+                                        )
+                                        feedList.adapter = feedPostAdapter
+
+                                    }
+                                } else {
+                                    feedList.visibility = View.GONE
+                                    feed_post_screen_no_data_found.visibility = View.VISIBLE
                                 }
                             }
 
                         }
-
-
-
 
 
                     }

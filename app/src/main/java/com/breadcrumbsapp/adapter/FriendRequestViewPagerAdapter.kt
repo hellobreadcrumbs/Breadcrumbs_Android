@@ -3,7 +3,7 @@ package com.breadcrumbsapp.adapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.breadcrumbsapp.view.frag.NewFirendRequestFrag
+import com.breadcrumbsapp.view.frag.NewFriendRequestFrag
 import com.breadcrumbsapp.view.frag.PendingFriendRequestFrag
 
 class FriendRequestViewPagerAdapter (activity: AppCompatActivity):
@@ -17,13 +17,13 @@ class FriendRequestViewPagerAdapter (activity: AppCompatActivity):
     override fun createFragment(position: Int): Fragment {
         return when(position){
             0 -> {
-                NewFirendRequestFrag.newInstance("","")
+                NewFriendRequestFrag.newInstance("","")
             }
             1 -> {
                 PendingFriendRequestFrag.newInstance("","")
             }
             else ->{
-                NewFirendRequestFrag.newInstance("","")
+                NewFriendRequestFrag.newInstance("","")
             }
 
         }

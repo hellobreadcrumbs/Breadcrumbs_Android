@@ -46,7 +46,7 @@ class NewFriendRequestViewModel : ViewModel() {
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(mContext?.resources?.getString(R.string.live_url))
+            .baseUrl(mContext?.resources?.getString(R.string.staging_url))
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -71,13 +71,13 @@ class NewFriendRequestViewModel : ViewModel() {
                 if (response.isSuccessful) {
 
                     if (response.body()!!.status) {
-                        val resObj = response?.body()?.message
+                        val resObj = response.body()?.message
                         friendsList.postValue( resObj)
                         val sentList = ArrayList<GetFriendsListModel.Message>()
                         val receivedList = ArrayList<GetFriendsListModel.Message>()
                         resObj?.forEach {
                             if (it.status == "0"){
-                                if (it.user_id.equals(id)){
+                                if (it.user_id == id){
                                     sentList.add(it)
                                 }else{
                                     receivedList.add(it)
@@ -105,7 +105,7 @@ class NewFriendRequestViewModel : ViewModel() {
 
     }
 
-    fun accepORCanceltFriendRequest( id : String, status : Boolean ){
+    fun acceptORCancelFriendRequest(id : String, status : Boolean ){
         val jsonObject = JSONObject()
         jsonObject.put("id", id)
         jsonObject.put("status", status)

@@ -52,9 +52,17 @@ internal class LeaderBoardPlayerListAdapter(
         holder.completedPOITV.text = "${getRankDataObj[position].total_completed}/17 POIs"
 
         try {
-            val expIntVal: Int = parseInt(getRankDataObj[position].total_exp)
-            holder.playerLevel.text = calculateUserLevel(expIntVal)
-        } catch (e: Exception) {
+            if(getRankDataObj[position].total_exp!=null)
+            {
+                val expIntVal: Int = parseInt(getRankDataObj[position].total_exp)
+                holder.playerLevel.text = calculateUserLevel(expIntVal)
+            }
+            else{
+                val expIntVal: Int = 250
+                holder.playerLevel.text = calculateUserLevel(expIntVal)
+            }
+
+        } catch (e: NullPointerException) {
             e.printStackTrace()
         }
 
@@ -78,13 +86,27 @@ internal class LeaderBoardPlayerListAdapter(
             }
         }
 
-        var display = "0H 0M"
-        val integerValue: Int = parseInt(getRankDataObj[position].total_duration)
-        val hours = integerValue / 3600
-        val temp = integerValue - hours * 3600
-        val minutes = temp / 60
-        display = "${hours}H ${minutes}M"
-        holder.totalDurationTV.text = display
+        if(getRankDataObj[position].total_duration!=null)
+        {
+            var display = "0H 0M"
+            val integerValue: Int = parseInt(getRankDataObj[position].total_duration)
+            val hours = integerValue / 3600
+            val temp = integerValue - hours * 3600
+            val minutes = temp / 60
+            display = "${hours}H ${minutes}M"
+            holder.totalDurationTV.text = display
+        }
+        else
+        {
+            var display = "0H 0M"
+            val integerValue: Int = 15000
+            val hours = integerValue / 3600
+            val temp = integerValue - hours * 3600
+            val minutes = temp / 60
+            display = "${hours}H ${minutes}M"
+            holder.totalDurationTV.text = display
+        }
+
 
         holder.itemView.setOnClickListener {
             context!!.startActivity(

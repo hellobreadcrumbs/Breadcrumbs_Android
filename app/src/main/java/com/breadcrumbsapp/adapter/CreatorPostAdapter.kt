@@ -30,12 +30,15 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-internal class CreatorPostAdapter(getFeed: List<GetFeedDataModel.Message>) :
+internal class CreatorPostAdapter(getFeed: List<GetFeedDataModel.Message>,profilePic:String,userName:String) :
     RecyclerView.Adapter<CreatorPostAdapter.MyViewHolder>() {
 
     private var getFeedsLocalObj: List<GetFeedDataModel.Message> = getFeed
     private lateinit var context: Context
     private lateinit var sessionHandlerClass: SessionHandlerClass
+    private var localProfilePic=profilePic
+    private var localUserName=userName
+
    /* private var trailIcons = intArrayOf(
         R.drawable.breadcrumbs_trail,
         R.drawable.wild_about_twlight_icon,
@@ -130,10 +133,10 @@ internal class CreatorPostAdapter(getFeed: List<GetFeedDataModel.Message>) :
         val localImageObj =
             context.resources.getString(R.string.staging_url) + data.photo_url
 
-        val localProfilePic =
-            context.resources.getString(R.string.staging_url) + data.profile_picture
+        /*val localProfilePic =
+            context.resources.getString(R.string.staging_url) + data.profile_picture*/
 
-        println("localProfilePic = $localImageObj")
+
 
         Glide.with(context)
             .load(localImageObj)
@@ -152,31 +155,13 @@ internal class CreatorPostAdapter(getFeed: List<GetFeedDataModel.Message>) :
 
         holder.descriptionContent.text=data.description
 
-
-
-
-           /* Glide.with(context)
-                .load(R.drawable.breadcrumbs_trail).placeholder(R.drawable.breadcrumbs_trail)
-                .into(holder.userProfilePicture)
-*/
-
-      /*  if(sessionHandlerClass.getSession("temp_trail_id")=="4")
-        {
-            Glide.with(context).load(trailIcons[1]).into(holder.userProfilePicture)
-            holder.username.text=trailNameString[1]
-
-        }
-        else if(sessionHandlerClass.getSession("temp_trail_id")=="6")
-        {
-            Glide.with(context).load(trailIcons[2]).into(holder.userProfilePicture)
-            holder.username.text=trailNameString[2]
-
-        }
-*/
+        println("localProfilePic $localProfilePic")
 
         val imagePath=context.resources.getString(R.string.staging_url)+data.profile_picture
-        Glide.with(context).load(imagePath).into(holder.userProfilePicture)
-        holder.username.text=data.username
+        Glide.with(context).load(localProfilePic).into(holder.userProfilePicture)
+       // holder.username.text=data.username
+        holder.username.text=localUserName
+
 
         //"created": "2021-07-26 06:45:47",
 
