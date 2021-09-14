@@ -178,7 +178,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/selected_player_userInformationLayout" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+               <!--     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/achievementLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -242,8 +242,223 @@
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toEndOf="@+id/trailsIcon"
                             app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>-->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/achievementLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:background="@drawable/frnd_profile_achievement_bg"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        app:layout_constraintTop_toBottomOf="@+id/achievement_title">
 
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/achievements_image_adapter"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toStartOf="@+id/achievement_icon_two_fl"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:listitem="@layout/profile_screen_achievement_image_arrangment_adapter" />
+
+
+                        <FrameLayout
+                            android:id="@+id/achievement_icon_one_fl"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="30dp"
+                            app:layout_constraintEnd_toStartOf="@+id/achievement_icon_two_fl"
+                            app:layout_constraintHorizontal_bias="0.8"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/achievement_icon_one"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/aardvark_achievement_icon"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/achievement_icon_one_lock_iv"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/lock_achievement"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </FrameLayout>
+
+                        <ImageView
+                            android:id="@+id/achievement_icon_two1"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/lock_achievement"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toStartOf="@+id/achievement_icon_three_fl"
+                            app:layout_constraintHorizontal_bias="0.8"
+                            app:layout_constraintStart_toEndOf="@+id/achievement_icon_one_fl"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <FrameLayout
+                            android:id="@+id/achievement_icon_two_fl"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            app:layout_constraintEnd_toStartOf="@+id/achievement_icon_three_fl"
+                            app:layout_constraintHorizontal_bias="0.8"
+                            app:layout_constraintStart_toEndOf="@+id/achievement_icon_one_fl"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/achievement_icon_two"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/aardvark_achievement_icon"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/achievement_icon_two_lock_iv"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/lock_achievement"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </FrameLayout>
+
+                        <ImageView
+                            android:id="@+id/achievement_icon_three1"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/lock_achievement"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toStartOf="@+id/achievement_icon_four_fl"
+                            app:layout_constraintHorizontal_bias="0.8"
+                            app:layout_constraintStart_toEndOf="@+id/achievement_icon_two_fl"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <FrameLayout
+                            android:id="@+id/achievement_icon_three_fl"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            app:layout_constraintEnd_toStartOf="@+id/achievement_icon_four_fl"
+                            app:layout_constraintHorizontal_bias="0.8"
+                            app:layout_constraintStart_toEndOf="@+id/achievement_icon_two_fl"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/achievement_icon_three"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/aardvark_achievement_icon"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/achievement_icon_three_lock_iv"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/lock_achievement"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </FrameLayout>
+
+                        <ImageView
+                            android:id="@+id/achievement_icon_four1"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/lock_achievement"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toStartOf="@+id/achievement_icon_four_fl"
+                            app:layout_constraintHorizontal_bias="0.8"
+                            app:layout_constraintStart_toEndOf="@+id/achievement_icon_three_fl"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <FrameLayout
+                            android:id="@+id/achievement_icon_four_fl"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            app:layout_constraintEnd_toStartOf="@+id/achievement_icon_five_fl"
+                            app:layout_constraintHorizontal_bias="0.8"
+                            app:layout_constraintStart_toEndOf="@+id/achievement_icon_three_fl"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/achievement_icon_four"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/aardvark_achievement_icon"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/achievement_icon_four_lock_iv"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/lock_achievement"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </FrameLayout>
+
+                        <ImageView
+                            android:id="@+id/achievement_icon_five1"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="30dp"
+                            android:src="@drawable/lock_achievement"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.8"
+                            app:layout_constraintStart_toEndOf="@+id/achievement_icon_four_fl"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <FrameLayout
+                            android:id="@+id/achievement_icon_five_fl"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="30dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.8"
+                            app:layout_constraintStart_toEndOf="@+id/achievement_icon_four_fl"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/achievement_icon_five"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/aardvark_achievement_icon"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/achievement_icon_five_lock_iv"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/lock_achievement"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/constraintLayout6"

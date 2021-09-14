@@ -343,13 +343,14 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     }
 
     fun calculateTime(seconds: Long) {
+        println("LeaderBoard seconds => $seconds")
         if(seconds>0)
         {
             val day = TimeUnit.SECONDS.toDays(seconds).toInt()
             val hours = TimeUnit.SECONDS.toHours(seconds) - day * 24
             val minute = TimeUnit.SECONDS.toMinutes(seconds) - TimeUnit.SECONDS.toHours(seconds) * 60
             val second = TimeUnit.SECONDS.toSeconds(seconds) - TimeUnit.SECONDS.toMinutes(seconds) * 60
-            println("Day $day Hour $hours Minute $minute Seconds $second")
+            println("Day-> $day Hour-> $hours Minute-> $minute Seconds-> $second")
 
             // total_duration.text = "$day D $hours H"
             total_duration.text = "${day}D ${hours}H"

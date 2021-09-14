@@ -133,9 +133,9 @@ internal class GetFriendListAdapter(getFriendsListModel: List<GetFriendsListMode
     }
 
     private fun calculateUserLevel(exp: Int): String {
-        var ranking: String = ""
-        var level: Int = 0
-        var base: Int = 0
+        var ranking = ""
+        var level = 0
+        var base = 0
         var nextLevel = 0
         when (exp) {
             in 0..999 -> { // 1000 thresh

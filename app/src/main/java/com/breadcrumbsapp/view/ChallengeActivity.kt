@@ -184,7 +184,7 @@ class ChallengeActivity : AppCompatActivity() {
     }
 
 
-    private fun beginChallengeAPI() {
+/*    private fun beginChallengeAPI() {
         try {
 
             val okHttpClient = OkHttpClient.Builder()
@@ -228,7 +228,7 @@ class ChallengeActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
+    }*/
 
 
 

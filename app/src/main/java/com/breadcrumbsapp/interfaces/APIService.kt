@@ -128,9 +128,6 @@ interface APIService {
     ): Response<ResponseBody>
 
 
-
-
-
     @Headers("Accept:application/json", "Content-Type:application/json;")
     @POST("v1/api/process_friend_request")
     suspend fun acceptORCancelFriendRequest(

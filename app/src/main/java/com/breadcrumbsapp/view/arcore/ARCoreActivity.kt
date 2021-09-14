@@ -13,8 +13,11 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.ArLayoutBinding
 import com.breadcrumbsapp.util.SessionHandlerClass
+import com.breadcrumbsapp.view.DiscoverDetailsScreenActivity
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.ar.core.Anchor
 import com.google.ar.core.Plane
@@ -25,6 +28,7 @@ import com.google.ar.sceneform.rendering.Renderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 import kotlinx.android.synthetic.main.ar_layout.*
+import kotlinx.android.synthetic.main.leader_board_activity_layout.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -54,9 +58,8 @@ class ARCoreActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(binding.sceneformFragmentView.id) as ArFragment
 
         //Default model
-       // setModelPath("model.sfb")
-        setModelPath("gingerbread_house.sfb")
 
+        setModelPath()
 
 
         //Tab listener for the ArFragment
@@ -71,14 +74,20 @@ class ARCoreActivity : AppCompatActivity() {
             placeObject(arFragment, anchor, selectedObject)
         }
 
-        /* //Click listener for lamp and table objects
-         binding.smallTable.setOnClickListener {
-             setModelPath("model.sfb")
-         }
-         binding.bigLamp.setOnClickListener {
-             setModelPath("LampPost.sfb")
-         }*/
+
+        ar_back_view_button.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(
+                   this@ARCoreActivity,
+                    DiscoverDetailsScreenActivity::class.java
+                ).putExtra("from", resources.getString(R.string.discover)))
+        })
+
         binding.captureBtn.setOnClickListener {
+
+            ar_screen_loaderImage.visibility=View.VISIBLE
+            Glide.with(applicationContext).load(R.raw.loading).into(ar_screen_loaderImage)
+
 
             arFragment.arSceneView.planeRenderer.isVisible = false
 
@@ -135,10 +144,10 @@ class ARCoreActivity : AppCompatActivity() {
     /***
      * function to get the model resource on assets directory for each figure.
      */
-    private fun setModelPath(modelFileName: String) {
+    private fun setModelPath() {
+        val modelFileName = "gingerbread_house.sfb"
         selectedObject = Uri.parse(modelFileName)
-        val toast = Toast.makeText(applicationContext, modelFileName, Toast.LENGTH_SHORT)
-        //toast.show()
+
     }
 
 
@@ -152,11 +161,6 @@ class ARCoreActivity : AppCompatActivity() {
             view.width, view.height,
             Bitmap.Config.ARGB_8888
         )
-
-        binding.imageView.visibility = View.GONE
-        binding.imageView.setImageBitmap(bitmap)
-        println("Bitmap = $bitmap")
-
 
         // Create a handler thread to offload the processing of the image.
         val handlerThread = HandlerThread("PixelCopier")
@@ -185,16 +189,23 @@ class ARCoreActivity : AppCompatActivity() {
                         byteArrayOutputStream.close()
                         val URI = file.toURI()
                         sharedPreferences.saveSession("arURI", URI.toString())
+
+                        runOnUiThread {
+                            ar_screen_loaderImage.visibility=View.GONE
+                        }
+
                         startActivity(Intent(applicationContext, ARImagePostScreen::class.java))
                     } else {
                         println("File Name is NULL $bitmap")
                     }
                 } catch (e: Exception) {
-                    val toast: Toast = Toast.makeText(
+                   /* val toast: Toast = Toast.makeText(
                         this@ARCoreActivity, e.toString(),
                         Toast.LENGTH_LONG
                     )
-                    toast.show()
+                    toast.show()*/
+
+                    Log.e("PixelCopier Error =>",e.toString())
                     return@request
                 }
                 @SuppressLint("WrongConstant") val snackbar = Snackbar.make(
@@ -253,7 +264,7 @@ class ARCoreActivity : AppCompatActivity() {
     }
 
     private fun generateFilename(): String? {
-        val date: String = SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(Date())
+        val date: String = SimpleDateFormat("yMDHms", Locale.getDefault()).format(Date())
         return date + "_ar_app.jpg"
     }
 

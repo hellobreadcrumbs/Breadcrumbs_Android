@@ -342,6 +342,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                             if (latLng != null) {
                                 if (isFromOnResume) {
                                     isFromOnResume = false
+
                                     if (sharedPreference.getSession("selected_trail_id") == "") {
                                         getEventsList("4")
                                     } else {
@@ -971,7 +972,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         searchButton.visibility = View.VISIBLE
         profileLayout.visibility = View.VISIBLE
 
-        currentLocation.performClick()
+
         // Get Trails ....
         //getTrailListFromAPI()
 
@@ -1009,7 +1010,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             }
             println("Just:::::::::::::::::: distance  $distance")
             // discover area
-            if ((distance.toDouble() in 0.0..900.0)) {
+            if ((distance.toDouble() in 0.0..20.0)) {
 
                 if (selectedPOIDiscoverId == null) {
                     Toast.makeText(this, "POI is nearby", Toast.LENGTH_LONG).show()
@@ -1031,7 +1032,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             }
 
 
-            val bearing = lastlatlng?.let {
+            var bearing = lastlatlng?.let {
                 val lastLocation = Location("LastLatLng")
                 lastLocation.latitude = it.latitude
                 lastLocation.longitude = it.longitude
@@ -1050,15 +1051,17 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             }
             //    println("Just:::::::::::::::: bearing $bearing")
 
-            // if (!bearing.equals(0.0)) {
+             if (!bearing.equals(0.0)) {
+
+                 bearing= (360.0).toFloat()
+
+              }
             println("*** Triggered $bearing")
             currentLocationMarker = mMap.addMarker(
                 MarkerOptions().position(newLatLng).icon(
                     BitmapDescriptorFactory.fromResource(map_current_location_marker)
                 ).anchor(0.5f, 0.5f).rotation(bearing).flat(true)
             )
-
-            // }
 
             mMap.uiSettings.isCompassEnabled = false
 
@@ -1093,7 +1096,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         val origin = "origin=" + from.latitude + "," + from.longitude
         val dest = "destination=" + to.latitude + "," + to.longitude
         val sensor = "sensor=false"
-        val mode = "mode=walking"
+        val mode = "mode=driving"
         val key = "key=" + resources.getString(R.string.directionsApiKey)
         val params = "$origin&$dest&$sensor&$mode&$key"
         return "https://maps.googleapis.com/maps/api/directions/json?$params"
@@ -1233,11 +1236,12 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         println("On Map Ready :: $latLng")
 
-        currentLocationMarker = mMap.addMarker(
+       /* currentLocationMarker = mMap.addMarker(
             MarkerOptions().position(latLng).icon(
                 BitmapDescriptorFactory.fromResource(map_current_location_marker)
             )
-        )
+        )*/
+
 
 
 
@@ -1880,8 +1884,9 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                             runOnUiThread {
                                 markerPOI?.remove()
                                 mMap.clear()
-
+                                currentLocation.performClick()
                             }
+
                             response.body()?.message?.forEach {
                                 if (it.trail_id == trailID) {
                                     println("************** NAME = ${it.title}")

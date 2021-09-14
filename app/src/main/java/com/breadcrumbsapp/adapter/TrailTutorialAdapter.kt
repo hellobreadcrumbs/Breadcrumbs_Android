@@ -18,6 +18,8 @@ internal class TrailTutorialAdapter :
         R.drawable.trail_tutorial_4
     )
 
+    //trail_tutorial_4
+
     /*
     var mainContentString: Array<String> = arrayOf(
         "Select a trail to explore, you’ll never know what you’ll find!",

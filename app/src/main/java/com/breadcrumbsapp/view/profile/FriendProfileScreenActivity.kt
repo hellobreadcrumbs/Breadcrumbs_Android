@@ -19,6 +19,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import kotlinx.android.synthetic.main.profile_screen_friend.*
+import kotlinx.android.synthetic.main.user_profile_screen_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,6 +33,16 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlinx.android.synthetic.main.profile_screen_friend.achievement_icon_five as achievement_icon_five1
+import kotlinx.android.synthetic.main.profile_screen_friend.achievement_icon_five_lock_iv as achievement_icon_five_lock_iv1
+import kotlinx.android.synthetic.main.profile_screen_friend.achievement_icon_four as achievement_icon_four1
+import kotlinx.android.synthetic.main.profile_screen_friend.achievement_icon_three as achievement_icon_three1
+import kotlinx.android.synthetic.main.user_profile_screen_layout.achievement_icon_four_lock_iv as achievement_icon_four_lock_iv1
+import kotlinx.android.synthetic.main.user_profile_screen_layout.achievement_icon_one as achievement_icon_one1
+import kotlinx.android.synthetic.main.user_profile_screen_layout.achievement_icon_one_lock_iv as achievement_icon_one_lock_iv1
+import kotlinx.android.synthetic.main.user_profile_screen_layout.achievement_icon_three_lock_iv as achievement_icon_three_lock_iv1
+import kotlinx.android.synthetic.main.user_profile_screen_layout.achievement_icon_two as achievement_icon_two1
+import kotlinx.android.synthetic.main.user_profile_screen_layout.achievement_icon_two_lock_iv as achievement_icon_two_lock_iv1
 
 class FriendProfileScreenActivity : AppCompatActivity() {
     private lateinit var feedPostAdapter: FeedPostAdapter
@@ -405,7 +416,379 @@ class FriendProfileScreenActivity : AppCompatActivity() {
             e.printStackTrace()
         }
     }
+    private fun loadAchievements() {
+        println("load::: ${CommonData.getFriendAchievementsModel!!.size}")
 
+        var completedPOI = 0
+        when (CommonData.getFriendAchievementsModel!!.size) {
+            1 -> {
+
+                val badgeImg =
+                    resources.getString(R.string.staging_url) + CommonData.getFriendAchievementsModel!![0].badge_img
+                Glide.with(applicationContext).load(badgeImg).into(achievement_icon_one)
+
+                achievement_icon_two.visibility = View.GONE
+                achievement_icon_two_lock_iv.visibility = View.VISIBLE
+                achievement_icon_three.visibility = View.GONE
+                achievement_icon_three_lock_iv.visibility = View.VISIBLE
+                achievement_icon_four.visibility = View.GONE
+                achievement_icon_four_lock_iv.visibility = View.VISIBLE
+                achievement_icon_five.visibility = View.GONE
+                achievement_icon_five_lock_iv.visibility = View.VISIBLE
+
+                completedPOI = 0
+                for (j in CommonData.getFriendAchievementsModel!![0].pois.indices) {
+                    if (CommonData.getFriendAchievementsModel!![0].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+
+                //if(CommonData.getFriendAchievementsModel!![0].ua_id != null)
+                if (completedPOI == CommonData.getFriendAchievementsModel!![0].pois.size) {
+
+                    achievement_icon_one.alpha = 1.0f
+                    achievement_icon_one_lock_iv.visibility = View.GONE
+                } else {
+                    achievement_icon_one.alpha = 0.5f
+                    achievement_icon_one_lock_iv.visibility = View.VISIBLE
+                }
+
+
+            }
+            2 -> {
+                val badgeImg1 =
+                    resources.getString(R.string.staging_url) + CommonData.getFriendAchievementsModel!![0].badge_img
+                Glide.with(applicationContext).load(badgeImg1).into(achievement_icon_one)
+
+                val badgeImg2 =
+                    resources.getString(R.string.staging_url) + CommonData.getFriendAchievementsModel!![1].badge_img
+                Glide.with(applicationContext).load(badgeImg2).into(achievement_icon_two)
+
+
+                achievement_icon_three.visibility = View.GONE
+                achievement_icon_three_lock_iv.visibility = View.VISIBLE
+                achievement_icon_four.visibility = View.GONE
+                achievement_icon_four_lock_iv.visibility = View.VISIBLE
+                achievement_icon_five.visibility = View.GONE
+                achievement_icon_five_lock_iv.visibility = View.VISIBLE
+
+                completedPOI = 0
+                for (j in CommonData.getFriendAchievementsModel!![0].pois.indices) {
+                    if (CommonData.getFriendAchievementsModel!![0].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getFriendAchievementsModel!![0].pois.size}")
+
+                //if(CommonData.getFriendAchievementsModel!![0].ua_id != null)
+                if (completedPOI == CommonData.getFriendAchievementsModel!![0].pois.size) {
+
+                    achievement_icon_one.alpha = 1.0f
+                    achievement_icon_one_lock_iv.visibility = View.GONE
+                } else {
+                    achievement_icon_one.alpha = 0.5f
+                    achievement_icon_one_lock_iv.visibility = View.VISIBLE
+                }
+
+                completedPOI = 0
+                for (j in CommonData.getFriendAchievementsModel!![1].pois.indices) {
+                    if (CommonData.getFriendAchievementsModel!![1].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getFriendAchievementsModel!![1].pois.size}")
+
+                //if(CommonData.getFriendAchievementsModel!![1].ua_id != null)
+                if (completedPOI == CommonData.getFriendAchievementsModel!![1].pois.size) {
+
+                    achievement_icon_two.alpha = 1.0f
+                    achievement_icon_two_lock_iv.visibility = View.GONE
+                } else {
+                    achievement_icon_two.alpha = 0.5f
+                    achievement_icon_two_lock_iv.visibility = View.VISIBLE
+                }
+            }
+            3 -> {
+
+
+                val badgeImg1 =
+                    resources.getString(R.string.staging_url) + CommonData.getFriendAchievementsModel!![0].badge_img
+                Glide.with(applicationContext).load(badgeImg1).into(achievement_icon_one)
+
+                val badgeImg2 =
+                    resources.getString(R.string.staging_url) + CommonData.getFriendAchievementsModel!![1].badge_img
+                Glide.with(applicationContext).load(badgeImg2).into(achievement_icon_two)
+
+                val badgeImg3 =
+                    resources.getString(R.string.staging_url) + CommonData.getFriendAchievementsModel!![2].badge_img
+                Glide.with(applicationContext).load(badgeImg3).into(achievement_icon_three)
+
+                achievement_icon_four.visibility = View.GONE
+                achievement_icon_four_lock_iv.visibility = View.VISIBLE
+                achievement_icon_five.visibility = View.GONE
+                achievement_icon_five_lock_iv.visibility = View.VISIBLE
+
+                completedPOI = 0
+                for (j in CommonData.getFriendAchievementsModel!![0].pois.indices) {
+                    if (CommonData.getFriendAchievementsModel!![0].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getFriendAchievementsModel!![0].pois.size}")
+
+                //if(CommonData.getFriendAchievementsModel!![0].ua_id != null)
+                if (completedPOI == CommonData.getFriendAchievementsModel!![0].pois.size) {
+
+                    achievement_icon_one.alpha = 1.0f
+                    achievement_icon_one_lock_iv.visibility = View.GONE
+                } else {
+                    achievement_icon_one.alpha = 0.5f
+                    achievement_icon_one_lock_iv.visibility = View.VISIBLE
+                }
+
+                completedPOI = 0
+                for (j in CommonData.getFriendAchievementsModel!![1].pois.indices) {
+                    if (CommonData.getFriendAchievementsModel!![1].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getFriendAchievementsModel!![1].pois.size}")
+
+                //if(CommonData.getFriendAchievementsModel!![1].ua_id != null)
+                if (completedPOI == CommonData.getFriendAchievementsModel!![1].pois.size) {
+
+                    achievement_icon_two.alpha = 1.0f
+                    achievement_icon_two_lock_iv.visibility = View.GONE
+                } else {
+                    achievement_icon_two.alpha = 0.5f
+                    achievement_icon_two_lock_iv.visibility = View.VISIBLE
+                }
+
+                completedPOI = 0
+                for (j in CommonData.getFriendAchievementsModel!![2].pois.indices) {
+                    if (CommonData.getFriendAchievementsModel!![2].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getFriendAchievementsModel!![2].pois.size}")
+
+                //if(CommonData.getFriendAchievementsModel!![2].ua_id != null)
+                if (completedPOI == CommonData.getFriendAchievementsModel!![2].pois.size) {
+
+                    achievement_icon_three.alpha = 1.0f
+                    achievement_icon_three_lock_iv.visibility = View.GONE
+                } else {
+                    achievement_icon_three.alpha = 0.5f
+                    achievement_icon_three_lock_iv.visibility = View.VISIBLE
+                }
+            }
+            4 -> {
+                val badgeImg1 =
+                    resources.getString(R.string.staging_url) + CommonData.getFriendAchievementsModel!![0].badge_img
+                Glide.with(applicationContext).load(badgeImg1).into(achievement_icon_one)
+
+                val badgeImg2 =
+                    resources.getString(R.string.staging_url) + CommonData.getFriendAchievementsModel!![1].badge_img
+                Glide.with(applicationContext).load(badgeImg2).into(achievement_icon_two)
+
+                val badgeImg3 =
+                    resources.getString(R.string.staging_url) + CommonData.getFriendAchievementsModel!![2].badge_img
+                Glide.with(applicationContext).load(badgeImg3).into(achievement_icon_three)
+
+                val badgeImg4 =
+                    resources.getString(R.string.staging_url) + CommonData.getFriendAchievementsModel!![3].badge_img
+                Glide.with(applicationContext).load(badgeImg4).into(achievement_icon_four)
+
+
+                achievement_icon_five.visibility = View.GONE
+                achievement_icon_five_lock_iv.visibility = View.VISIBLE
+
+
+                completedPOI = 0
+                for (j in CommonData.getFriendAchievementsModel!![0].pois.indices) {
+                    if (CommonData.getFriendAchievementsModel!![0].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getFriendAchievementsModel!![0].pois.size}")
+
+                //if(CommonData.getFriendAchievementsModel!![0].ua_id != null)
+                if (completedPOI == CommonData.getFriendAchievementsModel!![0].pois.size) {
+
+                    achievement_icon_one.alpha = 1.0f
+                    achievement_icon_one_lock_iv.visibility = View.GONE
+                } else {
+                    achievement_icon_one.alpha = 0.5f
+                    achievement_icon_one_lock_iv.visibility = View.VISIBLE
+                }
+
+                completedPOI = 0
+                for (j in CommonData.getFriendAchievementsModel!![1].pois.indices) {
+                    if (CommonData.getFriendAchievementsModel!![1].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getFriendAchievementsModel!![1].pois.size}")
+
+                //if(CommonData.getFriendAchievementsModel!![1].ua_id != null)
+                if (completedPOI == CommonData.getFriendAchievementsModel!![1].pois.size) {
+
+                    achievement_icon_two.alpha = 1.0f
+                    achievement_icon_two_lock_iv.visibility = View.GONE
+                } else {
+                    achievement_icon_two.alpha = 0.5f
+                    achievement_icon_two_lock_iv.visibility = View.VISIBLE
+                }
+                completedPOI = 0
+                for (j in CommonData.getFriendAchievementsModel!![2].pois.indices) {
+                    if (CommonData.getFriendAchievementsModel!![2].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getFriendAchievementsModel!![2].pois.size}")
+
+                //if(CommonData.getFriendAchievementsModel!![2].ua_id != null)
+                if (completedPOI == CommonData.getFriendAchievementsModel!![2].pois.size) {
+
+                    achievement_icon_three.alpha = 1.0f
+                    achievement_icon_three_lock_iv.visibility = View.GONE
+                } else {
+                    achievement_icon_three.alpha = 0.5f
+                    achievement_icon_three_lock_iv.visibility = View.VISIBLE
+                }
+                completedPOI = 0
+                for (j in CommonData.getFriendAchievementsModel!![3].pois.indices) {
+                    if (CommonData.getFriendAchievementsModel!![3].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getFriendAchievementsModel!![3].pois.size}")
+
+                //if(CommonData.getFriendAchievementsModel!![3].ua_id != null)
+                if (completedPOI == CommonData.getFriendAchievementsModel!![3].pois.size) {
+
+                    achievement_icon_four.alpha = 1.0f
+                    achievement_icon_four_lock_iv.visibility = View.GONE
+                } else {
+                    achievement_icon_four.alpha = 0.5f
+                    achievement_icon_four_lock_iv.visibility = View.VISIBLE
+                }
+
+            }
+            5 -> {
+                val badgeImg1 =
+                    resources.getString(R.string.staging_url) + CommonData.getFriendAchievementsModel!![0].badge_img
+                Glide.with(applicationContext).load(badgeImg1).into(achievement_icon_one)
+
+                val badgeImg2 =
+                    resources.getString(R.string.staging_url) + CommonData.getFriendAchievementsModel!![1].badge_img
+                Glide.with(applicationContext).load(badgeImg2).into(achievement_icon_two)
+
+                val badgeImg3 =
+                    resources.getString(R.string.staging_url) + CommonData.getFriendAchievementsModel!![2].badge_img
+                Glide.with(applicationContext).load(badgeImg3).into(achievement_icon_three)
+
+                val badgeImg4 =
+                    resources.getString(R.string.staging_url) + CommonData.getFriendAchievementsModel!![3].badge_img
+                Glide.with(applicationContext).load(badgeImg4).into(achievement_icon_four)
+
+                val badgeImg5 =
+                    resources.getString(R.string.staging_url) + CommonData.getFriendAchievementsModel!![4].badge_img
+                Glide.with(applicationContext).load(badgeImg5).into(achievement_icon_five)
+
+
+                completedPOI = 0
+                for (j in CommonData.getFriendAchievementsModel!![0].pois.indices) {
+                    if (CommonData.getFriendAchievementsModel!![0].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getFriendAchievementsModel!![0].pois.size}")
+
+                //if(CommonData.getFriendAchievementsModel!![0].ua_id != null)
+                if (completedPOI == CommonData.getFriendAchievementsModel!![0].pois.size) {
+
+                    achievement_icon_one.alpha = 1.0f
+                    achievement_icon_one_lock_iv.visibility = View.GONE
+                } else {
+                    achievement_icon_one.alpha = 0.5f
+                    achievement_icon_one_lock_iv.visibility = View.VISIBLE
+                }
+
+                completedPOI = 0
+                for (j in CommonData.getFriendAchievementsModel!![1].pois.indices) {
+                    if (CommonData.getFriendAchievementsModel!![1].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getFriendAchievementsModel!![1].pois.size}")
+
+                //if(CommonData.getFriendAchievementsModel!![1].ua_id != null)
+                if (completedPOI == CommonData.getFriendAchievementsModel!![1].pois.size) {
+
+                    achievement_icon_two.alpha = 1.0f
+                    achievement_icon_two_lock_iv.visibility = View.GONE
+                } else {
+                    achievement_icon_two.alpha = 0.5f
+                    achievement_icon_two_lock_iv.visibility = View.VISIBLE
+                }
+
+                completedPOI = 0
+                for (j in CommonData.getFriendAchievementsModel!![2].pois.indices) {
+                    if (CommonData.getFriendAchievementsModel!![2].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getFriendAchievementsModel!![2].pois.size}")
+
+                //if(CommonData.getFriendAchievementsModel!![2].ua_id != null)
+                if (completedPOI == CommonData.getFriendAchievementsModel!![2].pois.size) {
+
+                    achievement_icon_three.alpha = 1.0f
+                    achievement_icon_three_lock_iv.visibility = View.GONE
+                } else {
+                    achievement_icon_three.alpha = 0.5f
+                    achievement_icon_three_lock_iv.visibility = View.VISIBLE
+                }
+
+                completedPOI = 0
+                for (j in CommonData.getFriendAchievementsModel!![3].pois.indices) {
+                    if (CommonData.getFriendAchievementsModel!![3].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getFriendAchievementsModel!![3].pois.size}")
+
+                //if(CommonData.getFriendAchievementsModel!![3].ua_id != null)
+                if (completedPOI == CommonData.getFriendAchievementsModel!![3].pois.size) {
+
+                    achievement_icon_four.alpha = 1.0f
+                    achievement_icon_four_lock_iv.visibility = View.GONE
+                } else {
+                    achievement_icon_four.alpha = 0.5f
+                    achievement_icon_four_lock_iv.visibility = View.VISIBLE
+                }
+                completedPOI = 0
+                for (j in CommonData.getFriendAchievementsModel!![4].pois.indices) {
+                    if (CommonData.getFriendAchievementsModel!![4].pois[j].uc_id != null) {
+                        ++completedPOI
+                    }
+                }
+                println("POI = $completedPOI == ${CommonData.getFriendAchievementsModel!![4].pois.size}")
+
+                //if(CommonData.getFriendAchievementsModel!![4].ua_id != null)
+                if (completedPOI == CommonData.getFriendAchievementsModel!![4].pois.size) {
+
+                    achievement_icon_five.alpha = 1.0f
+                    achievement_icon_five_lock_iv.visibility = View.GONE
+                } else {
+                    achievement_icon_five.alpha = 0.5f
+                    achievement_icon_five_lock_iv.visibility = View.VISIBLE
+                }
+
+            }
+        }
+    }
     private fun getUserAchievementsAPI(friendID: String) {
         try {
 
@@ -456,7 +839,7 @@ class FriendProfileScreenActivity : AppCompatActivity() {
                         runOnUiThread {
 
                             if (CommonData.getFriendAchievementsModel != null) {
-
+                                loadAchievements()
                                 println("UserAchieve Data: ${CommonData.getFriendAchievementsModel!!.size}")
 
 

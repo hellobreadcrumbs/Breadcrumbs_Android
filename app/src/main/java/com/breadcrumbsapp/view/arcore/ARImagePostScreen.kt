@@ -123,22 +123,10 @@ class ARImagePostScreen : AppCompatActivity() {
                 val localImagePath=resources.getString(R.string.staging_url)+CommonData.getTrailsData!![i].map_icon_dt_url
                 Glide.with(applicationContext).load(localImagePath).into(ar_challenge_screen_trail_icon)
                 Glide.with(applicationContext).load(localImagePath).into(ar_image_post_banner_trail_image)
-                ar_image_post_banner_trail_name.text=CommonData.getTrailsData!![i].name
-
-
-
-
 
             }
         }
-       /* if(selectedTrailID=="4")
-        {
-            Glide.with(applicationContext).load(trailIcons[1]).into(ar_challenge_screen_trail_icon)
-        }
-        else if(selectedTrailID=="6")
-        {
-            Glide.with(applicationContext).load(trailIcons[2]).into(ar_challenge_screen_trail_icon)
-        }*/
+        ar_image_post_banner_trail_name.text= "${sharedPreference.getSession("selectedPOIName")}"
 
 
         arChallengeLevelCloseBtn.setOnClickListener {
@@ -160,6 +148,7 @@ class ARImagePostScreen : AppCompatActivity() {
             //    CropImage.activity(imageUri).setAspectRatio(1, 1).setFixAspectRatio(true).start(this)
 
             startActivity(Intent(this@ARImagePostScreen, ARCoreActivity::class.java))
+            finish()
         }
         binding.imagePostButton.setOnClickListener {
 
@@ -199,18 +188,9 @@ class ARImagePostScreen : AppCompatActivity() {
                 binding.arSelfieChallengeLevelLayout.visibility = View.VISIBLE
                 imagePostLayout.visibility = View.GONE
 
-                /*       selfieChallengeProgressBar.max = overallValue
-                       scoredValue = discoverValue + selfiePostValue
-                       arSelfiePostMark.text = "+$selfiePostValue XP"
 
-                       ObjectAnimator.ofInt(selfieChallengeProgressBar, "progress", scoredValue)
-                           .setDuration(1000)
-                           .start()
-
-                       val subtractValue = overallValue - scoredValue
-                       arBalanceScoreValue.text = "$subtractValue XP to Level 2"*/
-
-                calculateXPPoints()
+               // calculateXPPoints()
+                getUserDetails()
             } else {
                 binding.didUKnowLayout.visibility = View.VISIBLE
                 binding.imagePostLayout.visibility = View.VISIBLE
@@ -228,11 +208,6 @@ class ARImagePostScreen : AppCompatActivity() {
                     e.printStackTrace()
                 }
 
-                /*binding.titleText.text = "Photo posted successfully!"
-                binding.didYouKnowTxt.visibility = View.VISIBLE
-                binding.didYouKnowContent.visibility = View.VISIBLE
-                imagePostButton.background = getDrawable(R.drawable.selfie_continue_btn)
-                imagePostButton.text = "CONTINUE"*/
             }
 
         }
@@ -352,12 +327,248 @@ class ARImagePostScreen : AppCompatActivity() {
                 .setDuration(1000)
                 .start()
 
-            discoverPOI()
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
+    private fun calculateUserLevel(exp: Int) {
+        var ranking: String = ""
+        var level: Int = 0
+        var base: Int = 0
+        var nextLevel: Int = 0
+        when (exp) {
+            in 0..999 -> { // 1000 thresh
+                ranking = "RECRUIT"
+                level = 1
+                base = 1000
+                nextLevel = 2000
+            }
+            in 1000..1999 -> { // 1000 thresh
+                ranking = "RECRUIT"
+                level = 2
+                base = 1000
+                nextLevel = 2000
+            }
+            in 2000..2999 -> { // 1000 thresh
+                ranking = "RECRUIT"
+                level = 3
+                base = 2000
+                nextLevel = 3000
+            }
+            in 3000..3999 -> { // 1000 thresh
+                ranking = "RECRUIT"
+                level = 4
+                base = 3000
+                nextLevel = 4000
+            }
+            in 4000..5999 -> { // 2000 thresh
+                ranking = "RECRUIT"
+                level = 5
+                base = 4000
+                nextLevel = 6000
+            }
+            in 6000..7999 -> { // 2000 thresh
+                ranking = "RECRUIT"
+                level = 6
+                base = 6000
+                nextLevel = 8000
+            }
+            in 8000..9999 -> { // 2000 thresh
+                ranking = "RECRUIT"
+                level = 7
+                base = 8000
+                nextLevel = 10000
+            }
+            in 10000..11999 -> { // 2000 thresh
+                ranking = "RECRUIT"
+                level = 8
+                base = 10000
+                nextLevel = 12000
+            }
+            in 12000..13999 -> { // 2000 thresh
+                ranking = "RECRUIT"
+                level = 9
+                base = 12000
+                nextLevel = 14000
+            }
+            in 14000..16999 -> { // 2000 thresh
+                ranking = "NAVIGATOR"
+                level = 10
+                base = 14000
+                nextLevel = 17000
 
+            }
+            in 17000..20499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 11
+                base = 17000
+                nextLevel = 20500
+
+            }
+            in 20500..24499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 12
+                base = 20500
+                nextLevel = 24500
+
+            }
+            in 24500..28499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 13
+                base = 24500
+                nextLevel = 28500
+
+            }
+            in 28500..33499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 14
+                base = 28500
+                nextLevel = 33500
+
+            }
+            in 33500..38999 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 15
+                base = 33500
+                nextLevel = 39000
+
+            }
+            in 39000..44999 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 16
+                base = 39000
+                nextLevel = 45000
+
+            }
+            in 45000..51499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 17
+                base = 45000
+                nextLevel = 51500
+
+            }
+            in 51500..58499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 18
+                base = 51500
+                nextLevel = 58500
+
+            }
+            in 58500..65999 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 19
+                base = 58500
+                nextLevel = 66000
+
+            }
+            in 66000..73999 -> { // 2000 thresh
+                ranking = "Captain"
+                level = 20
+                base = 66000
+                nextLevel = 74000
+
+            }
+        }
+        println("AR Challenge => $ranking Lv. $level")
+        ar_challenge_level_name.text="$ranking $level"
+        val expToLevel = (nextLevel - base) - (exp - base) // (2000-1000) - (400-1000) = (1000)-(-600)=1600
+        println("expToLevel= $expToLevel")
+
+        val balanceVal:Int=nextLevel-exp
+        println("Report => $nextLevel  - $exp = $balanceVal")
+        arBalanceScoreValue.text = "$balanceVal XP TO ${level + 1}"
+      //  arBalanceScoreValue.text = " $expToLevel XP TO Lv ${level + 1}"
+
+        arSelfieChallengeProgressBar.max = nextLevel
+        ObjectAnimator.ofInt(
+            arSelfieChallengeProgressBar,
+            "progress",
+            exp
+        )
+            .setDuration(1000)
+            .start()
+
+
+
+        arDiscoveryMark.text = "+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
+        arSelfiePostMark.text = "+${sharedPreference.getSession("selectedPOIChallenge_XP_Value")} XP"
+
+    }
+    private fun getUserDetails() {
+
+        try {
+
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+                .build()
+
+
+            // Create Retrofit
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(resources.getString(R.string.staging_url))
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            // Create JSON using JSONObject
+
+            val jsonObject = JSONObject()
+            jsonObject.put("user_id", sharedPreference.getSession("login_id"))
+
+
+            println("getUserDetails Url = ${resources.getString(R.string.staging_url)}")
+            println("getUserDetails Input = $jsonObject")
+
+
+            val mediaType = "application/json".toMediaTypeOrNull()
+            val requestBody = jsonObject.toString().toRequestBody(mediaType)
+
+
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                // Create Service
+                val service = retrofit.create(APIService::class.java)
+
+                val response = service.getUserDetails(
+                    resources.getString(R.string.api_access_token),
+                    requestBody
+                )
+
+
+                if (response.isSuccessful) {
+                    if (response.body()!!.status) {
+                        if (response.body()!!.message != null) {
+
+                            CommonData.getUserDetails = response.body()?.message
+
+                            println("GetUseDetails = ${CommonData.getUserDetails!!.experience}")
+
+
+                            runOnUiThread {
+                                println("From Get User :: ${Integer.parseInt(CommonData.getUserDetails!!.experience)}")
+                                calculateUserLevel(Integer.parseInt(CommonData.getUserDetails!!.experience))
+                            }
+
+
+                        } else {
+
+                        }
+                    }
+                }
+            }
+
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
     private fun discoverPOI() {
 
 
@@ -409,11 +620,6 @@ class ARImagePostScreen : AppCompatActivity() {
                     val status: Boolean = jsonObject?.get("status")!!.asBoolean
                     println("Discover_POI Status = $jsonElement")
 
-                    if (status) {
-
-
-
-                    }
                 } else {
 
                     println("Printed JSON ELSE : ${response.code()}")
@@ -564,6 +770,8 @@ class ARImagePostScreen : AppCompatActivity() {
 
                         imagePostButton.background = getDrawable(R.drawable.selfie_continue_btn)
                         imagePostButton.text = "CONTINUE"
+
+                        discoverPOI()
                     }
 
                 } else {

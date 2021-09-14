@@ -873,7 +873,15 @@ class ProfileScreenActivity : AppCompatActivity() {
 
                             println("GetUseDetails = ${CommonData.getUserDetails!!.experience}")
 
-                            profile_screen_user_name.text="${CommonData.getUserDetails!!.username}"
+                            if (CommonData.getUserDetails!!.username != "") {
+                                profile_screen_user_name.text = "${CommonData.getUserDetails!!.username}"
+                            } else {
+                                // sessionHandlerClass.getSession("player_name")
+                                profile_screen_user_name.text =
+                                    sessionHandlerClass.getSession("player_name")
+                            }
+
+
                             runOnUiThread {
                                 println("From Get User :: ${Integer.parseInt(CommonData.getUserDetails!!.experience)}")
                                 calculateUserLevel(Integer.parseInt(CommonData.getUserDetails!!.experience))

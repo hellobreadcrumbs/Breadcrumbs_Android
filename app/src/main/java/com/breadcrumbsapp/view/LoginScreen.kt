@@ -282,9 +282,9 @@ class LoginScreen : AppCompatActivity() {
                                 sharedPreference.saveSession("player_name", name)
                                 if (email != "") {
                                     emailID = email
-                                    socialRegister()
 
                                 }
+                                socialRegister()
                             } catch (e: JSONException) {
                                 e.printStackTrace()
                             }
@@ -446,6 +446,7 @@ class LoginScreen : AppCompatActivity() {
                     val jsonObject: JsonObject? = jsonElement?.asJsonObject
 
                     val status: Boolean = jsonObject?.get("status")!!.asBoolean
+                    println("socialRegister => $status")
                     if (!status) {
                         //  Toast.makeText(this@LoginScreenActivity,"Already Registered!",Toast.LENGTH_SHORT).show()
                         socialLogin()

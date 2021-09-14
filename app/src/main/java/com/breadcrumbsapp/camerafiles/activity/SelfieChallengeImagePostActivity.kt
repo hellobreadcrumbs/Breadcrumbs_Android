@@ -36,6 +36,7 @@ import kotlinx.android.synthetic.main.image_activity.*
 import kotlinx.android.synthetic.main.profile_edit_layout.*
 import kotlinx.android.synthetic.main.quiz_challenge.*
 import kotlinx.android.synthetic.main.selfie_challenge_level_layout.*
+import kotlinx.android.synthetic.main.user_profile_screen_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -96,51 +97,50 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
         selectedTrailID = sharedPreference.getSession("selected_trail_id").toString()
 
 
-        if(sharedPreference.getSession("selectedPOITrivia")!="")
-        {
-            did_you_know_txt.visibility=View.VISIBLE
-            did_you_know_content.visibility=View.VISIBLE
+        if (sharedPreference.getSession("selectedPOITrivia") != "") {
+            did_you_know_txt.visibility = View.VISIBLE
+            did_you_know_content.visibility = View.VISIBLE
 
-            did_you_know_content.text=sharedPreference.getSession("selectedPOITrivia")
+            did_you_know_content.text = sharedPreference.getSession("selectedPOITrivia")
 
-        }
-        else
-        {
-            did_you_know_txt.visibility=View.GONE
-            did_you_know_content.visibility=View.GONE
+        } else {
+            did_you_know_txt.visibility = View.GONE
+            did_you_know_content.visibility = View.GONE
         }
 
 
-        for(i in CommonData.getTrailsData!!.indices)
-        {
-            if(CommonData.getTrailsData!![i].id==selectedTrailID)
-            {
+        for (i in CommonData.getTrailsData!!.indices) {
+            if (CommonData.getTrailsData!![i].id == selectedTrailID) {
                 println("Details IF ::: Trail ID = ${CommonData.getTrailsData!![i].id} Completed_POI == ${CommonData.getTrailsData!![i].completed_poi_count}")
 
-                val updatedPoiCount= CommonData.getTrailsData!![i].completed_poi_count.toInt()+1
+                val updatedPoiCount = CommonData.getTrailsData!![i].completed_poi_count.toInt() + 1
                 println("updatedPoiCount = $updatedPoiCount")
-                selfie_challenge_screen_poi_completed_details.text="$updatedPoiCount /" +
+                selfie_challenge_screen_poi_completed_details.text = "$updatedPoiCount /" +
                         " ${CommonData.getTrailsData!![i].poi_count} POIs DISCOVERED"
 
-                val localImagePath=resources.getString(R.string.staging_url)+CommonData.getTrailsData!![i].map_icon_dt_url
-                Glide.with(applicationContext).load(localImagePath).into(selfie_image_post_banner_trail_image)
-                Glide.with(applicationContext).load(localImagePath).into(selfie_challenge_screen_trail_icon)
+                val localImagePath =
+                    resources.getString(R.string.staging_url) + CommonData.getTrailsData!![i].map_icon_dt_url
+                Glide.with(applicationContext).load(localImagePath)
+                    .into(selfie_image_post_banner_trail_image)
+                Glide.with(applicationContext).load(localImagePath)
+                    .into(selfie_challenge_screen_trail_icon)
 
             }
         }
 
         //selectedPOIName
-        selfie_image_post_banner_trail_name.text="${sharedPreference.getSession("selectedPOIName")}"
+        selfie_image_post_banner_trail_name.text =
+            "${sharedPreference.getSession("selectedPOIName")}"
 
-    /*    for(i in CommonData.getTrailsData!!.indices)
-        {
-            if(CommonData.getTrailsData!![i].id==selectedTrailID)
+        /*    for(i in CommonData.getTrailsData!!.indices)
             {
-                val localImagePath=resources.getString(R.string.staging_url)+CommonData.getTrailsData!![i].map_icon_dt_url
-                Glide.with(applicationContext).load(localImagePath).into(selfie_image_post_banner_trail_image)
-                Glide.with(applicationContext).load(localImagePath).into(selfie_challenge_screen_trail_icon)
-            }
-        }*/
+                if(CommonData.getTrailsData!![i].id==selectedTrailID)
+                {
+                    val localImagePath=resources.getString(R.string.staging_url)+CommonData.getTrailsData!![i].map_icon_dt_url
+                    Glide.with(applicationContext).load(localImagePath).into(selfie_image_post_banner_trail_image)
+                    Glide.with(applicationContext).load(localImagePath).into(selfie_challenge_screen_trail_icon)
+                }
+            }*/
 
         selfieImagePostBackButton.setOnClickListener {
             //f
@@ -201,7 +201,8 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                  val subtractValue=overallValue-scoredValue
                  balanceScoreValue.text="$subtractValue XP to Level 2"*/
 
-                calculateXPPoints()
+                getUserDetails()
+                //calculateXPPoints()
             } else {
                 didU_knowLayout.visibility = View.VISIBLE
                 imagePostLayout.visibility = View.VISIBLE
@@ -237,7 +238,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                 R.anim.anim_slide_out_left
             )
             finish()
-          //  discoverPOI()
+            //  discoverPOI()
         }
 
 
@@ -283,37 +284,37 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
         println("Selfie XP Details : expToLevel = $expToLevel")
 
 
-
-
-        val POIDiscoverXP:Int=sharedPreference.getSession("selectedPOIDiscovery_XP_Value")!!.toInt()
-        val POIchallengeXP:Int=sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
-        val completedPointIntValue=previousPoints!!.toInt()
+        val POIDiscoverXP: Int =
+            sharedPreference.getSession("selectedPOIDiscovery_XP_Value")!!.toInt()
+        val POIchallengeXP: Int =
+            sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
+        val completedPointIntValue = previousPoints!!.toInt()
         println("Selfie XP Details : POIDiscoverXP = $POIDiscoverXP")
         println("Selfie XP Details : POIchallengeXP = $POIchallengeXP")
 
-        val totalXP:Int=POIDiscoverXP+POIchallengeXP+completedPointIntValue
+        val totalXP: Int = POIDiscoverXP + POIchallengeXP + completedPointIntValue
         println("Selfie XP Details : totalXP = $totalXP")
 
-        selfieDiscoveryMark.text="+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
-        selfiePostMark.text="+${sharedPreference.getSession("selectedPOIChallenge_XP_Value")} XP"
+        selfieDiscoveryMark.text =
+            "+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
+        selfiePostMark.text = "+${sharedPreference.getSession("selectedPOIChallenge_XP_Value")} XP"
 
-        selfie_challenge_level_name.text=presentLevel
+        selfie_challenge_level_name.text = presentLevel
 
         println("Selfie XP Details : totalGainedXP = $totalXP")
 
-        var balanceVal:Int=progressBarMaxValue-totalXP
-        if(balanceVal<0)
-        {
+        var balanceVal: Int = progressBarMaxValue - totalXP
+        if (balanceVal < 0) {
             progressBarMaxValue += 2000
-            balanceVal=progressBarMaxValue-totalXP
-            levelValue="LV ${sharedPreference.getSession("current_level")as Int}"
+            balanceVal = progressBarMaxValue - totalXP
+            levelValue = "LV ${sharedPreference.getSession("current_level") as Int}"
         }
 
         balanceScoreValue.text = "$balanceVal XP TO $levelValue"
 
-        sharedPreference.saveSession("xp_balance_value",balanceVal)
-        sharedPreference.saveSession("total_gained_xp",totalXP)
-        sharedPreference.saveSession("balance_xp_string",balanceScoreValue.text.toString())
+        sharedPreference.saveSession("xp_balance_value", balanceVal)
+        sharedPreference.saveSession("total_gained_xp", totalXP)
+        sharedPreference.saveSession("balance_xp_string", balanceScoreValue.text.toString())
 
 
         println("Selfie XP Details : levelValue = $levelValue")
@@ -325,7 +326,246 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
             .setDuration(1000)
             .start()
     }
+    private fun calculateUserLevel(exp: Int) {
+        var ranking: String = ""
+        var level: Int = 0
+        var base: Int = 0
+        var nextLevel: Int = 0
+        when (exp) {
+            in 0..999 -> { // 1000 thresh
+                ranking = "RECRUIT"
+                level = 1
+                base = 1000
+                nextLevel = 2000
+            }
+            in 1000..1999 -> { // 1000 thresh
+                ranking = "RECRUIT"
+                level = 2
+                base = 1000
+                nextLevel = 2000
+            }
+            in 2000..2999 -> { // 1000 thresh
+                ranking = "RECRUIT"
+                level = 3
+                base = 2000
+                nextLevel = 3000
+            }
+            in 3000..3999 -> { // 1000 thresh
+                ranking = "RECRUIT"
+                level = 4
+                base = 3000
+                nextLevel = 4000
+            }
+            in 4000..5999 -> { // 2000 thresh
+                ranking = "RECRUIT"
+                level = 5
+                base = 4000
+                nextLevel = 6000
+            }
+            in 6000..7999 -> { // 2000 thresh
+                ranking = "RECRUIT"
+                level = 6
+                base = 6000
+                nextLevel = 8000
+            }
+            in 8000..9999 -> { // 2000 thresh
+                ranking = "RECRUIT"
+                level = 7
+                base = 8000
+                nextLevel = 10000
+            }
+            in 10000..11999 -> { // 2000 thresh
+                ranking = "RECRUIT"
+                level = 8
+                base = 10000
+                nextLevel = 12000
+            }
+            in 12000..13999 -> { // 2000 thresh
+                ranking = "RECRUIT"
+                level = 9
+                base = 12000
+                nextLevel = 14000
+            }
+            in 14000..16999 -> { // 2000 thresh
+                ranking = "NAVIGATOR"
+                level = 10
+                base = 14000
+                nextLevel = 17000
 
+            }
+            in 17000..20499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 11
+                base = 17000
+                nextLevel = 20500
+
+            }
+            in 20500..24499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 12
+                base = 20500
+                nextLevel = 24500
+
+            }
+            in 24500..28499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 13
+                base = 24500
+                nextLevel = 28500
+
+            }
+            in 28500..33499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 14
+                base = 28500
+                nextLevel = 33500
+
+            }
+            in 33500..38999 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 15
+                base = 33500
+                nextLevel = 39000
+
+            }
+            in 39000..44999 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 16
+                base = 39000
+                nextLevel = 45000
+
+            }
+            in 45000..51499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 17
+                base = 45000
+                nextLevel = 51500
+
+            }
+            in 51500..58499 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 18
+                base = 51500
+                nextLevel = 58500
+
+            }
+            in 58500..65999 -> { // 2000 thresh
+                ranking = "Navigator"
+                level = 19
+                base = 58500
+                nextLevel = 66000
+
+            }
+            in 66000..73999 -> { // 2000 thresh
+                ranking = "Captain"
+                level = 20
+                base = 66000
+                nextLevel = 74000
+
+            }
+        }
+        println("Selfie Challenge => $ranking Lv. $level")
+        val expToLevel = (nextLevel - base) - (exp - base) // (2000-1000) - (400-1000) = (1000)-(-600)=1600
+        println("expToLevel= $expToLevel")
+        val poiDiscoverXP: Int = sharedPreference.getSession("selectedPOIDiscovery_XP_Value")!!.toInt()
+        val poiChallengeXP: Int = sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
+        //   val totalXP: Int = poiDiscoverXP + poiChallengeXP + exp
+        //   println("Report => $poiDiscoverXP + $poiChallengeXP + $exp = $totalXP")
+        val balanceVal: Int = nextLevel - exp
+        println("Report => $nextLevel - $exp  = $balanceVal")
+        balanceScoreValue.text = " $balanceVal XP TO Lv ${level + 1}"
+
+        selfieChallengeProgressBar.max = nextLevel
+        ObjectAnimator.ofInt(
+            selfieChallengeProgressBar,
+            "progress",
+            exp
+        )
+            .setDuration(1000)
+            .start()
+
+
+        selfie_challenge_level_name.text="$ranking $level"
+        selfieDiscoveryMark.text = "+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
+        selfiePostMark.text = "+${sharedPreference.getSession("selectedPOIChallenge_XP_Value")} XP"
+
+
+
+    }
+    private fun getUserDetails() {
+
+        try {
+
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+                .build()
+
+
+            // Create Retrofit
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(resources.getString(R.string.staging_url))
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            // Create JSON using JSONObject
+
+            val jsonObject = JSONObject()
+            jsonObject.put("user_id", sharedPreference.getSession("login_id"))
+
+
+            println("getUserDetails Url = ${resources.getString(R.string.staging_url)}")
+            println("getUserDetails Input = $jsonObject")
+
+
+            val mediaType = "application/json".toMediaTypeOrNull()
+            val requestBody = jsonObject.toString().toRequestBody(mediaType)
+
+
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                // Create Service
+                val service = retrofit.create(APIService::class.java)
+
+                val response = service.getUserDetails(
+                    resources.getString(R.string.api_access_token),
+                    requestBody
+                )
+
+
+                if (response.isSuccessful) {
+                    if (response.body()!!.status) {
+                        if (response.body()!!.message != null) {
+
+                            CommonData.getUserDetails = response.body()?.message
+
+                            println("GetUseDetails = ${CommonData.getUserDetails!!.experience}")
+
+
+                            runOnUiThread {
+                                println("From Get User :: ${Integer.parseInt(CommonData.getUserDetails!!.experience)}")
+                                calculateUserLevel(Integer.parseInt(CommonData.getUserDetails!!.experience))
+                            }
+
+
+                        } else {
+
+                        }
+                    }
+                }
+            }
+
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
     private fun discoverPOI() {
 
 
@@ -428,60 +668,34 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 
 
                 //try {
-                   // val path = FilePathUtils.passUri(data, applicationContext)
+                // val path = FilePathUtils.passUri(data, applicationContext)
 
-                   // if (path != null) {
-                        val f = File(resultUri!!.path)
-                        val newFile = createImageFile()
-                        val bitmap = BitmapFactory.decodeFile(f.path)
-                        val newBitMap =
-                            setOrientationForImage(bitmap, f.path)
-                        newBitMap?.compress(
-                            Bitmap.CompressFormat.JPEG,
-                            40,
-                            FileOutputStream(newFile)
-                        )
+                // if (path != null) {
+                val f = File(resultUri.path)
+                val newFile = createImageFile()
+                val bitmap = BitmapFactory.decodeFile(f.path)
+                val newBitMap =
+                    setOrientationForImage(bitmap, f.path)
+                newBitMap?.compress(
+                    Bitmap.CompressFormat.JPEG,
+                    40,
+                    FileOutputStream(newFile)
+                )
 
-                        selectedFile = f
+                selectedFile = f
 
-                        println("Selfie :: 1  $selectedFile")
-                        println("Selfie :: 2 ${selectedFile.name}")
-                   // }
-               /* } catch (e: Exception) {
-                    e.printStackTrace()
-                }*/
+                println("Selfie :: 1  $selectedFile")
+                println("Selfie :: 2 ${selectedFile.name}")
+                // }
+                /* } catch (e: Exception) {
+                     e.printStackTrace()
+                 }*/
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 val error = result.error
             }
         }
     }
 
-/*
-    let _d = new Date();
-    let filename = _d.getDate() + "" + _d.getMonth() + "" + _d.getFullYear() + "" + _d.getHours() + "" + _d.getMinutes() + "" + _d.getSeconds()
-    var file = {
-        uri: $filepath,
-        type: 'image/jpeg',
-        name: 'selfie_challenge_' + filename + "_" + $poi_id + '.jpg',
-    };
-*/
-
-
-
-
-    private fun getRealPathFromURI(uri: Uri?): String? {
-        var path = ""
-        if (contentResolver != null) {
-            val cursor = contentResolver.query(uri!!, null, null, null, null)
-            if (cursor != null) {
-                cursor.moveToFirst()
-                val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-                path = cursor.getString(idx)
-                cursor.close()
-            }
-        }
-        return path
-    }
 
     private fun setOrientationForImage(scaledBitmap: Bitmap, filePath: String): Bitmap? {
         val exif: ExifInterface
@@ -578,11 +792,11 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                     println("Selfie Image JSon Body if  ${response.body()}")
 
                     runOnUiThread {
-                        titleText.text="Photo posted successfully!"
+                        titleText.text = "Photo posted successfully!"
 
 
-                        imagePostButton.background=getDrawable(R.drawable.selfie_continue_btn)
-                        imagePostButton.text="CONTINUE"
+                        imagePostButton.background = getDrawable(R.drawable.selfie_continue_btn)
+                        imagePostButton.text = "CONTINUE"
 
                         discoverPOI()
 
@@ -598,6 +812,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 
 
     }
+
 
     private fun intercept(): HttpLoggingInterceptor {
         val interceptors = HttpLoggingInterceptor()
