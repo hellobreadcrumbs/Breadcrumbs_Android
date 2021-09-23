@@ -25,7 +25,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/claritycity_bold"
-        android:text="Pioneer"
+
         android:textColor="#4B3B30"
         android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="@+id/creator_post_profile_picture"
@@ -34,11 +34,13 @@
 
     <ImageView
         android:id="@+id/creator_post_screen_imageView"
-        android:layout_width="match_parent"
-        android:layout_height="360dp"
-        android:layout_marginTop="20dp"
-        android:scaleType="fitXY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        app:layout_constraintDimensionRatio="1:1"
 
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/creator_post_profile_picture" />
@@ -52,7 +54,6 @@
         android:background="@drawable/feed_screen_like_button"
         android:textOff=""
         android:textOn=""
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/creator_post_screen_imageView" />
 
@@ -120,7 +121,6 @@
 
         app:trimLines="3"
         android:fontFamily="@font/dinish_regular"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         android:textColor="#4B3B30"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

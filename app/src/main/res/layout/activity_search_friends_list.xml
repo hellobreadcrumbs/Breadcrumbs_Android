@@ -41,7 +41,7 @@
             android:fontFamily="@font/dinish_regular"
             android:hint="@string/search_username_email"
             android:textColor="@color/black"
-
+            android:textAllCaps="false"
             android:textColorHint="@color/hint_color_gray"
             android:textSize="14sp" />
         <requestFocus/>

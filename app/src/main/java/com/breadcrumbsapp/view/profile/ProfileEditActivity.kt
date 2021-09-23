@@ -81,7 +81,8 @@ class ProfileEditActivity : AppCompatActivity() {
         binding = ProfileEditLayoutBinding.inflate(layoutInflater)
         sharedPreference = SessionHandlerClass(applicationContext)
         setContentView(binding.root)
-        nick_name_text.text = sharedPreference.getSession("player_name")
+       // nick_name_text.text = sharedPreference.getSession("player_name")
+        nick_name_text.text = CommonData.getUserDetails!!.username
         loginID=sharedPreference.getSession("login_id") as String
 
 

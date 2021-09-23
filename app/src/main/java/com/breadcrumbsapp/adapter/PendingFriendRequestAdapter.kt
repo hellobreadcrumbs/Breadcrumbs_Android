@@ -61,61 +61,61 @@ class PendingFriendRequestAdapter(val mContext : Context,
         var nextLevel = 0
         when (exp) {
             in 0..999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 1
                 base = 1000
                 nextLevel = 2000
             }
             in 1000..1999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 2
                 base = 1000
                 nextLevel = 2000
             }
             in 2000..2999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 3
                 base = 2000
                 nextLevel = 3000
             }
             in 3000..3999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 4
                 base = 3000
                 nextLevel = 4000
             }
             in 4000..5999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 5
                 base = 4000
                 nextLevel = 6000
             }
             in 6000..7999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 6
                 base = 6000
                 nextLevel = 8000
             }
             in 8000..9999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 7
                 base = 8000
                 nextLevel = 10000
             }
             in 10000..11999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 8
                 base = 10000
                 nextLevel = 12000
             }
             in 12000..13999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 9
                 base = 12000
                 nextLevel = 14000
             }
             in 14000..16999 -> { // 2000 thresh
-                ranking = "NAVIGATOR"
+                ranking = "Navigator"
                 level = 10
                 base = 14000
                 nextLevel = 17000
@@ -193,7 +193,7 @@ class PendingFriendRequestAdapter(val mContext : Context,
             }
         }
 
-        return "$ranking Lv. $level"
+        return "$ranking LV. $level"
 
 
     }

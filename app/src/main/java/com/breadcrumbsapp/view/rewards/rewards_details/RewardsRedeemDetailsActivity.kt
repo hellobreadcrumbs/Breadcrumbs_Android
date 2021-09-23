@@ -68,13 +68,14 @@ class RewardsRedeemDetailsActivity : AppCompatActivity() {
             selectedRewardID = bundle.getString(REWARD_ID)
 
             redeemMsgBody = bundle.getString(RewardsDetailsActivity.REDEEM_MSG_BODY)
-            popStr = message + "\n" + redeemMsgBody
+           // popStr = message + "\n" + redeemMsgBody
+            popStr = "$message"
             displayUiData(redeemQrCode, message, redeemDetails, redeemMsgBody)
         }
 
         reward_qr_details_screen_back_button.setOnClickListener {
 
-            startActivity(Intent(applicationContext, RewardsScreenActivity::class.java))
+            startActivity(Intent(applicationContext, RewardsScreenActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
             finish()
         }
 
@@ -83,9 +84,9 @@ class RewardsRedeemDetailsActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        startActivity(Intent(applicationContext, RewardsScreenActivity::class.java))
-        finish()
+      //  super.onBackPressed()
+        startActivity(Intent(applicationContext, RewardsScreenActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        this.finish()
     }
 
     private val updateTextTask = object : Runnable {
@@ -159,7 +160,9 @@ class RewardsRedeemDetailsActivity : AppCompatActivity() {
         okButton.setOnClickListener(View.OnClickListener {
 
             dialog.dismiss()
-            startActivity(Intent(applicationContext, RewardsScreenActivity::class.java))
+            startActivity(Intent(applicationContext, RewardsScreenActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+            finish()
         })
 
 

@@ -209,7 +209,7 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
                 binding.takeMeThereBtn.background = getDrawable(R.drawable.arrived_btn)
                 binding.discoverStatusText.text = "UNDISCOVERED"
             }
-            from == "discovered" -> {
+            from == "DISCOVERED" -> {
                 binding.scannerIcon.alpha = 0.5f
                 binding.takeMeThereBtn.text = "TAKE ME THERE"
                 binding.takeMeThereBtn.background = getDrawable(R.drawable.take_me_there_bg)
@@ -242,17 +242,8 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
 
 
         binding.backButton.setOnClickListener {
-            startActivity(
-                Intent(
-                    this@DiscoverDetailsScreenActivity,
-                    DiscoverScreenActivity::class.java
-                ).putExtra("isFromLogin", "no")
-            )
-            overridePendingTransition(
-                R.anim.anim_slide_in_right,
-                R.anim.anim_slide_out_right
-            )
 
+            sharedPreference.saveSession("clicked_button", "from_back_button")
             finish()
         }
 
@@ -305,6 +296,7 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
         binding.takeMeThereBtn.setOnClickListener {
 
             sharedPreference.saveSession("clicked_button", "take_me_there")
+            sharedPreference.saveSession("toggle_button", "map")
             finish()
         }
 
@@ -426,7 +418,7 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
                         this@DiscoverDetailsScreenActivity,
                         ChallengeActivity::class.java
                     ).putExtra("challengeName", challengeName)
-                        .putExtra("poiImage", poiImage)
+                        .putExtra("poiImage", poiImage).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 )
                 finish()
             }
@@ -492,6 +484,12 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
             .setNegativeButton("Cancel", null)
             .create()
             .show()
+    }
+
+    override fun onBackPressed() {
+      //  super.onBackPressed()
+        sharedPreference.saveSession("clicked_button", "from_back_button")
+        finish()
     }
 
 

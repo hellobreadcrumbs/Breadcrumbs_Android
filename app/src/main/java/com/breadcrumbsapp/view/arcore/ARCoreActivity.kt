@@ -85,9 +85,11 @@ class ARCoreActivity : AppCompatActivity() {
 
         binding.captureBtn.setOnClickListener {
 
+            binding.captureBtn.isClickable=false
             ar_screen_loaderImage.visibility=View.VISIBLE
+            loaderLayout.visibility=View.VISIBLE
+            loaderLayout.alpha=0.5f
             Glide.with(applicationContext).load(R.raw.loading).into(ar_screen_loaderImage)
-
 
             arFragment.arSceneView.planeRenderer.isVisible = false
 
@@ -191,6 +193,7 @@ class ARCoreActivity : AppCompatActivity() {
                         sharedPreferences.saveSession("arURI", URI.toString())
 
                         runOnUiThread {
+                            loaderLayout.visibility=View.GONE
                             ar_screen_loaderImage.visibility=View.GONE
                         }
 

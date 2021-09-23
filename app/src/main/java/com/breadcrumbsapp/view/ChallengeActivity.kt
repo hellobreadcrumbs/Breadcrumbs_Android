@@ -62,7 +62,7 @@ class ChallengeActivity : AppCompatActivity() {
         selectedTrailID = sharedPreference.getSession("selected_trail_id").toString()
         noOfQuestions= sharedPreference.getSession("noOfQuestions").toString()
 
-
+        sharedPreference.saveSession("clicked_button", "")
         poiNameTextView.text = sharedPreference.getSession("selectedPOIName")
 
         val bundle: Bundle = intent.extras!!

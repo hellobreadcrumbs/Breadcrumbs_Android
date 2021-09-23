@@ -89,7 +89,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 
         // start cropping activity for pre-acquired image saved on the device
         CropImage.activity(imageUri).setAspectRatio(1, 1)
-            .setFixAspectRatio(true).setScaleType(CropImageView.ScaleType.FIT_CENTER)
+            .setFixAspectRatio(true).setScaleType(CropImageView.ScaleType.CENTER_CROP)
             .start(this)
 
 
@@ -190,16 +190,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                 selfieChallengeLevelLayout.visibility = View.VISIBLE
                 imagePostLayout.visibility = View.GONE
 
-                /* selfieChallengeProgressBar.max=overallValue
-                 scoredValue=discoverValue+selfiePostValue
-                 selfiePostMark.text= "+$selfiePostValue XP"
 
-                 ObjectAnimator.ofInt(selfieChallengeProgressBar, "progress", scoredValue)
-                     .setDuration(1000)
-                     .start()
-
-                 val subtractValue=overallValue-scoredValue
-                 balanceScoreValue.text="$subtractValue XP to Level 2"*/
 
                 getUserDetails()
                 //calculateXPPoints()
@@ -226,7 +217,8 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
         }
 
         selfieChallengeLevelCloseBtn.setOnClickListener {
-
+            sharedPreference.saveSession("clicked_button", "")
+            sharedPreference.saveSession("from_challenge_screen", "YES")
             startActivity(
                 Intent(
                     this@SelfieChallengeImagePostActivity,
@@ -244,8 +236,13 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 
     }
 
-    private fun calculateXPPoints() {
-        /*  selfieChallengeProgressBar.max=overallValue
+    override fun onResume() {
+        super.onResume()
+        setResult(RESULT_CANCELED);
+    }
+
+  /*  private fun calculateXPPoints() {
+        *//*  selfieChallengeProgressBar.max=overallValue
           discoverValue= CommonData.getUserDetails!!.experience.toInt()
           scoredValue=discoverValue+selfiePostValue
           selfiePostMark.text= "+$selfiePostValue XP"
@@ -266,7 +263,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
               .start()
           totalScore+=scoredValue
           val subtractValue = overallValue - scoredValue
-          balanceScoreValue.text = "$subtractValue XP to Level 2"*/
+          balanceScoreValue.text = "$subtractValue XP to Level 2"*//*
 
 
         println("Selfie XP Details : progressBarMaxValue = calculate points")
@@ -325,7 +322,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
         ObjectAnimator.ofInt(selfieChallengeProgressBar, "progress", totalXP)
             .setDuration(1000)
             .start()
-    }
+    }*/
     private fun calculateUserLevel(exp: Int) {
         var ranking: String = ""
         var level: Int = 0
@@ -333,61 +330,61 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
         var nextLevel: Int = 0
         when (exp) {
             in 0..999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 1
                 base = 1000
-                nextLevel = 2000
+                nextLevel = 1000
             }
             in 1000..1999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 2
                 base = 1000
                 nextLevel = 2000
             }
             in 2000..2999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 3
                 base = 2000
                 nextLevel = 3000
             }
             in 3000..3999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 4
                 base = 3000
                 nextLevel = 4000
             }
             in 4000..5999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 5
                 base = 4000
                 nextLevel = 6000
             }
             in 6000..7999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 6
                 base = 6000
                 nextLevel = 8000
             }
             in 8000..9999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 7
                 base = 8000
                 nextLevel = 10000
             }
             in 10000..11999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 8
                 base = 10000
                 nextLevel = 12000
             }
             in 12000..13999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 9
                 base = 12000
                 nextLevel = 14000
             }
             in 14000..16999 -> { // 2000 thresh
-                ranking = "NAVIGATOR"
+                ranking = "Navigator"
                 level = 10
                 base = 14000
                 nextLevel = 17000
@@ -464,34 +461,56 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 
             }
         }
-        println("Selfie Challenge => $ranking Lv. $level")
+        println("Selfie Challenge => $ranking $level")
+        selfie_challenge_level_name.text="$ranking LV. $level"
         val expToLevel = (nextLevel - base) - (exp - base) // (2000-1000) - (400-1000) = (1000)-(-600)=1600
         println("expToLevel= $expToLevel")
         val poiDiscoverXP: Int = sharedPreference.getSession("selectedPOIDiscovery_XP_Value")!!.toInt()
         val poiChallengeXP: Int = sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
         //   val totalXP: Int = poiDiscoverXP + poiChallengeXP + exp
         //   println("Report => $poiDiscoverXP + $poiChallengeXP + $exp = $totalXP")
-        val balanceVal: Int = nextLevel - exp
+        var balanceVal: Int = nextLevel - exp
         println("Report => $nextLevel - $exp  = $balanceVal")
-        balanceScoreValue.text = " $balanceVal XP TO Lv ${level + 1}"
+        //Report => 3000 - 2000  = 1000
 
         selfieChallengeProgressBar.max = nextLevel
-        ObjectAnimator.ofInt(
-            selfieChallengeProgressBar,
-            "progress",
-            exp
-        )
-            .setDuration(1000)
-            .start()
+        if(balanceVal<=0)
+        {
+            val levelValue=level + 1
+            selfie_challenge_level_name.text="$ranking LV. $levelValue"
+
+            println("Report => IF = $nextLevel - $exp  = $balanceVal")
+            balanceScoreValue.text = " $exp XP TO LV. ${level + 1}"
+
+            ObjectAnimator.ofInt(
+                selfieChallengeProgressBar,
+                "progress",
+                balanceVal
+            )
+                .setDuration(1000)
+                .start()
+
+        }
+        else{
+            println("Report => ELSE = $nextLevel - $exp  = $balanceVal")
+
+            balanceScoreValue.text = " $balanceVal XP TO LV. ${level + 1}"
+
+            ObjectAnimator.ofInt(
+                selfieChallengeProgressBar,
+                "progress",
+                exp
+            )
+                .setDuration(1000)
+                .start()
+        }
 
 
-        selfie_challenge_level_name.text="$ranking $level"
         selfieDiscoveryMark.text = "+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
         selfiePostMark.text = "+${sharedPreference.getSession("selectedPOIChallenge_XP_Value")} XP"
 
-
-
     }
+
     private fun getUserDetails() {
 
         try {
@@ -617,10 +636,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                     val status: Boolean = jsonObject?.get("status")!!.asBoolean
                     println("Discover_POI Status = $jsonElement")
 
-                    if (status) {
 
-
-                    }
                 } else {
 
                     println("Printed JSON ELSE : ${response.code()}")
@@ -650,6 +666,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
+            println("Crop:: Result => $resultCode :: $result")
             if (resultCode == RESULT_OK) {
                 val resultUri = result.uri
                 binding.capturedImage.setImageURI(resultUri)
@@ -657,11 +674,10 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                 imagePostLayout.visibility = View.VISIBLE
 
                 poiID = sharedPreference.getSession("selectedPOIID").toString()
-                dateFormat =
-                    SimpleDateFormat(FILENAME, Locale.US).format(System.currentTimeMillis())
+                dateFormat = SimpleDateFormat(FILENAME, Locale.US).format(System.currentTimeMillis())
                 tempFile =
                     "uri:${result.uri}" + ",type:'image/jpeg',name:'selfie_challenge_'$dateFormat+_$poiID.jpg"
-                println("tempFile $tempFile")
+                println("tempFile $dateFormat")
                 //    constraintLayout.setBackgroundColor(Color.parseColor("#F8F0DD"))
 
                 println("Result_Pth = ${resultUri!!.path}")
@@ -692,6 +708,15 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                  }*/
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 val error = result.error
+
+            }
+            else
+            {
+                val uri = sharedPreference.getSession("cameraUri")
+                val imageUri: Uri = Uri.parse(uri)
+                CropImage.activity(imageUri).setAspectRatio(1, 1)
+                    .setFixAspectRatio(true).setScaleType(CropImageView.ScaleType.CENTER_CROP)
+                    .start(this)
             }
         }
     }
@@ -822,6 +847,6 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val FILENAME = "dd-MM-yyyy-HH-mm-ss"
+        private const val FILENAME = "dd-MM-yyyy-HH-MM-SS"
     }
 }

@@ -183,5 +183,8 @@
     <string name="select_file_upload">Choose your photo</string>
     <string name="file_too_large">The selected file is too large. Select a new file with size less than 2mb</string>
     <string name="give_permission">Kindly allow the permission, Otherwise you cannot take a photo.</string>
+    <string name="no_posts_yet">No posts yet</string>
+    <string name="no_records_yet">No records yet</string>
+    <string name="new_rewards_pop_up_content">You\'ve got rewards waiting for you!\nHit \"View Rewards\" to find out more.</string>
 
 </resources>

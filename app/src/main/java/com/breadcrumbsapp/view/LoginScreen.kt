@@ -39,6 +39,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import kotlinx.android.synthetic.main.login_activity.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -270,6 +271,9 @@ class LoginScreen : AppCompatActivity() {
                         result.accessToken
                     ) { _, response ->
                         println("Fb response = $response")
+
+                        dummyTxt.text="$response"
+
                         if (response.error != null) {
                             // handle error
                             println("Fb response = $response")
@@ -279,6 +283,7 @@ class LoginScreen : AppCompatActivity() {
                                 val email = response.jsonObject["email"].toString()
                                 val name = response.jsonObject["first_name"].toString()
                                 println("***FB Details = $email : $name")
+                                userName=name
                                 sharedPreference.saveSession("player_name", name)
                                 if (email != "") {
                                     emailID = email
@@ -461,17 +466,7 @@ class LoginScreen : AppCompatActivity() {
                         sharedPreference.saveBoolean("isLogin", true)
 
                         getUserDetails()
-                       /* startActivity(
-                            Intent(
-                                this@LoginScreen,
-                                DiscoverScreenActivity::class.java
-                            ).putExtra("isFromLogin", "yes")
-                        )
-                        overridePendingTransition(
-                            R.anim.anim_slide_in_left,
-                            R.anim.anim_slide_out_left
-                        )
-                        finish()*/
+
                     }
                 } else {
 
@@ -558,19 +553,7 @@ class LoginScreen : AppCompatActivity() {
                         ).show()
                         getUserDetails()
 
-                        /* sharedPreference.saveBoolean("isLogin", true)
 
-                     startActivity(
-                         Intent(
-                             this@LoginScreen,
-                             DiscoverScreenActivity::class.java
-                         ).putExtra("isFromLogin","yes")
-                     )
-                     overridePendingTransition(
-                         R.anim.anim_slide_in_left,
-                         R.anim.anim_slide_out_left
-                     )
-                     finish()*/
                     }
                 } else {
 

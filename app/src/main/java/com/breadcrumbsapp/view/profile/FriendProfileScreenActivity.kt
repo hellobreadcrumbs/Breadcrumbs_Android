@@ -48,13 +48,13 @@ class FriendProfileScreenActivity : AppCompatActivity() {
     private lateinit var feedPostAdapter: FeedPostAdapter
     private var interceptor = intercept()
 
-    //private lateinit var message: GetRankingModel.Message
     private lateinit var binding: ProfileScreenFriendBinding
-    var playerLevelString: String = ""
+    private  var playerLevelString: String = ""
     private lateinit var userID: String
     private lateinit var sessionHandlerClass: SessionHandlerClass
-    var completedPOI: Int = 0
-    var completedTrail: Int = 0
+
+    private var completedPoiCount: Int = 0
+    private var completedTrailCount: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,12 +80,20 @@ class FriendProfileScreenActivity : AppCompatActivity() {
         val friendID = intent.getStringExtra("friend_id").toString()
         val profilePic = intent.getStringExtra("profile_pic").toString()
         val friendStatus = intent.getStringExtra("friend_status").toString()
+        val friendUserID = intent.getStringExtra("friend_user_id").toString()
+
+
+
+
+        println("Friend ID details.. ${friendID} , ${friendUserID}")
 
         selected_player_profile_name.text = "${username}'s Profile"
         selected_player_leaderBoard_playerName.text = username
         friend_profile_screen_postTitle.text = "${username}'S POSTS"
         friends_profile_completed_POIs.text = "$totalExp XP"
         selected_player_leaderBoard_player_level.text = playerLevelString
+
+
 
 
         if(friendStatus=="1")
@@ -106,9 +114,9 @@ class FriendProfileScreenActivity : AppCompatActivity() {
                     null
                 )
             ).into(selected_player_userProfilePicture)
-
-        getMyFeedPostDetails(friendID)
-        getUserAchievementsAPI(friendID)
+        getTrailDetails(friendUserID)
+        getMyFeedPostDetails(friendUserID)
+        getUserAchievementsAPI(friendUserID)
 
         add_friend_btn.setOnClickListener {
 
@@ -208,8 +216,6 @@ class FriendProfileScreenActivity : AppCompatActivity() {
                                 no_post_text.visibility=View.VISIBLE
                             }*/
 
-
-
                             if (response.body()!!.message != null) {
                                 if (CommonData.feedList.size > 0) {
                                     CommonData.feedList.clear()
@@ -218,7 +224,14 @@ class FriendProfileScreenActivity : AppCompatActivity() {
 
                                     println("Friend Userid REs:: ${it.user_id}")
                                     //  if (it.user_id != "54" || it.user_id !="null"||it.user_id !=null && it.title!=null)
-                                    if (it.user_id != "54") {
+                                   /* if (it.user_id != "54") {
+                                        println("************** NAME = ${it.title}")
+                                        CommonData.feedList.add(it)
+
+                                    }*/
+                                    //userID
+
+                                    if (it.user_id == userID) {
                                         println("************** NAME = ${it.title}")
                                         CommonData.feedList.add(it)
 
@@ -277,10 +290,7 @@ class FriendProfileScreenActivity : AppCompatActivity() {
             // Create JSON using JSONObject
 
             val jsonObject = JSONObject()
-
             jsonObject.put("friend_id", friendID)
-
-
             println("unFriend API Url = ${resources.getString(R.string.staging_url)}")
             println("unFriend API Input = $jsonObject")
 
@@ -840,23 +850,6 @@ class FriendProfileScreenActivity : AppCompatActivity() {
 
                             if (CommonData.getFriendAchievementsModel != null) {
                                 loadAchievements()
-                                println("UserAchieve Data: ${CommonData.getFriendAchievementsModel!!.size}")
-
-
-                                for (i in CommonData.getFriendAchievementsModel!!.indices) {
-                                    if (CommonData.getFriendAchievementsModel!![i].ua_id != null) {
-                                        ++completedTrail
-                                    }
-
-                                    if (CommonData.getFriendAchievementsModel!![i].pois[i].uc_id != null) {
-                                        ++completedPOI
-                                    }
-                                }
-
-                                friend_profile_completed_poi_count.text = completedPOI.toString()
-                                friend_profile_completed_trail_count.text =
-                                    completedTrail.toString()
-
 
                             }
 
@@ -874,7 +867,90 @@ class FriendProfileScreenActivity : AppCompatActivity() {
             e.printStackTrace()
         }
     }
+    private fun getTrailDetails(friendUserID:String) {
+        try {
 
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+                .build()
+
+
+            // Create Retrofit
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(resources.getString(R.string.staging_url))
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            // Create JSON using JSONObject
+
+            val jsonObject = JSONObject()
+            jsonObject.put("user_id", friendUserID)
+
+
+            val mediaType = "application/json".toMediaTypeOrNull()
+            val requestBody = jsonObject.toString().toRequestBody(mediaType)
+
+
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                // Create Service
+                val service = retrofit.create(APIService::class.java)
+
+                val response = service.getTrailsList(
+                    resources.getString(R.string.api_access_token),
+                    requestBody
+                )
+
+                if (response.isSuccessful) {
+                    if (response.body()!!.status) {
+
+                        CommonData.getTrailsData = response.body()?.message
+                        runOnUiThread {
+
+
+                            if (CommonData.getTrailsData != null) {
+                                for (i in CommonData.getTrailsData!!.indices) {
+                                    println("Details IF completed_poi_count :::  ${CommonData.getTrailsData!![i].completed_poi_count}")
+
+                                    completedPoiCount += CommonData.getTrailsData!![i].completed_poi_count.toInt()
+
+                                    if (CommonData.getTrailsData!![i].id == "4") {
+                                        println("Poi Count:: ID -> 4 = ${CommonData.getTrailsData!![i].poi_count}")
+                                        if (CommonData.getTrailsData!![i].poi_count == CommonData.getTrailsData!![i].completed_poi_count) {
+                                            ++completedTrailCount
+                                        }
+                                    } else if (CommonData.getTrailsData!![i].id == "6") {
+                                        println("Poi Count:: ID -> 6 = ${CommonData.getTrailsData!![i].poi_count}")
+                                        if (CommonData.getTrailsData!![i].poi_count == CommonData.getTrailsData!![i].completed_poi_count) {
+                                            ++completedTrailCount
+                                        }
+                                    }
+
+
+                                }
+
+                                friend_profile_completed_poi_count.text = "$completedPoiCount"
+                                friend_profile_completed_trail_count.text = "$completedTrailCount"
+                            }
+
+                        }
+                    }
+
+                }
+
+
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
     private fun intercept(): HttpLoggingInterceptor {
         val interceptors = HttpLoggingInterceptor()
         interceptors.level = HttpLoggingInterceptor.Level.BODY

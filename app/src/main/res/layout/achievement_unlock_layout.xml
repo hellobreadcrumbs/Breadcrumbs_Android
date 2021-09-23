@@ -45,7 +45,7 @@
 
 
             <ImageView
-                android:id="@+id/imageView7"
+                android:id="@+id/achievement_unlock_iv"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="50dp"
@@ -55,19 +55,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/achievement_unlock_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="30dp"
-                android:layout_marginTop="15dp"
                 android:fontFamily="@font/claritycity_bold"
                 android:text="LOCAL COSMOPOLITE"
                 android:textColor="#4B3B30"
                 android:textSize="@dimen/challenge_begin_screen_title_text_size"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+                app:layout_constraintBottom_toBottomOf="@+id/achievement_unlock_iv"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView7"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@+id/achievement_unlock_iv"
+                app:layout_constraintTop_toTopOf="@+id/achievement_unlock_iv" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -104,4 +104,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout10" />
+
+    <ImageView
+        android:id="@+id/pop_up_close_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/achievement_unlock_pop_up_close_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

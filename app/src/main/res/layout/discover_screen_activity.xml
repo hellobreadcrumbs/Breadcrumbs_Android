@@ -7,12 +7,33 @@
     android:layout_height="wrap_content"
     tools:context=".view.DiscoverScreenActivity">
 
+
+
     <RelativeLayout
+        android:id="@+id/map_screen_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/trail_list_bg">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/loader_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/splash_colud_bg"
+             >
 
+            <ImageView
+                android:id="@+id/loader_screen_gif"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <FrameLayout
+
             android:id="@+id/container_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -87,7 +108,7 @@
                         android:paddingTop="1dp"
                         android:paddingEnd="5dp"
                         android:paddingBottom="1dp"
-                        android:text="MASTERGREY64"
+
                         android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textSize="10sp" />
@@ -113,8 +134,8 @@
                                 android:fontFamily="@font/claritycity_bold"
                                 android:paddingStart="5dp"
                                 android:paddingEnd="10dp"
-                                android:text="RECRUIT LV. 1"
-                                android:textAllCaps="true"
+                                android:text="Recruit LV. 1"
+
                                 android:textColor="@color/white"
                                 android:textSize="8sp" />
                         </RelativeLayout>
@@ -251,6 +272,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:background="@drawable/toggle_selector"
+                            android:clickable="false"
                             android:textOff=""
                             android:textOn="" />
 
@@ -281,15 +303,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <ImageView
-                android:id="@+id/loadingImage"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:visibility="gone"
-                tools:ignore="ContentDescription" />
         </FrameLayout>
-
-
     </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

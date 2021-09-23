@@ -73,9 +73,6 @@ class ProfileScreenActivity : AppCompatActivity() {
         setOnClickListeners()
 
 
-
-
-
         if (CommonData.getTrailsData != null) {
 
             for (i in CommonData.getTrailsData!!.indices) {
@@ -132,6 +129,7 @@ class ProfileScreenActivity : AppCompatActivity() {
             .into(profile_edit_screen_profile_pic_iv)
         // }
         user_profile_screen_backButton.setOnClickListener(View.OnClickListener {
+            sessionHandlerClass.saveSession("clicked_button", "no_reload")
             finish()
         })
 
@@ -304,31 +302,6 @@ class ProfileScreenActivity : AppCompatActivity() {
 
                         CommonData.getUserAchievementsModel = response.body()?.message
 
-
-                        /* var temp_complete_trail:Int=0
-                         var temp_compelete_poi=0
-                         for(i in CommonData.getUserAchievementsModel!!.indices)
-                         {
-                             val achievement = CommonData.getUserAchievementsModel!![i]
-                             if(achievement.ua_id!=null)
-                             {
-                                 ++temp_complete_trail
-                             }
-
-                             for(j in achievement.pois!!.indices)
-                             {
-                                 val poiss=achievement.pois[j]
-                                 if(poiss.uc_id!=null)
-                                 {
-                                     ++temp_compelete_poi
-                                 }
-
-                             }
-                             println("Temp Data ====> $temp_complete_trail <> $temp_compelete_poi")
-                         }*/
-
-
-
                         runOnUiThread {
 
                             if (CommonData.getUserAchievementsModel != null) {
@@ -350,83 +323,6 @@ class ProfileScreenActivity : AppCompatActivity() {
                                     loadAchievements()
 
                                 }
-                                /*      if (sessionHandlerClass.getSession("player_experience_points") == "") {
-                                          profile_screen_progress_bar.max =
-                                              CommonData.getUserDetails!!.experience.toInt()
-                                          ObjectAnimator.ofInt(
-                                              profile_screen_progress_bar,
-                                              "progress",
-                                              0
-                                          )
-                                              .setDuration(1000)
-                                              .start()
-                                      }
-                                      else {
-                                          profile_screen_user_name.text =
-                                              sessionHandlerClass.getSession("player_name")
-
-                                        //  profile_screen_user_level.text = sessionHandlerClass.getSession("level_text_value")
-
-
-                                          val progressBarMaxValue =
-                                              sessionHandlerClass.getIntegerSession("xp_point_nextLevel_value")
-                                          val expToLevel =
-                                              sessionHandlerClass.getIntegerSession("expTo_level_value")
-                                          val completedPoints =
-                                              sessionHandlerClass.getSession("player_experience_points")
-                                          val levelValue = sessionHandlerClass.getSession("lv_value")
-
-
-
-
-                                        *//*  if (sessionHandlerClass.getSession("balance_xp_string") == "") {
-                                        xp_to_next_level.text = "$expToLevel XP TO $levelValue"
-
-                                    } else {
-                                        xp_to_next_level.text =
-                                            sessionHandlerClass.getSession("balance_xp_string")
-
-                                    }*//*
-
-                                   *//* if (sessionHandlerClass.getIntegerSession("total_gained_xp") == 0) {
-                                        profile_screen_xp_point_value.text = "250 XP"
-                                    } else {
-                                        profile_screen_xp_point_value.text =
-                                            "${sessionHandlerClass.getIntegerSession("total_gained_xp")} XP"
-                                        println("Profile Screen :: profile_screen_xp_point_value ELSE => ${profile_screen_xp_point_value.text}")
-                                    }
-
-*//*
-
-                                    profile_screen_progress_bar.max = progressBarMaxValue
-                                    ObjectAnimator.ofInt(
-                                        profile_screen_progress_bar,
-                                        "progress",
-                                        completedPoints!!.toInt()
-                                    )
-                                        .setDuration(1000)
-                                        .start()
-
-
-
-                                    achievements_image_adapter.layoutManager = LinearLayoutManager(
-                                        applicationContext,
-                                        RecyclerView.HORIZONTAL,
-                                        false
-                                    )
-                                    profileScreenAchievementImageAdapter =
-                                        ProfileScreenAchievementImageAdapter(CommonData.getUserAchievementsModel!!)
-                                    achievements_image_adapter.adapter =
-                                        profileScreenAchievementImageAdapter
-
-
-                                    if (CommonData.getUserAchievementsModel!!.isNotEmpty()) {
-                                        loadAchievements()
-
-                                    }
-
-                                }*/
-
 
                             }
 
@@ -584,7 +480,9 @@ class ProfileScreenActivity : AppCompatActivity() {
                 println("POI = $completedPOI == ${CommonData.getUserAchievementsModel!![1].pois.size}")
 
                 //if(CommonData.getUserAchievementsModel!![1].ua_id != null)
-                if (completedPOI == CommonData.getUserAchievementsModel!![1].pois.size) {
+                // if (completedPOI == CommonData.getUserAchievementsModel!![1].completed as Int)
+                if (completedPOI == CommonData.getUserAchievementsModel!![1].pois.size)
+                {
 
                     achievement_icon_two.alpha = 1.0f
                     achievement_icon_two_lock_iv.visibility = View.GONE
@@ -873,16 +771,9 @@ class ProfileScreenActivity : AppCompatActivity() {
 
                             println("GetUseDetails = ${CommonData.getUserDetails!!.experience}")
 
-                            if (CommonData.getUserDetails!!.username != "") {
-                                profile_screen_user_name.text = "${CommonData.getUserDetails!!.username}"
-                            } else {
-                                // sessionHandlerClass.getSession("player_name")
-                                profile_screen_user_name.text =
-                                    sessionHandlerClass.getSession("player_name")
-                            }
-
 
                             runOnUiThread {
+                                profile_screen_user_name.text = CommonData.getUserDetails!!.username
                                 println("From Get User :: ${Integer.parseInt(CommonData.getUserDetails!!.experience)}")
                                 calculateUserLevel(Integer.parseInt(CommonData.getUserDetails!!.experience))
                             }
@@ -909,61 +800,61 @@ class ProfileScreenActivity : AppCompatActivity() {
         var nextLevel: Int = 0
         when (exp) {
             in 0..999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 1
                 base = 1000
-                nextLevel = 2000
+                nextLevel = 1000
             }
             in 1000..1999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 2
                 base = 1000
                 nextLevel = 2000
             }
             in 2000..2999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 3
                 base = 2000
                 nextLevel = 3000
             }
             in 3000..3999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 4
                 base = 3000
                 nextLevel = 4000
             }
             in 4000..5999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 5
                 base = 4000
                 nextLevel = 6000
             }
             in 6000..7999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 6
                 base = 6000
                 nextLevel = 8000
             }
             in 8000..9999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 7
                 base = 8000
                 nextLevel = 10000
             }
             in 10000..11999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 8
                 base = 10000
                 nextLevel = 12000
             }
             in 12000..13999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 9
                 base = 12000
                 nextLevel = 14000
             }
             in 14000..16999 -> { // 2000 thresh
-                ranking = "NAVIGATOR"
+                ranking = "Navigator"
                 level = 10
                 base = 14000
                 nextLevel = 17000
@@ -1040,7 +931,7 @@ class ProfileScreenActivity : AppCompatActivity() {
 
             }
         }
-        profile_screen_user_level.text = "$ranking Lv. $level"
+        profile_screen_user_level.text = "$ranking LV. $level"
         profile_screen_xp_point_value.text = "$exp XP"
 
 
@@ -1048,7 +939,7 @@ class ProfileScreenActivity : AppCompatActivity() {
             (nextLevel - base) - (exp - base) // (2000-1000) - (400-1000) = (1000)-(-600)=1600
 
         println("expToLevel= $expToLevel")
-        xp_to_next_level.text = " $expToLevel XP TO Lv ${level + 1}"
+        xp_to_next_level.text = " $expToLevel XP TO LV ${level + 1}"
 
         profile_screen_progress_bar.max = nextLevel
         ObjectAnimator.ofInt(
@@ -1113,9 +1004,25 @@ class ProfileScreenActivity : AppCompatActivity() {
                                     println("Details IF completed_poi_count :::  ${CommonData.getTrailsData!![i].completed_poi_count}")
 
                                     completedPoiCount += CommonData.getTrailsData!![i].completed_poi_count.toInt()
+
+                                    if (CommonData.getTrailsData!![i].id == "4") {
+                                        println("Poi Count:: ID -> 4 = ${CommonData.getTrailsData!![i].poi_count}")
+                                        if (CommonData.getTrailsData!![i].poi_count == CommonData.getTrailsData!![i].completed_poi_count) {
+                                            ++completedTrailCount
+                                        }
+                                    } else if (CommonData.getTrailsData!![i].id == "6") {
+                                        println("Poi Count:: ID -> 6 = ${CommonData.getTrailsData!![i].poi_count}")
+                                        if (CommonData.getTrailsData!![i].poi_count == CommonData.getTrailsData!![i].completed_poi_count) {
+                                            ++completedTrailCount
+                                        }
+                                    }
+
+
                                 }
+
                                 completed_poi_count.text = "$completedPoiCount"
-                                println("Details IF completed_poi_count Overall :::  $completedPoiCount")
+                                println("Details IF completedTrailCount Overall :::  $completedTrailCount")
+                                completed_trail_count.text = "$completedTrailCount"
                             }
 
                         }

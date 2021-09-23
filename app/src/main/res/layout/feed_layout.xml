@@ -77,7 +77,7 @@
         android:id="@+id/feedList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-
+        android:visibility="gone"
         android:overScrollMode="always"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/claritycity_bold"
-        android:text="No data found"
+        android:text="@string/no_posts_yet"
         android:textColor="#4B3B30"
         android:visibility="gone"
         android:gravity="center_horizontal"

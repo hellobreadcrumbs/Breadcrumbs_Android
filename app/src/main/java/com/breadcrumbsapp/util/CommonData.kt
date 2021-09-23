@@ -1,13 +1,15 @@
 package com.breadcrumbsapp.util
 
 import com.breadcrumbsapp.model.*
+import java.util.ArrayList
 
 
 class CommonData {
 
     companion object {
-        val eventsList = java.util.ArrayList<GetEventsModel.Message>()
-        val feedList = java.util.ArrayList<GetFeedDataModel.Message>()
+        val eventsList = ArrayList<GetEventsModel.Message>()
+        val feedList = ArrayList<GetFeedDataModel.Message>()
+        val commonUserRankList=ArrayList<GetRankingModel.Message>()
         var eventsModelMessage: List<GetEventsModel.Message>? = null
         var getUserDetails:GetUserModel.Message?=null
         var getFeedData:List<GetFeedDataModel.Message>?=null

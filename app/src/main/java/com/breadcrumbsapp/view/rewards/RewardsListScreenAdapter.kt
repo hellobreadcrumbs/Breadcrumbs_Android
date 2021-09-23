@@ -1,5 +1,6 @@
 package com.breadcrumbsapp.view.rewards
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -13,9 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.view.rewards.rewards_details.RewardsDetailsActivity
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.rewards_screen_details_layout.*
-import java.io.Serializable
-import java.lang.Exception
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -78,6 +76,7 @@ internal class RewardsListScreenAdapter(
                     ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         .putExtra("rewardModelData", rewardsList[position])
                 )
+
             }
         }
     }

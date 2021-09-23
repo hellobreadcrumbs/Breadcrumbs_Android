@@ -56,24 +56,29 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         setContentView(binding.root)
         sessionHandlerClass = SessionHandlerClass(applicationContext)
 
-        leaderboardScreenBackButton.setOnClickListener { finish() }
+        leaderboardScreenBackButton.setOnClickListener {
+            sessionHandlerClass.saveSession("clicked_button", "no_reload")
+            finish() }
         leaderBoard_player_list.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
 
          getUserRankingDetails(trailID)
         if (CommonData.getRankData == null) {
-
+            Glide.with(applicationContext).load(R.raw.loading).into(loaderImage)
+            leaderBoard_player_list.visibility = View.GONE
+            loaderImage.visibility = View.VISIBLE
             getRankingDetails(trailID)
         } else {
             loaderImage.visibility = View.GONE
 
             leaderBoardPlayerListAdapter =
-                LeaderBoardPlayerListAdapter(CommonData.getRankData!!)
+                LeaderBoardPlayerListAdapter(CommonData.getRankData!!,trailID)
             leaderBoard_player_list.adapter = leaderBoardPlayerListAdapter
         }
 
-        leaderBoard_playerName.text = sessionHandlerClass.getSession("player_name")
+       // leaderBoard_playerName.text = sessionHandlerClass.getSession("player_name")
+        leaderBoard_playerName.text =CommonData.getUserDetails!!.username
         player_totalXP.text = "${sessionHandlerClass.getSession("player_experience_points")} XP"
         // player_rank.text = "#${sessionHandlerClass.getSession("player_rank")}"
         leaderBoard_player_level.text = sessionHandlerClass.getSession("level_text_value")
@@ -89,6 +94,9 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
         refresh_icon.setOnClickListener {
 
+            Glide.with(applicationContext).load(R.raw.loading).into(loaderImage)
+            leaderBoard_player_list.visibility = View.GONE
+            loaderImage.visibility = View.VISIBLE
 
                 getRankingDetails(trailID)
 
@@ -138,7 +146,10 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         }
 
     }
-
+    override fun onBackPressed() {
+        super.onBackPressed()
+        sessionHandlerClass.saveSession("clicked_button", "no_reload")
+    }
     private fun openScreenshot(imageFile: File) {
 
         val photoURI = FileProvider.getUriForFile(
@@ -158,9 +169,7 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
     private fun getRankingDetails(trailID: String) {
         try {
-            Glide.with(applicationContext).load(R.raw.loading).into(loaderImage)
-            leaderBoard_player_list.visibility = View.GONE
-            loaderImage.visibility = View.VISIBLE
+
             val okHttpClient = OkHttpClient.Builder()
                 .connectTimeout(50000, TimeUnit.SECONDS)
                 .readTimeout(50000, TimeUnit.SECONDS)
@@ -209,14 +218,43 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
                             if (CommonData.getRankData != null) {
 
+                                if(CommonData.commonUserRankList.size>0)
+                                {
+                                    CommonData.commonUserRankList.clear()
+                                }
+
 
                                 println("UserName : ${CommonData.getRankData!![0].username}")
 
                                 loaderImage.visibility = View.GONE
                                 leaderBoard_player_list.visibility = View.VISIBLE
-                                leaderBoardPlayerListAdapter =
-                                    LeaderBoardPlayerListAdapter(CommonData.getRankData!!)
-                                leaderBoard_player_list.adapter = leaderBoardPlayerListAdapter
+
+
+                                CommonData.getRankData!!.forEach {
+                                    if(it.total_completed!="0")
+                                    {
+                                        CommonData.commonUserRankList.add(it)
+                                    }
+                                }
+
+
+                                if(CommonData.commonUserRankList.size>0)
+                                {
+                                    leaderBoard_no_data_found.visibility=View.GONE
+                                    leaderBoard_player_list.visibility=View.VISIBLE
+
+                                    leaderBoardPlayerListAdapter =
+                                        LeaderBoardPlayerListAdapter(CommonData.commonUserRankList,trailID)
+                                    leaderBoard_player_list.adapter = leaderBoardPlayerListAdapter
+                                    leaderBoard_no_data_found.visibility=View.GONE
+                                    leaderBoard_player_list.visibility=View.VISIBLE
+                                }
+                                else
+                                {
+                                    leaderBoard_no_data_found.visibility=View.VISIBLE
+                                    leaderBoard_player_list.visibility=View.GONE
+                                }
+
 
 
                             }
@@ -289,14 +327,14 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                         runOnUiThread {
 
                             if (CommonData.getUserRankData != null) {
-                                println("UserName : ${CommonData.getUserRankData!!.username}")
-                                if(CommonData.getUserRankData!!.total_exp==null||CommonData.getUserRankData!!.total_exp=="null")
+                                println("UserName : ${CommonData.getUserRankData!!.experience}")
+                                if(CommonData.getUserRankData!!.experience==null||CommonData.getUserRankData!!.experience=="null")
                                 {
                                     calculatingXPValues(250)
                                 }
                                 else
                                 {
-                                    calculatingXPValues(CommonData.getUserRankData!!.total_exp.toInt())
+                                    calculatingXPValues(CommonData.getUserRankData!!.experience.toInt())
                                 }
 
                                 if(CommonData.getUserRankData!!.total_duration==null || CommonData.getUserRankData!!.total_duration=="null")
@@ -308,13 +346,13 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                                     calculateTime(CommonData.getUserRankData!!.total_duration.toLong())
                                 }
 
-                                if(CommonData.getUserRankData!!.total_exp==null||CommonData.getUserRankData!!.total_exp=="null")
+                                if(CommonData.getUserRankData!!.experience==null||CommonData.getUserRankData!!.experience=="null")
                                 {
                                     player_totalXP.text = "250 XP"
                                 }
                                 else
                                 {
-                                    player_totalXP.text = "${CommonData.getUserRankData!!.total_exp} XP"
+                                    player_totalXP.text = "${CommonData.getUserRankData!!.experience} XP"
                                 }
                                 if (trailID == "4") {
                                     completed_POIs.text =
@@ -326,7 +364,9 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
 
                             }
-
+                            Glide.with(applicationContext).load(R.raw.loading).into(loaderImage)
+                            leaderBoard_player_list.visibility = View.GONE
+                            loaderImage.visibility = View.VISIBLE
                         }
 
 
@@ -352,12 +392,25 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             val second = TimeUnit.SECONDS.toSeconds(seconds) - TimeUnit.SECONDS.toMinutes(seconds) * 60
             println("Day-> $day Hour-> $hours Minute-> $minute Seconds-> $second")
 
-            // total_duration.text = "$day D $hours H"
-            total_duration.text = "${day}D ${hours}H"
+
+            if(minute>0 && hours>0 && day>0)
+            {
+                total_duration.text = "${day}D ${hours}H ${minute}M"
+            }
+            else if(minute>0 && hours>0 && day<=0)
+            {
+                total_duration.text = "${hours}H ${minute}M"
+            }
+            else if(minute>0 && hours<=0 && day<=0)
+            {
+                total_duration.text = "${minute}M"
+            }
+
+
         }
         else
         {
-            total_duration.text = "${"0"}D ${"0"}H"
+            total_duration.text = "0D 0H 0M"
         }
 
     }
@@ -369,61 +422,61 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         var nextLevel = 0*/
         when (exp) {
             in 0..999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 1
                 //base = 1000
-                //nextLevel = 2000
+                //nextLevel = 1000
             }
             in 1000..1999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 2
                 //base = 1000
                 //nextLevel = 2000
             }
             in 2000..2999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 3
                 //base = 2000
                 //nextLevel = 3000
             }
             in 3000..3999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 4
                 //base = 3000
                 //nextLevel = 4000
             }
             in 4000..5999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 5
                // base = 4000
                // nextLevel = 6000
             }
             in 6000..7999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 6
                 //base = 6000
                // nextLevel = 8000
             }
             in 8000..9999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 7
                // base = 8000
                 //nextLevel = 10000
             }
             in 10000..11999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 8
                // base = 10000
                // nextLevel = 12000
             }
             in 12000..13999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 9
                 //base = 12000
                // nextLevel = 14000
             }
             in 14000..16999 -> { // 2000 thresh
-                ranking = "NAVIGATOR"
+                ranking = "Navigator"
                 level = 10
                // base = 14000
                // nextLevel = 17000
@@ -500,7 +553,8 @@ class LeaderBoardActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
             }
         }
-        leaderBoard_player_level.text = "$ranking Lv. $level"
+        println("LeaderBoard Level = $exp , $ranking LV. $level")
+        leaderBoard_player_level.text = "$ranking LV. $level"
     }
 
     private fun intercept(): HttpLoggingInterceptor {

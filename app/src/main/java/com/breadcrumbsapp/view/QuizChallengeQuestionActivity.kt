@@ -545,6 +545,8 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                             getUserDetails()
 
                             quizChallengeCloseButton.setOnClickListener {
+                                sharedPreference.saveSession("clicked_button", "")
+                                sharedPreference.saveSession("from_challenge_screen", "YES")
                                 startActivity(
                                     Intent(
                                         this@QuizChallengeQuestionActivity,
@@ -556,7 +558,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                                     R.anim.anim_slide_out_left
                                 )
                                 finish()
-                                //  discoverPOI()
+
                             }
                         } else {
                             submitButton.text = "CONTINUE"
@@ -907,81 +909,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         return interceptor
     }
 
-
-    private fun calculateXPPoints() {
-
-        // Updated on 09-09-2021
-
-
-        var progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
-        val expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
-        val completedPoints = sharedPreference.getSession("player_experience_points")
-        var levelValue = sharedPreference.getSession("lv_value")
-        val presentLevel = sharedPreference.getSession("current_level")
-        val poiDiscoverXP: Int =
-            sharedPreference.getSession("selectedPOIDiscovery_XP_Value")!!.toInt()
-        var poiChallengeXP: Int =
-            sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
-        val completedPointIntValue = completedPoints!!.toInt()
-
-
-
-        if (questionType.toInt() == 1) {
-            if (clickedPos != finalAnswer.toInt()) {
-                poiChallengeXP = 0
-
-                quiz_challenge_screen_quiz_answer_score_tv.text = "+$poiChallengeXP XP"
-            } else if (clickedPos == finalAnswer.toInt()) {
-                poiChallengeXP = 50
-
-                quiz_challenge_screen_quiz_answer_score_tv.text = "+$poiChallengeXP XP"
-            } else {
-                poiChallengeXP =
-                    sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
-
-                quiz_challenge_screen_quiz_answer_score_tv.text = "+$poiChallengeXP XP"
-            }
-        } else if (questionType.toInt() == 2) {
-            var count: Int = 0
-
-            for (i in 0 until finalAnswerObj.size()) {
-
-                if (finalAnswerObj[i].asInt == clickedAnswerArrayList[i].toInt()) {
-                    ++count
-                }
-
-            }
-            poiChallengeXP *= count
-            quiz_challenge_screen_quiz_answer_score_tv.text = "+$poiChallengeXP XP"
-
-        }
-
-        val totalXP: Int = poiDiscoverXP + poiChallengeXP + completedPointIntValue
-        quiz_challenge_screen_discovery_value.text =
-            "+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
-        quiz_challenge_level_name.text = presentLevel
-        var balanceVal: Int = progressBarMaxValue - totalXP
-        if (balanceVal < 0) {
-            progressBarMaxValue += 2000
-            balanceVal = progressBarMaxValue - totalXP
-            levelValue = "LV ${sharedPreference.getIntegerSession("lv_value_int")}"
-        }
-
-        quizBalanceValue.text = "$balanceVal XP TO $levelValue"
-
-        sharedPreference.saveSession("xp_balance_value", balanceVal)
-        sharedPreference.saveSession("total_gained_xp", totalXP)
-        sharedPreference.saveSession("balance_xp_string", quizBalanceValue.text.toString())
-
-
-        determinateBar.max = progressBarMaxValue
-        ObjectAnimator.ofInt(determinateBar, "progress", totalXP)
-            .setDuration(1000)
-            .start()
-
-
-    }
-
     private fun calculateUserLevel(exp: Int) {
         var ranking: String = ""
         var level: Int = 0
@@ -989,61 +916,61 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         var nextLevel: Int = 0
         when (exp) {
             in 0..999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 1
                 base = 1000
-                nextLevel = 2000
+                nextLevel = 1000
             }
             in 1000..1999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 2
                 base = 1000
                 nextLevel = 2000
             }
             in 2000..2999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 3
                 base = 2000
                 nextLevel = 3000
             }
             in 3000..3999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 4
                 base = 3000
                 nextLevel = 4000
             }
             in 4000..5999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 5
                 base = 4000
                 nextLevel = 6000
             }
             in 6000..7999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 6
                 base = 6000
                 nextLevel = 8000
             }
             in 8000..9999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 7
                 base = 8000
                 nextLevel = 10000
             }
             in 10000..11999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 8
                 base = 10000
                 nextLevel = 12000
             }
             in 12000..13999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 9
                 base = 12000
                 nextLevel = 14000
             }
             in 14000..16999 -> { // 2000 thresh
-                ranking = "NAVIGATOR"
+                ranking = "Navigator"
                 level = 10
                 base = 14000
                 nextLevel = 17000
@@ -1121,7 +1048,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
             }
         }
         println("Quiz Challenge => $ranking $level")
-        quiz_challenge_level_name.text = "$ranking $level"
+        quiz_challenge_level_name.text = "$ranking LV. $level"
         val expToLevel =
             (nextLevel - base) - (exp - base) // (2000-1000) - (400-1000) = (1000)-(-600)=1600
         println("Quiz Challenge => expToLevel= $expToLevel")
@@ -1164,19 +1091,41 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         }
         val totalXP: Int = poiDiscoverXP + poiChallengeXP + exp
         println("Quiz Challenge => Report => totalXP= $poiDiscoverXP + $poiChallengeXP + $exp = $totalXP")
-        val balanceVal: Int = nextLevel - totalXP
+
+
+
+        var balanceVal: Int = nextLevel - totalXP
         println("Quiz Challenge => Report => balanceVal= $nextLevel - $totalXP = $balanceVal")
 
-        quizBalanceValue.text = " $balanceVal XP TO Lv ${level + 1}"
-
         determinateBar.max = nextLevel
-        ObjectAnimator.ofInt(
-            determinateBar,
-            "progress",
-            totalXP
-        )
-            .setDuration(1000)
-            .start()
+        if(balanceVal<=0)
+        {
+            val levelValue=level + 1
+            quiz_challenge_level_name.text = "$ranking LV. $levelValue"
+
+            quizBalanceValue.text = "$exp XP TO LV. ${levelValue + 1}"
+
+            ObjectAnimator.ofInt(
+                determinateBar,
+                "progress",
+                balanceVal
+            )
+                .setDuration(1000)
+                .start()
+        }
+        else
+        {
+            quizBalanceValue.text = " $balanceVal XP TO LV. ${level + 1}"
+
+            ObjectAnimator.ofInt(
+                determinateBar,
+                "progress",
+                totalXP
+            )
+                .setDuration(1000)
+                .start()
+        }
+
 
         println("beginChallenge Input = Calc = $poiChallengeXP")
         beginChallengeAPI(finalAnswer, poiChallengeXP.toString())

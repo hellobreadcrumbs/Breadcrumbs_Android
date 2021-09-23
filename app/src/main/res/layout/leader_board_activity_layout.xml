@@ -175,7 +175,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/dinish_regular"
                     android:paddingBottom="3dp"
-                    android:text="Recruit Lv. 1"
+                    android:text="Recruit LV. 1"
                     android:textColor="#4B3B30"
                     android:textSize="@dimen/discover_screen_take_me_there_text_size"
                     app:layout_constraintStart_toStartOf="parent"
@@ -214,7 +214,7 @@
                     android:layout_height="wrap_content"
 
                     android:fontFamily="@font/dinish_bold"
-                    android:text="2D 4H"
+                    android:text="0D 0H 0M"
                     android:textColor="#4B3B30"
                     android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -242,7 +242,7 @@
                     android:fontFamily="@font/dinish_bold"
                     android:textColor="#4B3B30"
                     android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
-                    android:text="2/17 POIs"
+                    android:text="2/10 POIs"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/dot_one" />
 
@@ -316,4 +316,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/players_list_title" />
+
+    <TextView
+        android:id="@+id/leaderBoard_no_data_found"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/claritycity_bold"
+        android:gravity="center_horizontal"
+        android:text="@string/no_records_yet"
+        android:textColor="#4B3B30"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/players_list_title" />
 </androidx.constraintlayout.widget.ConstraintLayout>

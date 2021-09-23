@@ -9,27 +9,34 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Base64
 import androidx.appcompat.app.AppCompatActivity
+import com.breadcrumbsapp.databinding.SplashScreenBinding
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.breadcrumbsapp.view.DiscoverScreenActivity
 import com.breadcrumbsapp.view.TutorialActivity
+import com.bumptech.glide.Glide
 import com.google.firebase.FirebaseApp
+import kotlinx.android.synthetic.main.splash_screen.*
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var sharedPreference: SessionHandlerClass
+    private lateinit var binding:SplashScreenBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.splash_screen)
+        binding= SplashScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         FirebaseApp.initializeApp(this)
 
         sharedPreference = SessionHandlerClass(applicationContext)
 
-      //  printHashKey(this)
+        printHashKey(this)
+
+
 
 
         Handler(Looper.getMainLooper()).postDelayed({
@@ -54,7 +61,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
             }
 
-        }, 1500)
+        }, 1000)
 
 
     }

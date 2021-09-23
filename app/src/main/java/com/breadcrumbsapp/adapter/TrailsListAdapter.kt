@@ -8,7 +8,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
-import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.interfaces.POIclickedListener
@@ -34,7 +34,7 @@ internal class TrailsListAdapter(
         var trailsName: TextView = view.findViewById(R.id.trailsName)
         var distance: TextView = view.findViewById(R.id.tv_distance)
         var discoverStatus: TextView = view.findViewById(R.id.discoverStatus)
-        var poiBackground: LinearLayoutCompat = view.findViewById(R.id.poiBackground)
+        var poiBackground: ConstraintLayout = view.findViewById(R.id.poiBackground)
         var mainLayout: FrameLayout = view.findViewById(R.id.list_adapter_constraintLayout)
     }
 
@@ -65,6 +65,7 @@ internal class TrailsListAdapter(
             holder.mainLayout.setOnClickListener {
                 //println("mainLayout ${holder.trailsName.text}")
                 poiListener.onClickedPOIItem(localMarkers[position].id)
+
                 notifyDataSetChanged()
             }
 

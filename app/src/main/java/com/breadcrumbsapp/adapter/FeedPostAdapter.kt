@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -66,9 +65,11 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
     private var local_loginID = loginID
 
     private lateinit var sessionHandlerClass: SessionHandlerClass
+
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        var imageParentLayout: LinearLayoutCompat =view.findViewById(R.id.adapter_imageParentLayout)
+        var imageParentLayout: LinearLayoutCompat =
+            view.findViewById(R.id.adapter_imageParentLayout)
         var imageView: ImageView = view.findViewById(R.id.postImage)
         var shareIcon: ImageView = view.findViewById(R.id.shareIcon)
         var likeCountText: TextView = view.findViewById(R.id.likeCount)
@@ -78,7 +79,8 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
         var descriptionContent: ReadMoreTextView = view.findViewById(R.id.descriptionContent)
         var userNameTextView: TextView = view.findViewById(R.id.userName)
         var trailName: TextView = view.findViewById(R.id.feed_post_banner_trail_name)
-        var userProfilePicture: CircularImageView = view.findViewById(R.id.feedPostUserProfilePicture)
+        var userProfilePicture: CircularImageView =
+            view.findViewById(R.id.feedPostUserProfilePicture)
         var trailPic: CircularImageView = view.findViewById(R.id.feed_post_banner_trail_image)
         var createdDateTextView: TextView = view.findViewById(R.id.createdDateTextView)
 
@@ -91,7 +93,10 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.feed_layout_adapter, parent, false)
         context = parent.context
-        sessionHandlerClass= SessionHandlerClass(context)
+        sessionHandlerClass = SessionHandlerClass(context)
+
+        val width: Int = context.resources.displayMetrics.widthPixels
+        val height: Int = context.resources.displayMetrics.heightPixels
         return MyViewHolder(itemView)
     }
 
@@ -149,163 +154,215 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
 
         println("Feed position : ${getFeedsLocalObj.size}")
 
-       // if(data.username!="NIGHT SAFARI")
+        // if(data.username!="NIGHT SAFARI")
         //{
 
-            println("Feed name : IF =  ${data.name}")
+        println("Feed name : IF =  ${data.name}")
 
-            holder.likeButton.isChecked = data.ul_id != null
+        holder.likeButton.isChecked = data.ul_id != null
 
-            val localImageObj =
-                context.resources.getString(R.string.staging_url) + data.photo_url
+        val localImageObj =
+            context.resources.getString(R.string.staging_url) + data.photo_url
 
-            val localProfilePic =
-                context.resources.getString(R.string.staging_url) + data.profile_picture
+        val localProfilePic =
+            context.resources.getString(R.string.staging_url) + data.profile_picture
 
-            println("localProfilePic = $localImageObj")
+        println("localProfilePic = $localImageObj")
 
-            Glide.with(context)
-                .load(localImageObj)
-                .into(holder.imageView)
+//        holder.imageView.layoutParams.height = 100
+//        holder.imageView.layoutParams.width = 100
+        Glide.with(context)
+            .load(localImageObj)
+            .into(holder.imageView)
 
-            println("Like Count = ${getFeedsLocalObj[position]} , ${data.like_count}")
-            if (data.like_count <= "1") {
-                holder.likeCountText.text = data.like_count + " Like"
+        println("Like Count = ${getFeedsLocalObj[position]} , ${data.like_count}")
+        if (data.like_count <= "1") {
+            holder.likeCountText.text = data.like_count + " Like"
+        } else {
+            holder.likeCountText.text = data.like_count + " Likes"
+        }
+
+        println("Text length : ${data.description.length}")
+
+
+        // For Like Button Animation effect..
+        val scaleAnimation = ScaleAnimation(
+            0.7f,
+            1.0f,
+            0.7f,
+            1.0f,
+            Animation.RELATIVE_TO_SELF,
+            0.7f,
+            Animation.RELATIVE_TO_SELF,
+            0.7f
+        )
+        scaleAnimation.duration = 500
+        val bounceInterpolator = BounceInterpolator()
+        scaleAnimation.interpolator = bounceInterpolator
+
+        holder.likeButton.setOnCheckedChangeListener { b, isChecked ->
+
+            b.startAnimation(scaleAnimation)
+            holder.likeCountText.startAnimation(scaleAnimation)
+            if (isChecked) {
+                getFeedPostLikeDetails(data.f_id, holder, position)
             } else {
-                holder.likeCountText.text = data.like_count + " Likes"
+                getFeedPostLikeDetails(data.f_id, holder, position)
             }
+        }
 
-            println("Text length : ${data.description.length}")
+        holder.descriptionContent.text = data.description
 
 
-            // For Like Button Animation effect..
-            val scaleAnimation = ScaleAnimation(
-                0.7f,
-                1.0f,
-                0.7f,
-                1.0f,
-                Animation.RELATIVE_TO_SELF,
-                0.7f,
-                Animation.RELATIVE_TO_SELF,
-                0.7f
-            )
-            scaleAnimation.duration = 500
-            val bounceInterpolator = BounceInterpolator()
-            scaleAnimation.interpolator = bounceInterpolator
+            holder.userNameTextView.text = data.username
 
-            holder.likeButton.setOnCheckedChangeListener { b, isChecked ->
+        holder.trailName.text = data.title
 
-                b.startAnimation(scaleAnimation)
-                holder.likeCountText.startAnimation(scaleAnimation)
-                if (isChecked) {
-                    getFeedPostLikeDetails(data.f_id, holder, position)
-                } else {
-                    getFeedPostLikeDetails(data.f_id, holder, position)
-                }
-            }
+        val trailImagePath =
+            context.resources.getString(R.string.staging_url) + data.map_icon_dt_url
 
-            holder.descriptionContent.text = data.description
+        Glide.with(context)
+            .load(trailImagePath).placeholder(R.drawable.no_image)
+            .into(holder.trailPic)
 
-            if(data.username=="")
+        if (data.profile_picture == "") {
+            Glide.with(context)
+                .load(R.drawable.no_image)
+                .into(holder.userProfilePicture)
+        } else {
+            Glide.with(context)
+                .load(localProfilePic)
+                .into(holder.userProfilePicture)
+        }
+
+
+        //"created": "2021-07-26 06:45:47",
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+        try {
+            val postCreatedDate: Date = dateFormat.parse(data.created)
+            val currentDate = Date()
+            println("Date Is :  Old Date = $postCreatedDate , Today Date = $currentDate")
+
+
+            //  val diff = postCreatedDate.time - currentDate.time
+            val diff = currentDate.time - postCreatedDate.time
+            val seconds:Int = (diff / 1000).toInt()
+            val minutes:Int = (seconds / 60).toInt()
+            val hours:Int = (minutes / 60).toInt()
+            val days:Int = (hours / 24).toInt()
+            println("Date Is :  Remaining Date: $days")
+
+
+
+            if(days>0)
             {
-                holder.userNameTextView.text = sessionHandlerClass.getSession("player_name")
+                if(days==1)
+                {
+                    holder.createdDateTextView.text ="$days Day Ago"
+                }
+                else
+                {
+                    holder.createdDateTextView.text ="$days Days Ago"
+                }
             }
-            else{
-                holder.userNameTextView.text = data.username
+            else if(hours in 1..23)
+            {
+                if(hours==1)
+                {
+                    holder.createdDateTextView.text ="$hours Hour Ago"
+                }
+                else
+                {
+                    holder.createdDateTextView.text ="$hours Hours Ago"
+                }
+
+            }
+            else if(minutes in 1..59)
+            {
+                if(minutes==1)
+                {
+                    holder.createdDateTextView.text = "$minutes Minute Ago"
+                }
+                else
+                {
+                    holder.createdDateTextView.text = "$minutes Minutes Ago"
+                }
             }
 
-            holder.trailName.text=data.title
 
-            val trailImagePath =
-                context.resources.getString(R.string.staging_url) + data.map_icon_dt_url
+            /*if (minutes == 0) {
+                if (postCreatedDate.before(currentDate)) {
 
-            Glide.with(context)
-                .load(trailImagePath).placeholder(R.drawable.no_image)
-                .into(holder.trailPic)
+                    println("Date Is :  IF: $seconds")
 
-            if (data.profile_picture == "") {
-                Glide.with(context)
-                    .load(R.drawable.no_image)
-                    .into(holder.userProfilePicture)
-            } else {
-                Glide.with(context)
-                    .load(localProfilePic)
-                    .into(holder.userProfilePicture)
-            }
-
-
-            //"created": "2021-07-26 06:45:47",
-
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-
-            try {
-                val postCreatedDate: Date = dateFormat.parse(data.created)
-                val currentDate = Date()
-                println("Date Is :  Old Date = $postCreatedDate , Today Date = $currentDate")
-
-
-                //  val diff = postCreatedDate.time - currentDate.time
-                val diff = currentDate.time - postCreatedDate.time
-                val seconds = diff / 1000
-                val minutes = seconds / 60
-                val hours = minutes / 60
-                val days = hours / 24
-                println("Date Is :  Remaining Date: $days")
-
-
-                if (minutes.equals(0)) {
-                    if (postCreatedDate.before(currentDate)) {
-
-                        println("Date Is :  IF: $seconds")
-
+                    if(seconds==0)
+                    {
+                        holder.createdDateTextView.text = "$seconds Second Ago"
+                    }
+                    else
+                    {
                         holder.createdDateTextView.text = "$seconds Seconds Ago"
-                    } else {
-                        println("Date Is :  ELSE: $seconds")
                     }
-                } else if (hours.equals(0)) {
-                    if (postCreatedDate.before(currentDate)) {
 
-                        println("Date Is :  IF: $minutes")
+                } else {
+                    println("Date Is :  ELSE: $seconds")
+                }
+            } else if (hours == 0) {
+                if (postCreatedDate.before(currentDate)) {
 
-                        holder.createdDateTextView.text = "$minutes Minutes Ago"
-                    } else {
-                        println("Date Is :  ELSE: $minutes")
+                    println("Date Is :  IF: $minutes")
+
+                    holder.createdDateTextView.text = "$minutes Minutes Ago"
+                } else {
+                    println("Date Is :  ELSE: $minutes")
+                }
+            } else if (days == 0) {
+                if (postCreatedDate.before(currentDate)) {
+
+                    println("Date Is :  IF: $hours")
+
+                    holder.createdDateTextView.text = "$hours Hours Ago"
+                } else {
+                    println("Date Is :  ELSE: $hours")
+                }
+            } else {
+                if (postCreatedDate.before(currentDate)) {
+
+                    println("Date Is :  IF: $days")
+
+
+                    if(days==0||days==1)
+                    {
+                        holder.createdDateTextView.text = "$days Day Ago"
                     }
-                } else if (days.equals(0)) {
-                    if (postCreatedDate.before(currentDate)) {
-
-                        println("Date Is :  IF: $hours")
-
-                        holder.createdDateTextView.text = "$hours Hours Ago"
-                    } else {
-                        println("Date Is :  ELSE: $hours")
+                    else
+                    {
+                        holder.createdDateTextView.text = "$days Days Ago"
                     }
                 } else {
-                    if (postCreatedDate.before(currentDate)) {
-
-                        println("Date Is :  IF: $days")
-
-                        holder.createdDateTextView.text = "$days Days Ago"
-                    } else {
-                        println("Date Is :  ELSE: $days")
-                    }
+                    println("Date Is :  ELSE: $days")
                 }
+            }*/
 
-                holder.shareIcon.setOnClickListener {
-                    /*val drawable = holder.imageView.drawable as BitmapDrawable
-                    val bitmap = drawable.bitmap as Bitmap
-                    saveBitmapAsImageToDevice(bitmap)*/
+            holder.shareIcon.setOnClickListener {
 
 
-                    val bitmap = getBitmapFromView(holder.imageParentLayout)
-                    saveBitmapAsImageToDevice(bitmap)
-                }
-
-            } catch (e: ParseException) {
-                e.printStackTrace()
+                val bitmap = getBitmapFromView(holder.imageParentLayout)
+                saveBitmapAsImageToDevice(bitmap)
             }
-       // }
 
+            holder.shareText.setOnClickListener {
+
+                val bitmap = getBitmapFromView(holder.imageParentLayout)
+                saveBitmapAsImageToDevice(bitmap)
+            }
+
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        // }
 
 
     }
@@ -329,6 +386,7 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
         //return the bitmap
         return returnedBitmap
     }
+
     override fun getItemCount(): Int {
         return getFeedsLocalObj.size
     }

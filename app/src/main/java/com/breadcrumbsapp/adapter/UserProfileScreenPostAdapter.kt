@@ -221,13 +221,9 @@ internal class UserProfileScreenPostAdapter(getFeed: List<GetMyFeedModel.Message
 */
         holder.descriptionContent.text = data.description
 
-        if(data.username=="")
-        {
-            holder.userNameTextView.text = sessionHandlerClass.getSession("player_name")
-        }
-        else{
+
             holder.userNameTextView.text = data.username
-        }
+
 
 
 
@@ -255,14 +251,49 @@ internal class UserProfileScreenPostAdapter(getFeed: List<GetMyFeedModel.Message
 
             //  val diff = postCreatedDate.time - currentDate.time
             val diff = currentDate.time - postCreatedDate.time
-            val seconds = diff / 1000
-            val minutes = seconds / 60
-            val hours = minutes / 60
-            val days = hours / 24
+            val seconds:Int = (diff / 1000).toInt()
+            val minutes:Int = (seconds / 60).toInt()
+            val hours:Int = (minutes / 60).toInt()
+            val days:Int = (hours / 24).toInt()
             println("Date Is :  Remaining Date: $days")
 
+            if(days>0)
+            {
+                if(days==1)
+                {
+                    holder.createdDateTextView.text ="$days Day Ago"
+                }
+                else
+                {
+                    holder.createdDateTextView.text ="$days Days Ago"
+                }
+            }
+            else if(hours in 1..23)
+            {
+                if(hours==1)
+                {
+                    holder.createdDateTextView.text ="$hours Hour Ago"
+                }
+                else
+                {
+                    holder.createdDateTextView.text ="$hours Hours Ago"
+                }
 
-            if (minutes.equals(0)) {
+            }
+            else if(minutes in 1..59)
+            {
+                if(minutes==1)
+                {
+                    holder.createdDateTextView.text = "$minutes Minute Ago"
+                }
+                else
+                {
+                    holder.createdDateTextView.text = "$minutes Minutes Ago"
+                }
+            }
+
+
+            /*if (minutes.equals(0)) {
                 if (postCreatedDate.before(currentDate)) {
 
                     println("Date Is :  IF: $seconds")
@@ -294,11 +325,21 @@ internal class UserProfileScreenPostAdapter(getFeed: List<GetMyFeedModel.Message
 
                     println("Date Is :  IF: $days")
 
-                    holder.createdDateTextView.text = "$days Days Ago"
+                  //  holder.createdDateTextView.text = "$days Days Ago"
+
+
+                    if(days.equals("0")||days.equals("1"))
+                    {
+                        holder.createdDateTextView.text = "$days Day Ago"
+                    }
+                    else
+                    {
+                        holder.createdDateTextView.text = "$days Days Ago"
+                    }
                 } else {
                     println("Date Is :  ELSE: $days")
                 }
-            }
+            }*/
 
             holder.shareIcon.setOnClickListener {
               /*  val drawable = holder.imageView.drawable as BitmapDrawable

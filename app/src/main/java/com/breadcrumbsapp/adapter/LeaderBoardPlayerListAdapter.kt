@@ -13,16 +13,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.model.GetRankingModel
 import com.breadcrumbsapp.view.profile.FriendProfileScreenActivity
+import com.bumptech.glide.Glide
+import com.mikhaellopez.circularimageview.CircularImageView
 import java.lang.Integer.parseInt
+import java.util.concurrent.TimeUnit
 
 internal class LeaderBoardPlayerListAdapter(
-    getRankData: List<GetRankingModel.Message>
+    getRankData: List<GetRankingModel.Message>, trailID: String
 ) :
     RecyclerView.Adapter<LeaderBoardPlayerListAdapter.MyViewHolder>() {
 
     private var getRankDataObj: List<GetRankingModel.Message> = getRankData
 
-    private var context: Context? = null
+    private lateinit var mContext: Context
+
+    private val localTrailID: String = trailID
 
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -34,30 +39,43 @@ internal class LeaderBoardPlayerListAdapter(
         var adapterMainLayout: ConstraintLayout =
             view.findViewById(R.id.adapter_userInformationLayout)
         var playerLevel: TextView = view.findViewById(R.id.leaderBoard_adapter_player_level)
+        val profilePic: CircularImageView =
+            view.findViewById(R.id.leaderboard_adapter_userProfilePicture)
     }
 
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.leaderboard_list_adapter, parent, false)
-        context = parent.context
+        mContext = parent.context
         return MyViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         holder.playerName.text = getRankDataObj[position].username
-        holder.totalXPTextView.text = "${getRankDataObj[position].total_exp} XP"
+        holder.totalXPTextView.text = "${getRankDataObj[position].experience} XP"
         holder.rankTV.text = "# ${position + 1}"
-        holder.completedPOITV.text = "${getRankDataObj[position].total_completed}/17 POIs"
+        if (localTrailID == "4") {
+
+            holder.completedPOITV.text = "${getRankDataObj[position].total_completed}/11 POIs"
+        } else if (localTrailID == "6") {
+            holder.completedPOITV.text = "${getRankDataObj[position].total_completed}/10 POIs"
+        }
+
+        val localImagePath =
+            mContext.resources.getString(R.string.staging_url) + getRankDataObj[position].profile_picture
+        Glide.with(mContext).load(localImagePath)
+            .placeholder(R.drawable.com_facebook_profile_picture_blank_portrait)
+            .into(holder.profilePic)
+
 
         try {
-            if(getRankDataObj[position].total_exp!=null)
-            {
-                val expIntVal: Int = parseInt(getRankDataObj[position].total_exp)
+            if (getRankDataObj[position].total_exp != null) {
+                val expIntVal: Int = parseInt(getRankDataObj[position].experience)
+                println("LeaderBoard => XP $position , $expIntVal ,  ${calculateUserLevel(expIntVal)}")
                 holder.playerLevel.text = calculateUserLevel(expIntVal)
-            }
-            else{
+            } else {
                 val expIntVal: Int = 250
                 holder.playerLevel.text = calculateUserLevel(expIntVal)
             }
@@ -86,36 +104,62 @@ internal class LeaderBoardPlayerListAdapter(
             }
         }
 
-        if(getRankDataObj[position].total_duration!=null)
-        {
-            var display = "0H 0M"
-            val integerValue: Int = parseInt(getRankDataObj[position].total_duration)
-            val hours = integerValue / 3600
-            val temp = integerValue - hours * 3600
-            val minutes = temp / 60
-            display = "${hours}H ${minutes}M"
-            holder.totalDurationTV.text = display
-        }
-        else
-        {
-            var display = "0H 0M"
-            val integerValue: Int = 15000
-            val hours = integerValue / 3600
-            val temp = integerValue - hours * 3600
-            val minutes = temp / 60
-            display = "${hours}H ${minutes}M"
-            holder.totalDurationTV.text = display
-        }
+        if (getRankDataObj[position].total_duration != null) {
+            /*  var display = "0H 0M"
+              val integerValue: Int = parseInt(getRankDataObj[position].total_duration)
+              val hours = integerValue / 3600
+              val temp = integerValue - hours * 3600
+              val minutes = temp / 60
+              display = "${hours}H ${minutes}M"*/
 
+
+            var display = "0D 0H 0M"
+            val integerValue: Long = getRankDataObj[position].total_duration.toLong()
+            println("LeaderBoard => $position , $integerValue")
+            val day = TimeUnit.SECONDS.toDays(integerValue).toInt()
+            val hours = TimeUnit.SECONDS.toHours(integerValue) - day * 24
+            val minute =
+                TimeUnit.SECONDS.toMinutes(integerValue) - TimeUnit.SECONDS.toHours(integerValue) * 60
+            val second =
+                TimeUnit.SECONDS.toSeconds(integerValue) - TimeUnit.SECONDS.toMinutes(integerValue) * 60
+            // display = "${day}D ${hours}H ${minute}M"
+
+
+            if (minute > 0 && hours > 0 && day > 0) {
+                display = "${day}D ${hours}H ${minute}M"
+            } else if (minute > 0 && hours > 0 && day <= 0) {
+                display = "${hours}H ${minute}M"
+            } else if (minute > 0 && hours <= 0 && day <= 0) {
+                display = "${minute}M"
+            }
+            else if(second<60)
+            {
+                display = "${0}M"
+            }
+
+            holder.totalDurationTV.text = display
+        }
+        /* else
+         {
+             var display = "0H 0M"
+             val integerValue: Int = 15000
+             val hours = integerValue / 3600
+             val temp = integerValue - hours * 3600
+             val minutes = temp / 60
+             display = "${hours}H ${minutes}M"
+             holder.totalDurationTV.text = display
+         }
+ */
 
         holder.itemView.setOnClickListener {
-            context!!.startActivity(
-                Intent(context, FriendProfileScreenActivity::class.java)
+            mContext.startActivity(
+                Intent(mContext, FriendProfileScreenActivity::class.java)
                     .putExtra("username", getRankDataObj[position].username)
                     .putExtra("friend_id", getRankDataObj[position].id)
+                    .putExtra("friend_user_id", getRankDataObj[position].id)
                     .putExtra("total_xp", getRankDataObj[position].total_exp)
                     .putExtra("profile_pic", getRankDataObj[position].profile_picture)
-                    .putExtra("player_level",holder.playerLevel.text.toString())
+                    .putExtra("player_level", holder.playerLevel.text.toString())
             )
         }
     }
@@ -132,61 +176,61 @@ internal class LeaderBoardPlayerListAdapter(
         var nextLevel = 0
         when (exp) {
             in 0..999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 1
                 base = 1000
-                nextLevel = 2000
+                nextLevel = 1000
             }
             in 1000..1999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 2
                 base = 1000
                 nextLevel = 2000
             }
             in 2000..2999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 3
                 base = 2000
                 nextLevel = 3000
             }
             in 3000..3999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 4
                 base = 3000
                 nextLevel = 4000
             }
             in 4000..5999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 5
                 base = 4000
                 nextLevel = 6000
             }
             in 6000..7999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 6
                 base = 6000
                 nextLevel = 8000
             }
             in 8000..9999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 7
                 base = 8000
                 nextLevel = 10000
             }
             in 10000..11999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 8
                 base = 10000
                 nextLevel = 12000
             }
             in 12000..13999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 9
                 base = 12000
                 nextLevel = 14000
             }
             in 14000..16999 -> { // 2000 thresh
-                ranking = "NAVIGATOR"
+                ranking = "Navigator"
                 level = 10
                 base = 14000
                 nextLevel = 17000
@@ -263,8 +307,8 @@ internal class LeaderBoardPlayerListAdapter(
 
             }
         }
-        // levelTextView.text = "$ranking Lv. $level"
-        return "$ranking Lv. $level"
+        // levelTextView.text = "$ranking LV. $level"
+        return "$ranking LV. $level"
 
 /*        var expToLevel = (nextLevel - base) - (exp - base)
 

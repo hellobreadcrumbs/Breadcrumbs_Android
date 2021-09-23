@@ -1,9 +1,17 @@
 package com.breadcrumbsapp.view
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.breadcrumbsapp.R
@@ -35,6 +43,7 @@ class FeedPostActivity : AppCompatActivity() {
     private lateinit var binding: FeedLayoutBinding
     private lateinit var feedPostAdapter: FeedPostAdapter
     private lateinit var sharedPreference: SessionHandlerClass
+    val REQUEST_STORAGE_PERMISSION = 505
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +51,11 @@ class FeedPostActivity : AppCompatActivity() {
         setContentView(binding.root)
         sharedPreference = SessionHandlerClass(applicationContext)
         feedList.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        feedList.visibility = View.GONE
         getFeedPostData()
 
         feedScreenBackButton.setOnClickListener {
+            sharedPreference.saveSession("clicked_button", "no_reload")
             finish()
         }
 
@@ -62,6 +73,59 @@ class FeedPostActivity : AppCompatActivity() {
                 )
             )
         }
+
+
+        /*if (checkStoragePermission()) {
+            // do nothing..
+        } else {
+
+            requestStoragePermission()
+        }*/
+    }
+
+    private fun checkStoragePermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Environment.isExternalStorageManager()
+        } else {
+            val result =
+                ContextCompat.checkSelfPermission(this@FeedPostActivity,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            val result1 =
+                ContextCompat.checkSelfPermission(this@FeedPostActivity,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    private fun requestStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            try {
+                val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                intent.addCategory("android.intent.category.DEFAULT")
+                intent.data =
+                    Uri.parse(String.format("package:%s", applicationContext.packageName))
+                startActivityForResult(intent, REQUEST_STORAGE_PERMISSION)
+            } catch (e: java.lang.Exception) {
+                val intent = Intent()
+                intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+                startActivityForResult(intent, REQUEST_STORAGE_PERMISSION)
+            }
+        } else {
+            //below android 11
+            ActivityCompat.requestPermissions(
+                this@FeedPostActivity,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                REQUEST_STORAGE_PERMISSION
+            )
+        }
+    }
+
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        sharedPreference.saveSession("clicked_button", "no_reload")
     }
 
 
@@ -119,14 +183,7 @@ class FeedPostActivity : AppCompatActivity() {
                         //  println("Feed Post :: ${CommonData.getFeedData!!.size}")
                         runOnUiThread {
 
-                            /*  if (CommonData.getFeedData != null) {
-                                  feedPostAdapter = FeedPostAdapter(
-                                      CommonData.getFeedData!!,
-                                      sharedPreference.getSession("login_id")
-                                  )
-                                  feedList.adapter = feedPostAdapter
 
-                              }*/
 
                             if (response.body()!!.message != null) {
                                 if (CommonData.feedList.size > 0) {
@@ -149,7 +206,15 @@ class FeedPostActivity : AppCompatActivity() {
                                             CommonData.feedList,
                                             sharedPreference.getSession("login_id")
                                         )
-                                        feedList.adapter = feedPostAdapter
+
+                                        if (checkStoragePermission()) {
+                                            feedList.adapter = feedPostAdapter
+                                        } else {
+
+                                            requestStoragePermission()
+                                        }
+
+                                       // feedList.adapter = feedPostAdapter
 
                                     }
                                 } else {

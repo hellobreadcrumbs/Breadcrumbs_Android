@@ -149,13 +149,14 @@ class RewardsScreenActivity : AppCompatActivity() {
 
     private fun setOnclickListeners() {
         rewards_screen_back_button.setOnClickListener {
-            startActivity(
+            sessionHandlerClass.saveSession("clicked_button", "no_reload")
+          /*  startActivity(
                 Intent(
                     this@RewardsScreenActivity,
                     DiscoverScreenActivity::class.java
                 ).putExtra("isFromLogin", "no")
             )
-
+*/
             finish()
         }
 
@@ -375,14 +376,13 @@ class RewardsScreenActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        startActivity(
+        sessionHandlerClass.saveSession("clicked_button", "no_reload")
+       /* startActivity(
             Intent(
                 this@RewardsScreenActivity,
                 DiscoverScreenActivity::class.java
             ).putExtra("isFromLogin", "no")
-        )
-
-        finish()
+        )*/
 
     }
 }

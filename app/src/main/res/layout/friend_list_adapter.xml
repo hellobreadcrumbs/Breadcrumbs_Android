@@ -38,7 +38,7 @@
         android:id="@+id/friend_level_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Master Explorer Lv. 35"
+        android:text="Master Explorer LV. 35"
         android:textColor="@color/white"
         android:layout_marginTop="5dp"
         android:layout_marginStart="10dp"

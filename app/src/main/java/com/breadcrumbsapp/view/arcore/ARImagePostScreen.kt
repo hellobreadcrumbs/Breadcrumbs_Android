@@ -61,19 +61,10 @@ import java.util.concurrent.TimeUnit
 class ARImagePostScreen : AppCompatActivity() {
     private lateinit var sharedPreference: SessionHandlerClass
     lateinit var binding: ArImagePostLayoutBinding
-    private var selfiePostValue = 50
-    private var scoredValue = 0
-    private var overallValue = 12000
-    private var discoverValue = 1000
     private var interceptor = intercept()
     lateinit var selectedFile: File
     private var selectedTrailID: String = ""
-    private var trailIcons = intArrayOf(
-        R.drawable.breadcrumbs_trail,
-        R.drawable.wild_about_twlight_icon,
-        R.drawable.anthology_trail_icon
-
-    )
+   
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ArImagePostLayoutBinding.inflate(layoutInflater)
@@ -82,11 +73,10 @@ class ARImagePostScreen : AppCompatActivity() {
         sharedPreference = SessionHandlerClass(applicationContext)
         val uri = sharedPreference.getSession("arURI")
         println("ImageUri: $uri")
-        val imageUri: Uri = Uri.parse(uri)
-        binding.capturedImage.setImageURI(imageUri)
-
         arPoiTitle.text = sharedPreference.getSession("selectedPOIName")
+        val imageUri: Uri = Uri.parse(uri)
         CropImage.activity(imageUri).setAspectRatio(1, 1).setFixAspectRatio(true).start(this)
+        binding.capturedImage.setImageURI(imageUri)
 
 
         selectedTrailID = sharedPreference.getSession("selected_trail_id").toString()
@@ -116,8 +106,7 @@ class ARImagePostScreen : AppCompatActivity() {
 
                 val updatedPoiCount= CommonData.getTrailsData!![i].completed_poi_count.toInt()+1
                 println("updatedPoiCount = $updatedPoiCount")
-                ar_challenge_screen_poi_completed_details.text="$updatedPoiCount /" +
-                        " ${CommonData.getTrailsData!![i].poi_count} POIs DISCOVERED"
+                ar_challenge_screen_poi_completed_details.text="$updatedPoiCount / ${CommonData.getTrailsData!![i].poi_count} POIs DISCOVERED"
 
 
                 val localImagePath=resources.getString(R.string.staging_url)+CommonData.getTrailsData!![i].map_icon_dt_url
@@ -130,7 +119,8 @@ class ARImagePostScreen : AppCompatActivity() {
 
 
         arChallengeLevelCloseBtn.setOnClickListener {
-
+            sharedPreference.saveSession("clicked_button", "")
+            sharedPreference.saveSession("from_challenge_screen", "YES")
             startActivity(
                 Intent(
                     this@ARImagePostScreen,
@@ -187,20 +177,15 @@ class ARImagePostScreen : AppCompatActivity() {
                 binding.imagePostLayout.visibility = View.GONE
                 binding.arSelfieChallengeLevelLayout.visibility = View.VISIBLE
                 imagePostLayout.visibility = View.GONE
-
-
-               // calculateXPPoints()
+ 
                 getUserDetails()
             } else {
                 binding.didUKnowLayout.visibility = View.VISIBLE
                 binding.imagePostLayout.visibility = View.VISIBLE
                 binding.arSelfieChallengeLevelLayout.visibility = View.GONE
-
                 binding.arImagePostBackButton.visibility = View.INVISIBLE
-
-
+ 
                 try {
-
                     val userID = sharedPreference.getSession("login_id") as String
                     val poiID = sharedPreference.getSession("selectedPOIID") as String
                     updateFile(userID, poiID)
@@ -214,255 +199,138 @@ class ARImagePostScreen : AppCompatActivity() {
 
     }
 
-    private fun calculateXPPoints() {
-        try {
-            /*arSelfieChallengeProgressBar.max = overallValue
-            discoverValue = CommonData.getUserDetails!!.experience.toInt()
-            println("discover_value $discoverValue")
-            scoredValue = discoverValue + selfiePostValue
-            arSelfiePostMark.text = "+$selfiePostValue XP"
-
-            var totalScore = 0
-            for (i in 0 until CommonData.eventsModelMessage!!.count()) {
-                if (CommonData.eventsModelMessage!![i].disc_id != null) {
-                    totalScore += CommonData.eventsModelMessage!![i].experience.toInt()
-                    println("totalScore :: $totalScore")
-                }
-            }
-            println("totalScore :: $totalScore")
-            ObjectAnimator.ofInt(arSelfieChallengeProgressBar, "progress", totalScore)
-                .setDuration(1000)
-                .start()
-
-            totalScore += scoredValue
-            val subtractValue = overallValue - totalScore
-            arBalanceScoreValue.text = "$subtractValue XP to Level 2"
-
-*/
-
-
-            // Updated One with API data..
-/*
-
-            val progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
-            val expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
-            val completedPoints = sharedPreference.getSession("player_experience_points")
-            val levelValue = sharedPreference.getSession("lv_value")
-            val presentLevel = sharedPreference.getSession("current_level")
-            scoredValue = discoverValue + selfiePostValue
-            arSelfiePostMark.text = "+$selfiePostValue XP"
-            arSelfieChallengeProgressBar.max = progressBarMaxValue
-            arBalanceScoreValue.text = "$expToLevel XP TO $levelValue"
-            ar_challenge_level_name.text=presentLevel
-            ObjectAnimator.ofInt(arSelfieChallengeProgressBar, "progress", completedPoints!!.toInt())
-                .setDuration(1000)
-                .start()
-*/
-
-
-
-
-
-            println("AR XP Details : progressBarMaxValue = calculate points")
-            var progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
-            val expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
-            val completedPoints = sharedPreference.getSession("player_experience_points")
-            var levelValue = sharedPreference.getSession("lv_value")
-            val presentLevel = sharedPreference.getSession("current_level")
-
-
-            println("AR XP Details : progressBarMaxValue = $progressBarMaxValue")
-            println("AR XP Details : completedPoints = $completedPoints")
-            println("AR XP Details : presentLevel = $presentLevel")
-            println("AR XP Details : levelValue = $levelValue")
-            println("AR XP Details : expToLevel = $expToLevel")
-
-
-
-
-            val POIDiscoverXP:Int=sharedPreference.getSession("selectedPOIDiscovery_XP_Value")!!.toInt()
-            val POIchallengeXP:Int=sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
-            val completedPointIntValue=completedPoints!!.toInt()
-            println("AR XP Details : POIDiscoverXP = $POIDiscoverXP")
-            println("AR XP Details : POIchallengeXP = $POIchallengeXP")
-
-            val totalXP:Int=POIDiscoverXP+POIchallengeXP+completedPointIntValue
-            println("AR XP Details : totalXP = $totalXP")
-
-            arDiscoveryMark.text="+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
-            arSelfiePostMark.text="+${sharedPreference.getSession("selectedPOIChallenge_XP_Value")} XP"
-            //scoredValue = discoverValue + selfiePostValue
-           // selfiePostMark.text = "+$selfiePostValue XP"
-            ar_challenge_level_name.text=presentLevel
-
-            /*val totalGainedXP:Int=sharedPreference.getSession("selectedPOIDiscovery_XP_Value")!!.toInt()
-            +sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()+expToLevel.toInt()
-    */
-            println("AR XP Details : totalGainedXP = $totalXP")
-
-            var balanceVal:Int=progressBarMaxValue-totalXP
-            if(balanceVal<=0)
-            {
-                progressBarMaxValue += 2000
-                balanceVal=progressBarMaxValue-totalXP
-                levelValue="LV ${sharedPreference.getIntegerSession("current_level")}"
-            }
-
-            arBalanceScoreValue.text = "$balanceVal XP TO $levelValue"
-
-            sharedPreference.saveSession("xp_balance_value",balanceVal)
-            sharedPreference.saveSession("total_gained_xp",totalXP)
-            sharedPreference.saveSession("balance_xp_string",arBalanceScoreValue.text.toString())
-
-            println("AR XP Details : levelValue = $levelValue")
-            println("AR XP Details : balanceVal = $balanceVal")
-            println("AR XP Details : arBalanceScoreValue.text = ${arBalanceScoreValue.text}")
-
-
-
-
-
-            arSelfieChallengeProgressBar.max = progressBarMaxValue
-            ObjectAnimator.ofInt(arSelfieChallengeProgressBar, "progress", totalXP)
-                .setDuration(1000)
-                .start()
-
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+    
     private fun calculateUserLevel(exp: Int) {
         var ranking: String = ""
         var level: Int = 0
         var base: Int = 0
         var nextLevel: Int = 0
         when (exp) {
-            in 0..999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+            in 0..999 -> { // 1000 
+                ranking = "Recruit"
                 level = 1
                 base = 1000
-                nextLevel = 2000
+                nextLevel = 1000
             }
-            in 1000..1999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+            in 1000..1999 -> { // 1000 
+                ranking = "Recruit"
                 level = 2
                 base = 1000
                 nextLevel = 2000
             }
-            in 2000..2999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+            in 2000..2999 -> { // 1000 
+                ranking = "Recruit"
                 level = 3
                 base = 2000
                 nextLevel = 3000
             }
-            in 3000..3999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+            in 3000..3999 -> { // 1000 
+                ranking = "Recruit"
                 level = 4
                 base = 3000
                 nextLevel = 4000
             }
-            in 4000..5999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+            in 4000..5999 -> { // 2000 
+                ranking = "Recruit"
                 level = 5
                 base = 4000
                 nextLevel = 6000
             }
-            in 6000..7999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+            in 6000..7999 -> { // 2000 
+                ranking = "Recruit"
                 level = 6
                 base = 6000
                 nextLevel = 8000
             }
-            in 8000..9999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+            in 8000..9999 -> { // 2000 
+                ranking = "Recruit"
                 level = 7
                 base = 8000
                 nextLevel = 10000
             }
-            in 10000..11999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+            in 10000..11999 -> { // 2000 
+                ranking = "Recruit"
                 level = 8
                 base = 10000
                 nextLevel = 12000
             }
-            in 12000..13999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+            in 12000..13999 -> { // 2000 
+                ranking = "Recruit"
                 level = 9
                 base = 12000
                 nextLevel = 14000
             }
-            in 14000..16999 -> { // 2000 thresh
-                ranking = "NAVIGATOR"
+            in 14000..16999 -> { // 2000 
+                ranking = "Navigator"
                 level = 10
                 base = 14000
                 nextLevel = 17000
 
             }
-            in 17000..20499 -> { // 2000 thresh
+            in 17000..20499 -> { // 2000 
                 ranking = "Navigator"
                 level = 11
                 base = 17000
                 nextLevel = 20500
 
             }
-            in 20500..24499 -> { // 2000 thresh
+            in 20500..24499 -> { // 2000 
                 ranking = "Navigator"
                 level = 12
                 base = 20500
                 nextLevel = 24500
 
             }
-            in 24500..28499 -> { // 2000 thresh
+            in 24500..28499 -> { // 2000 
                 ranking = "Navigator"
                 level = 13
                 base = 24500
                 nextLevel = 28500
 
             }
-            in 28500..33499 -> { // 2000 thresh
+            in 28500..33499 -> { // 2000 
                 ranking = "Navigator"
                 level = 14
                 base = 28500
                 nextLevel = 33500
 
             }
-            in 33500..38999 -> { // 2000 thresh
+            in 33500..38999 -> { // 2000 
                 ranking = "Navigator"
                 level = 15
                 base = 33500
                 nextLevel = 39000
 
             }
-            in 39000..44999 -> { // 2000 thresh
+            in 39000..44999 -> { // 2000 
                 ranking = "Navigator"
                 level = 16
                 base = 39000
                 nextLevel = 45000
 
             }
-            in 45000..51499 -> { // 2000 thresh
+            in 45000..51499 -> { // 2000 
                 ranking = "Navigator"
                 level = 17
                 base = 45000
                 nextLevel = 51500
 
             }
-            in 51500..58499 -> { // 2000 thresh
+            in 51500..58499 -> { // 2000 
                 ranking = "Navigator"
                 level = 18
                 base = 51500
                 nextLevel = 58500
 
             }
-            in 58500..65999 -> { // 2000 thresh
+            in 58500..65999 -> { // 2000 
                 ranking = "Navigator"
                 level = 19
                 base = 58500
                 nextLevel = 66000
 
             }
-            in 66000..73999 -> { // 2000 thresh
+            in 66000..73999 -> { // 2000 
                 ranking = "Captain"
                 level = 20
                 base = 66000
@@ -470,25 +338,39 @@ class ARImagePostScreen : AppCompatActivity() {
 
             }
         }
-        println("AR Challenge => $ranking Lv. $level")
+        println("AR Challenge => $ranking LV. $level")
         ar_challenge_level_name.text="$ranking $level"
         val expToLevel = (nextLevel - base) - (exp - base) // (2000-1000) - (400-1000) = (1000)-(-600)=1600
         println("expToLevel= $expToLevel")
 
         val balanceVal:Int=nextLevel-exp
         println("Report => $nextLevel  - $exp = $balanceVal")
-        arBalanceScoreValue.text = "$balanceVal XP TO ${level + 1}"
-      //  arBalanceScoreValue.text = " $expToLevel XP TO Lv ${level + 1}"
 
         arSelfieChallengeProgressBar.max = nextLevel
-        ObjectAnimator.ofInt(
-            arSelfieChallengeProgressBar,
-            "progress",
-            exp
-        )
-            .setDuration(1000)
-            .start()
+        if(balanceVal<=0)
+        {
+            arBalanceScoreValue.text = "$exp XP TO ${level + 1}"
 
+            ObjectAnimator.ofInt(
+                arSelfieChallengeProgressBar,
+                "progress",
+                balanceVal
+            )
+                .setDuration(1000)
+                .start()
+        }
+        else
+        {
+            arBalanceScoreValue.text = "$balanceVal XP TO ${level + 1}"
+
+            ObjectAnimator.ofInt(
+                arSelfieChallengeProgressBar,
+                "progress",
+                exp
+            )
+                .setDuration(1000)
+                .start()
+        }
 
 
         arDiscoveryMark.text = "+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
@@ -664,6 +546,12 @@ class ARImagePostScreen : AppCompatActivity() {
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 val error = result.error
             }
+            else
+            {
+                val uri = sharedPreference.getSession("arURI")
+                val imageUri: Uri = Uri.parse(uri)
+                CropImage.activity(imageUri).setAspectRatio(1, 1).setFixAspectRatio(true).start(this)
+            }
         }
     }
 
@@ -737,7 +625,6 @@ class ARImagePostScreen : AppCompatActivity() {
             reqFile
         )
 
-
         val okHttpClient = OkHttpClient.Builder()
             .connectTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
@@ -761,16 +648,12 @@ class ARImagePostScreen : AppCompatActivity() {
                     id, poiId, multiPartFile
                 )
 
-
                 if (response.isSuccessful) {
                     println("AR Image JSon Body if  ${response.body()}")
                     runOnUiThread {
                         binding.titleText.text = "Photo posted successfully!"
-
-
                         imagePostButton.background = getDrawable(R.drawable.selfie_continue_btn)
                         imagePostButton.text = "CONTINUE"
-
                         discoverPOI()
                     }
 
@@ -784,7 +667,6 @@ class ARImagePostScreen : AppCompatActivity() {
             }
 
         }
-
 
     }
 

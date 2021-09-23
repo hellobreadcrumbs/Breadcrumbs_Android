@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="10dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:paddingBottom="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/adapter_userInformationLayout"
@@ -20,8 +20,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="35dp"
-            app:civ_border_width="0dp"
             android:src="@drawable/com_facebook_profile_picture_blank_portrait"
+            app:civ_border_width="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -51,51 +51,57 @@
 
             <TextView
                 android:id="@+id/leaderBoard_adapter_player_level"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/dinish_regular"
-                android:text="Recruit Lv. 1"
+                android:text="Recruit LV. 1"
                 android:textColor="#4B3B30"
-                android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="@dimen/discover_screen_take_me_there_text_size"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/leaderBoard_adapter_playerName" />
+
+            <ImageView
+                android:id="@+id/dot_level"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/trail_banner_dot"
+                android:paddingBottom="3dp"
+                android:textSize="@dimen/discover_screen_take_me_there_text_size"
+                app:layout_constraintBottom_toTopOf="@+id/adapter_total_duration"
+                app:layout_constraintStart_toEndOf="@+id/leaderBoard_adapter_player_level"
+                app:layout_constraintTop_toBottomOf="@+id/leaderBoard_adapter_playerName"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/totalXP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/dinish_bold"
+                android:fontFamily="@font/dinish_regular"
+                android:layout_marginStart="5dp"
+                android:paddingBottom="3dp"
                 android:text="2450 XP"
                 android:textColor="#4B3B30"
-                android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/leaderBoard_adapter_player_level" />
+                android:textSize="@dimen/discover_screen_take_me_there_text_size"
+                app:layout_constraintBottom_toTopOf="@+id/adapter_total_duration"
+                app:layout_constraintStart_toEndOf="@+id/dot_level"
+                app:layout_constraintTop_toBottomOf="@+id/leaderBoard_adapter_playerName" />
 
-            <ImageView
-                android:id="@+id/dot_one"
-                android:layout_width="4dp"
-                android:layout_height="4dp"
-                android:layout_marginStart="5dp"
-                android:background="@drawable/trail_banner_dot"
-                android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/totalXP"
-                app:layout_constraintTop_toBottomOf="@+id/leaderBoard_adapter_player_level"
-                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/adapter_total_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+
                 android:fontFamily="@font/dinish_bold"
-                android:text="2D 4H"
+                android:text="2D 4H 0M"
                 android:textColor="#4B3B30"
                 android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/dot_one" />
+                app:layout_constraintStart_toStartOf="parent"
+
+             />
 
             <ImageView
                 android:id="@+id/dot_two"
@@ -104,7 +110,8 @@
                 android:layout_marginStart="5dp"
                 android:background="@drawable/trail_banner_dot"
                 android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/adapter_total_duration"
                 app:layout_constraintStart_toEndOf="@+id/adapter_total_duration"
                 app:layout_constraintTop_toBottomOf="@+id/leaderBoard_adapter_player_level"
                 tools:ignore="ContentDescription" />
@@ -127,8 +134,8 @@
             android:id="@+id/constraintLayout8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 

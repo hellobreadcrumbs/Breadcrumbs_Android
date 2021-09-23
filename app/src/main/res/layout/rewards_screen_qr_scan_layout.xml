@@ -89,6 +89,7 @@
         android:text="12345ABC"
         android:textColor="#4B3B30"
         android:textSize="@dimen/challenge_begin_screen_poi_name_text_size"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@id/rewards_details_screen_info"
         app:layout_constraintStart_toEndOf="@id/reward_qr_details_screen_back_button"
         app:layout_constraintTop_toBottomOf="@+id/iv_reward_details_image" />

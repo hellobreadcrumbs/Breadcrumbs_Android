@@ -82,11 +82,15 @@ class TrailScreenActivity:AppCompatActivity()
         //trailsScreenRecyclerView.adapter = trailsListScreenAdapter
 
         trails_screen_back_button.setOnClickListener {
+            sessionHandlerClass.saveSession("clicked_button", "no_reload")
             finish()
         }
     }
 
-
+    override fun onBackPressed() {
+        super.onBackPressed()
+        sessionHandlerClass.saveSession("clicked_button", "no_reload")
+    }
 
     private fun getTrailDetails() {
         try {

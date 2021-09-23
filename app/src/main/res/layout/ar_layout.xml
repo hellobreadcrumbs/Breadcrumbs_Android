@@ -35,22 +35,32 @@
         android:id="@+id/captureBtn"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:clickable="true"
         android:layout_marginBottom="46dp"
         android:src="@drawable/selfie_challenge_camera_btn"
         app:layout_constraintBottom_toBottomOf="@+id/sceneform_fragment_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/ar_screen_loaderImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:visibility="gone"
+        android:id="@+id/loaderLayout"
+        android:layout_width="match_parent"
+        android:background="@color/black"
+        android:alpha="0.2"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/ar_screen_loaderImage"
+            android:layout_width="90dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

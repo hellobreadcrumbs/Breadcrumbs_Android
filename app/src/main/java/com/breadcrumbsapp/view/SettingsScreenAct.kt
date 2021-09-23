@@ -47,10 +47,11 @@ class SettingsScreenAct : AppCompatActivity() {
 
         user_info_layout.setOnClickListener {
 
-            startActivity(Intent(this@SettingsScreenAct, UserInformationActivity::class.java))
+            startActivity(Intent(this@SettingsScreenAct, UserInformationActivity::class.java) .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         }
 
         settings_screen_backButton.setOnClickListener {
+            sessionHandlerClass.saveSession("clicked_button", "no_reload")
             finish()
         }
 
@@ -59,7 +60,7 @@ class SettingsScreenAct : AppCompatActivity() {
                 Intent(
                     this@SettingsScreenAct,
                     SettingsWebViewActivity::class.java
-                ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                ) .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     .putExtra("terms", "no")
             )
 
@@ -71,14 +72,14 @@ class SettingsScreenAct : AppCompatActivity() {
                 Intent(
                     this@SettingsScreenAct,
                     SettingsWebViewActivity::class.java
-                ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                ) .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     .putExtra("terms", "yes")
             )
         }
 
         faq_layout.setOnClickListener {
 
-            startActivity(Intent(this@SettingsScreenAct, FAQActivity::class.java))
+            startActivity(Intent(this@SettingsScreenAct, FAQActivity::class.java) .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         }
 
         vibration_on_off.isChecked =sessionHandlerClass.getBoolean("isVibratorOn")
@@ -116,7 +117,7 @@ class SettingsScreenAct : AppCompatActivity() {
                 .requestEmail()
                 .requestProfile()
                 .build()
-            // Build a GoogleSignInClient with the options specified by gso.
+
             // Build a GoogleSignInClient with the options specified by gso.
             val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
             mGoogleSignInClient.signOut()
@@ -128,31 +129,7 @@ class SettingsScreenAct : AppCompatActivity() {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }.also { startActivity(it) }
             finish()
-        /*    try {
-                LoginScreen.mGoogleSignInClient.signOut().addOnCompleteListener(OnCompleteListener {
-                    println("Clear Session Before: ${sessionHandlerClass.getBoolean("isLogin")}")
-                    sessionHandlerClass.clearSession()
-                    println("Clear Session Before After: ${sessionHandlerClass.getBoolean("isLogin")}")
 
-
-
-                    println(
-                        "Clear Session Before After clicked_button : ${
-                            sessionHandlerClass.getBoolean(
-                                "clicked_button"
-                            )
-                        }"
-                    )
-
-                    Intent(this, LoginScreen::class.java).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    }.also { startActivity(it) }
-                    finish()
-                })
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }*/
         }
 
         dialog.window!!.attributes!!.windowAnimations = R.style.DialogTheme

@@ -41,20 +41,13 @@ class UserInformationActivity : AppCompatActivity() {
                 e.printStackTrace()
                 created_date_view.text = createdDateStr
             }
+            nickname_text_view.text = CommonData.getUserDetails!!.username
 
-            if(CommonData.getUserDetails!!.username!="")
-            {
-
-                nickname_text_view.text = CommonData.getUserDetails!!.username
-            }
-            else{
-                nickname_text_view.text = sessionHandlerClass.getSession("player_name")
-            }
             user_id_text_view.text = "#" + CommonData.getUserDetails!!.id
             email_address_text_view.text = CommonData.getUserDetails!!.email
         } else {
             println("Data from :: Session class")
-            if(sessionHandlerClass.getSession("player_user_name")!="")
+           /* if(sessionHandlerClass.getSession("player_user_name")!="")
             {
 
                 nickname_text_view.text = sessionHandlerClass.getSession("player_user_name")
@@ -62,7 +55,7 @@ class UserInformationActivity : AppCompatActivity() {
             else{
                 //"player_name"
                 nickname_text_view.text = sessionHandlerClass.getSession("player_name")
-            }
+            }*/
             user_id_text_view.text = "#" +sessionHandlerClass.getSession("player_id")
             email_address_text_view.text = sessionHandlerClass.getSession("player_email_id")
             val createdDateStr: String? = sessionHandlerClass.getSession("player_register_date")

@@ -62,29 +62,50 @@ internal class GetFriendListAdapter(getFriendsListModel: List<GetFriendsListMode
         // both id same means, use u_profile picture
         // both id not same means, user profile picture
 
-        val playerID:Int=sessionHandlerClass.getSession("login_id")!!.toInt()
-        val dataID:Int=data.id.toInt()
-        println("FRIEND ADAPTER::: INT => $playerID <> $dataID")
-        if(playerID==dataID)
+        if(data.id!=null)
         {
-            println("FRIEND ADAPTER::: IF => $playerID <> $dataID")
-            Glide.with(context).load("${context.getString(R.string.staging_url)}${data.u_profile_picture}")
-                .placeholder(context.resources.getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait, null))
-                .into(holder.recommendedFriendAdapterProfile)
+            val playerID:Int=sessionHandlerClass.getSession("login_id")!!.toInt()
+            val dataID:Int=data.id.toInt()
+            println("FRIEND ADAPTER::: INT => $playerID <> $dataID")
+            if(playerID==dataID)
+            {
+                println("FRIEND ADAPTER::: IF => $playerID <> $dataID")
+                Glide.with(context).load("${context.getString(R.string.staging_url)}${data.u_profile_picture}")
+                    .placeholder(context.resources.getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait, null))
+                    .into(holder.recommendedFriendAdapterProfile)
 
-            holder.friendNameTv.text = data.u_username
+                holder.friendNameTv.text = data.u_username
 
-            try {
-                val expIntVal: Int = Integer.parseInt(data.u_experience)
-                holder.friendLevelTv.text = calculateUserLevel(expIntVal)
-            } catch (e: Exception) {
-                e.printStackTrace()
+                try {
+                    val expIntVal: Int = Integer.parseInt(data.u_experience)
+                    holder.friendLevelTv.text = calculateUserLevel(expIntVal)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
             }
+            else
+            {
+                println("FRIEND ADAPTER::: ELSE => $playerID <> $dataID")
+                Glide.with(context).load("${context.getString(R.string.staging_url)}${data.profile_picture}")
+                    .placeholder(context.resources.getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait, null))
+                    .into(holder.recommendedFriendAdapterProfile)
 
+                holder.friendNameTv.text = data.username
+
+                try {
+                    val expIntVal: Int = Integer.parseInt(data.experience)
+                    holder.friendLevelTv.text = calculateUserLevel(expIntVal)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+            }
         }
+
         else
         {
-            println("FRIEND ADAPTER::: ELSE => $playerID <> $dataID")
+
             Glide.with(context).load("${context.getString(R.string.staging_url)}${data.profile_picture}")
                 .placeholder(context.resources.getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait, null))
                 .into(holder.recommendedFriendAdapterProfile)
@@ -104,23 +125,46 @@ internal class GetFriendListAdapter(getFriendsListModel: List<GetFriendsListMode
 
 
         holder.itemView.setOnClickListener {
-            if(playerID==dataID)
+            val playerID:Int=sessionHandlerClass.getSession("login_id")!!.toInt()
+            val dataID:Int=data.id.toInt()
+            if(data.id!=null)
             {
-                context.startActivity(
-                    Intent(context, FriendProfileScreenActivity::class.java)
-                        .putExtra("username", data.u_username)
-                        .putExtra("friend_id", data.user_id)
-                        .putExtra("total_xp", data.u_experience)
-                        .putExtra("profile_pic", data.u_profile_picture)
-                        .putExtra("friend_status", data.status)
-                        .putExtra("player_level", holder.friendLevelTv.text.toString())
-                )
+                if(playerID==dataID)
+                {
+                    println("GetFriend_adapter => IF ${data.user_id}")
+                    context.startActivity(
+                        Intent(context, FriendProfileScreenActivity::class.java)
+                            .putExtra("username", data.u_username)
+                            .putExtra("friend_id", data.uf_id)
+                            .putExtra("total_xp", data.u_experience)
+                            .putExtra("friend_user_id",data.user_id)
+                            .putExtra("profile_pic", data.u_profile_picture)
+                            .putExtra("friend_status", data.status)
+                            .putExtra("player_level", holder.friendLevelTv.text.toString())
+                    )
+                }
+                else{
+                    println("GetFriend_adapter => ELSE ${data.friend_id}")
+                    context.startActivity(
+                        Intent(context, FriendProfileScreenActivity::class.java)
+                            .putExtra("username", data.username)
+                            .putExtra("friend_id", data.uf_id)
+                            .putExtra("friend_user_id",data.friend_id)
+                            .putExtra("total_xp", data.experience)
+                            .putExtra("profile_pic", data.profile_picture)
+                            .putExtra("friend_status", data.status)
+                            .putExtra("player_level", holder.friendLevelTv.text.toString())
+                    )
+                }
             }
+
             else{
+                println("GetFriend_adapter => ELSE 2 ${data.friend_id}")
                 context.startActivity(
                     Intent(context, FriendProfileScreenActivity::class.java)
                         .putExtra("username", data.username)
-                        .putExtra("friend_id", data.friend_id)
+                        .putExtra("friend_id", data.uf_id)
+                        .putExtra("friend_user_id",data.friend_id)
                         .putExtra("total_xp", data.experience)
                         .putExtra("profile_pic", data.profile_picture)
                         .putExtra("friend_status", data.status)
@@ -139,61 +183,61 @@ internal class GetFriendListAdapter(getFriendsListModel: List<GetFriendsListMode
         var nextLevel = 0
         when (exp) {
             in 0..999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 1
                 base = 1000
-                nextLevel = 2000
+                nextLevel = 1000
             }
             in 1000..1999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 2
                 base = 1000
                 nextLevel = 2000
             }
             in 2000..2999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 3
                 base = 2000
                 nextLevel = 3000
             }
             in 3000..3999 -> { // 1000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 4
                 base = 3000
                 nextLevel = 4000
             }
             in 4000..5999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 5
                 base = 4000
                 nextLevel = 6000
             }
             in 6000..7999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 6
                 base = 6000
                 nextLevel = 8000
             }
             in 8000..9999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 7
                 base = 8000
                 nextLevel = 10000
             }
             in 10000..11999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 8
                 base = 10000
                 nextLevel = 12000
             }
             in 12000..13999 -> { // 2000 thresh
-                ranking = "RECRUIT"
+                ranking = "Recruit"
                 level = 9
                 base = 12000
                 nextLevel = 14000
             }
             in 14000..16999 -> { // 2000 thresh
-                ranking = "NAVIGATOR"
+                ranking = "Navigator"
                 level = 10
                 base = 14000
                 nextLevel = 17000
@@ -271,7 +315,7 @@ internal class GetFriendListAdapter(getFriendsListModel: List<GetFriendsListMode
             }
         }
 
-        return "$ranking Lv. $level"
+        return "$ranking LV. $level"
 
 
     }

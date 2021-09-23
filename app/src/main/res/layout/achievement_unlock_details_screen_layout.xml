@@ -112,7 +112,7 @@
                     android:layout_marginEnd="25dp"
                     android:layout_marginBottom="50dp"
                     android:background="@drawable/achievements_details_completed_area_bg"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -240,15 +240,38 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/achievement_unlock_view_two" />
+                    <ImageView
+                        android:id="@+id/achievement_unlock_details_reward_icon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="70dp"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/bread_talk_reward_thumb"
+                        app:layout_constraintTop_toBottomOf="@+id/achievement_unlock_rewards_static_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                      />
+                    <TextView
+                        android:id="@+id/achievement_unlock__details_reward_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/claritycity_bold"
+                        android:gravity="center_horizontal"
+                        android:text="$20 Breadtalk\nVoucher"
+                        android:textColor="#4B3B30"
+                        android:textSize="@dimen/discovery_screen_level_name_text_size"
+                        app:layout_constraintEnd_toEndOf="@+id/achievement_unlock_details_reward_icon"
+                        app:layout_constraintStart_toStartOf="@+id/achievement_unlock_details_reward_icon"
+                        app:layout_constraintTop_toBottomOf="@+id/achievement_unlock_details_reward_icon" />
 
                     <ImageView
                         android:id="@+id/achievement_unlock_page_xp_icon_iv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginTop="20dp"
                         android:src="@drawable/achievements_details_page_xp_icon"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginEnd="70dp"
                         app:layout_constraintTop_toBottomOf="@+id/achievement_unlock_rewards_static_content" />
 
 
@@ -260,7 +283,7 @@
                         android:layout_marginBottom="30dp"
                         android:fontFamily="@font/claritycity_bold"
                         android:gravity="center_horizontal"
-
+                        android:text="250"
                         android:textColor="#4B3B30"
                         android:textSize="@dimen/discovery_screen_level_name_text_size"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -277,7 +300,7 @@
                     android:layout_marginEnd="25dp"
                     android:layout_marginBottom="50dp"
                     android:background="@drawable/achievements_details_completed_area_bg"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
