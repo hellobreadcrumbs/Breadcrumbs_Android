@@ -400,7 +400,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         trailsNameText = findViewById(R.id.trailsName)
         recyclerView = findViewById(R.id.recyclerView)
 
-
+        inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
        /* inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         if (!sharedPreference.getSession("player_name").equals("")) {
             playerName.text = sharedPreference.getSession("player_name")
@@ -571,11 +571,11 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
             // Hide the Mobile keypad
 
-            inputMethodManager.toggleSoftInputFromWindow(
+           /* inputMethodManager.toggleSoftInputFromWindow(
                 editTextSearchView.applicationWindowToken,
                 InputMethodManager.HIDE_IMPLICIT_ONLY, 0
             )
-
+*/
 
             // Only for list screen not for map screen.
             if (isListScreen) {
