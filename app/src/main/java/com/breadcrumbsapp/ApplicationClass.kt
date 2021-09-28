@@ -15,7 +15,6 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.Toast
 import androidx.multidex.MultiDexApplication
 
@@ -23,17 +22,17 @@ import androidx.multidex.MultiDexApplication
 class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCallbacks {
 
     private lateinit var mActivity: Activity
-    lateinit var  dialog:Dialog
+    lateinit var dialog: Dialog
 
     private val networkChangeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
 
-            val toast:Toast=Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG)
+            val toast: Toast = Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG)
             toast.setGravity(Gravity.CENTER, 0, 0)
             println("Receiver = " + getConnectionType(context))
-              dialog = Dialog(context,R.style.FirebaseUI_Transparent)
+            dialog = Dialog(context, R.style.FirebaseUI_Transparent)
             if (getConnectionType(context) == 0) {
-               // noInternetConnectionDialog()
+                // noInternetConnectionDialog()
                 toast.show()
             } else {
                 if (dialog.isShowing) {
@@ -43,22 +42,7 @@ class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCal
                 // do nothing..
                 //  Toast.makeText(context,"Connected!",Toast.LENGTH_LONG).show()
             }
-
         }
-    }
-
-
-    private fun noInternetConnectionDialog() {
-
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.internet_connection_layout)
-        dialog.window?.setDimAmount(23.0f)
-
-
-        dialog.window!!.setType(WindowManager.LayoutParams.TYPE_APPLICATION_PANEL)
-        dialog.window!!.attributes!!.windowAnimations = R.style.DialogTheme
-        dialog.show()
     }
 
     override fun onCreate() {

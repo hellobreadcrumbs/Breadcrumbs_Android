@@ -11,7 +11,7 @@ Details....
 4.  getTrailListFromAPI() - This method helps to load POI
 5.  POI Image name - poi_breadcrumbs_marker_undiscovered_1,poi_breadcrumbs_marker_undiscovered_2
 6.  ch_type = 0 means, selfie. Else, quiz.
-6.  ch_type = 0 means, selfie. Else, quiz.
+
 
  */
 
@@ -88,7 +88,6 @@ import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.*
-import java.lang.IllegalArgumentException
 import java.net.URL
 import java.nio.charset.Charset
 import java.text.ParseException
@@ -1134,7 +1133,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             }
             println("Just:::::::::::::::::: distance  $distance")
             // discover area
-            if ((distance.toDouble() in 0.0..20.0)) {
+            if ((distance.toDouble() in 0.0..900.0)) {
 
                 if (selectedPOIDiscoverId == null) {
                     Toast.makeText(this, "POI is nearby", Toast.LENGTH_LONG).show()

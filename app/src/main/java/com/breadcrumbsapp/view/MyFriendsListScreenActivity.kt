@@ -132,7 +132,6 @@ class MyFriendsListScreenActivity : AppCompatActivity() {
                                             ++newFriendRequestCount
                                         }
 
-                                       // newFriendRequestCount++
                                     }
                                 }
                                 println("friendList.size => ${friendList.size}")

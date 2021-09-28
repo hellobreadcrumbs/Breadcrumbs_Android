@@ -43,11 +43,6 @@ class MyAchievementScreenDetailsActivity : AppCompatActivity() {
         val badgeImage = resources.getString(R.string.staging_url) + getUserAchievementsModel.badge_img
 
         trailIcon = resources.getString(R.string.staging_url) + getUserAchievementsModel.icon
-        println("trailIcon = ${getUserAchievementsModel.trail_id}")
-
-
-
-
         println("Ach Det ::: ${getUserAchievementsModel.trail_id}")
 
         if(getUserAchievementsModel.trail_id=="4")
@@ -64,10 +59,9 @@ class MyAchievementScreenDetailsActivity : AppCompatActivity() {
         unlock_screen_trail_name.text=getUserAchievementsModel.name
         lock_screen_trail_name.text=getUserAchievementsModel.name
 
-        achievement_details_lock_info_icon.setOnClickListener(View.OnClickListener {
+        achievement_details_lock_info_icon.setOnClickListener {
 
-            if(getUserAchievementsModel.trail_id=="4")
-            {
+            if (getUserAchievementsModel.trail_id == "4") {
                 startActivity(
                     Intent(
                         applicationContext,
@@ -77,9 +71,7 @@ class MyAchievementScreenDetailsActivity : AppCompatActivity() {
                         .putExtra("trail_id", getUserAchievementsModel.trail_id)
                         .putExtra("getTrailsListData", CommonData.getTrailsData!![0])
                 )
-            }
-            else if(getUserAchievementsModel.trail_id=="6")
-            {
+            } else if (getUserAchievementsModel.trail_id == "6") {
                 startActivity(
                     Intent(
                         applicationContext,
@@ -90,36 +82,33 @@ class MyAchievementScreenDetailsActivity : AppCompatActivity() {
                         .putExtra("getTrailsListData", CommonData.getTrailsData!![1])
                 )
             }
-        })
+        }
 
-        achievement_details_info_icon.setOnClickListener(View.OnClickListener {
+        achievement_details_info_icon.setOnClickListener {
 
-           if(getUserAchievementsModel.trail_id=="4")
-           {
-               startActivity(
-                   Intent(
-                       applicationContext,
-                       TrailsDetailsActivity::class.java
-                   ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                       //   .putExtra("position", position)
-                       .putExtra("trail_id", getUserAchievementsModel.trail_id)
-                       .putExtra("getTrailsListData", CommonData.getTrailsData!![0])
-               )
-           }
-            else if(getUserAchievementsModel.trail_id=="6")
-           {
-               startActivity(
-                   Intent(
-                       applicationContext,
-                       TrailsDetailsActivity::class.java
-                   ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                       //   .putExtra("position", position)
-                       .putExtra("trail_id", getUserAchievementsModel.trail_id)
-                       .putExtra("getTrailsListData", CommonData.getTrailsData!![1])
-               )
-           }
+            if (getUserAchievementsModel.trail_id == "4") {
+                startActivity(
+                    Intent(
+                        applicationContext,
+                        TrailsDetailsActivity::class.java
+                    ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        //   .putExtra("position", position)
+                        .putExtra("trail_id", getUserAchievementsModel.trail_id)
+                        .putExtra("getTrailsListData", CommonData.getTrailsData!![0])
+                )
+            } else if (getUserAchievementsModel.trail_id == "6") {
+                startActivity(
+                    Intent(
+                        applicationContext,
+                        TrailsDetailsActivity::class.java
+                    ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        //   .putExtra("position", position)
+                        .putExtra("trail_id", getUserAchievementsModel.trail_id)
+                        .putExtra("getTrailsListData", CommonData.getTrailsData!![1])
+                )
+            }
 
-        })
+        }
 
         println("isLocked=> $isLocked")
         if (isLocked) {
@@ -130,8 +119,6 @@ class MyAchievementScreenDetailsActivity : AppCompatActivity() {
             achievement_details_lock_iv.visibility=View.VISIBLE
 
             Glide.with(applicationContext).load(badgeImage).into(achievement_details_image)
-
-
 
            for(i in getUserAchievementsModel.pois.indices)
            {
@@ -192,33 +179,9 @@ class MyAchievementScreenDetailsActivity : AppCompatActivity() {
 
         }
 
-/*
-        achievement_details_info_icon.setOnClickListener(View.OnClickListener {
-            try {
-                println("Size::: ${CommonData.getTrailsData!!.size}")
-
-                Toast.makeText(applicationContext,"Under Construction",Toast.LENGTH_SHORT).show()
-
-                *//*startActivity(
-                    Intent(
-                        applicationContext,
-                        TrailsDetailsActivity::class.java
-                    ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .putExtra("position", 0)
-                        .putExtra("trail_id", getUserAchievementsModel.trail_id)
-                        .putExtra("getTrailsListData", CommonData.getTrailsData!![0])
-                )*//*
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-        })*/
-
-
-        achievements_unlock_screen_backButton.setOnClickListener(View.OnClickListener {
+        achievements_unlock_screen_backButton.setOnClickListener {
             finish()
-        })
-
+        }
 
     }
 }

@@ -1,8 +1,8 @@
 package com.breadcrumbsapp.view
 
+
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +15,6 @@ import com.breadcrumbsapp.util.CommonData.Companion.getUserAchievementsModel
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.my_achievements_layout.*
-import kotlinx.android.synthetic.main.user_profile_screen_layout.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,11 +42,9 @@ class MyAchievementScreenActivity : AppCompatActivity() {
 
         sessionHandlerClass= SessionHandlerClass(applicationContext)
 
-
-
-        my_achievements_screen_backButton.setOnClickListener(View.OnClickListener {
+        my_achievements_screen_backButton.setOnClickListener {
             finish()
-        })
+        }
 
         if(CommonData.getTrailsData ==null)
         {
@@ -60,12 +57,10 @@ class MyAchievementScreenActivity : AppCompatActivity() {
 
         arrangeAchievements()
 
-
-
     }
     private fun arrangeAchievements()
     {
-        var completedPOI=0
+        var completedPOI: Int
         when (getUserAchievementsModel!!.size) {
             1 -> {
                 val badgeImg =
@@ -511,16 +506,11 @@ class MyAchievementScreenActivity : AppCompatActivity() {
 
                             println("Details about POIs ::: ${CommonData.getTrailsData!![i].id} == ${CommonData.getTrailsData!![i].completed_poi_count}")
 
-
                         }
-
-
-
 
                     }
 
                 }
-
 
             }
 

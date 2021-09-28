@@ -73,7 +73,7 @@ class LoginScreen : AppCompatActivity() {
 
 
     companion object {
-         lateinit var mGoogleSignInClient: GoogleSignInClient
+        lateinit var mGoogleSignInClient: GoogleSignInClient
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,7 +107,7 @@ class LoginScreen : AppCompatActivity() {
             //signInGoogle()
 
             //loginViewModel.alertBeforeSignIn(1,applicationContext)
-           alertBeforeSignIn(1)
+            alertBeforeSignIn(1)
 
 
         }
@@ -272,7 +272,7 @@ class LoginScreen : AppCompatActivity() {
                     ) { _, response ->
                         println("Fb response = $response")
 
-                        dummyTxt.text="$response"
+                        dummyTxt.text = "$response"
 
                         if (response.error != null) {
                             // handle error
@@ -283,7 +283,7 @@ class LoginScreen : AppCompatActivity() {
                                 val email = response.jsonObject["email"].toString()
                                 val name = response.jsonObject["first_name"].toString()
                                 println("***FB Details = $email : $name")
-                                userName=name
+                                userName = name
                                 sharedPreference.saveSession("player_name", name)
                                 if (email != "") {
                                     emailID = email
@@ -372,40 +372,25 @@ class LoginScreen : AppCompatActivity() {
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
-
             // Signed in successfully, show authenticated UI.
             updateUI(account)
-
-            // Toast.makeText(applicationContext,""+account.displayName,Toast.LENGTH_SHORT).show()
         } catch (e: ApiException) {
             e.printStackTrace()
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            //  Log.w(TAG, "signInResult:failed code=" + e.getStatusCode())
-            //updateUI(null)
+
         }
     }
 
 
     private fun updateUI(account: GoogleSignInAccount) {
-        if (account != null) {
-            // NEEDS TO CALL ModelView CLASS & DEFINE FURTHER PROCESS FROM THAT.
-
-            sharedPreference.saveSession("email", account.email.toString())
-
-
-            emailID = account.email.toString()
-
-
-
-            println("******* UpdateUI ${account.photoUrl}")
-            sharedPreference.saveSession("player_name", account.displayName.toString())
-            if (account.photoUrl != null) {
-
-                sharedPreference.saveSession("player_photo_url", account.photoUrl.toString())
-            }
-            socialRegister()
+        // NEEDS TO CALL ModelView CLASS & DEFINE FURTHER PROCESS FROM THAT.
+        sharedPreference.saveSession("email", account.email.toString())
+        emailID = account.email.toString()
+        println("******* UpdateUI ${account.photoUrl}")
+        sharedPreference.saveSession("player_name", account.displayName.toString())
+        if (account.photoUrl != null) {
+            sharedPreference.saveSession("player_photo_url", account.photoUrl.toString())
         }
+        socialRegister()
     }
 
     private fun socialRegister() {
@@ -564,13 +549,6 @@ class LoginScreen : AppCompatActivity() {
         }
     }
 
-    private fun signOut() {
-        mGoogleSignInClient.signOut()
-            .addOnCompleteListener(this) {
-                // ...
-            }
-    }
-
 
     private fun getUserDetails() {
 
@@ -626,27 +604,46 @@ class LoginScreen : AppCompatActivity() {
 
                             println("GetUseDetails = ${CommonData.getUserDetails!!.created}")
 
-                            sharedPreference.saveSession("player_photo_url",CommonData.getUserDetails!!.profile_picture)
-                            sharedPreference.saveSession("player_experience_points",CommonData.getUserDetails!!.experience)
-                            sharedPreference.saveSession("player_register_date",CommonData.getUserDetails!!.created)
-                            sharedPreference.saveSession("player_user_name",CommonData.getUserDetails!!.username)
-                            sharedPreference.saveSession("player_email_id",CommonData.getUserDetails!!.email)
-                            sharedPreference.saveSession("player_rank",CommonData.getUserDetails!!.rank)
-                            sharedPreference.saveSession("player_id",CommonData.getUserDetails!!.id)
+                            sharedPreference.saveSession(
+                                "player_photo_url",
+                                CommonData.getUserDetails!!.profile_picture
+                            )
+                            sharedPreference.saveSession(
+                                "player_experience_points",
+                                CommonData.getUserDetails!!.experience
+                            )
+                            sharedPreference.saveSession(
+                                "player_register_date",
+                                CommonData.getUserDetails!!.created
+                            )
+                            sharedPreference.saveSession(
+                                "player_user_name",
+                                CommonData.getUserDetails!!.username
+                            )
+                            sharedPreference.saveSession(
+                                "player_email_id",
+                                CommonData.getUserDetails!!.email
+                            )
+                            sharedPreference.saveSession(
+                                "player_rank",
+                                CommonData.getUserDetails!!.rank
+                            )
+                            sharedPreference.saveSession(
+                                "player_id",
+                                CommonData.getUserDetails!!.id
+                            )
 
                             startActivity(
                                 Intent(
                                     this@LoginScreen,
                                     DiscoverScreenActivity::class.java
-                                ).putExtra("isFromLogin","yes")
+                                ).putExtra("isFromLogin", "yes")
                             )
                             overridePendingTransition(
                                 R.anim.anim_slide_in_left,
                                 R.anim.anim_slide_out_left
                             )
                             finish()
-                        } else {
-
                         }
                     }
                 }
@@ -661,11 +658,6 @@ class LoginScreen : AppCompatActivity() {
 
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-
-        //moveTaskToBack(true)
-    }
 }
 
 

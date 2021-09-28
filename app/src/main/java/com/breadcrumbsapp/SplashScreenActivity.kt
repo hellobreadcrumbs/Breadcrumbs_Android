@@ -13,7 +13,6 @@ import com.breadcrumbsapp.databinding.SplashScreenBinding
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.breadcrumbsapp.view.DiscoverScreenActivity
 import com.breadcrumbsapp.view.TutorialActivity
-import com.bumptech.glide.Glide
 import com.google.firebase.FirebaseApp
 import kotlinx.android.synthetic.main.splash_screen.*
 import java.security.MessageDigest
@@ -29,18 +28,13 @@ class SplashScreenActivity : AppCompatActivity() {
         binding= SplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         FirebaseApp.initializeApp(this)
 
         sharedPreference = SessionHandlerClass(applicationContext)
 
         printHashKey(this)
 
-
-
-
         Handler(Looper.getMainLooper()).postDelayed({
-           // startActivity(Intent(this@SplashScreenActivity, LoginScreenActivity::class.java))
 
             val isLogin:Boolean =sharedPreference.getBoolean("isLogin")
             println("isLogin = $isLogin")
@@ -67,17 +61,16 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
 
-
 }
 
 fun printHashKey(pContext: Context) {
     try {
-        val info: PackageInfo = pContext.getPackageManager()
-            .getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES)
+        val info: PackageInfo = pContext.packageManager
+            .getPackageInfo(pContext.packageName, PackageManager.GET_SIGNATURES)
         for (signature in info.signatures) {
             val md: MessageDigest = MessageDigest.getInstance("SHA")
             md.update(signature.toByteArray())  //.encode(md.digest(), 0)
-            val hashKey: String = String(Base64.encode(md.digest(), 0))
+            val hashKey = String(Base64.encode(md.digest(), 0))
            // Log.i(TAG, "printHashKey() Hash Key: $hashKey")
             println("printHashKey() Hash Key: $hashKey")
         }
@@ -87,29 +80,3 @@ fun printHashKey(pContext: Context) {
         println("printHashKey() Hash Key: $e")
     }
 }
-
-/*   private fun configureReceiver() {
-         println("********** configureReceiver")
-
-
-
-         val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
-         val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
-
-         Toast.makeText(this, "Internet : $isConnected",Toast.LENGTH_LONG).show()
-
-         if(isConnected)
-         {
-
-             Handler(Looper.getMainLooper()).postDelayed({
-                 startActivity(Intent(this@SplashScreenActivity, LoginScreenActivity::class.java))
-                 finish()
-             }, 3000)
-         }
-
-         else
-         {
-             internetAlert()
-         }
-     }*/
