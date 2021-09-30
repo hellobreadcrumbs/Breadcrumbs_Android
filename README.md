@@ -1,4 +1,4 @@
 # BreadcrumbsApp_Android
-# Latest code for native android application
-# Final Updated code with UAT approval
-# Removed unused codes
+1. Latest code for native android application
+2. Final Updated code with UAT approval
+3. Removed unused codes
