@@ -32,7 +32,8 @@ class SplashScreenActivity : AppCompatActivity() {
 
         sharedPreference = SessionHandlerClass(applicationContext)
 
-        printHashKey(this)
+        //printHashKey(this)
+
 
         Handler(Looper.getMainLooper()).postDelayed({
 
@@ -62,6 +63,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
 
 }
+
 
 fun printHashKey(pContext: Context) {
     try {

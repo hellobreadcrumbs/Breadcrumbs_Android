@@ -60,26 +60,24 @@ class TrailScreenActivity:AppCompatActivity()
         sessionHandlerClass= SessionHandlerClass(applicationContext)
         trailsScreenRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         if (CommonData.getTrailsData != null) {
-            // feedListAdapter = FeedPostAdapter(CommonData.getFeedData!!)
-            //feedList.adapter = feedListAdapter
+
 
             trailsListScreenAdapter = TrailsListScreenAdapter(CommonData.getTrailsData!!)
             trailsScreenRecyclerView.adapter = trailsListScreenAdapter
 
         }
-        else
+       /* else
         {
 
-          //  getTrailDetails()
+
 
             val jsonFileString = readJsonFromAssets(applicationContext, "trails.json")
             getTrailsData=   Gson().fromJson(jsonFileString, GetTrailsModel::class.java)
             print("CommonData.getTrailsData = ${jsonFileString.toString()}")
             CommonData.getTrailsData=getTrailsData.message
 
-        }
-       // trailsListScreenAdapter = TrailsListScreenAdapter()
-        //trailsScreenRecyclerView.adapter = trailsListScreenAdapter
+        }*/
+
 
         trails_screen_back_button.setOnClickListener {
             sessionHandlerClass.saveSession("clicked_button", "no_reload")
@@ -92,78 +90,6 @@ class TrailScreenActivity:AppCompatActivity()
         sessionHandlerClass.saveSession("clicked_button", "no_reload")
     }
 
-    private fun getTrailDetails() {
-        try {
-
-            val okHttpClient = OkHttpClient.Builder()
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .addInterceptor(interceptor)
-                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
-                .build()
-
-
-            // Create Retrofit
-
-            val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.staging_url))
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-            // Create JSON using JSONObject
-
-            val jsonObject = JSONObject()
-            jsonObject.put("user_id", sessionHandlerClass.getSession("login_id"))
-
-
-
-
-            val mediaType = "application/json".toMediaTypeOrNull()
-            val requestBody = jsonObject.toString().toRequestBody(mediaType)
-
-
-
-            CoroutineScope(Dispatchers.IO).launch {
-
-                // Create Service
-                val service = retrofit.create(APIService::class.java)
-
-                val response = service.getTrailsList(
-                    resources.getString(R.string.api_access_token),
-                    requestBody
-                )
-
-                if (response.isSuccessful) {
-                    if (response.body()!!.status) {
-
-                        CommonData.getTrailsData = response.body()?.message
-
-                        runOnUiThread {
-
-                            if (CommonData.getTrailsData != null) {
-                               // feedListAdapter = FeedPostAdapter(CommonData.getFeedData!!)
-                                //feedList.adapter = feedListAdapter
-
-                                trailsListScreenAdapter = TrailsListScreenAdapter(CommonData.getTrailsData!!)
-                                trailsScreenRecyclerView.adapter = trailsListScreenAdapter
-
-                            }
-
-                        }
-
-
-                    }
-
-                }
-
-
-            }
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
 
 
 

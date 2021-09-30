@@ -50,6 +50,7 @@ class ChallengeActivity : AppCompatActivity() {
     private var selectedPOIID: String = ""
     private var selectedTrailID: String = ""
     private var noOfQuestions: String = ""
+    private lateinit var bundle:Bundle
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +66,7 @@ class ChallengeActivity : AppCompatActivity() {
         sharedPreference.saveSession("clicked_button", "")
         poiNameTextView.text = sharedPreference.getSession("selectedPOIName")
 
-        val bundle: Bundle = intent.extras!!
+        bundle = intent.extras!!
 
         poiImage = bundle.getString("poiImage") as String
         poiQrCode = bundle.getString("poiQrCode").toString()
@@ -74,9 +75,6 @@ class ChallengeActivity : AppCompatActivity() {
 
         sharedPreference.saveSession("poi_image", poiImage)
 
-        //  Glide.with(applicationContext).load(poiImage).into(binding.selfieImageView)
-
-      //  beginChallengeAPI()
 
         try {
 
@@ -182,54 +180,6 @@ class ChallengeActivity : AppCompatActivity() {
             ).putExtra("from", resources.getString(R.string.discover)))
         finish()
     }
-
-
-/*    private fun beginChallengeAPI() {
-        try {
-
-            val okHttpClient = OkHttpClient.Builder()
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .addInterceptor(interceptor)
-                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
-                .build()
-
-
-            // Create Retrofit
-
-            val retrofit = Retrofit.Builder()
-                .baseUrl(resources.getString(R.string.staging_url))
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-            // Create JSON using JSONObject
-
-            val jsonObject = JSONObject()
-            jsonObject.put("user_id", sharedPreference.getSession("login_id"))
-            jsonObject.put("poi_id", sharedPreference.getSession("selectedPOIID"))
-
-            println("beginChallenge Input = $jsonObject")
-            val mediaType = "application/json".toMediaTypeOrNull()
-            val requestBody = jsonObject.toString().toRequestBody(mediaType)
-                CoroutineScope(Dispatchers.IO).launch {
-
-                    // Create Service
-                    val service = retrofit.create(APIService::class.java)
-
-                    val response = service.beginChallenge(
-                        resources.getString(R.string.api_access_token),
-                        requestBody
-                    )
-
-
-                }
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }*/
-
 
 
     private fun intercept(): HttpLoggingInterceptor {

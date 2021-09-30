@@ -60,7 +60,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
     private lateinit var binding: QuizChallengeQuestionActivityBinding
     private var selectedPOIID: String = ""
     private var selectedTrailID: String = ""
-
     private var isClicked: Boolean = false
     private var clickedPos: Int = -1
     private var submitButtonClickingCount: Int = 0
@@ -75,10 +74,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
     private var chSetAnswers: String = ""
     private var continueBtn = 0
     private var completeImagePath = ""
-    private var scoredValue = 0
-    private var overallValue = 12000
     private var quiz_answer_value = 0
-    private var discover_value = 1000
     private var poiImage: String = ""
     private var interceptor = intercept()
     private lateinit var sharedPreference: SessionHandlerClass
@@ -287,8 +283,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                         } else {
                             println("Image = ELSE : ${eventsModelMessage!![i].ch_image}")
 
-
-
                             try {
                                 Glide.with(applicationContext)
                                     .load(completeImagePath)
@@ -324,9 +318,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
                     } else {
                         println("_______________________________ ELSE")
-                        /*    Glide.with(applicationContext)
-                                .load(poiImage)
-                                .into(questionImage)*/
 
 
                         try {
@@ -433,9 +424,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                 finalAnswer = eventsModelMessage!![i].ch_answer
                 chSetAnswers = eventsModelMessage!![i].ch_set_answer
 
-
-
-
                 println("Set of chSelection = $chSelection")
                 println("Set of finalAnswer = $finalAnswer")
 
@@ -447,8 +435,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                         answerOne.text = answerObj[0].toString().replace("\"", "")
                         answerTwo.text = answerObj[1].toString().replace("\"", "")
                         answerThree.text = answerObj[2].toString().replace("\"", "")
-
-
 
                         println("finalAnswer = $finalAnswer")
 
@@ -474,40 +460,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                     }
                 }
 
-
-                /*try {
-                    println("ANS : ${eventsModelMessage!![i].ch_set_answer}")
-                    if (eventsModelMessage!![i].ch_set_answer ==null)
-                    {
-                    answerObj = JsonParser.parseString(chSelection) as JsonArray
-                    val subAnswerObj = JsonParser.parseString(answerObj[0].toString()) as JsonArray
-                    answerOne.text = subAnswerObj[0].toString().replace("\"", "")
-                    answerTwo.text = subAnswerObj[1].toString().replace("\"", "")
-                    answerThree.text = subAnswerObj[2].toString().replace("\"", "")
-
-                    println("Set Answer = ${eventsModelMessage!![i].ch_answer} , ${eventsModelMessage!![i].ch_set_answer}")
-
-
-
-                          subSetAnswerObj=JsonParser.parseString(eventsModelMessage!![i].ch_set_answer) as JsonArray
-
-
-                        for( k in 0 until subSetAnswerObj.count())
-                        {
-                            println("subSetAnswerObj = ${subSetAnswerObj[k]}")
-                        }
-                    }
-                    else{
-                        answerObj = JsonParser.parseString(chSelection) as JsonArray
-                        println("ANS ELSE: ${answerObj[0]}")
-                        answerOne.text = answerObj[0].toString().replace("\"", "")
-                        answerTwo.text = answerObj[1].toString().replace("\"", "")
-                        answerThree.text = answerObj[2].toString().replace("\"", "")
-                    }
-
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }*/
             }
 
         }
@@ -540,8 +492,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                                     .into(challengeLevelImage)
                             }
 
-
-                            // calculateXPPoints()
                             getUserDetails()
 
                             quizChallengeCloseButton.setOnClickListener {
@@ -568,7 +518,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
                             if (clickedPos == finalAnswer.toInt()) {
                                 println("Result : $clickedPos , $finalAnswer")
-                                //   quiz_answer_value = 50
 
                                 quiz_answer_value =
                                     sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!
@@ -680,8 +629,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                                         Glide.with(applicationContext).load(poiImage)
                                             .into(challengeLevelImage)
                                     }
-                                    //beginChallengeAPI(clickedAnswerArrayList.toString(),extraExp)
-                                    //calculateXPPoints()
+
                                     getUserDetails()
 
                                     quizChallengeCloseButton.setOnClickListener(View.OnClickListener {
@@ -696,7 +644,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                                             R.anim.anim_slide_out_left
                                         )
                                         finish()
-                                        //discoverPOI()
+
                                     })
 
                                 } else {
@@ -824,7 +772,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
-                        // beginChallengeAPI(finalAnswer,extraExp)
+
 
                     }
                     questionType.toInt() == 0 -> {
@@ -1060,20 +1008,24 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
 
         if (questionType.toInt() == 1) {
-            if (clickedPos != finalAnswer.toInt()) {
-                poiChallengeXP = 0
-                println("Question XP Details : clickedPos = IF  $clickedPos ${finalAnswer.toInt()} == $poiChallengeXP")
-                quiz_challenge_screen_quiz_answer_score_tv.text = "+$poiChallengeXP XP"
-            } else if (clickedPos == finalAnswer.toInt()) {
-                poiChallengeXP =
-                    sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
-                println("Question XP Details : clickedPos = ELSE IF $clickedPos ${finalAnswer.toInt()} == $poiChallengeXP")
-                quiz_challenge_screen_quiz_answer_score_tv.text = "+$poiChallengeXP XP"
-            } else {
-                poiChallengeXP =
-                    sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
-                println("Question XP Details : clickedPos = ELSE  $clickedPos ${finalAnswer.toInt()} == $poiChallengeXP")
-                quiz_challenge_screen_quiz_answer_score_tv.text = "+$poiChallengeXP XP"
+            when {
+                clickedPos != finalAnswer.toInt() -> {
+                    poiChallengeXP = 0
+                    println("Question XP Details : clickedPos = IF  $clickedPos ${finalAnswer.toInt()} == $poiChallengeXP")
+                    quiz_challenge_screen_quiz_answer_score_tv.text = "+$poiChallengeXP XP"
+                }
+                clickedPos == finalAnswer.toInt() -> {
+                    poiChallengeXP =
+                        sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
+                    println("Question XP Details : clickedPos = ELSE IF $clickedPos ${finalAnswer.toInt()} == $poiChallengeXP")
+                    quiz_challenge_screen_quiz_answer_score_tv.text = "+$poiChallengeXP XP"
+                }
+                else -> {
+                    poiChallengeXP =
+                        sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
+                    println("Question XP Details : clickedPos = ELSE  $clickedPos ${finalAnswer.toInt()} == $poiChallengeXP")
+                    quiz_challenge_screen_quiz_answer_score_tv.text = "+$poiChallengeXP XP"
+                }
             }
         } else if (questionType.toInt() == 2) {
             var count: Int = 0
@@ -1094,7 +1046,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
 
 
-        var balanceVal: Int = nextLevel - totalXP
+        val balanceVal: Int = nextLevel - totalXP
         println("Quiz Challenge => Report => balanceVal= $nextLevel - $totalXP = $balanceVal")
 
         determinateBar.max = nextLevel
@@ -1192,8 +1144,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                             }
 
 
-                        } else {
-
                         }
                     }
                 }
@@ -1258,9 +1208,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                         val status: Boolean = jsonObject?.get("status")!!.asBoolean
                         println("Discover_POI Status = $jsonElement")
 
-                        if (status) {
-
-                        }
                     } else {
 
                         println("Printed JSON ELSE : ${response.code()}")
@@ -1271,7 +1218,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
 
     }
 }

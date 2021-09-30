@@ -16,7 +16,6 @@ import com.breadcrumbsapp.databinding.SettingsActivityBinding
 import com.breadcrumbsapp.util.SessionHandlerClass
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.android.synthetic.main.settings_activity.*
 
 
@@ -47,7 +46,8 @@ class SettingsScreenAct : AppCompatActivity() {
 
         user_info_layout.setOnClickListener {
 
-            startActivity(Intent(this@SettingsScreenAct, UserInformationActivity::class.java) .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+            startActivity(Intent(this@SettingsScreenAct, UserInformationActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         }
 
         settings_screen_backButton.setOnClickListener {

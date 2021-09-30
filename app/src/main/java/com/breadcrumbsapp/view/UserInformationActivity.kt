@@ -30,7 +30,6 @@ class UserInformationActivity : AppCompatActivity() {
             val createdDateStr: String = CommonData.getUserDetails!!.created
             try {
 
-
                 val postCreatedDate: Date = originalFormat.parse(createdDateStr)
                 val formattedDate: String = targetFormat.format(postCreatedDate)
 
@@ -47,23 +46,13 @@ class UserInformationActivity : AppCompatActivity() {
             email_address_text_view.text = CommonData.getUserDetails!!.email
         } else {
             println("Data from :: Session class")
-           /* if(sessionHandlerClass.getSession("player_user_name")!="")
-            {
 
-                nickname_text_view.text = sessionHandlerClass.getSession("player_user_name")
-            }
-            else{
-                //"player_name"
-                nickname_text_view.text = sessionHandlerClass.getSession("player_name")
-            }*/
             user_id_text_view.text = "#" +sessionHandlerClass.getSession("player_id")
             email_address_text_view.text = sessionHandlerClass.getSession("player_email_id")
             val createdDateStr: String? = sessionHandlerClass.getSession("player_register_date")
 
             try {
-
-
-                val postCreatedDate: Date = originalFormat.parse(createdDateStr)
+                 val postCreatedDate: Date = originalFormat.parse(createdDateStr)
                 val formattedDate: String = targetFormat.format(postCreatedDate)
                 println("Data from :: Session class $postCreatedDate == $formattedDate")
                 created_date_view.text = formattedDate
@@ -74,9 +63,9 @@ class UserInformationActivity : AppCompatActivity() {
         }
         println("User Info NickName :: ${nickname_text_view.text}")
         println("User Info UserID :: ${user_id_text_view.text}")
-        user_information_screen_backButton.setOnClickListener(View.OnClickListener {
+        user_information_screen_backButton.setOnClickListener {
             finish()
-        })
+        }
     }
 
 }

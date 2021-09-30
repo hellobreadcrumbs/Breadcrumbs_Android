@@ -16,12 +16,6 @@ import kotlinx.android.synthetic.main.user_profile_screen_layout.*
 
 class TrailsDetailsActivity:AppCompatActivity()
 {
-    private var trailBanner = intArrayOf(
-        R.drawable.pioneer_trail_banner,
-        R.drawable.pioneer_trail_banner,
-        R.drawable.anthology_trail_banner
-
-    )
 
     private var trailIcons = intArrayOf(
         R.drawable.breadcrumbs_trail,
@@ -29,8 +23,6 @@ class TrailsDetailsActivity:AppCompatActivity()
         R.drawable.anthology_trail_icon
 
     )
-
-    private var trailNameString: Array<String> = arrayOf("PIONEER TRAIL","WILD ABOUT TWILIGHT TRAIL","Hanse & Grey's Adventure")
 
     private lateinit var getTrailsModelList:GetTrailsModel.Message
     private lateinit var binding: TrailDetailsLayoutBinding
@@ -41,10 +33,10 @@ class TrailsDetailsActivity:AppCompatActivity()
         setContentView(binding.root)
 
         sessionHandlerClass= SessionHandlerClass(applicationContext)
-       // val positionInt:Int=intent.getIntExtra("position",0)
+
         val trailID=intent.extras?.get("trail_id") as String
         getTrailsModelList = intent.extras?.get("getTrailsListData") as GetTrailsModel.Message
-       // println("positionStr : $positionInt == $trailID")
+
 
         for(i in CommonData.getTrailsData!!.indices)
         {
@@ -89,28 +81,20 @@ class TrailsDetailsActivity:AppCompatActivity()
         tv_trail_name_banner.text=getTrailsModelList.name
         trail_details_about_content.text=getTrailsModelList.description
 
+        iv_open_leaderboard.setOnClickListener {
+            startActivity(Intent(applicationContext, LeaderBoardActivity::class.java))
+        }
 
-
-      //  tv_trail_by_content.text=getTrailsModelList.username
-
-
-
-        iv_open_leaderboard.setOnClickListener(View.OnClickListener {
-            startActivity(Intent(applicationContext,LeaderBoardActivity::class.java))
-        })
-
-        trail_details_backButton.setOnClickListener(View.OnClickListener {
+        trail_details_backButton.setOnClickListener {
             finish()
-        })
+        }
 
-        iv_open_creator_post.setOnClickListener(View.OnClickListener {
-            startActivity(Intent(applicationContext,CreatorPostActivity::class.java)
-                .putExtra("getTrailsListData", getTrailsModelList)
-                )
-        })
-
-
-
+        iv_open_creator_post.setOnClickListener {
+            startActivity(
+                Intent(applicationContext, CreatorPostActivity::class.java)
+                    .putExtra("getTrailsListData", getTrailsModelList)
+            )
+        }
 
 
     }

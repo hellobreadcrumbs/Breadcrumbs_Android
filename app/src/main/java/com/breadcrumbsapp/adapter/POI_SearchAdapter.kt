@@ -77,7 +77,7 @@ class POI_SearchAdapter(
 
             holder.searchPoiBackground.background =
                 context!!.resources.getDrawable(R.drawable.trail_banner_discovered)
-            holder.searchDiscoverStatus.text = "Discovered"
+            holder.searchDiscoverStatus.text = "DISCOVERED"
         }
 
     }

@@ -1,13 +1,17 @@
 package com.breadcrumbsapp.adapter
 
+import android.Manifest
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +24,9 @@ import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.annotation.NonNull
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.requestPermissions
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.borjabravo.readmoretextview.ReadMoreTextView
 import com.breadcrumbsapp.R
@@ -57,6 +64,7 @@ import java.util.concurrent.TimeUnit
 //https://medium.com/@rashi.karanpuria/create-beautiful-toggle-buttons-in-android-64d299050dfb
 
 internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID: String?) :
+    ActivityCompat.OnRequestPermissionsResultCallback,
     RecyclerView.Adapter<FeedPostAdapter.MyViewHolder>() {
 
     private var getFeedsLocalObj: List<GetFeedDataModel.Message> = getFeed
@@ -65,22 +73,21 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
     private var local_loginID = loginID
 
     private lateinit var sessionHandlerClass: SessionHandlerClass
+    private val REQUEST_STORAGE_PERMISSION = 505
+    private lateinit var bitmap: Bitmap
 
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        var imageParentLayout: LinearLayoutCompat =
-            view.findViewById(R.id.adapter_imageParentLayout)
+        var imageParentLayout: LinearLayoutCompat = view.findViewById(R.id.adapter_imageParentLayout)
         var imageView: ImageView = view.findViewById(R.id.postImage)
         var shareIcon: ImageView = view.findViewById(R.id.shareIcon)
         var likeCountText: TextView = view.findViewById(R.id.likeCount)
         var shareText: TextView = view.findViewById(R.id.shareText)
 
-        // var descriptionContent: TextView = view.findViewById(R.id.descriptionContent)
         var descriptionContent: ReadMoreTextView = view.findViewById(R.id.descriptionContent)
         var userNameTextView: TextView = view.findViewById(R.id.userName)
         var trailName: TextView = view.findViewById(R.id.feed_post_banner_trail_name)
-        var userProfilePicture: CircularImageView =
-            view.findViewById(R.id.feedPostUserProfilePicture)
+        var userProfilePicture: CircularImageView = view.findViewById(R.id.feedPostUserProfilePicture)
         var trailPic: CircularImageView = view.findViewById(R.id.feed_post_banner_trail_image)
         var createdDateTextView: TextView = view.findViewById(R.id.createdDateTextView)
 
@@ -95,8 +102,6 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
         context = parent.context
         sessionHandlerClass = SessionHandlerClass(context)
 
-        val width: Int = context.resources.displayMetrics.widthPixels
-        val height: Int = context.resources.displayMetrics.heightPixels
         return MyViewHolder(itemView)
     }
 
@@ -153,13 +158,9 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
         val data = getFeedsLocalObj[position]
 
         println("Feed position : ${getFeedsLocalObj.size}")
-
-        // if(data.username!="NIGHT SAFARI")
-        //{
-
         println("Feed name : IF =  ${data.name}")
 
-        holder.likeButton.isChecked = data.ul_id != null
+        // holder.likeButton.isChecked = true
 
         val localImageObj =
             context.resources.getString(R.string.staging_url) + data.photo_url
@@ -169,8 +170,7 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
 
         println("localProfilePic = $localImageObj")
 
-//        holder.imageView.layoutParams.height = 100
-//        holder.imageView.layoutParams.width = 100
+
         Glide.with(context)
             .load(localImageObj)
             .into(holder.imageView)
@@ -181,8 +181,6 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
         } else {
             holder.likeCountText.text = data.like_count + " Likes"
         }
-
-        println("Text length : ${data.description.length}")
 
 
         // For Like Button Animation effect..
@@ -213,8 +211,7 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
 
         holder.descriptionContent.text = data.description
 
-
-            holder.userNameTextView.text = data.username
+        holder.userNameTextView.text = data.username
 
         holder.trailName.text = data.title
 
@@ -248,123 +245,98 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
 
             //  val diff = postCreatedDate.time - currentDate.time
             val diff = currentDate.time - postCreatedDate.time
-            val seconds:Int = (diff / 1000).toInt()
-            val minutes:Int = (seconds / 60).toInt()
-            val hours:Int = (minutes / 60).toInt()
-            val days:Int = (hours / 24).toInt()
+            val seconds: Int = (diff / 1000).toInt()
+            val minutes: Int = (seconds / 60).toInt()
+            val hours: Int = (minutes / 60).toInt()
+            val days: Int = (hours / 24).toInt()
             println("Date Is :  Remaining Date: $days")
 
 
 
-            if(days>0)
-            {
-                if(days==1)
-                {
-                    holder.createdDateTextView.text ="$days Day Ago"
-                }
-                else
-                {
-                    holder.createdDateTextView.text ="$days Days Ago"
-                }
-            }
-            else if(hours in 1..23)
-            {
-                if(hours==1)
-                {
-                    holder.createdDateTextView.text ="$hours Hour Ago"
-                }
-                else
-                {
-                    holder.createdDateTextView.text ="$hours Hours Ago"
-                }
-
-            }
-            else if(minutes in 1..59)
-            {
-                if(minutes==1)
-                {
-                    holder.createdDateTextView.text = "$minutes Minute Ago"
-                }
-                else
-                {
-                    holder.createdDateTextView.text = "$minutes Minutes Ago"
-                }
-            }
-
-
-            /*if (minutes == 0) {
-                if (postCreatedDate.before(currentDate)) {
-
-                    println("Date Is :  IF: $seconds")
-
-                    if(seconds==0)
-                    {
-                        holder.createdDateTextView.text = "$seconds Second Ago"
-                    }
-                    else
-                    {
-                        holder.createdDateTextView.text = "$seconds Seconds Ago"
-                    }
-
+            if (days > 0) {
+                if (days == 1) {
+                    holder.createdDateTextView.text = "$days Day Ago"
                 } else {
-                    println("Date Is :  ELSE: $seconds")
+                    holder.createdDateTextView.text = "$days Days Ago"
                 }
-            } else if (hours == 0) {
-                if (postCreatedDate.before(currentDate)) {
-
-                    println("Date Is :  IF: $minutes")
-
-                    holder.createdDateTextView.text = "$minutes Minutes Ago"
+            } else if (hours in 1..23) {
+                if (hours == 1) {
+                    holder.createdDateTextView.text = "$hours Hour Ago"
                 } else {
-                    println("Date Is :  ELSE: $minutes")
-                }
-            } else if (days == 0) {
-                if (postCreatedDate.before(currentDate)) {
-
-                    println("Date Is :  IF: $hours")
-
                     holder.createdDateTextView.text = "$hours Hours Ago"
-                } else {
-                    println("Date Is :  ELSE: $hours")
                 }
-            } else {
-                if (postCreatedDate.before(currentDate)) {
 
-                    println("Date Is :  IF: $days")
-
-
-                    if(days==0||days==1)
-                    {
-                        holder.createdDateTextView.text = "$days Day Ago"
-                    }
-                    else
-                    {
-                        holder.createdDateTextView.text = "$days Days Ago"
-                    }
+            } else if (minutes in 1..59) {
+                if (minutes == 1) {
+                    holder.createdDateTextView.text = "$minutes Minute Ago"
                 } else {
-                    println("Date Is :  ELSE: $days")
+                    holder.createdDateTextView.text = "$minutes Minutes Ago"
                 }
-            }*/
+            }
 
             holder.shareIcon.setOnClickListener {
 
-
-                val bitmap = getBitmapFromView(holder.imageParentLayout)
-                saveBitmapAsImageToDevice(bitmap)
+//                bitmap = getBitmapFromView(holder.imageParentLayout)!!
+//                saveBitmapAsImageToDevice(bitmap)
+                if (checkStoragePermission(context)) {
+                    println("requestCode icon if.. ")
+                    bitmap = getBitmapFromView(holder.imageParentLayout)!!
+                    saveBitmapAsImageToDevice(bitmap)
+                } else {
+                    println("requestCode icon else.. ")
+                    requestPermissions(
+                        context as Activity,
+                        arrayOf(
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_EXTERNAL_STORAGE
+                        ),
+                        REQUEST_STORAGE_PERMISSION
+                    )
+                }
             }
 
             holder.shareText.setOnClickListener {
 
-                val bitmap = getBitmapFromView(holder.imageParentLayout)
-                saveBitmapAsImageToDevice(bitmap)
+                if (checkStoragePermission(context)) {
+                    println("requestCode text if.. ")
+                    bitmap = getBitmapFromView(holder.imageParentLayout)!!
+                    saveBitmapAsImageToDevice(bitmap)
+                } else {
+                    println("requestCode text else.. ")
+                    requestPermissions(
+                        context as Activity,
+                        arrayOf(
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_EXTERNAL_STORAGE
+                        ),
+                        REQUEST_STORAGE_PERMISSION
+                    )
+                }
+
             }
 
         } catch (e: ParseException) {
             e.printStackTrace()
         }
-        // }
 
+    }
 
+    private fun checkStoragePermission(mContext: Context): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Environment.isExternalStorageManager()
+        } else {
+            val result =
+                ContextCompat.checkSelfPermission(
+                    mContext,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            val result1 =
+                ContextCompat.checkSelfPermission(
+                    mContext,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED
+        }
     }
 
     private fun getBitmapFromView(view: View): Bitmap? {
@@ -414,7 +386,7 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
 
             val jsonObject = JSONObject()
 
-            //jsonObject.put("user_id","198")
+
             jsonObject.put("user_id", local_loginID)
             jsonObject.put("feed_id", feedID)
 
@@ -458,9 +430,7 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
                         getFeedPostData(feedID, holder, position)
                     }
 
-
                 }
-
 
             }
 
@@ -522,9 +492,14 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
                                     try {
 
                                         context.runOnUiThread {
-                                            if (CommonData.getFeedData!![i].like_count <= "1") {
+                                            if (CommonData.getFeedData!![i].like_count == "1") {
                                                 holder.likeCountText.text =
                                                     CommonData.getFeedData!![i].like_count + " Like"
+
+                                            } else if (CommonData.getFeedData!![i].like_count == "0") {
+                                                holder.likeCountText.text =
+                                                    CommonData.getFeedData!![i].like_count + " Like"
+
                                             } else {
                                                 holder.likeCountText.text =
                                                     CommonData.getFeedData!![i].like_count + " Likes"
@@ -535,19 +510,11 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
                                     } catch (e: Exception) {
                                         e.printStackTrace()
                                     }
-
-
                                 }
                             }
-
                         }
-
-
                     }
-
                 }
-
-
             }
 
         } catch (e: Exception) {
@@ -560,5 +527,23 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
         interceptors.level = HttpLoggingInterceptor.Level.BODY
         interceptor = interceptors
         return interceptor
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        println("requestCode onRequestPermissionsResult = $requestCode")
+        when (requestCode) {
+            REQUEST_STORAGE_PERMISSION -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    println("requestCode IF = $requestCode")
+                    saveBitmapAsImageToDevice(bitmap)
+                } else {
+                    println("requestCode ELSE = $requestCode")
+                }
+            }
+        }
     }
 }

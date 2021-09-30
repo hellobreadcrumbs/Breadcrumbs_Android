@@ -42,14 +42,9 @@ class TutorialActivity : AppCompatActivity() {
 
         binding.navigateButton.text="SKIP"
 
-/*        startActivity(Intent(this@TutorialActivity, LoginScreenActivity::class.java))
-        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left)*/
-
-
         binding.navigateButton.setOnClickListener {
 
 
-           // startActivity(Intent(this@TutorialActivity, LoginScreenActivity::class.java))
             startActivity(Intent(this@TutorialActivity, LoginScreen::class.java))
 
             overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left)
@@ -58,10 +53,6 @@ class TutorialActivity : AppCompatActivity() {
 
 
         }
-
-
-
-
 
         binding.recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -89,7 +80,7 @@ class TutorialActivity : AppCompatActivity() {
 
 
        binding.indicator.attachToRecyclerView(binding.recyclerview  )
-       // binding.recyclerview.addItemDecoration(CirclePagerIndicatorDecoration())
+
     }
 }
 

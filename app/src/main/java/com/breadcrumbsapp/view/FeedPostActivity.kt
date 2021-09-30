@@ -43,7 +43,7 @@ class FeedPostActivity : AppCompatActivity() {
     private lateinit var binding: FeedLayoutBinding
     private lateinit var feedPostAdapter: FeedPostAdapter
     private lateinit var sharedPreference: SessionHandlerClass
-    val REQUEST_STORAGE_PERMISSION = 505
+    private val REQUEST_STORAGE_PERMISSION = 505
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,12 +75,7 @@ class FeedPostActivity : AppCompatActivity() {
         }
 
 
-        /*if (checkStoragePermission()) {
-            // do nothing..
-        } else {
 
-            requestStoragePermission()
-        }*/
     }
 
     private fun checkStoragePermission(): Boolean {
@@ -149,14 +144,10 @@ class FeedPostActivity : AppCompatActivity() {
                 .build()
 
             // Create JSON using JSONObject
-
             val jsonObject = JSONObject()
             jsonObject.put("user_id", sharedPreference.getSession("login_id"))
-            //  jsonObject.put("user_id","66")
-
 
             println("getFeedPostData Input = $jsonObject")
-
 
             val mediaType = "application/json".toMediaTypeOrNull()
             val requestBody = jsonObject.toString().toRequestBody(mediaType)
@@ -175,16 +166,8 @@ class FeedPostActivity : AppCompatActivity() {
 
                 if (response.isSuccessful) {
                     if (response.body()!!.status) {
-
                         println("Size == ${response.body()!!.message.size}")
-
-                        // CommonData.getFeedData = response.body()!!.message
-
-                        //  println("Feed Post :: ${CommonData.getFeedData!!.size}")
                         runOnUiThread {
-
-
-
                             if (response.body()!!.message != null) {
                                 if (CommonData.feedList.size > 0) {
                                     CommonData.feedList.clear()
@@ -206,15 +189,13 @@ class FeedPostActivity : AppCompatActivity() {
                                             CommonData.feedList,
                                             sharedPreference.getSession("login_id")
                                         )
-
-                                        if (checkStoragePermission()) {
+                                        feedList.adapter = feedPostAdapter
+                                       /* if (checkStoragePermission()) {
                                             feedList.adapter = feedPostAdapter
                                         } else {
 
                                             requestStoragePermission()
-                                        }
-
-                                       // feedList.adapter = feedPostAdapter
+                                        }*/
 
                                     }
                                 } else {

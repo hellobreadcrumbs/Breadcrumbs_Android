@@ -135,7 +135,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-
+        android:id="@+id/discover_icon_large"
         android:layout_width="100dp"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"

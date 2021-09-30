@@ -24,7 +24,7 @@ internal class TrailsListAdapter(
     RecyclerView.Adapter<TrailsListAdapter.MyViewHolder>() {
 
     private var localMarkers: List<GetEventsModel.Message> = markers
-    var distanceObj: ArrayList<DistanceMatrixApiModel>? = distance
+    private var distanceObj: ArrayList<DistanceMatrixApiModel>? = distance
     private lateinit var context: Context
     private lateinit var sharedPreference:SessionHandlerClass
 
@@ -48,22 +48,17 @@ internal class TrailsListAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        //val bgImage = mResources[position]
-        // holder.imageView.setImageResource(bgImage)
-
 
         try {
 
             println("localSize = ${localMarkers.size}")
             println("distanceObj = ${distanceObj!!.size}")
 
-
             holder.trailsName.text = localMarkers[position].title
             holder.distance.text = distanceObj!![position].distance
             println("mainLayout ${holder.trailsName.text}")
 
             holder.mainLayout.setOnClickListener {
-                //println("mainLayout ${holder.trailsName.text}")
                 poiListener.onClickedPOIItem(localMarkers[position].id)
 
                 notifyDataSetChanged()
@@ -103,7 +98,7 @@ internal class TrailsListAdapter(
 
                 holder.poiBackground.background =
                     context!!.resources.getDrawable(R.drawable.trail_banner_discovered)
-                holder.discoverStatus.text = "Discovered"
+                holder.discoverStatus.text = "DISCOVERED"
             }
 
         } catch (e: Exception) {

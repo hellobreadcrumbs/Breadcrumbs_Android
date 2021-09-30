@@ -44,14 +44,9 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
 
 
     private lateinit var sharedPreference: SessionHandlerClass
-
-
     // private val youtubeApiKey =  "AIzaSyCxE4GNw8TJQOoYi6gebWcJ3KtUCTlCduE"
     private val youtubeApiKey = "AIzaSyDrMQduXjWkxg3nfqxXGiUCvpJTV84DCto"
     lateinit var binding: DiscoverDetailsScreenBinding
-
-    var getEventsModel_Message: List<GetEventsModel.Message>? = null
-    var getEventsModel: List<GetEventsModel>? = null
     private var poiID = ""
     private var poiName = ""
     private var poiDistance = ""
@@ -62,8 +57,7 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
     private var poiChType = ""
     private var poiArid = ""
     private var poiQrCode = ""
-
-    var challengeName = ""
+    private var challengeName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,10 +67,8 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
         sharedPreference = SessionHandlerClass(applicationContext)
 
 
-        var bundle: Bundle? = intent.extras
-        var from = bundle!!.getString("from")
-
-
+        val bundle: Bundle? = intent.extras
+        val from = bundle!!.getString("from")
 
         poiName = sharedPreference.getSession("selectedPOIName").toString()
         poiID = sharedPreference.getSession("selectedPOIID").toString()
@@ -98,13 +90,10 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
         if(sharedPreference.getSession("selected_trail_id")=="4")
         {
             Glide.with(applicationContext).load(R.drawable.breadcrumbs_trail).into(discover_detail_screen_trail_icon)
-
-
         }
         else if(sharedPreference.getSession("selected_trail_id")=="6")
         {
             Glide.with(applicationContext).load(R.drawable.anthology_trail_icon).into(discover_detail_screen_trail_icon)
-
         }
 
 
@@ -117,7 +106,6 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
             challengeNameTv.text = "AR Discovery"  // Changed on Aug'9
 
             Glide.with(applicationContext).load(R.drawable.ar_challenge_icon).into(challenge_image)
-            //
             Glide.with(applicationContext).load(R.drawable.details_screen_ar_icon).into(scannerIcon)
         } else {
 
@@ -285,11 +273,7 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
         })
         binding.selfieChallengeInfo.setOnClickListener {
 
-            /* if (poiQuestion == "?") {
-                 Toast.makeText(applicationContext, "Don't have Question", Toast.LENGTH_SHORT).show()
-             } else {*/
             aboutWindow()
-
 
         }
 
@@ -424,11 +408,6 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
             }
         }
 
-
-
-
-
-
     }
 
 
@@ -448,8 +427,6 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, @Nullable data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-
 
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {

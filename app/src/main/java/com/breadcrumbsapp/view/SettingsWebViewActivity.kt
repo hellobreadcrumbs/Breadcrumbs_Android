@@ -25,7 +25,7 @@ class SettingsWebViewActivity:AppCompatActivity()
         webView.settings.domStorageEnabled = true
 
 
-        var titleIcon=intent.extras?.get("terms") as String
+        val titleIcon=intent.extras?.get("terms") as String
 
         if(titleIcon == "yes")
         {
@@ -41,12 +41,9 @@ class SettingsWebViewActivity:AppCompatActivity()
         }
 
 
-
-
-
-        webView_title_screen_backButton.setOnClickListener(View.OnClickListener {
+        webView_title_screen_backButton.setOnClickListener {
             finish()
-        })
+        }
 
     }
 }

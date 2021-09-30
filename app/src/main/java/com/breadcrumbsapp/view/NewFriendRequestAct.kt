@@ -2,7 +2,6 @@ package com.breadcrumbsapp.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.breadcrumbsapp.R
@@ -13,9 +12,10 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_new_friend_request.*
 
 class NewFriendRequestAct : AppCompatActivity() {
-    val tab_names = ArrayList<String>()
-    lateinit var viewModel : NewFriendRequestViewModel
+    private val tabNames = ArrayList<String>()
+    private lateinit var viewModel : NewFriendRequestViewModel
     private lateinit var sessionHandlerClass: SessionHandlerClass
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_friend_request)
@@ -23,15 +23,15 @@ class NewFriendRequestAct : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(NewFriendRequestViewModel::class.java)
         viewModel.setApi(this)
 
-        val adapter_vp = FriendRequestViewPagerAdapter(this)
-        nfr_pager.adapter = adapter_vp
+        val adapterVp = FriendRequestViewPagerAdapter(this)
+        nfr_pager.adapter = adapterVp
 
-        tab_names.add(getString(R.string.new_requests))
-        tab_names.add(getString(R.string.pending_requests))
+        tabNames.add(getString(R.string.new_requests))
+        tabNames.add(getString(R.string.pending_requests))
 
         TabLayoutMediator(nfr_tab_layout, nfr_pager) { tab, position ->
             //To get the first name of doppelganger celebrities
-            tab.text = tab_names[position]
+            tab.text = tabNames[position]
 
         }.attach()
         viewModel.getFriend(sessionHandlerClass.getSession("login_id")!!)
@@ -40,7 +40,7 @@ class NewFriendRequestAct : AppCompatActivity() {
             startActivity(Intent(this, SearchFriendsListAct::class.java))
         }
 
-        nfr_backButton.setOnClickListener(View.OnClickListener { finish() })
+        nfr_backButton.setOnClickListener { finish() }
 
     }
 }

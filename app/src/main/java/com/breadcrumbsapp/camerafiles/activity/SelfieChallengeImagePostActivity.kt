@@ -10,7 +10,6 @@ import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -61,18 +60,13 @@ import java.util.concurrent.TimeUnit
 
 // https://github.com/ArthurHub/Android-Image-Cropper
 class SelfieChallengeImagePostActivity : AppCompatActivity() {
-    lateinit var binding: ImageActivityBinding
-    lateinit var selectedFile: File
+    private lateinit var binding: ImageActivityBinding
+    private lateinit var selectedFile: File
     private var interceptor = intercept()
     private lateinit var sharedPreference: SessionHandlerClass
-
-    var tempFile: String = ""
+    private var tempFile: String = ""
     private lateinit var dateFormat: String
     private lateinit var poiID: String
-    private var scoredValue = 0
-    private var overallValue = 12000
-    private var selfiePostValue = 50
-    private var discoverValue = 50
     private var selectedTrailID: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -132,25 +126,15 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
         selfie_image_post_banner_trail_name.text =
             "${sharedPreference.getSession("selectedPOIName")}"
 
-        /*    for(i in CommonData.getTrailsData!!.indices)
-            {
-                if(CommonData.getTrailsData!![i].id==selectedTrailID)
-                {
-                    val localImagePath=resources.getString(R.string.staging_url)+CommonData.getTrailsData!![i].map_icon_dt_url
-                    Glide.with(applicationContext).load(localImagePath).into(selfie_image_post_banner_trail_image)
-                    Glide.with(applicationContext).load(localImagePath).into(selfie_challenge_screen_trail_icon)
-                }
-            }*/
-
         selfieImagePostBackButton.setOnClickListener {
-            //f
+
             startActivity(
                 Intent(
                     this@SelfieChallengeImagePostActivity,
                     com.breadcrumbsapp.camerafiles.fragments.MainActivity::class.java
                 )
             )
-            //  finish()
+
         }
 
         imagePostButton.setOnClickListener {
@@ -158,8 +142,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 
             if (imagePostButton.text.equals("CONTINUE")) {
 
-                /*Glide.with(applicationContext).load(sharedPreference.getSession("poi_image"))
-                    .into(selfieChallengeImageView)*/
+
                 println("SELFIE IMAGE :: ${sharedPreference.getSession("poi_image")}")
                 Glide.with(applicationContext)
                     .load(sharedPreference.getSession("poi_image"))
@@ -190,16 +173,13 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                 selfieChallengeLevelLayout.visibility = View.VISIBLE
                 imagePostLayout.visibility = View.GONE
 
-
-
                 getUserDetails()
-                //calculateXPPoints()
+
             } else {
                 didU_knowLayout.visibility = View.VISIBLE
                 imagePostLayout.visibility = View.VISIBLE
                 selfieChallengeLevelLayout.visibility = View.GONE
                 selfieImagePostBackButton.visibility = View.INVISIBLE
-
 
                 println("imagePostButton ELSE AREA...........")
 
@@ -230,7 +210,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                 R.anim.anim_slide_out_left
             )
             finish()
-            //  discoverPOI()
+
         }
 
 
@@ -241,89 +221,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
         setResult(RESULT_CANCELED);
     }
 
-  /*  private fun calculateXPPoints() {
-        *//*  selfieChallengeProgressBar.max=overallValue
-          discoverValue= CommonData.getUserDetails!!.experience.toInt()
-          scoredValue=discoverValue+selfiePostValue
-          selfiePostMark.text= "+$selfiePostValue XP"
-
-
-          var totalScore=0
-          for(i in 0 until CommonData.eventsModelMessage!!.count())
-          {
-              if(CommonData.eventsModelMessage!![i].disc_id!=null)
-              {
-                  totalScore += CommonData.eventsModelMessage!![i].experience.toInt()
-                  println("totalScore :: $totalScore")
-              }
-          }
-          println("totalScore :: $totalScore")
-          ObjectAnimator.ofInt(selfieChallengeProgressBar, "progress", totalScore)
-              .setDuration(1000)
-              .start()
-          totalScore+=scoredValue
-          val subtractValue = overallValue - scoredValue
-          balanceScoreValue.text = "$subtractValue XP to Level 2"*//*
-
-
-        println("Selfie XP Details : progressBarMaxValue = calculate points")
-        var progressBarMaxValue = sharedPreference.getIntegerSession("xp_point_nextLevel_value")
-        val expToLevel = sharedPreference.getIntegerSession("expTo_level_value")
-        val previousPoints = sharedPreference.getSession("player_experience_points")
-        var levelValue = sharedPreference.getSession("lv_value")
-        val presentLevel = sharedPreference.getSession("current_level")
-
-
-        println("Selfie XP Details : progressBarMaxValue = $progressBarMaxValue")
-        println("Selfie XP Details : previousPoints = $previousPoints")
-        println("Selfie XP Details : presentLevel = $presentLevel")
-        println("Selfie XP Details : levelValue = $levelValue")
-        println("Selfie XP Details : expToLevel = $expToLevel")
-
-
-        val POIDiscoverXP: Int =
-            sharedPreference.getSession("selectedPOIDiscovery_XP_Value")!!.toInt()
-        val POIchallengeXP: Int =
-            sharedPreference.getSession("selectedPOIChallenge_XP_Value")!!.toInt()
-        val completedPointIntValue = previousPoints!!.toInt()
-        println("Selfie XP Details : POIDiscoverXP = $POIDiscoverXP")
-        println("Selfie XP Details : POIchallengeXP = $POIchallengeXP")
-
-        val totalXP: Int = POIDiscoverXP + POIchallengeXP + completedPointIntValue
-        println("Selfie XP Details : totalXP = $totalXP")
-
-        selfieDiscoveryMark.text =
-            "+${sharedPreference.getSession("selectedPOIDiscovery_XP_Value")} XP"
-        selfiePostMark.text = "+${sharedPreference.getSession("selectedPOIChallenge_XP_Value")} XP"
-
-        selfie_challenge_level_name.text = presentLevel
-
-        println("Selfie XP Details : totalGainedXP = $totalXP")
-
-        var balanceVal: Int = progressBarMaxValue - totalXP
-        if (balanceVal < 0) {
-            progressBarMaxValue += 2000
-            balanceVal = progressBarMaxValue - totalXP
-            levelValue = "LV ${sharedPreference.getSession("current_level") as Int}"
-        }
-
-        balanceScoreValue.text = "$balanceVal XP TO $levelValue"
-
-        sharedPreference.saveSession("xp_balance_value", balanceVal)
-        sharedPreference.saveSession("total_gained_xp", totalXP)
-        sharedPreference.saveSession("balance_xp_string", balanceScoreValue.text.toString())
-
-
-        println("Selfie XP Details : levelValue = $levelValue")
-        println("Selfie XP Details : balanceVal = $balanceVal")
-        println("Selfie XP Details : balanceScoreValue.text = ${balanceScoreValue.text}")
-
-        selfieChallengeProgressBar.max = progressBarMaxValue
-        ObjectAnimator.ofInt(selfieChallengeProgressBar, "progress", totalXP)
-            .setDuration(1000)
-            .start()
-    }*/
-    private fun calculateUserLevel(exp: Int) {
+     private fun calculateUserLevel(exp: Int) {
         var ranking: String = ""
         var level: Int = 0
         var base: Int = 0
@@ -572,8 +470,6 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                             }
 
 
-                        } else {
-
                         }
                     }
                 }
@@ -670,7 +566,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
             if (resultCode == RESULT_OK) {
                 val resultUri = result.uri
                 binding.capturedImage.setImageURI(resultUri)
-                println("Cropped Image : $resultUri")
+
                 imagePostLayout.visibility = View.VISIBLE
 
                 poiID = sharedPreference.getSession("selectedPOIID").toString()
@@ -678,15 +574,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                 tempFile =
                     "uri:${result.uri}" + ",type:'image/jpeg',name:'selfie_challenge_'$dateFormat+_$poiID.jpg"
                 println("tempFile $dateFormat")
-                //    constraintLayout.setBackgroundColor(Color.parseColor("#F8F0DD"))
 
-                println("Result_Pth = ${resultUri!!.path}")
-
-
-                //try {
-                // val path = FilePathUtils.passUri(data, applicationContext)
-
-                // if (path != null) {
                 val f = File(resultUri.path)
                 val newFile = createImageFile()
                 val bitmap = BitmapFactory.decodeFile(f.path)
@@ -700,12 +588,9 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 
                 selectedFile = f
 
-                println("Selfie :: 1  $selectedFile")
+
                 println("Selfie :: 2 ${selectedFile.name}")
-                // }
-                /* } catch (e: Exception) {
-                     e.printStackTrace()
-                 }*/
+
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 val error = result.error
 
