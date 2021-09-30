@@ -1,2 +1,4 @@
 # BreadcrumbsApp_Android
-Updated source code.
+Latest code for native android application
+Final Updated code with UAT approval
+Removed unused codes
