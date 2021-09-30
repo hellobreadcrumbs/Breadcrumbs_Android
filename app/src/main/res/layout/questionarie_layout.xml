@@ -92,7 +92,7 @@
                 android:paddingEnd="20dp"
                 android:paddingBottom="10dp"
                 android:text="Futaki Takajiro"
-                android:textColor="#4B3B30"
+                android:textColor="@color/common_text_color"
                 android:textSize="15sp" />
 
             <TextView
@@ -105,8 +105,8 @@
                 android:paddingTop="10dp"
                 android:paddingEnd="20dp"
                 android:paddingBottom="10dp"
-                android:text="Futaki Takajiro"
-                android:textColor="#4B3B30"
+
+                android:textColor="@color/common_text_color"
                 android:textSize="15sp" />
 
             <TextView
@@ -119,8 +119,8 @@
                 android:paddingTop="10dp"
                 android:paddingEnd="20dp"
                 android:paddingBottom="10dp"
-                android:text="Futaki Takajiro"
-                android:textColor="#4B3B30"
+
+                android:textColor="@color/common_text_color"
                 android:textSize="15sp" />
 
 

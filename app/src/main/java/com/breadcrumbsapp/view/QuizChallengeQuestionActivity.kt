@@ -200,7 +200,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                         println("Image = IF 1 : ${eventsModelMessage!![i].ch_image}")
                         if (eventsModelMessage!![i].ch_image != "1" || eventsModelMessage!![i].ch_image != "0") {
                             println("Image = IF 2 : ${eventsModelMessage!![i].ch_image}")
-                            var image =
+                            val image =
                                 eventsModelMessage!![i].ch_image.replace(
                                     "<img width='100%' src='",
                                     ""
@@ -317,9 +317,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
 
                     } else {
-                        println("_______________________________ ELSE")
-
-
                         try {
                             Glide.with(applicationContext)
                                 .load(poiImage)
@@ -388,29 +385,6 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                     }
                 }
 
-
-                /*
-                 DRAFT COPY...
-
-                 try {
-                     questionObj = JsonParser.parseString(chSelection) as JsonArray
-
-                     submitButtonClickingCount = 1
-                     questionTitle.text =
-                         "QUESTION $submitButtonClickingCount/" + "${questionObj.size()}"
-                     questionText.text = questionObj[0].toString().replace("\"", "")
-
-
-
-
-                 } catch (e: Exception) {
-                     e.printStackTrace()
-
-                     singleQuestion=eventsModelMessage!![i].ch_question
-
-                     submitButtonClickingCount = 1
-                 }*/
-
             }
 
         }
@@ -476,7 +450,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                 when {
                     questionType.toInt() == 1 -> {
 
-                        if (submitButton.text == "CONTINUE") {
+                        if (submitButton.text == resources.getText(R.string.continue_button_text)) {
                             questionLayout.visibility = View.GONE
                             quizChallengeLevelLayout.visibility = View.VISIBLE
                             quizChallenge_backButton.visibility = View.INVISIBLE
@@ -511,7 +485,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
                             }
                         } else {
-                            submitButton.text = "CONTINUE"
+                            submitButton.text = resources.getText(R.string.continue_button_text)
                             submitButton.background = getDrawable(R.drawable.selfie_continue_btn)
                             quizChallenge_backButton.visibility = View.INVISIBLE
 
@@ -603,7 +577,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
                             }
 
-                            if (submitButton.text == "CONTINUE") {
+                            if (submitButton.text == resources.getText(R.string.continue_button_text)) {
                                 quizChallenge_backButton.visibility = View.INVISIBLE
 
                                 continueBtn++
@@ -611,7 +585,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                                 println("Submit Btn Ctnue : $continueBtn")
                                 // 3 will become no.of.questions...
                                 if (continueBtn == 3) {
-                                    submitButton.text = "CONTINUE"
+                                    submitButton.text = resources.getText(R.string.continue_button_text)
                                     submitButton.background =
                                         getDrawable(R.drawable.selfie_continue_btn)
 
@@ -632,7 +606,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
                                     getUserDetails()
 
-                                    quizChallengeCloseButton.setOnClickListener(View.OnClickListener {
+                                    quizChallengeCloseButton.setOnClickListener {
                                         startActivity(
                                             Intent(
                                                 this@QuizChallengeQuestionActivity,
@@ -645,11 +619,11 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                                         )
                                         finish()
 
-                                    })
+                                    }
 
                                 } else {
                                     quizChallenge_backButton.visibility = View.INVISIBLE
-                                    submitButton.text = "SUBMIT"
+                                    submitButton.text = resources.getText(R.string.submit_button_text)
                                     submitButton.background = getDrawable(R.drawable.submit_active)
 
                                     isClicked = false
@@ -685,7 +659,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                                     }
                                 }
 
-                            } else if (submitButton.text == "SUBMIT") {
+                            } else if (submitButton.text == resources.getText(R.string.submit_button_text)) {
                                 quizChallenge_backButton.visibility = View.INVISIBLE
 
 
@@ -760,7 +734,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
 
 
                                 }
-                                submitButton.text = "CONTINUE"
+                                submitButton.text = resources.getText(R.string.continue_button_text)
 
                                 submitButton.background =
                                     getDrawable(R.drawable.selfie_continue_btn)
@@ -858,10 +832,10 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
     }
 
     private fun calculateUserLevel(exp: Int) {
-        var ranking: String = ""
-        var level: Int = 0
-        var base: Int = 0
-        var nextLevel: Int = 0
+        var ranking = ""
+        var level = 0
+        var base = 0
+        var nextLevel = 0
         when (exp) {
             in 0..999 -> { // 1000 thresh
                 ranking = "Recruit"
@@ -1067,7 +1041,7 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
         }
         else
         {
-            quizBalanceValue.text = " $balanceVal XP TO LV. ${level + 1}"
+            quizBalanceValue.text = "$balanceVal XP TO LV. ${level + 1}"
 
             ObjectAnimator.ofInt(
                 determinateBar,
@@ -1203,9 +1177,9 @@ class QuizChallengeQuestionActivity : AppCompatActivity() {
                             )
                         )
                         val jsonElement: JsonElement? = JsonParser.parseString(registerJSON)
-                        val jsonObject: JsonObject? = jsonElement?.asJsonObject
+                       // val jsonObject: JsonObject? = jsonElement?.asJsonObject
 
-                        val status: Boolean = jsonObject?.get("status")!!.asBoolean
+//                        val status: Boolean = jsonObject?.get("status")!!.asBoolean
                         println("Discover_POI Status = $jsonElement")
 
                     } else {

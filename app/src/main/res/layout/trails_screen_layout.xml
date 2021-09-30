@@ -50,8 +50,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/claritycity_bold"
                     android:gravity="center_horizontal"
-                    android:text="TRAILS"
-                    android:textColor="#4B3B30"
+                    android:text="@string/trails_txt"
+                    android:textColor="@color/common_text_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView4" />

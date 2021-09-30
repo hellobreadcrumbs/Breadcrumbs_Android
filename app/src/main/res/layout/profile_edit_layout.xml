@@ -31,8 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/claritycity_bold"
-        android:text="Profile Edit"
-        android:textColor="#4B3B30"
+        android:text="@string/profile_edit_txt"
+        android:textColor="@color/common_text_color"
         android:textSize="@dimen/trail_tutorial_sub_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/profile_edit_screen_backButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginTop="15dp"
-        android:background="#4B3B30"
+        android:background="@color/common_text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_edit_screen_backButton" />
@@ -86,8 +86,8 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="30dp"
         android:fontFamily="@font/claritycity_bold"
-        android:text="NICKNAME"
-        android:textColor="#4B3B30"
+        android:text="@string/nickname_txt"
+        android:textColor="@color/common_text_color"
         android:textSize="@dimen/disclaimer_content_text_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_image_layout" />
@@ -120,9 +120,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:fontFamily="@font/claritycity_bold"
-            android:text="nickname"
+
             android:textAllCaps="true"
-            android:textColor="#4B3B30"
+            android:textColor="@color/common_text_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/user_info_icon"
             app:layout_constraintTop_toTopOf="parent" />
@@ -130,15 +130,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/profile_edit_submit"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="20dp"
-        android:layout_marginTop="20dp"
-        android:text="Submit"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_info_layout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

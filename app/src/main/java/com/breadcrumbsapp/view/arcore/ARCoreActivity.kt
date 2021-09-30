@@ -3,7 +3,6 @@ package com.breadcrumbsapp.view.arcore
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
-import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.*
 import android.util.Log
@@ -31,8 +30,6 @@ import kotlinx.android.synthetic.main.ar_layout.*
 import kotlinx.android.synthetic.main.leader_board_activity_layout.*
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -101,11 +98,7 @@ class ARCoreActivity : AppCompatActivity() {
 
     }
 
-    fun getBitmapOFRootView(v: android.view.View): Bitmap? {
-        val rootview: android.view.View = v.rootView
-        rootview.isDrawingCacheEnabled = true
-        return rootview.drawingCache
-    }
+
 
     /***
      * function to handle the renderable object and place object in scene
@@ -202,11 +195,7 @@ class ARCoreActivity : AppCompatActivity() {
                         println("File Name is NULL $bitmap")
                     }
                 } catch (e: Exception) {
-                   /* val toast: Toast = Toast.makeText(
-                        this@ARCoreActivity, e.toString(),
-                        Toast.LENGTH_LONG
-                    )
-                    toast.show()*/
+
 
                     Log.e("PixelCopier Error =>",e.toString())
                     return@request
@@ -242,29 +231,6 @@ class ARCoreActivity : AppCompatActivity() {
 
     }
 
-    private fun saveBitmapToDisk(bitmap: Bitmap, filename: String) {
-        val root = Environment.getExternalStorageDirectory().toString() + "/BR-AR"
-        Log.d("saveBitmapToDisk", "saveBitmapToDisk: $root")
-        val myDir = File(root)
-        myDir.mkdirs()
-        val file = File(myDir, filename)
-        if (file.exists()) file.delete()
-        try {
-            val out = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
-            out.flush()
-            out.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            throw IOException("Failed to save bitmap to disk", e)
-        }
-        MediaScannerConnection.scanFile(
-            this, arrayOf(file.toString()), null
-        ) { path: String, uri: Uri ->
-            Log.i("ExternalStorage", "Scanned $path:")
-            Log.i("ExternalStorage", "-> uri=$uri")
-        }
-    }
 
     private fun generateFilename(): String? {
         val date: String = SimpleDateFormat("yMDHms", Locale.getDefault()).format(Date())

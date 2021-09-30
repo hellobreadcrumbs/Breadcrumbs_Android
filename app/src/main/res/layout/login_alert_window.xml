@@ -11,11 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/alert_bg"
-
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginStart="20dp"
-                android:textSize="14sp"
+                android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
                 android:fontFamily="@font/claritycity_semibold"
                 android:text="@string/please_read_agree_content"
                 android:textColor="@color/black"
@@ -43,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/titleView"
-                android:textSize="12sp"
+                android:textSize="@dimen/next_button_text_size"
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
@@ -58,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/termsTextView"
                 android:layout_marginStart="20dp"
-                android:textSize="12sp"
+                android:textSize="@dimen/next_button_text_size"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/claritycity_regular"
                 android:text="@string/alert_view_privacy_policy"
@@ -77,16 +74,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-           <!-- <Button
-                android:id="@+id/positiveBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
 
-                android:background="@drawable/disclaimer_ok_button"
-                android:fontFamily="@font/claritycity_semibold"
-                android:text="AGREE AND SIGN UP"
-                android:textColor="#454D5A"
-                android:textSize="12sp" />-->
 
             <TextView
                 android:id="@+id/positiveBtn"
@@ -97,20 +85,19 @@
                 android:paddingBottom="10dp"
                 android:background="@drawable/disclaimer_ok_button"
                 android:fontFamily="@font/claritycity_semibold"
-                android:text="AGREE AND SIGN UP"
+                android:text="@string/agree_sign_up"
                 android:textColor="#454D5A"
-                android:textSize="12sp"/>
+                android:textSize="@dimen/challenge_begin_screen_discovery_text_size"/>
 
             <Button
                 android:id="@+id/negativeBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
-
-                android:text="DECLINE"
+                android:text="@string/decline"
                 android:fontFamily="@font/claritycity_medium"
-                android:textColor="#454D5A"
-                android:textSize="10sp"
+                android:textColor="@color/decline_txt"
+                android:textSize="@dimen/next_button_text_size"
                   />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </RelativeLayout>

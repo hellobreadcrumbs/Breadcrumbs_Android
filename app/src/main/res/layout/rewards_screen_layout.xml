@@ -48,8 +48,8 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/claritycity_bold"
         android:gravity="center_horizontal"
-        android:text="REWARDS"
-        android:textColor="#4B3B30"
+        android:text="@string/rewards_txt"
+        android:textColor="@color/common_text_color"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +76,7 @@
             android:checked="true"
             android:gravity="center"
             android:padding="4dp"
-            android:text="Active"
+            android:text="@string/reward_list_active_txt"
             android:textColor="@color/black" />
 
         <RadioButton
@@ -95,7 +95,7 @@
             android:checked="false"
             android:gravity="center"
             android:padding="4dp"
-            android:text="Past"
+            android:text="@string/reward_list_past_txt"
             android:textColor="@color/black" />
     </RadioGroup>
 
@@ -130,7 +130,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/claritycity_bold"
         android:text="No data found!"
-        android:textColor="#4B3B30"
+        android:textColor="@color/common_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

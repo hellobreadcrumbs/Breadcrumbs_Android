@@ -4,7 +4,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F0DD">
+    android:background="@color/bg_color">
 
     <com.theartofdev.edmodo.cropper.CropImageView
         android:id="@+id/cropImageView"
@@ -54,7 +54,7 @@
             android:layout_marginEnd="80dp"
             android:fontFamily="@font/claritycity_bold"
             android:gravity="center_horizontal"
-            android:text="Post this photo to the Breadcrumbs Feed?"
+            android:text="@string/image_post_screen_title"
             android:textColor="#454D5A"
             android:textSize="@dimen/image_post_main_text_size" />
 
@@ -98,7 +98,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="5dp"
                     android:fontFamily="@font/claritycity_bold"
-                    android:text="PIONEER TRAIL"
+
                     android:textColor="@color/white"
                     android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -187,7 +187,7 @@
             android:gravity="center"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
-            android:text="POST"
+            android:text="@string/post_button_text"
             android:textColor="@color/white"
             android:textSize="@dimen/challenge_begin_screen_rewards_text_size" />
     </RelativeLayout>

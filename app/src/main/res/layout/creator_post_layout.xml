@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="20dp"
     android:background="@drawable/discover_details_bg"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:paddingTop="20dp">
 
     <Button
         android:id="@+id/creator_post_back_button"
@@ -29,7 +28,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/breadcrumbs_trail"
+            android:src="@drawable/anthology_trail_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,13 +36,13 @@
         <TextView
             android:id="@+id/creator_title_tv"
             android:layout_width="0dp"
-            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/claritycity_bold"
             android:gravity="center_horizontal"
-            android:text="CREATOR POSTS"
+            android:text="@string/creator_post_txt"
             android:textAllCaps="true"
-            android:textColor="#4B3B30"
+            android:textColor="@color/common_text_color"
             android:textSize="@dimen/trail_tutorial_sub_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
-            android:background="#4B3B30"
+            android:background="@color/common_text_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/creator_title_tv" />
@@ -69,7 +68,6 @@
             app:layout_constraintTop_toBottomOf="@+id/borderLine" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

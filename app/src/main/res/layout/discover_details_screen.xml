@@ -109,7 +109,6 @@
                                     android:id="@+id/travelETA"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-
                                     android:drawableStart="@drawable/walking_icon"
                                     android:drawablePadding="5dp"
                                     android:fontFamily="@font/dinish_regular"
@@ -172,7 +171,7 @@
                     android:paddingTop="5dp"
                     android:paddingEnd="10dp"
                     android:paddingBottom="5dp"
-                    android:text="TAKE ME THERE"
+                    android:text="@string/take_me_there"
                     android:textColor="#4B3B30"
                     android:textSize="@dimen/discovery_screen_player_name_text_size" />
 
@@ -182,7 +181,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/claritycity_regular"
-                    android:text="Walk closer to discover this place"
+                    android:text="@string/poi_details_screen_static_text"
                     android:textColor="#4B3B30"
                     android:textSize="@dimen/trail_notification_days_ago_text_size" />
 
@@ -213,7 +212,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:fontFamily="@font/claritycity_bold"
-                        android:text="UNDISCOVERED"
+                        android:text="@string/discover_status_text_undiscovered"
                         android:textColor="#4B3B30"
                         android:textSize="@dimen/discovery_screen_player_name_text_size" />
 
@@ -241,7 +240,7 @@
                             android:layout_width="0dip"
                             android:layout_height="40dp"
                             android:layout_weight="1"
-                            android:src="@drawable/breadcrumbs_trail" />
+                            android:src="@drawable/anthology_trail_icon" />
 
                         <TextView
                             android:id="@+id/discover_detail_screen_trailName"
@@ -250,7 +249,7 @@
                             android:layout_weight="2"
                             android:fontFamily="@font/claritycity_bold"
                             android:gravity="center_vertical"
-                            android:text="PIONEER TRAIL"
+                            android:text="@string/hanse_trail_text"
                             android:textAllCaps="true"
                             android:textColor="#4B3B30"
                             android:textSize="@dimen/discovery_screen_player_name_text_size" />
@@ -296,7 +295,7 @@
                             android:layout_weight="2"
                             android:fontFamily="@font/claritycity_bold"
                             android:gravity="center_vertical"
-                            android:text="QUIZ CHALLENGE"
+                            android:text="@string/quiz_challenge_title"
                             android:textAllCaps="true"
                             android:textColor="#4B3B30"
                             android:textSize="@dimen/discovery_screen_player_name_text_size" />
@@ -331,7 +330,7 @@
                     android:layout_marginEnd="30dp"
                     android:fontFamily="@font/claritycity_bold"
                     android:gravity="center"
-                    android:text="ABOUT"
+                    android:text="@string/about_text"
                     android:textColor="#A5988B"
                     android:textSize="@dimen/trail_notification_days_ago_text_size" />
 
@@ -353,7 +352,6 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="30dp"
                     android:fontFamily="@font/dinish_regular"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque varius orci eu aliquam lacinia. Praesent at massa molestie elit scelerisque ornare dapibus vel nisl. Pellentesque sed felis augue. Quisque tellus orci, cursus quis mattis id, pulvinar id nisi. Sed facilisis vel justo in iaculis. Aliquam mattis, dolor eget pulvinar tincidunt, lacus quam egestas velit, in condimentum mi est id ex."
                     android:textColor="#231F20"
                     android:textSize="@dimen/discover_screen_poi_name_text_size" />
 
@@ -373,7 +371,6 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="30dp"
                     android:layout_marginBottom="10dp"
-                    android:text="Nulla suscipit tortor ac odio consectetur, id malesuada neque elementum. Fusce convallis eros et augue gravida venenatis. Pellentesque vestibulum vehicula mauris nec iaculis. Ut ac convallis mauris. Nullam faucibus sit amet libero et maximus. Cras quis scelerisque ante, eget finibus purus. Integer vitae neque nisi. Morbi quis nibh leo. Phasellus interdum facilisis egestas. Cras pharetra leo a mauris imperdiet, a lacinia justo sodales. Morbi congue augue at urna mollis mattis. Maecenas sed ex viverra, auctor dui et, dignissim neque. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean varius vestibulum cursus. Etiam sodales lacus sit amet aliquam consequat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."
                     android:textColor="#231F20"
                     android:textSize="14sp"
                     android:visibility="gone" />

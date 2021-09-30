@@ -3,11 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
-
     >
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +28,7 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/claritycity_semibold"
             android:paddingBottom="5dp"
-            android:text="FEED"
+            android:text="@string/feed_txt"
             android:textColor="@color/white"
             android:textSize="8sp"
             app:layout_constraintEnd_toEndOf="@+id/feedIcon"
@@ -55,7 +51,7 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/claritycity_semibold"
             android:paddingBottom="5dp"
-            android:text="LEADERBOARD"
+            android:text="@string/leaderboard_txt"
             android:textColor="@color/white"
             android:textSize="8sp"
             app:layout_constraintEnd_toEndOf="@+id/leaderboardIcon"
@@ -68,7 +64,7 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/claritycity_semibold"
             android:paddingBottom="5dp"
-            android:text="DISCOVER"
+            android:text="@string/discover_txt"
             android:textColor="@color/white"
             android:textSize="8sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -92,7 +88,7 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/claritycity_semibold"
             android:paddingBottom="5dp"
-            android:text="TRAILS"
+            android:text="@string/trails_txt"
             android:textColor="@color/white"
             android:textSize="8sp"
             app:layout_constraintEnd_toEndOf="@+id/trailsIcon"
@@ -115,7 +111,7 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/claritycity_semibold"
             android:paddingBottom="5dp"
-            android:text="MORE"
+            android:text="@string/more_txt"
             android:textColor="@color/white"
             android:textSize="8sp"
             app:layout_constraintEnd_toEndOf="@+id/moreIcon"

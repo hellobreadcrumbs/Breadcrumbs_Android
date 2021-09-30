@@ -40,7 +40,8 @@ class TutorialActivity : AppCompatActivity() {
 
         // Page Indicator.,
 
-        binding.navigateButton.text="SKIP"
+
+        binding.navigateButton.text=resources.getText(R.string.skip_text)
 
         binding.navigateButton.setOnClickListener {
 
@@ -60,19 +61,19 @@ class TutorialActivity : AppCompatActivity() {
                 when (val position: Int = binding.recyclerview.getCurrentPosition()) {
                     0 -> {
                         println("recyclerview 0 = $position")
-                        binding.navigateButton.text="SKIP"
+                        binding.navigateButton.text=resources.getText(R.string.skip_text)
                     }
                     1 -> {
                         println("recyclerview 1 = $position")
-                        binding.navigateButton.text="SKIP"
+                        binding.navigateButton.text=resources.getText(R.string.skip_text)
                     }
                     2 -> {
                         println("recyclerview 2 = $position")
-                        binding.navigateButton.text="SKIP"
+                        binding.navigateButton.text=resources.getText(R.string.skip_text)
                     }
                     3 -> {
                         println("recyclerview 3 = $position")
-                        binding.navigateButton.text="DONE"
+                        binding.navigateButton.text=resources.getText(R.string.done_text)
                     }
                 }
             }

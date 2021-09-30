@@ -8,18 +8,17 @@
     tools:context=".view.DiscoverScreenActivity">
 
 
-
     <RelativeLayout
         android:id="@+id/map_screen_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/trail_list_bg">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/loader_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/splash_colud_bg"
-             >
+            android:background="@drawable/splash_colud_bg">
 
             <ImageView
                 android:id="@+id/loader_screen_gif"
@@ -32,6 +31,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <FrameLayout
 
             android:id="@+id/container_view"
@@ -79,19 +79,6 @@
                 android:orientation="horizontal"
                 android:visibility="gone">
 
-                <!--<androidx.appcompat.widget.LinearLayoutCompat
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-
-                        android:id="@+id/profileImage"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/profile_bg" />
-                </androidx.appcompat.widget.LinearLayoutCompat>-->
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
@@ -134,7 +121,7 @@
                                 android:fontFamily="@font/claritycity_bold"
                                 android:paddingStart="5dp"
                                 android:paddingEnd="10dp"
-                                android:text="Recruit LV. 1"
+                                android:text="@string/default_player_level"
 
                                 android:textColor="@color/white"
                                 android:textSize="8sp" />
@@ -180,7 +167,7 @@
                         android:background="@drawable/searchview_bg"
                         android:elevation="1dp"
                         android:fontFamily="@font/dinish_regular"
-                        android:hint="Search POI name"
+                        android:hint="@string/search_bar_hint_txt"
                         android:paddingStart="20dp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/hint_color_gray"

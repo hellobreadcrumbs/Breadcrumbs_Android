@@ -33,7 +33,7 @@
             android:fontFamily="@font/claritycity_extrabold"
             android:gravity="center_horizontal"
             android:textAllCaps="true"
-            android:text="REWARD REDEEMED!"
+            android:text="@string/reward_redeemed_txt"
             android:textColor="#4B3B30"
             android:textSize="20sp" />
 
@@ -47,8 +47,8 @@
             android:fontFamily="@font/dinish_regular"
             android:gravity="center_horizontal"
             android:lineSpacingExtra="5dp"
-            android:text="Thank you for redeeming your reward!\nContinue playing Breadcrumbs to earn even more exciting gifts."
-            android:textColor="#4B3B30"
+            android:text="@string/reward_redeemed_content_txt"
+            android:textColor="@color/common_text_color"
             android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
 
         <TextView
@@ -63,7 +63,7 @@
             android:paddingTop="10dp"
             android:paddingEnd="50dp"
             android:paddingBottom="10dp"
-            android:text="OKAY"
+            android:text="@string/okay_txt"
             android:textColor="@color/black"
             android:textSize="12sp" />
 

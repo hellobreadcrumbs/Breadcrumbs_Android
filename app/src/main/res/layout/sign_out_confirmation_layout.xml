@@ -24,8 +24,8 @@
             android:layout_marginTop="40dp"
             android:fontFamily="@font/claritycity_extrabold"
             android:gravity="center_horizontal"
-            android:text="ARE YOU SURE?"
-            android:textColor="#4B3B30"
+            android:text="@string/are_you_sure"
+            android:textColor="@color/common_text_color"
             android:textSize="@dimen/disclaimer_title_text_size" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:gravity="center_horizontal"
             android:lineSpacingExtra="5dp"
             android:text="@string/sign_out_prompt_content"
-            android:textColor="#4B3B30"
+            android:textColor="@color/common_text_color"
             android:textSize="@dimen/trail_notification_learn_more_text_size" />
 
         <TextView
@@ -53,7 +53,7 @@
             android:paddingTop="10dp"
             android:paddingEnd="50dp"
             android:paddingBottom="10dp"
-            android:text="SIGN OUT"
+            android:text="@string/sign_out_txt"
             android:textColor="@color/black"
             android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
 

@@ -13,7 +13,7 @@
         android:fontFamily="@font/dinish_regular"
         android:padding="10dp"
         android:gravity="center_horizontal"
-        android:textColor="#4B3B30"
+        android:textColor="@color/common_text_color"
         android:textSize="@dimen/next_button_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

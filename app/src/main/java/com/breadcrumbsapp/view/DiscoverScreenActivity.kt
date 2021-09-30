@@ -194,6 +194,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private var isLevelUpPopUp: Boolean = false
     private var isRewardPopUp: Boolean = false
     private var levelPopUpValue: Int = 0
+    private var levelPopUpRankingText: String=""
     private var achievementUnlockImage: String = ""
     private var achievementUnlockTitle: String = ""
     private val REQUEST_STORAGE_PERMISSION = 505
@@ -578,24 +579,20 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
                     if (sharedPreference.getSession("clicked_button").equals("take_me_there")
                         || sharedPreference.getSession("clicked_button").equals("from_back_button")
-                    ) {
-                        markWindowConstraintLayout.visibility = View.VISIBLE
-                        takeMeBtn.visibility = View.VISIBLE
-                        profileLayout.visibility = View.GONE
-                        trailsBtn.visibility = View.GONE
-                        searchButton.visibility = View.GONE
-                        editTextSearchView.visibility = View.GONE
-                        recyclerView.visibility = View.GONE
-                        backButton.visibility = View.GONE
-                    } else if (isMarkerClicked) {
-                        markWindowConstraintLayout.visibility = View.VISIBLE
-                        takeMeBtn.visibility = View.VISIBLE
-                        profileLayout.visibility = View.GONE
-                        trailsBtn.visibility = View.GONE
-                        searchButton.visibility = View.GONE
-                        editTextSearchView.visibility = View.GONE
-                        recyclerView.visibility = View.GONE
-                        backButton.visibility = View.GONE
+                        ||isMarkerClicked)
+                    {
+                        if(trailsNameText.text!="")
+                        {
+                            markWindowConstraintLayout.visibility = View.VISIBLE
+                            takeMeBtn.visibility = View.VISIBLE
+                            profileLayout.visibility = View.GONE
+                            trailsBtn.visibility = View.GONE
+                            searchButton.visibility = View.GONE
+                            editTextSearchView.visibility = View.GONE
+                            recyclerView.visibility = View.GONE
+                            backButton.visibility = View.GONE
+                        }
+
                     }
 
                 }
@@ -859,21 +856,25 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             }
         } else if (sharedPreference.getSession("toggle_button").equals("map")) {
             // open the map screen
-            mapListToggleButton.isChecked = false
-            sharedPreference.saveSession("toggle_button", "map")
-            isListScreen = false
-            trailsListLayout.visibility = View.GONE
-            recyclerView.visibility = View.GONE
-            mapMainLayout.visibility = View.VISIBLE
-            currentLocation.visibility = View.VISIBLE
-            markWindowConstraintLayout.visibility = View.VISIBLE
-            takeMeBtn.visibility = View.VISIBLE
-            profileLayout.visibility = View.GONE
-            trailsBtn.visibility = View.GONE
-            searchButton.visibility = View.GONE
-            editTextSearchView.visibility = View.GONE
-            recyclerView.visibility = View.GONE
-            backButton.visibility = View.GONE
+            if(trailsNameText.text!="")
+            {
+                mapListToggleButton.isChecked = false
+                sharedPreference.saveSession("toggle_button", "map")
+                isListScreen = false
+                trailsListLayout.visibility = View.GONE
+                recyclerView.visibility = View.GONE
+                mapMainLayout.visibility = View.VISIBLE
+                currentLocation.visibility = View.VISIBLE
+                markWindowConstraintLayout.visibility = View.VISIBLE
+                takeMeBtn.visibility = View.VISIBLE
+                profileLayout.visibility = View.GONE
+                trailsBtn.visibility = View.GONE
+                searchButton.visibility = View.GONE
+                editTextSearchView.visibility = View.GONE
+                recyclerView.visibility = View.GONE
+                backButton.visibility = View.GONE
+            }
+
         }
 
 
@@ -1049,7 +1050,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 if (sharedPreference.getBoolean("isVibratorOn")) {
                     if (!isVibrated) {
                         vibrateOn()
-
                     }
                 } else {
                     vibrateOff()
@@ -1690,9 +1690,9 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 println("Date Is :  IF: $days")
 
                 if (days.equals("0") || days.equals("1")) {
-                    textToGo.text = "$days Day Ago"
+                    textToGo.text = "$days ${resources.getText(R.string.day_go)}"
                 } else {
-                    textToGo.text = "$days Days Ago"
+                    textToGo.text = "$days ${resources.getText(R.string.days_go)}"
                 }
             } else {
                 println("Date Is :  ELSE: $days")
@@ -2174,18 +2174,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             println("updateCurrentLocation selectedMarker isMarkerClicked= $isMarkerClicked")
             /* When user click / select the particular POI., that time needs to check either the POI discovered or not.*/
 
-            profileLayout.visibility = View.GONE
-            trailsBtn.visibility = View.GONE
-            searchButton.visibility = View.GONE
-            editTextSearchView.visibility = View.GONE
-            recyclerView.visibility = View.GONE
-            backButton.visibility = View.GONE
-            markWindowConstraintLayout.visibility = View.VISIBLE
-            takeMeBtn.visibility = View.VISIBLE
 
-            currentLocation.visibility = View.VISIBLE
-            trailsListLayout.visibility = View.GONE
-            mapMainLayout.visibility = View.VISIBLE
 
             takeMeBtn.text = resources.getString(R.string.take_me_there)
             poiDistance.text = distanceMatrixApiModelObj[pos].distance
@@ -2233,7 +2222,18 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                     }
                 }
             }
+            profileLayout.visibility = View.GONE
+            trailsBtn.visibility = View.GONE
+            searchButton.visibility = View.GONE
+            editTextSearchView.visibility = View.GONE
+            recyclerView.visibility = View.GONE
+            backButton.visibility = View.GONE
+            markWindowConstraintLayout.visibility = View.VISIBLE
+            takeMeBtn.visibility = View.VISIBLE
 
+            currentLocation.visibility = View.VISIBLE
+            trailsListLayout.visibility = View.GONE
+            mapMainLayout.visibility = View.VISIBLE
             try {
                 sharedPreference.saveSession("selectedPOIName", selectedPOIName)
                 sharedPreference.saveSession("selectedPOIID", selectedPOIID)
@@ -2278,7 +2278,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 println("selectedPOIDiscoverId IF= $selectedPOIDiscoverId")
                 markerWindow_background.background =
                     resources.getDrawable(trail_banner_undiscovered)
-                markerWindowDiscoverTextView.text = "Undiscovered"
+                markerWindowDiscoverTextView.text = resources.getString(R.string.undiscovered_txt)
                 Glide.with(applicationContext).load(exit_navigation_mode)
                     .into(markerWindowCloseButton)
                 isDiscovered = false
@@ -2310,10 +2310,10 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             } else {
                 println("selectedPOIDiscoverId ELSE= $selectedPOIDiscoverId")
                 markerWindow_background.background = resources.getDrawable(trail_banner_discovered)
-                markerWindowDiscoverTextView.text = "DISCOVERED"
+                markerWindowDiscoverTextView.text = resources.getString(R.string.discovered_text)
                 Glide.with(applicationContext).load(discovered_close_btn)
                     .into(markerWindowCloseButton)
-                takeMeBtn.text = "DISCOVERED"
+                takeMeBtn.text = resources.getString(R.string.discovered_text)
                 isDiscovered = true
                 if (sharedPreference.getSession("selected_trail_id") == "4") {
 
@@ -2894,6 +2894,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         println("Level Text => before => ${levelTextView.text} , $level")
 
         levelPopUpValue = level
+        levelPopUpRankingText=ranking
         levelTextView.text = "$ranking LV. $level"
 
         val expToLevel =
@@ -3094,8 +3095,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 val infoTV = dialog.findViewById(R.id.trail_completed_info_content) as TextView
                 //You've completed the Pioneer Trail!\nVisit the Rewards page to view your new prizes.
                 val trailName = sharedPreference.getSession("selected_trails")
-                infoTV.text =
-                    "You've completed the $trailName! \nVisit the Rewards page to view your new prizes."
+                infoTV.text =resources.getString(R.string.trail_completion_text)
 
                 val trailCountTV = dialog.findViewById(R.id.trail_count_tv) as TextView
                 trailCountTV.text = "$popupPoiCompletedCount / $popupPoiCount"
@@ -3128,11 +3128,11 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 println("PopUp = > 3 ENTER ******")
 
                 val levelNumberTV: TextView = dialog.findViewById(R.id.level_pop_up_level_number_tv)
-                levelNumberTV.text = "LEVEL $levelNumber"
+                levelNumberTV.text = "${levelPopUpRankingText.toUpperCase()} $levelNumber"
 
 
                 val popUpCloseButton: ImageView = dialog.findViewById(R.id.pop_up_close_btn)
-                popUpCloseButton.setOnClickListener(View.OnClickListener {
+                popUpCloseButton.setOnClickListener {
 
                     if (isRewardPopUp) {
                         isRewardPopUp = false
@@ -3140,7 +3140,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                     }
                     sharedPreference.saveSession("from_challenge_screen", "")
                     dialog.dismiss()
-                })
+                }
 
             }
 

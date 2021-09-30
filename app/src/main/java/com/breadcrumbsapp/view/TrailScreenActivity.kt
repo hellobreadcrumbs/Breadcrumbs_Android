@@ -38,7 +38,6 @@ class TrailScreenActivity:AppCompatActivity()
     private var interceptor = intercept()
     private lateinit var binding:TrailsScreenLayoutBinding
     private lateinit var trailsListScreenAdapter:TrailsListScreenAdapter
-    private lateinit var getTrailsData:GetTrailsModel
 
 
     fun readJsonFromAssets(context: Context, filePath: String): String? {
@@ -66,18 +65,6 @@ class TrailScreenActivity:AppCompatActivity()
             trailsScreenRecyclerView.adapter = trailsListScreenAdapter
 
         }
-       /* else
-        {
-
-
-
-            val jsonFileString = readJsonFromAssets(applicationContext, "trails.json")
-            getTrailsData=   Gson().fromJson(jsonFileString, GetTrailsModel::class.java)
-            print("CommonData.getTrailsData = ${jsonFileString.toString()}")
-            CommonData.getTrailsData=getTrailsData.message
-
-        }*/
-
 
         trails_screen_back_button.setOnClickListener {
             sessionHandlerClass.saveSession("clicked_button", "no_reload")

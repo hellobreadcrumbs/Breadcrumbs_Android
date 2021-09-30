@@ -41,12 +41,10 @@ class ChallengeActivity : AppCompatActivity() {
     lateinit var binding: ChallengeActivityBinding
     lateinit var sharedPreference: SessionHandlerClass
     private var interceptor = intercept()
-
     private var poiQrCode = ""
     private var challengeName = ""
     private var poiImage = ""
     private var poiArId = ""
-
     private var selectedPOIID: String = ""
     private var selectedTrailID: String = ""
     private var noOfQuestions: String = ""
@@ -62,7 +60,6 @@ class ChallengeActivity : AppCompatActivity() {
         selectedPOIID = sharedPreference.getSession("selectedPOIID").toString()
         selectedTrailID = sharedPreference.getSession("selected_trail_id").toString()
         noOfQuestions= sharedPreference.getSession("noOfQuestions").toString()
-
         sharedPreference.saveSession("clicked_button", "")
         poiNameTextView.text = sharedPreference.getSession("selectedPOIName")
 
@@ -72,12 +69,10 @@ class ChallengeActivity : AppCompatActivity() {
         poiQrCode = bundle.getString("poiQrCode").toString()
         challengeName = bundle.getString("challengeName").toString()
         poiArId = bundle.getString("poiArid").toString()
-
         sharedPreference.saveSession("poi_image", poiImage)
 
 
         try {
-
 
             Glide.with(applicationContext)
                 .load(poiImage)
@@ -119,14 +114,14 @@ class ChallengeActivity : AppCompatActivity() {
         if (challengeName == "quiz") {
             challengeIcon.setImageDrawable(getDrawable(R.drawable.quiz_challenge_icon))
             challengeTitle.text = resources.getString(R.string.quiz_challenge)
-            questionTwoLabel.text = "Correct Answer"
+            questionTwoLabel.text = resources.getString(R.string.correct_answer_txt)
             subTileOfBeginChallenge.text = "$noOfQuestions"
 
         } else if (challengeName == "selfie") {
             challengeIcon.setImageDrawable(getDrawable(R.drawable.selfie_challenge_icon))
             challengeTitle.text = resources.getString(R.string.selfie_challenge)
-            subTileOfBeginChallenge.text = "Snap a photo at"
-            questionTwoLabel.text = "Selfie Posted"
+            subTileOfBeginChallenge.text = resources.getString(R.string.snap_photo)
+            questionTwoLabel.text = resources.getString(R.string.selfie_posted_txt)
         }
 
         challenge_backButton.setOnClickListener {

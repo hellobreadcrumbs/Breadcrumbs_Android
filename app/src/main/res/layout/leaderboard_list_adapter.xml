@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/claritycity_bold"
                 android:text="PlayerName"
-                android:textColor="#4B3B30"
+                android:textColor="@color/common_text_color"
                 android:textSize="@dimen/trail_list_item_size"
 
                 app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/dinish_regular"
                 android:text="Recruit LV. 1"
-                android:textColor="#4B3B30"
+                android:textColor="@color/common_text_color"
                 android:textSize="@dimen/discover_screen_take_me_there_text_size"
 
                 app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +82,7 @@
                 android:layout_marginStart="5dp"
                 android:paddingBottom="3dp"
                 android:text="2450 XP"
-                android:textColor="#4B3B30"
+                android:textColor="@color/common_text_color"
                 android:textSize="@dimen/discover_screen_take_me_there_text_size"
                 app:layout_constraintBottom_toTopOf="@+id/adapter_total_duration"
                 app:layout_constraintStart_toEndOf="@+id/dot_level"
@@ -96,7 +96,7 @@
 
                 android:fontFamily="@font/dinish_bold"
                 android:text="2D 4H 0M"
-                android:textColor="#4B3B30"
+                android:textColor="@color/common_text_color"
                 android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -123,7 +123,7 @@
                 android:layout_marginStart="5dp"
                 android:fontFamily="@font/dinish_bold"
                 android:text="2/17 POIs"
-                android:textColor="#4B3B30"
+                android:textColor="@color/common_text_color"
                 android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/dot_two" />

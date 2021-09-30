@@ -47,7 +47,7 @@
                 android:maxLines="2"
                 android:paddingBottom="2dp"
                 android:text="-"
-                android:textColor="#4B3B30"
+                android:textColor="@color/common_text_color"
                 android:textSize="@dimen/trail_list_item_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
                 android:fontFamily="@font/dinish_regular"
                 android:paddingBottom="2dp"
                 android:text=" - "
-                android:textColor="#4B3B30"
+                android:textColor="@color/common_text_color"
                 android:textSize="@dimen/discover_screen_take_me_there_text_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/trailsName" />
@@ -84,7 +84,7 @@
                 android:layout_marginStart="5dp"
                 android:fontFamily="@font/dinish_regular"
                 android:text=" - "
-                android:textColor="#4B3B30"
+                android:textColor="@color/common_text_color"
                 android:textSize="@dimen/discover_screen_take_me_there_text_size"
                 app:layout_constraintStart_toEndOf="@+id/dot_level"
                 app:layout_constraintTop_toBottomOf="@+id/trailsName" />
@@ -95,9 +95,9 @@
             android:id="@+id/poi_layout_closeButton"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
             android:src="@drawable/exit_navigation_mode"
             android:visibility="visible"
-            android:layout_marginEnd="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/playerDetailsLayout"
             app:layout_constraintEnd_toEndOf="@+id/playerDetailsLayout"
             app:layout_constraintTop_toTopOf="@+id/playerDetailsLayout" />
@@ -117,7 +117,7 @@
         android:paddingEnd="20dp"
         android:paddingBottom="10dp"
         android:text="@string/take_me_there"
-        android:textColor="#4B3B30"
+        android:textColor="@color/common_text_color"
         android:textSize="@dimen/discover_screen_take_me_there_text_size"
         android:visibility="gone" />
 </FrameLayout>

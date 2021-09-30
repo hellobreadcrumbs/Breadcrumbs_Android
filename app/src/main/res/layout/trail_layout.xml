@@ -29,7 +29,7 @@
         android:shadowColor="@color/white"
         android:textColor="@color/white"
         android:layout_marginTop="15dp"
-        android:text="Don't show again"
+        android:text="@string/do_not_show_again"
         android:button="@drawable/checkbox"
         android:paddingStart="10dp"
         android:paddingEnd="15dp"
@@ -52,7 +52,7 @@
         android:paddingTop="10dp"
         android:paddingEnd="50dp"
         android:paddingBottom="10dp"
-        android:text="NEXT"
+        android:text="@string/next_text"
         android:textColor="@color/white"
         android:autoSizeTextType="uniform"
 

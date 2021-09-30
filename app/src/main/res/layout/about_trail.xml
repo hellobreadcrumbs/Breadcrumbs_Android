@@ -64,7 +64,7 @@
             android:paddingTop="10dp"
             android:paddingEnd="50dp"
             android:paddingBottom="10dp"
-            android:text="OKAY"
+            android:text="@string/okay_txt"
             android:textColor="@color/black"
             android:textSize="12sp" />
 

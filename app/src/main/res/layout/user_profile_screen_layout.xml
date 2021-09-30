@@ -24,8 +24,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/claritycity_bold"
         android:layout_marginTop="30dp"
-        android:text="My Profile"
-        android:textColor="#4B3B30"
+        android:text="@string/my_profile"
+        android:textColor="@color/common_text_color"
         android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginTop="10dp"
-        android:background="#4B3B30"
+        android:background="@color/common_text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_iv" />
@@ -100,7 +100,7 @@
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/claritycity_bold"
                     android:text="PlayerName"
-                    android:textColor="#4B3B30"
+                    android:textColor="@color/common_text_color"
                     android:textSize="@dimen/disclaimer_content_text_size"
                     app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_profile_pic_iv"
                     app:layout_constraintTop_toTopOf="@+id/profile_edit_screen_profile_pic_iv" />
@@ -113,7 +113,7 @@
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/dinish_bold"
                     android:text="Recruit LV. 1"
-                    android:textColor="#4B3B30"
+                    android:textColor="@color/common_text_color"
                     app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_profile_pic_iv"
                     app:layout_constraintTop_toBottomOf="@+id/profile_screen_user_name" />
 
@@ -137,7 +137,7 @@
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/dinish_bold"
                     android:text="000 XP"
-                    android:textColor="#4B3B30"
+                    android:textColor="@color/common_text_color"
 
                     app:layout_constraintBottom_toBottomOf="@+id/profile_screen_user_level"
                     app:layout_constraintStart_toEndOf="@+id/imageView6"
@@ -152,7 +152,7 @@
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/dinish_bold"
                     android:text="000 XP TO LV 0"
-                    android:textColor="#4B3B30"
+                    android:textColor="@color/common_text_color"
 
                     app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_profile_pic_iv"
 
@@ -172,7 +172,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/profile_edit_screen_profile_pic_iv"
                     app:layout_constraintTop_toBottomOf="@+id/xp_to_next_level"
-                    app:trackColor="#F8F0DD"
+                    app:trackColor="@color/bg_color"
                     app:trackCornerRadius="150dp"
                     app:trackThickness="20dp" />
 
@@ -183,8 +183,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/claritycity_bold"
-                    android:text="MY ACHIEVEMENTS"
-                    android:textColor="#A5988B"
+                    android:text="@string/my_achievements"
+                    android:textColor="@color/achievement_title_color"
                     android:textSize="@dimen/trail_notification_days_ago_text_size"
 
                     app:layout_constraintEnd_toEndOf="parent"
@@ -437,7 +437,7 @@
                             android:fontFamily="@font/claritycity_bold"
                             android:gravity="center"
                             android:padding="2dp"
-                            android:text="POIs\nDISCOVERED"
+                            android:text="@string/poi_discovered_count_txt"
                             android:textColor="@color/white"
                             android:textSize="@dimen/discovery_screen_player_name_text_size"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -467,7 +467,7 @@
                                 android:paddingEnd="15dp"
                                 android:paddingBottom="2dp"
                                 android:text="0"
-                                android:textColor="#4B3B30"
+                                android:textColor="@color/common_text_color"
                                 android:textSize="@dimen/discover_screen_poi_distance_text_size"
 
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -495,7 +495,7 @@
                             android:fontFamily="@font/claritycity_bold"
                             android:gravity="center"
                             android:padding="2dp"
-                            android:text="TRAILS\nJOURNEYED"
+                            android:text="@string/trail_journeyed_count_txt"
                             android:textColor="@color/white"
                             android:textSize="@dimen/discovery_screen_player_name_text_size"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -524,7 +524,7 @@
                                 android:paddingEnd="15dp"
                                 android:paddingBottom="2dp"
                                 android:text="0"
-                                android:textColor="#4B3B30"
+                                android:textColor="@color/common_text_color"
                                 android:textSize="@dimen/discover_screen_poi_distance_text_size"
 
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -542,8 +542,8 @@
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/claritycity_bold"
                     android:gravity="center_horizontal"
-                    android:text="MY POSTS"
-                    android:textColor="#A5988B"
+                    android:text="@string/my_posts"
+                    android:textColor="@color/achievement_title_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
@@ -553,7 +553,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginTop="10dp"
-                    android:background="#4B3B30"
+                    android:background="@color/common_text_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/postTitle" />
@@ -574,7 +574,7 @@
                     android:fontFamily="@font/claritycity_bold"
                     android:gravity="center_horizontal"
                     android:text="@string/no_posts_yet"
-                    android:textColor="#4B3B30"
+                    android:textColor="@color/common_text_color"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

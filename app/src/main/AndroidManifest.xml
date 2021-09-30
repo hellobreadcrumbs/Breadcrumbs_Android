@@ -37,10 +37,7 @@
         <activity android:name=".view.SearchFriendsListAct"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             />
-        <activity
-            android:name=".ScannerActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
         <activity
             android:name=".view.arcore.ARCoreActivity"
             android:screenOrientation="portrait"

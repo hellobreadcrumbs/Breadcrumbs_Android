@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/claritycity_bold"
-            android:textColor="#055D3A"
+            android:textColor="@color/friend_list_item_text_color"
             android:textSize="@dimen/challenge_begin_screen_rewards_text_size" />
 
         <TextView
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dinish_regular"
-            android:textColor="#055D3A"
+            android:textColor="@color/friend_list_item_text_color"
             android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
     </LinearLayout>
 
@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/dinish_regular"
-        android:textColor="#055D3A"
+        android:textColor="@color/friend_list_item_text_color"
         android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/anf_close_img"

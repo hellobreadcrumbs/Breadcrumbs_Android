@@ -88,8 +88,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="20dp"
                                     android:fontFamily="@font/claritycity_extrabold"
-                                    android:text="WILD ABOUT TWILIGHT"
-                                    android:textColor="#4B3B30"
+
+                                    android:textColor="@color/common_text_color"
                                     android:textSize="@dimen/challenge_begin_screen_rewards_text_size"
                                     app:layout_constraintBottom_toTopOf="@+id/tv_trail_period_of_time"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -103,8 +103,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="20dp"
                                     android:fontFamily="@font/claritycity_extrabold"
-                                    android:text="1 JUNE - 30 JULY 2021"
-                                    android:textColor="#4B3B30"
+
+                                    android:textColor="@color/common_text_color"
                                     android:textSize="@dimen/challenge_begin_screen_subtitle_text_size"
 
                                     app:layout_constraintBottom_toBottomOf="parent"
@@ -139,8 +139,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/claritycity_regular"
-                    android:text="A TRAIL BY"
-                    android:textColor="#4B3B30"
+                    android:text="@string/trail_by_static_text"
+                    android:textColor="@color/common_text_color"
                     android:textSize="@dimen/trail_notification_days_ago_text_size" />
 
                 <TextView
@@ -156,7 +156,7 @@
                     android:paddingTop="5dp"
                     android:paddingEnd="15dp"
                     android:paddingBottom="5dp"
-                    android:text="WILD ABOUT TWILIGHT"
+
                     android:textColor="@color/white"
                     android:textSize="@dimen/discovery_screen_player_name_text_size" />
 
@@ -167,7 +167,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/claritycity_bold"
-                    android:text="DETAILS"
+                    android:text="@string/details"
                     android:textColor="#A5988B"
                     android:textSize="@dimen/trail_notification_days_ago_text_size" />
 
@@ -187,8 +187,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:fontFamily="@font/claritycity_bold"
-                        android:text="0/0 POIs DISCOVERED"
-                        android:textColor="#4B3B30"
+
+                        android:textColor="@color/common_text_color"
                         android:textSize="@dimen/discovery_screen_player_name_text_size" />
 
                     <View
@@ -225,9 +225,9 @@
                             android:paddingStart="10dp"
                             android:fontFamily="@font/claritycity_bold"
                             android:gravity="center_vertical"
-                            android:text="CREATOR POSTS"
+
                             android:textAllCaps="true"
-                            android:textColor="#4B3B30"
+                            android:textColor="@color/common_text_color"
                             android:textSize="@dimen/discovery_screen_player_name_text_size" />
 
 
@@ -269,9 +269,9 @@
                             android:paddingStart="10dp"
                             android:fontFamily="@font/claritycity_bold"
                             android:gravity="center_vertical"
-                            android:text="VIEW LEADERBOARD"
+                            android:text="@string/view_leader_board_txt"
                             android:textAllCaps="true"
-                            android:textColor="#4B3B30"
+                            android:textColor="@color/common_text_color"
                             android:textSize="@dimen/discovery_screen_player_name_text_size" />
 
                         <ImageView
@@ -304,7 +304,7 @@
                     android:layout_marginEnd="30dp"
                     android:fontFamily="@font/claritycity_bold"
                     android:gravity="center"
-                    android:text="ABOUT"
+                    android:text="@string/about_text"
                     android:textColor="#A5988B"
                     android:textSize="@dimen/trail_notification_days_ago_text_size" />
 
@@ -317,7 +317,6 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="30dp"
                     android:fontFamily="@font/dinish_regular"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque varius orci eu aliquam lacinia. Praesent at massa molestie elit scelerisque ornare dapibus vel nisl. Pellentesque sed felis augue. Quisque tellus orci, cursus quis mattis id, pulvinar id nisi. Sed facilisis vel justo in iaculis. Aliquam mattis, dolor eget pulvinar tincidunt, lacus quam egestas velit, in condimentum mi est id ex.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque varius orci eu aliquam lacinia. Praesent at massa molestie elit scelerisque ornare dapibus vel nisl. Pellentesque sed felis augue. Quisque tellus orci, cursus quis mattis id, pulvinar id nisi. Sed facilisis vel justo in iaculis. Aliquam mattis, dolor eget pulvinar tincidunt, lacus quam egestas velit, in condimentum mi est id ex.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque varius orci eu aliquam lacinia. Praesent at massa molestie elit scelerisque ornare dapibus vel nisl. Pellentesque sed felis augue. Quisque tellus orci, cursus quis mattis id, pulvinar id nisi. Sed facilisis vel justo in iaculis. Aliquam mattis, dolor eget pulvinar tincidunt, lacus quam egestas velit, in condimentum mi est id ex.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque varius orci eu aliquam lacinia. Praesent at massa molestie elit scelerisque ornare dapibus vel nisl. Pellentesque sed felis augue. Quisque tellus orci, cursus quis mattis id, pulvinar id nisi. Sed facilisis vel justo in iaculis. Aliquam mattis, dolor eget pulvinar tincidunt, lacus quam egestas velit, in condimentum mi est id ex."
                     android:textColor="#231F20"
                     android:textSize="@dimen/discover_screen_poi_name_text_size" />
 

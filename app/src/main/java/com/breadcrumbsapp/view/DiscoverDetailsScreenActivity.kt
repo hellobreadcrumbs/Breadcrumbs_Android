@@ -102,8 +102,8 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
         if (poiArid == "1") {
             // needs open AR screen
             challengeName = "ar_screen"
-           // challengeNameTv.text = "MYSTERY LANDMARK"
-            challengeNameTv.text = "AR Discovery"  // Changed on Aug'9
+
+            challengeNameTv.text = resources.getText(R.string.ar_discovery_title)  // Changed on Aug'9
 
             Glide.with(applicationContext).load(R.drawable.ar_challenge_icon).into(challenge_image)
             Glide.with(applicationContext).load(R.drawable.details_screen_ar_icon).into(scannerIcon)
@@ -111,14 +111,14 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
 
             if (poiChType == "0") {
                 challengeName = "selfie"
-                challengeNameTv.text = "SELFIE CHALLENGE"
+                challengeNameTv.text = resources.getText(R.string.selfie_challenge_title)
                 Glide.with(applicationContext).load(R.drawable.selfie_challenge_icon)
                     .into(challenge_image)
                 Glide.with(applicationContext).load(R.drawable.details_screen_camera)
                     .into(scannerIcon)
             } else {
                 challengeName = "quiz"
-                challengeNameTv.text = "QUIZ CHALLENGE"
+                challengeNameTv.text = resources.getText(R.string.quiz_challenge_title)
                 Glide.with(applicationContext).load(R.drawable.quiz_challenge_icon)
                     .into(challenge_image)
                 Glide.with(applicationContext).load(R.drawable.details_screen_qr_scan)
@@ -193,15 +193,15 @@ class DiscoverDetailsScreenActivity : YouTubeBaseActivity() {
             }
             from.equals(resources.getString(R.string.discover)) -> {
                 binding.scannerIcon.alpha = 1f
-                binding.takeMeThereBtn.text = "ARRIVED"
+                binding.takeMeThereBtn.text = resources.getText(R.string.arrived_text)
                 binding.takeMeThereBtn.background = getDrawable(R.drawable.arrived_btn)
-                binding.discoverStatusText.text = "UNDISCOVERED"
+                binding.discoverStatusText.text = resources.getText(R.string.discover_status_text_undiscovered)
             }
             from == "DISCOVERED" -> {
                 binding.scannerIcon.alpha = 0.5f
-                binding.takeMeThereBtn.text = "TAKE ME THERE"
+                binding.takeMeThereBtn.text = resources.getText(R.string.take_me_there)
                 binding.takeMeThereBtn.background = getDrawable(R.drawable.take_me_there_bg)
-                binding.discoverStatusText.text = "DISCOVERED"
+                binding.discoverStatusText.text = resources.getText(R.string.discover_status_text_discovered)
 
                 detailsPoiBackGround.background = getDrawable(R.drawable.trail_banner_discovered)
             }

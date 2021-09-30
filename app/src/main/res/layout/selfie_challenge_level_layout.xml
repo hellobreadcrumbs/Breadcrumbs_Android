@@ -45,8 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/claritycity_bold"
-                android:text="Selfie Challenge"
-                android:textColor="#4B3B30"
+                android:text="@string/selfie_challenge"
+                android:textColor="@color/common_text_color"
                 android:textSize="20sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -92,7 +92,7 @@
             android:fontFamily="@font/claritycity_bold"
             android:gravity="center"
 
-            android:textColor="#4B3B30"
+            android:textColor="@color/common_text_color"
             android:textSize="16sp" />
 
         <LinearLayout
@@ -136,7 +136,7 @@
                 android:fontFamily="@font/claritycity_bold"
                 android:gravity="center"
                 android:text="LEVEL 1"
-                android:textColor="#4B3B30"
+                android:textColor="@color/common_text_color"
                 android:textSize="14sp" />
 
             <View
@@ -153,7 +153,7 @@
                 android:layout_height="10dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                app:indicatorColor="#CD462A" />
+                app:indicatorColor="@color/progress_bar_indicate_color" />
             <TextView
                 android:id="@+id/balanceScoreValue"
                 android:layout_width="match_parent"
@@ -164,7 +164,7 @@
                 android:fontFamily="@font/claritycity_bold"
                 android:gravity="center"
                 android:text="000 XP to Level 2"
-                android:textColor="#CD462A"
+                android:textColor="@color/progress_bar_indicate_color"
                 android:textSize="10sp" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -189,7 +189,7 @@
                     android:fontFamily="@font/claritycity_bold"
                     android:gravity="center_vertical"
                     android:text="1/11"
-                    android:textColor="#4B3B30"
+                    android:textColor="@color/common_text_color"
                     android:textSize="14sp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -203,8 +203,8 @@
 
             android:fontFamily="@font/claritycity_bold"
             android:gravity="center"
-            android:text="REWARDS COLLECTED"
-            android:textColor="#4B3B30"
+            android:text="@string/rewards_collected_text"
+            android:textColor="@color/common_text_color"
             android:textSize="16sp" />
 
         <View
@@ -215,7 +215,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="30dp"
-            android:background="#4B3B30" />
+            android:background="@color/common_text_color" />
 
         <LinearLayout
             android:id="@+id/pointsLayout"
@@ -236,8 +236,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/dinish_regular"
-                    android:text="Discovery"
-                    android:textColor="#4B3B30"
+                    android:text="@string/discovery_text"
+                    android:textColor="@color/common_text_color"
                     android:textSize="14sp" />
 
                 <TextView
@@ -247,7 +247,7 @@
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/dinish_bold"
                     android:text="+100 XP"
-                    android:textColor="#4B3B30"
+                    android:textColor="@color/common_text_color"
                     android:textSize="14sp" />
             </RelativeLayout>
 
@@ -262,8 +262,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/dinish_regular"
-                    android:text="Selfie Posted"
-                    android:textColor="#4B3B30"
+                    android:text="@string/selfie_posted_txt"
+                    android:textColor="@color/common_text_color"
                     android:textSize="14sp" />
 
                 <TextView
@@ -273,7 +273,7 @@
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/dinish_bold"
                     android:text="+100 XP"
-                    android:textColor="#4B3B30"
+                    android:textColor="@color/common_text_color"
                     android:textSize="14sp" />
             </RelativeLayout>
         </LinearLayout>
@@ -295,8 +295,8 @@
                 android:fontFamily="@font/claritycity_bold"
                 android:paddingStart="80dp"
                 android:paddingEnd="80dp"
-                android:text="CLOSE"
-                android:textColor="#4B3B30"
+                android:text="@string/close_button_text"
+                android:textColor="@color/common_text_color"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 

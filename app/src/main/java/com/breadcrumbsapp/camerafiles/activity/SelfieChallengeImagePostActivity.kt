@@ -10,7 +10,6 @@ import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -25,8 +24,6 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -140,7 +137,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
         imagePostButton.setOnClickListener {
 
 
-            if (imagePostButton.text.equals("CONTINUE")) {
+            if (imagePostButton.text.equals(resources.getText(R.string.continue_button_text))) {
 
 
                 println("SELFIE IMAGE :: ${sharedPreference.getSession("poi_image")}")
@@ -218,7 +215,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        setResult(RESULT_CANCELED);
+        setResult(RESULT_CANCELED)
     }
 
      private fun calculateUserLevel(exp: Int) {
@@ -526,11 +523,11 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                                 ?.string()
                         )
                     )
-                    val jsonElement: JsonElement? = JsonParser.parseString(registerJSON)
-                    val jsonObject: JsonObject? = jsonElement?.asJsonObject
+                   // val jsonElement: JsonElement? = JsonParser.parseString(registerJSON)
+                   // val jsonObject: JsonObject? = jsonElement?.asJsonObject
 
-                    val status: Boolean = jsonObject?.get("status")!!.asBoolean
-                    println("Discover_POI Status = $jsonElement")
+                   // val status: Boolean = jsonObject?.get("status")!!.asBoolean
+                  //  println("Discover_POI Status = $jsonElement")
 
 
                 } else {
@@ -544,7 +541,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         //super.onBackPressed()
-        if (imagePostButton.text == "POST") {
+        if (imagePostButton.text == resources.getText(R.string.post_button_text)) {
             startActivity(
                 Intent(
                     this@SelfieChallengeImagePostActivity,
@@ -615,20 +612,20 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
             val orientation: Int = exif.getAttributeInt(
                 ExifInterface.TAG_ORIENTATION, 0
             )
-            Log.d("EXIF", "Exif: $orientation")
+
             val matrix = Matrix()
             when (orientation) {
                 6 -> {
                     matrix.postRotate(90F)
-                    Log.d("EXIF", "Exif: $orientation")
+
                 }
                 3 -> {
                     matrix.postRotate(180F)
-                    Log.d("EXIF", "Exif: $orientation")
+
                 }
                 8 -> {
                     matrix.postRotate(270F)
-                    Log.d("EXIF", "Exif: $orientation")
+
                 }
             }
 
@@ -702,11 +699,9 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                     println("Selfie Image JSon Body if  ${response.body()}")
 
                     runOnUiThread {
-                        titleText.text = "Photo posted successfully!"
-
-
-                        imagePostButton.background = getDrawable(R.drawable.selfie_continue_btn)
-                        imagePostButton.text = "CONTINUE"
+                        titleText.text = resources.getText(R.string.image_posted_successfully)
+                         imagePostButton.background = getDrawable(R.drawable.selfie_continue_btn)
+                        imagePostButton.text = resources.getText(R.string.continue_button_text)
 
                         discoverPOI()
 
@@ -719,7 +714,6 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
             }
 
         }
-
 
     }
 

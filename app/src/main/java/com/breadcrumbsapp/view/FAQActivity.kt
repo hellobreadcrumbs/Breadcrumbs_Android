@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.breadcrumbsapp.R
-import com.breadcrumbsapp.adapter.ExpandableListAdapter
 import com.breadcrumbsapp.databinding.FaqLayoutBinding
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.faq_layout.*
@@ -12,7 +11,6 @@ import kotlinx.android.synthetic.main.faq_layout.*
 
 class FAQActivity : AppCompatActivity() {
 
-    private lateinit var expandableListAdapter: ExpandableListAdapter
 
     var listDataHeader: ArrayList<String>? = null
 

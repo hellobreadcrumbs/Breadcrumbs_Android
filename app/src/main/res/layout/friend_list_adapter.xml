@@ -27,7 +27,7 @@
         android:fontFamily="@font/claritycity_bold"
         android:maxLines="2"
         android:textSize="@dimen/disclaimer_content_text_size"
-        android:text="Anna Vo"
+
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/recommendedFriendAdapterProfile"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +38,7 @@
         android:id="@+id/friend_level_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Master Explorer LV. 35"
+
         android:textColor="@color/white"
         android:layout_marginTop="5dp"
         android:layout_marginStart="10dp"

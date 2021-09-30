@@ -32,7 +32,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/claritycity_extrabold"
             android:gravity="center_horizontal"
-            android:text="ABOUT THE \nSELFIE CHALLENGE"
+            android:text="@string/about_selfie_challenge_title"
             android:textColor="#4B3B30"
             android:textSize="20sp" />
 
@@ -62,7 +62,7 @@
             android:paddingTop="10dp"
             android:paddingEnd="50dp"
             android:paddingBottom="10dp"
-            android:text="OKAY"
+            android:text="@string/okay_txt"
             android:textColor="@color/black"
             android:textSize="12sp" />
 

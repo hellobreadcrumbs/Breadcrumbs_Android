@@ -10,7 +10,6 @@ import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -143,7 +142,10 @@ class ARImagePostScreen : AppCompatActivity() {
         binding.imagePostButton.setOnClickListener {
 
 
-            if (imagePostButton.text.equals("CONTINUE")) {
+           // if (imagePostButton.text.equals("CONTINUE"))
+            if (imagePostButton.text.equals(resources.getText(R.string.continue_button_text)))
+
+            {
 
 
                 println("AR IMAGE :: ${sharedPreference.getSession("selectedPOIImage")}")
@@ -438,8 +440,6 @@ class ARImagePostScreen : AppCompatActivity() {
                             }
 
 
-                        } else {
-
                         }
                     }
                 }
@@ -544,7 +544,7 @@ class ARImagePostScreen : AppCompatActivity() {
                 println("AR :: 1  $selectedFile")
                 println("AR :: 2 ${selectedFile.name}")
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                val error = result.error
+                //val error = result.error
             }
             else
             {
@@ -561,35 +561,35 @@ class ARImagePostScreen : AppCompatActivity() {
 
     private fun setOrientationForImage(scaledBitmap: Bitmap, filePath: String): Bitmap? {
         val exif: ExifInterface
-        var newBitMap = scaledBitmap
+
         try {
             exif = ExifInterface(filePath)
             val orientation: Int = exif.getAttributeInt(
                 ExifInterface.TAG_ORIENTATION, 0
             )
-            Log.d("EXIF", "Exif: $orientation")
+
             val matrix = Matrix()
             when (orientation) {
                 6 -> {
                     matrix.postRotate(90F)
-                    Log.d("EXIF", "Exif: $orientation")
+
                 }
                 3 -> {
                     matrix.postRotate(180F)
-                    Log.d("EXIF", "Exif: $orientation")
+
                 }
                 8 -> {
                     matrix.postRotate(270F)
-                    Log.d("EXIF", "Exif: $orientation")
+
                 }
             }
 
-            newBitMap = Bitmap.createBitmap(
+
+            return  Bitmap.createBitmap(
                 scaledBitmap, 0, 0,
                 scaledBitmap.width, scaledBitmap.height, matrix,
                 true
             )
-            return newBitMap
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -651,9 +651,9 @@ class ARImagePostScreen : AppCompatActivity() {
                 if (response.isSuccessful) {
                     println("AR Image JSon Body if  ${response.body()}")
                     runOnUiThread {
-                        binding.titleText.text = "Photo posted successfully!"
+                        binding.titleText.text = resources.getText(R.string.image_posted_successfully)
                         imagePostButton.background = getDrawable(R.drawable.selfie_continue_btn)
-                        imagePostButton.text = "CONTINUE"
+                        imagePostButton.text = resources.getText(R.string.continue_button_text)
                         discoverPOI()
                     }
 

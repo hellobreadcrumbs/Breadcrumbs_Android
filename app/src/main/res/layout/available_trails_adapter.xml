@@ -30,13 +30,11 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/image1"
             android:fontFamily="@font/claritycity_semibold"
-            android:text="Pioneer Trail"
             android:textColor="@color/black"
             android:textSize="@dimen/trail_list_item_size" />
 
 
         <ImageView
-
             android:id="@+id/radioBtn1"
             android:layout_width="20dp"
             android:layout_height="20dp"

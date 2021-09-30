@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginTop="30dp"
-                    android:background="#4B3B30"
+                    android:background="@color/common_text_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/my_achievements_unlock_screen_title_tv" />
@@ -131,7 +131,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:trackColor="#F8F0DD"
+                        app:trackColor="@color/bg_color"
                         app:trackCornerRadius="150dp"
                         app:trackThickness="20dp" />
 
@@ -166,7 +166,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginTop="15dp"
-                        android:background="#4B3B30"
+                        android:background="@color/common_text_color"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/non_completed_pois_rv" />
@@ -201,7 +201,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/claritycity_bold"
                         android:text="WILD ABOUT TWILIGHT"
-                        android:textColor="#4B3B30"
+                        android:textColor="@color/common_text_color"
                         app:layout_constraintBottom_toBottomOf="@+id/achievement_details_lock_trail_icon"
                         app:layout_constraintEnd_toStartOf="@+id/achievement_details_lock_info_icon"
                         app:layout_constraintStart_toEndOf="@+id/achievement_details_lock_trail_icon"
@@ -222,7 +222,7 @@
                         android:layout_height="0.5dp"
                         android:layout_marginTop="15dp"
 
-                        android:background="#4B3B30"
+                        android:background="@color/common_text_color"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/achievement_details_lock_info_icon" />
@@ -258,7 +258,7 @@
                         android:fontFamily="@font/claritycity_bold"
                         android:gravity="center_horizontal"
                         android:text="$20 Breadtalk\nVoucher"
-                        android:textColor="#4B3B30"
+                        android:textColor="@color/common_text_color"
                         android:textSize="@dimen/discovery_screen_level_name_text_size"
                         app:layout_constraintEnd_toEndOf="@+id/achievement_unlock_details_reward_icon"
                         app:layout_constraintStart_toStartOf="@+id/achievement_unlock_details_reward_icon"
@@ -320,7 +320,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:trackColor="#F8F0DD"
+                        app:trackColor="@color/bg_color"
                         app:trackCornerRadius="150dp"
                         app:trackThickness="20dp" />
 

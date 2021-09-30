@@ -41,8 +41,8 @@
             android:fontFamily="@font/claritycity_bold"
             android:gravity="center"
             android:textAllCaps="true"
-            android:text="Hanse &amp; Grey's Adventure : LIVE NOW!"
-            android:textColor="#4B3B30"
+            android:text="@string/trail_notification_screen_title"
+            android:textColor="@color/common_text_color"
             android:textSize="@dimen/trail_notification_live_now_text_size"
             app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/claritycity_regular"
                 android:text="10 Days Ago"
-                android:textColor="#4B3B30"
+                android:textColor="@color/common_text_color"
                 android:textSize="@dimen/trail_notification_days_ago_text_size" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -101,8 +101,8 @@
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="10dp"
-            android:text="LEARN MORE"
-            android:textColor="#4B3B30"
+            android:text="@string/learn_more_txt"
+            android:textColor="@color/black"
             android:textSize="@dimen/trail_notification_learn_more_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -159,7 +159,7 @@
             android:paddingTop="15dp"
             android:paddingEnd="15dp"
             android:paddingBottom="15dp"
-            android:text="Don't show again"
+            android:text="@string/do_not_show_again"
             android:textColor="@color/white"
             android:textSize="@dimen/dont_show_again_tet_size"
 
@@ -180,7 +180,7 @@
         android:paddingTop="10dp"
         android:paddingEnd="45dp"
         android:paddingBottom="10dp"
-        android:text="NEXT"
+        android:text="@string/next_text"
         android:textColor="@color/white"
         android:textSize="@dimen/next_button_text_size"
         app:layout_constraintEnd_toEndOf="parent"

@@ -153,6 +153,10 @@ class ProfileScreenActivity : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        sessionHandlerClass.saveSession("clicked_button", "no_reload")
+    }
     override fun onResume() {
         super.onResume()
         try {

@@ -33,8 +33,8 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/claritycity_bold"
-        android:text="Pioneer"
-        android:textColor="#4B3B30"
+
+        android:textColor="@color/common_text_color"
         android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="@+id/feedPostUserProfilePicture"
         app:layout_constraintStart_toEndOf="@+id/feedPostUserProfilePicture"
@@ -99,7 +99,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="5dp"
                     android:fontFamily="@font/claritycity_bold"
-                    android:text="PIONEER TRAIL"
+
                     android:textColor="@color/white"
                     android:textSize="12sp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -125,7 +125,7 @@
         android:layout_marginStart="5dp"
         android:fontFamily="@font/dinish_bold"
         android:text="0 Like"
-        android:textColor="#4B3B30"
+        android:textColor="@color/common_text_color"
         android:textSize="@dimen/discovery_screen_player_name_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/user_profile_screen_post_adapter_like_button"
         app:layout_constraintStart_toEndOf="@+id/user_profile_screen_post_adapter_like_button"
@@ -147,8 +147,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:fontFamily="@font/dinish_bold"
-        android:text="SHARE"
-        android:textColor="#4B3B30"
+        android:text="@string/share_txt"
+        android:textColor="@color/common_text_color"
         android:textSize="@dimen/discovery_screen_player_name_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/shareIcon"
         app:layout_constraintEnd_toStartOf="@+id/shareIcon"
@@ -163,8 +163,7 @@
         android:ellipsize="end"
         android:fontFamily="@font/dinish_regular"
 
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        android:textColor="#4B3B30"
+        android:textColor="@color/common_text_color"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -180,7 +179,7 @@
         android:layout_marginEnd="15dp"
         android:fontFamily="@font/dinish_regular"
 
-        android:textColor="#4B3B30"
+        android:textColor="@color/common_text_color"
         app:colorClickableText="#66828D"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -200,7 +199,7 @@
         android:fontFamily="@font/dinish_regular"
         android:paddingBottom="10dp"
         android:text="14 hours ago"
-        android:textColor="#4B3B30"
+        android:textColor="@color/common_text_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descriptionContent" />
 

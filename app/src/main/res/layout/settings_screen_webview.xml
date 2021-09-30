@@ -31,8 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/claritycity_bold"
-        android:text="TERMS OF SERVICE"
-        android:textColor="#4B3B30"
+        android:text="@string/terms_service_txt"
+        android:textColor="@color/common_text_color"
 
         android:textSize="@dimen/trail_tutorial_sub_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/webView_title_screen_backButton"
@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginTop="15dp"
-        android:background="#4B3B30"
+        android:background="@color/common_text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/webView_title_screen_backButton" />

@@ -20,7 +20,7 @@
         android:text="@string/no_new_request_text"
         android:fontFamily="@font/claritycity_bold"
         android:textSize="@dimen/challenge_begin_screen_discovery_text_size"
-        android:textColor="#4B3B30"
+        android:textColor="@color/common_text_color"
         android:visibility="gone"/>
 
 </FrameLayout>

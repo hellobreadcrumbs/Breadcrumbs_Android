@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/claritycity_bold"
-        android:text="ACHIEVEMENT\nUNLOCKED!"
+        android:text="@string/achievement_unlocked"
         android:gravity="center_horizontal"
-        android:textColor="#E98D58"
+        android:textColor="@color/achievement_pop_up_text"
         android:layout_marginBottom="20dp"
         android:textSize="@dimen/unlock_popup_text_size"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout10"
@@ -85,7 +85,7 @@
             android:paddingEnd="20dp"
             android:paddingBottom="10dp"
 
-            android:textColor="#4B3B30"
+            android:textColor="@color/common_text_color"
             android:textSize="@dimen/discover_screen_take_me_there_text_size"
             android:visibility="visible" />
 
@@ -98,8 +98,8 @@
         android:fontFamily="@font/dinish_regular"
         android:gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:text="You've unlocked a new achievement!\nVisit your Profile page to view details."
-        android:textColor="#E98D58"
+        android:text="@string/achievement_pop_up_static_text"
+        android:textColor="@color/achievement_pop_up_text"
         android:textSize="@dimen/disclaimer_content_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

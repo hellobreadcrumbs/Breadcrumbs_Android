@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_new_friend_request.*
 
 class NewFriendRequestAct : AppCompatActivity() {
     private val tabNames = ArrayList<String>()
-    private lateinit var viewModel : NewFriendRequestViewModel
+      lateinit var viewModel : NewFriendRequestViewModel
     private lateinit var sessionHandlerClass: SessionHandlerClass
 
     override fun onCreate(savedInstanceState: Bundle?) {

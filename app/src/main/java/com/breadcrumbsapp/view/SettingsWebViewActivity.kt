@@ -30,13 +30,13 @@ class SettingsWebViewActivity:AppCompatActivity()
         if(titleIcon == "yes")
         {
             Glide.with(applicationContext).load(R.drawable.settings_terms_service).into(title_icon)
-            webView_title.text="TERMS OF SERVICE"
+            webView_title.text=resources.getText(R.string.terms_service_txt)
             binding.webView.loadUrl(resources.getString(R.string.terms_of_url))
         }
         else
         {
             Glide.with(applicationContext).load(R.drawable.settings_privacy_policy).into(title_icon)
-            webView_title.text="PRIVACY POLICY"
+            webView_title.text=resources.getText(R.string.privacy_policy_txt)
             binding.webView.loadUrl(resources.getString(R.string.privacy_policy_url))
         }
 

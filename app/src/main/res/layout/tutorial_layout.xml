@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/tut_bg"
-
     >
 
 
@@ -20,8 +19,6 @@
             app:layout_constraintEnd_toEndOf="@id/navigateButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-
-
             />
         <TextView
             android:id="@+id/navigateButton"
@@ -33,8 +30,8 @@
             android:layout_marginBottom="20dp"
             android:layout_marginEnd="40dp"
             android:layout_marginTop="5dp"
-            android:textColor="#2B1D06"
-            android:textSize="14sp"
+            android:textColor="@color/skip_done_btn_text_color"
+            android:textSize="@dimen/disclaimer_content_text_size"
             android:fontFamily="@font/claritycity_semibold"
             />
 
@@ -43,12 +40,11 @@
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            app:spi_dotSelectedColor="#FD9F00"
-            app:spi_dotColor="#5D3B00"
+            app:spi_dotSelectedColor="@color/tut_screen_selected_dot_color"
+            app:spi_dotColor="@color/tut_screen_un_selected_dot_color"
             app:spi_dotSpacing="10dp"
             app:spi_dotSelectedSize="17dp"
             android:layout_marginBottom="20dp"
-
             app:spi_dotSize="15dp"
             android:layout_below="@+id/recyclerview"
              />

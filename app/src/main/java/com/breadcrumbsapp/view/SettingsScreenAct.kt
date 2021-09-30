@@ -94,7 +94,10 @@ class SettingsScreenAct : AppCompatActivity() {
             }
         }
     }
-
+    override fun onBackPressed() {
+        super.onBackPressed()
+        sessionHandlerClass.saveSession("clicked_button", "no_reload")
+    }
     private fun signOutAlertWindow() {
         val dialog = Dialog(this, R.style.FirebaseUI_Transparent)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

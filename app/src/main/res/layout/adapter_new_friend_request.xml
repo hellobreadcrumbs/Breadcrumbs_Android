@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/claritycity_bold"
             android:textSize="16sp"
-            android:textColor="#055D3A"
+            android:textColor="@color/friend_list_item_text_color"
             />
         <TextView
             android:id="@+id/anf_desnigation_txt"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/dinish_regular"
             android:textSize="14sp"
-            android:textColor="#055D3A"/>
+            android:textColor="@color/friend_list_item_text_color"/>
     </LinearLayout>
 
     <ImageView
@@ -55,7 +55,7 @@
         android:id="@+id/anf_divider"
         android:layout_width="2px"
         android:layout_height="50dp"
-        android:background="#055D3A"
+        android:background="@color/friend_list_item_text_color"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/anf_close_img"

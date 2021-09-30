@@ -1,32 +1,35 @@
 <resources>
     <!-- Hash Key : ch0L6QcmElSHVIvQ5qfxAoWjImw= -->
     <string name="app_name">Breadcrumbs App</string>
-    <!--
-    fb login developer email sganthologyfb@gmail.com
-    <string name="facebook_app_id">270389981436138</string>
-    <string name="fb_login_protocol_scheme">fb270389981436138</string>-->
+    <string name="api_access_token">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjQ3MDEiLCJlbWFpbCI6InRlc3RkZXZpY2VicmVhZEBnbWFpbC5jb20iLCJwcm9maWxlX3BpY3R1cmUiOiJ1cGxvYWRzXC80NzAxXC9wcm9maWxlX3BpY18xOTMyMDIxMTUyMDQzLmpwZyIsInVzZXJuYW1lIjoiQXJ1biBrdW1hciIsInBhc3N3b3JkIjoiIiwicmFuayI6IjEiLCJmaW5pc2hlZF9wb2lzIjoiMCIsImZpbmlzaGVkX3RyYWlscyI6IjAiLCJleHBlcmllbmNlIjoiNDIwMCIsImlzX3Nwb25zb3IiOiIwIiwicmVnaXN0ZXJfcGxhdGZvcm0iOiIxIiwiY3JlYXRlZCI6IjIwMjEtMDQtMTkgMDQ6NDI6MzgiLCJ1cGRhdGVkIjoiMjAyMS0wNC0xOSAwNDo0MjozOCIsIkFQSV9USU1FIjoxNjE5NjA0MjgyfQ.HIvUDe4sTB5kyVstz33ShSylWUObN3C3cTf8zS_ayOs</string>
+    <string name="google_maps_key">AIzaSyDrMQduXjWkxg3nfqxXGiUCvpJTV84DCto</string>
     <string name="facebook_app_id">4319089224780086</string>
     <string name="fb_login_protocol_scheme">fb4319089224780086</string>
+    <string name="terms_of_url">https://www.breadcrumbsapp.com/terms-of-use.html</string>
+    <string name="privacy_policy_url">https://www.breadcrumbsapp.com/privacy-policy.html</string>
+    <string name="server_client_id">944786804669-7gvp90hqfadqagtp26pmav53154r6qkm.apps.googleusercontent.com</string>
+    <string name="directionsApiKey">AIzaSyAdQlcPAwlydR_A_tTfoBQWx_a3RjdogjI</string>
+
+    <!-- Tutorial Screen-->
+    <string name="done_text">DONE</string>
+    <string name="skip_text">SKIP</string>
+
+    <!-- Login Screen-->
     <string name="continue_with_facebook">Continue with Facebook</string>
     <string name="continue_with_google">Continue with Google</string>
     <string name="terms_static_content">By signing in and using this application, you are agreeing to our</string>
     <string name="terms_privacy_content">Terms of Service and Privacy Policy.</string>
-    <string name="terms_of_url">https://www.breadcrumbsapp.com/terms-of-use.html</string>
-    <string name="privacy_policy_url">https://www.breadcrumbsapp.com/privacy-policy.html</string>
     <string name="please_read_agree_content">Please read and agree to our terms</string>
     <string name="alert_view_terms_content">By signing up you agree to our Terms of Service.</string>
     <string name="alert_view_privacy_policy">See our Privacy Policy.</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="agree_sign_up">AGREE AND SIGN UP</string>
+    <string name="decline">DECLINE</string>
 
-    <string name="google_maps_key">AIzaSyDrMQduXjWkxg3nfqxXGiUCvpJTV84DCto</string>
 
     <string name="disclaimer_title">DISCLAIMER</string>
     <string name="disclaimer_content">While you’re out exploring, there is no need to trample on grass or climb over obstacles. All you have to do is follow proper walkways and paths!\n\nStay alert at all times, and remember to have fun!</string>
     <string name="no_internet">INTERNET CONNECTION LOST</string>
     <string name="no_internet_message">Please reconnect to the internet to continue playing.</string>
-
-
     <string name="showing_code_in_fragment">Showing code in fragment</string>
     <string name="scan_qr_code">SCAN QR CODE</string>
     <string name="name">Name</string>
@@ -36,18 +39,133 @@
     <string name="result_not_found">Result Not Found</string>
     <string name="show_scanner_from_fragment">Show Scanner From Fragment</string>
 
+    <string name="feed_txt">FEED</string>
+    <string name="leaderboard_txt">LEADERBOARD</string>
+    <string name="discover_txt">DISCOVER</string>
+    <string name="trails_txt">TRAILS</string>
+    <string name="more_txt">MORE</string>
+    <string name="search_bar_hint_txt">Search POI name</string>
+    <string name="default_player_level">Recruit LV. 1</string>
+    <string name="disclaimer_window">While you\’re out exploring, there is no need to trample on grass or climb over obstacles. All you have to do is follow proper walkways and paths! \n\nStay alert at all times, and remember to have fun!</string>
+    <string name="okay_txt">OKAY</string>
+
+    <string name="trail_notification_screen_title">Hanse &amp; Grey\'s Adventure : LIVE NOW!</string>
+    <string name="day_go">Day Ago</string>
+    <string name="days_go">Days Ago</string>
+    <string name="do_not_show_again">Don\'t show again</string>
+    <string name="next_text">NEXT</string>
+    <string name="learn_more_txt">LEARN MORE</string>
+    <string name="available_trails">AVAILABLE TRAILS</string>
+    <string name="wild_abt_twilight_text">Wild About Twilight</string>
+    <string name="hanse_trail_text">Hanse &amp; Grey\'s Adventure</string>
+    <string name="undiscovered_txt">Undiscovered</string>
+    <string name="discovered_text">DISCOVERED</string>
+    <string name="trail_completion_text">You\'ve completed the $trailName! Visit the Rewards page to view your new prizes.</string>
+
+    <string name="leader_board_screen_on_gng_txt">ONGOING - ENDS IN 23D 4H</string>
+    <string name="top_ten_player_title">TOP TEN PLAYERS</string>
+
+
+    <string name="trail_by_static_text">A TRAIL BY</string>
+    <string name="view_leader_board_txt">VIEW LEADERBOARD</string>
+
+
+    <string name="settings_title_txt">Settings</string>
+    <string name="vibration_txt">VIBRATION</string>
+    <string name="user_info_txt">USER INFORMATION</string>
+    <string name="terms_service_txt">TERMS OF SERVICE</string>
+    <string name="privacy_policy_txt">PRIVACY POLICY</string>
+    <string name="faq_txt">FAQ</string>
+    <string name="sign_out_txt">SIGN OUT</string>
+    <string name="are_you_sure">ARE YOU SURE?</string>
+    <string name="email_address">Email Address</string>
+    <string name="user_id">User ID</string>
+    <string name="nickname">Nickname</string>
+
+    <string name="version_txt">Version 1.0.0.0</string>
+
+    <string name="profile_txt">PROFILE</string>
+    <string name="setting_cap_txt">SETTINGS</string>
+    <string name="how_to_play_txt">HOW TO PLAY</string>
+
+    <string name="user_since">User since</string>
+
+    <string name="my_profile">My Profile</string>
+
+
+    <string name="profile_edit_txt">Profile Edit</string>
+    <string name="nickname_txt">NICKNAME</string>
+    <string name="my_achievements">MY ACHIEVEMENTS</string>
+    <string name="my_posts">MY POSTS</string>
+
+
+    <string name="friend_profile_title_txt">Friend\'s Profile</string>
+
+    <string name="poi_discovered_count_txt">POIs\nDISCOVERED</string>
+    <string name="trail_journeyed_count_txt">TRAILS\nJOURNEYED</string>
+
+    <string name="terms_cond_txt">TERMS &amp; CONDITIONS</string>
+
+
+    <string name="rewards_txt">REWARDS</string>
+    <string name="reward_redeemed_txt">REWARD REDEEMED!</string>
+    <string name="reward_redeemed_content_txt">Thank you for redeeming your reward!\nContinue playing Breadcrumbs to earn even more exciting gifts.</string>
+    <string name="reward_details_text">Reward Details</string>
+    <string name="reward_list_active_txt">Active</string>
+    <string name="reward_list_past_txt">Past</string>
+    <string name="redeem_text">REDEEM</string>
+    <string name="redeem_reward_title_text">Redeem Reward</string>
+    <string name="rewards_collected_text">REWARDS COLLECTED</string>
+    <string name="discovery_text">Discovery</string>
+    <string name="correct_quiz_answer_text">Correct Quiz Answer</string>
+    <string name="close_button_text">CLOSE</string>
+    <string name="continue_button_text">CONTINUE</string>
+    <string name="submit_button_text">SUBMIT</string>
+    <string name="post_button_text">POST</string>
+    <string name="image_post_screen_title">Post this photo to the Breadcrumbs Feed?</string>
+    <string name="image_posted_successfully">Photo posted successfully!</string>
+    <string name="selfie_posted_txt">Selfie Posted</string>
+    <string name="begin_txt">BEGIN</string>
+    <string name="correct_answer_txt">Correct Answer</string>
+    <string name="snap_photo">Snap a photo at</string>
+
+
+
+    <string name="qr_code_title">Place the QR code inside the area</string>
+    <string name="qr_code_sub_title">Scanning will start automatically</string>
+    <string name="share_txt">SHARE</string>
+
+    <string name="creator_post_txt">CREATOR POSTS</string>
+    <string name="camera_txt">Camera</string>
+    <string name="open_gallery_txt">Open Gallery</string>
+
+
+
+    <string name="poi_details_screen_static_text">Walk closer to discover this place</string>
+    <string name="details">DETAILS</string>
+    <string name="discover_status_text_undiscovered">UNDISCOVERED</string>
+    <string name="discover_status_text_discovered">DISCOVERED</string>
+    <string name="arrived_text">ARRIVED</string>
+    <string name="ar_discovery_title">AR Discovery</string>
+    <string name="selfie_challenge_title">SELFIE CHALLENGE</string>
+    <string name="quiz_challenge_title">QUIZ CHALLENGE</string>
+    <string name="about_text">ABOUT</string>
+    <string name="achievement_unlocked">ACHIEVEMENT\nUNLOCKED!</string>
+    <string name="achievement_pop_up_static_text">You\'ve unlocked a new achievement!\nVisit your Profile page to view details.</string>
+    <string name="congratulations_txt">CONGRATULATIONS!</string>
+    <string name="trail_completed_pop_up_static_text">You\'ve completed the Pioneer Trail!\nVisit the Rewards page to view your new prizes.</string>
+    <string name="level_up_pop_up_title">LEVEL UP!</string>
+    <string name="new_reward_pop_up_title">NEW REWARD!</string>
+    <string name="new_reward_pop_up_view_reward">VIEW REWARDS</string>
 
     <string name="turn_on_flashlight">Turn on Flashlight</string>
     <string name="turn_off_flashlight">Turn off Flashlight</string>
-
-
     <string name="take_photo">TAKE PHOTO</string>
     <string name="permission_required">Permission Required</string>
     <string name="permission_message">You must grant permission to access camera and external storage to run this application.</string>
     <string name="permission_warning">All permissions are required.</string>
-    <string name="directionsApiKey">AIzaSyAdQlcPAwlydR_A_tTfoBQWx_a3RjdogjI</string>
 
-    <string name="server_client_id">944786804669-7gvp90hqfadqagtp26pmav53154r6qkm.apps.googleusercontent.com</string>
+
 
     <string name="location_updated">Location Updated: %1$s</string>
     <string name="ok">OK</string>
@@ -57,7 +175,6 @@
     <string name="discover">DISCOVER</string>
     <string name="take_me_there">TAKE ME THERE</string>
 
-    <string name="api_access_token">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjQ3MDEiLCJlbWFpbCI6InRlc3RkZXZpY2VicmVhZEBnbWFpbC5jb20iLCJwcm9maWxlX3BpY3R1cmUiOiJ1cGxvYWRzXC80NzAxXC9wcm9maWxlX3BpY18xOTMyMDIxMTUyMDQzLmpwZyIsInVzZXJuYW1lIjoiQXJ1biBrdW1hciIsInBhc3N3b3JkIjoiIiwicmFuayI6IjEiLCJmaW5pc2hlZF9wb2lzIjoiMCIsImZpbmlzaGVkX3RyYWlscyI6IjAiLCJleHBlcmllbmNlIjoiNDIwMCIsImlzX3Nwb25zb3IiOiIwIiwicmVnaXN0ZXJfcGxhdGZvcm0iOiIxIiwiY3JlYXRlZCI6IjIwMjEtMDQtMTkgMDQ6NDI6MzgiLCJ1cGRhdGVkIjoiMjAyMS0wNC0xOSAwNDo0MjozOCIsIkFQSV9USU1FIjoxNjE5NjA0MjgyfQ.HIvUDe4sTB5kyVstz33ShSylWUObN3C3cTf8zS_ayOs</string>
 
 
     <string name="picture">Picture</string>

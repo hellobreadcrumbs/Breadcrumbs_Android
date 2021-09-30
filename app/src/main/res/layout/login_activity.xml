@@ -125,7 +125,7 @@
                 android:fontFamily="@font/claritycity_regular"
                 android:text="@string/continue_with_google"
                 android:textAllCaps="false"
-                android:textColor="#707070"
+                android:textColor="@color/continue_with_google_txt_color"
                 android:textSize="@dimen/login_button_text_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/googlePlusImage"
@@ -145,10 +145,9 @@
         android:fontFamily="@font/claritycity_regular"
         android:gravity="center"
         android:text="@string/terms_static_content"
-        android:textColor="#694627"
+        android:textColor="@color/terms_txt_color"
         android:textSize="12sp"
         android:visibility="invisible"
-
         app:layout_constraintBottom_toTopOf="@+id/termsTextView" />
 
     <TextView
@@ -157,13 +156,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-
         android:fontFamily="@font/claritycity_regular"
         android:gravity="center"
         android:text="@string/terms_privacy_content"
-        android:textColor="#694627"
+        android:textColor="@color/terms_txt_color"
         android:textSize="12sp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

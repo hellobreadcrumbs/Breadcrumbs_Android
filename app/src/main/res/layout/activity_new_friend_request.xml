@@ -31,8 +31,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/claritycity_bold"
-            android:text="Friend Requests"
-            android:textColor="#4B3B30"
+            android:text="@string/friend_requests"
+            android:textColor="@color/common_text_color"
             android:textSize="@dimen/trail_tutorial_sub_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -90,11 +90,10 @@
                 app:tabIndicatorGravity="stretch"
                 app:tabMaxWidth="0dp"
                 app:tabMode="fixed"
-
                 android:background="#D6E8E1"
-                app:tabSelectedTextColor="#4B3B30"
+                app:tabSelectedTextColor="@color/common_text_color"
                 app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-                app:tabTextColor="#4B3B30">
+                app:tabTextColor="@color/common_text_color">
             </com.google.android.material.tabs.TabLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
