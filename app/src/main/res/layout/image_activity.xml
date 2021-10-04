@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -49,6 +50,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/selfieImagePostBackButton"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="80dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="80dp"
@@ -56,15 +59,17 @@
             android:gravity="center_horizontal"
             android:text="@string/image_post_screen_title"
             android:textColor="#454D5A"
-            android:textSize="@dimen/image_post_main_text_size" />
+            android:textSize="16sp" />
 
         <FrameLayout
             android:id="@+id/selfie_image_frame_layout"
             android:layout_width="match_parent"
             android:layout_height="310dp"
             android:layout_below="@id/titleText"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="45dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="50dp"
             android:layout_marginEnd="45dp">
 
             <ImageView
@@ -72,7 +77,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:foregroundGravity="center_horizontal"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/poiNameBar"
@@ -98,7 +104,6 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="5dp"
                     android:fontFamily="@font/claritycity_bold"
-
                     android:textColor="@color/white"
                     android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -110,11 +115,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/selfie_image_frame_layout"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="80dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="80dp"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/did_you_know_txt"
@@ -122,11 +129,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/claritycity_bold"
                 android:gravity="center_horizontal"
-                android:text="DID YOU KNOW?"
+                android:text="@string/did_u_knw_text"
                 android:textColor="#E98D58"
-                android:textSize="14sp"
-
-                />
+                android:textSize="@dimen/disclaimer_content_text_size" />
 
             <TextView
                 android:id="@+id/did_you_know_content"
@@ -134,11 +139,12 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/dinish_regular"
                 android:gravity="center_horizontal"
-                android:lineSpacingExtra="1.5dp"
+                android:lineSpacingExtra="1dp"
                 android:maxLines="4"
                 android:scrollbars="vertical"
+                android:text="Lorem ipsum dolor sitamet, consectetur adipiscing elit. Cras nec rutrum nulla, ac porta nisi. Nulla ornare imperdiet purus vitae fermentum."
                 android:textColor="#454D5A"
-                android:textSize="@dimen/challenge_begin_screen_discovery_text_size" />
+                android:textSize="14sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
         <!--<TextView
             android:id="@+id/did_you_know_txt"
@@ -189,7 +195,7 @@
             android:paddingBottom="15dp"
             android:text="@string/post_button_text"
             android:textColor="@color/white"
-            android:textSize="@dimen/challenge_begin_screen_rewards_text_size" />
+            android:textSize="@dimen/did_u_know_content_txt" />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

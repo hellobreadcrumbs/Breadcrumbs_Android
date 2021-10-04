@@ -75,7 +75,7 @@ class LocationUpdatesService : Service() {
     /**
      * The current location.
      */
-    private var currentLocation: Location? = null
+      var currentLocation: Location? = null
     private val TAG = "LocationUpdatesService"
 
 
@@ -84,6 +84,7 @@ class LocationUpdatesService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+
 
 
 
@@ -207,8 +208,12 @@ class LocationUpdatesService : Service() {
 
         currentLocation = location
 
+        if(currentLocation!!.isFromMockProvider)
+        {
+            Log.d(TAG, "currentLocation: ${currentLocation!!.isFromMockProvider}")
+        }
 
-        val distance: Float = location.distanceTo(currentLocation)
+
 
         if (!isFirst)
         {

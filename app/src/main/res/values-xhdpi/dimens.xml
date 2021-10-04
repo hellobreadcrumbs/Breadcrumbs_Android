@@ -28,4 +28,6 @@
     <dimen name="challenge_begin_screen_begin_text_size">18dp</dimen>
     <dimen name="image_post_main_text_size">20dp</dimen>
     <dimen name="unlock_popup_text_size">26dp</dimen>
+
+    <dimen name="did_u_know_content_txt">12sp</dimen>
 </resources>

@@ -29,4 +29,6 @@
     <dimen name="image_post_main_text_size">18dp</dimen>
     <dimen name="unlock_popup_text_size">24dp</dimen>
 
+    <dimen name="did_u_know_content_txt">1sp</dimen>
+
 </resources>

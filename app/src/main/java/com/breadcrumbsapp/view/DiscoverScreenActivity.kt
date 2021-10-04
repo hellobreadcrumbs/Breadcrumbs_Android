@@ -18,6 +18,7 @@ Details....
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.AppOpsManager
 import android.app.Dialog
 import android.content.*
 import android.content.pm.PackageManager
@@ -28,6 +29,7 @@ import android.os.StrictMode.ThreadPolicy
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
 import android.view.animation.*
@@ -43,6 +45,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.breadcrumbsapp.BuildConfig
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.R.drawable.*
 import com.breadcrumbsapp.R.layout.trail_layout
@@ -211,6 +214,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         }
         return null
     }
+    lateinit var dialog1:Dialog
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("MissingPermission", "ResourceType", "UseCompatLoadingForDrawables")
@@ -219,6 +223,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         setContentView(R.layout.discover_screen_activity)
 
+        dialog1 = Dialog(this, FirebaseUI_Transparent)
 
         val policy = ThreadPolicy.Builder()
             .permitAll().build()
@@ -313,6 +318,25 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                             println("updateCurrentLocation Status => $isDrawPathClicked , $isMarkerClicked")
                             if (isDrawPathClicked || isMarkerClicked) {
                                 updateCurrentLocation(latLng, "1") //1
+                            }
+
+
+                            println("isMockLocationEnabled = > ${isMockLocationEnabled()}")
+
+
+                           // if(isMockLocationEnabled())
+                            if(mService!!.currentLocation!!.isFromMockProvider)
+                            {
+
+                                mockLocationAppDetectDialog()
+                            }
+                            else
+                            {
+                                if (dialog1 != null) {
+                                    if (dialog1.isShowing) {
+                                        dialog1.dismiss()
+                                    }
+                                }
                             }
 
                         } catch (e: Exception) {
@@ -3177,4 +3201,44 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         }
     }
 
+
+
+    fun isMockLocationEnabled(): Boolean {
+        var isMockLocation = false
+        isMockLocation = try {
+            //if marshmallow
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val opsManager =
+                    applicationContext.getSystemService(APP_OPS_SERVICE) as AppOpsManager
+                opsManager.checkOp(
+                    AppOpsManager.OPSTR_MOCK_LOCATION,
+                    Process.myUid(),
+                    BuildConfig.APPLICATION_ID
+                ) == AppOpsManager.MODE_ALLOWED
+            } else {
+                // in marshmallow this will always return true
+                Settings.Secure.getString(
+                    applicationContext.contentResolver,
+                    "mock_location"
+                ) != "0"
+            }
+        } catch (e: Exception) {
+            return isMockLocation
+        }
+        return isMockLocation
+    }
+
+
+    private fun mockLocationAppDetectDialog() {
+
+        dialog1.setCancelable(false)
+        dialog1.setContentView(R.layout.gps_spoofying_indicator)
+        dialog1.window!!.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog1.window?.setDimAmount(0.5f)
+        dialog1.window!!.attributes!!.windowAnimations = R.style.DialogTheme
+        dialog1.show()
+    }
 }

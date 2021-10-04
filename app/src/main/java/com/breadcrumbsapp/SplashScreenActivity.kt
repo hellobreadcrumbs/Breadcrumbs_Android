@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Base64
+import android.util.DisplayMetrics
 import androidx.appcompat.app.AppCompatActivity
 import com.breadcrumbsapp.databinding.SplashScreenBinding
 import com.breadcrumbsapp.util.SessionHandlerClass

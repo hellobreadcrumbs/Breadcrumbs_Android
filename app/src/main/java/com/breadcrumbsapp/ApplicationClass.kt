@@ -1,22 +1,26 @@
 package com.breadcrumbsapp
 
 import android.app.Activity
+import android.app.AppOpsManager
 import android.app.Application
 import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
-import android.view.Gravity
+import android.os.Process
+import android.provider.Settings
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.multidex.MultiDexApplication
+import com.breadcrumbsapp.receiver.MyReceiver
 
 
 class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCallbacks {
@@ -25,25 +29,57 @@ class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCal
     lateinit var dialog: Dialog
 
     private val networkChangeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent?) {
+        override fun onReceive(context: Context, intent: Intent) {
+            Log.d("MainActivity", "onReceive: ")
 
-            val toast: Toast = Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG)
-            toast.setGravity(Gravity.CENTER, 0, 0)
-            println("Receiver = " + getConnectionType(context))
-            dialog = Dialog(context, R.style.FirebaseUI_Transparent)
-            if (getConnectionType(context) == 0) {
-                // noInternetConnectionDialog()
-                toast.show()
-            } else {
-                if (dialog.isShowing) {
-                    dialog.dismiss()
-                }
-                toast.cancel()
-                // do nothing..
-                //  Toast.makeText(context,"Connected!",Toast.LENGTH_LONG).show()
+
+            if(!isInternetAvailable(context))
+            {
+                noInternetConnectionDialog()
             }
+
+            else
+            {
+                if (dialog != null) {
+                    if (dialog.isShowing) {
+                        dialog.dismiss()
+                    }
+                }
+            }
+
+
+
         }
     }
+
+    fun isInternetAvailable(context: Context): Boolean {
+        val conMgr = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = conMgr.activeNetwork
+            val networkCapabilities = conMgr.getNetworkCapabilities(network)
+            networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                ?: false
+        } else {
+            // below API Level 23
+            (conMgr.activeNetworkInfo != null && conMgr.activeNetworkInfo!!.isAvailable
+                    && conMgr.activeNetworkInfo!!.isConnected)
+        }
+    }
+
+
+    private fun noInternetConnectionDialog() {
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.internet_connection_layout)
+        dialog.window!!.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog.window?.setDimAmount(0.5f)
+        dialog.window!!.attributes!!.windowAnimations = R.style.DialogTheme
+        dialog.show()
+    }
+
+
 
     override fun onCreate() {
         super.onCreate()
@@ -58,18 +94,34 @@ class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCal
 
     override fun onActivityStarted(activity: Activity) {
         mActivity = activity
+        dialog = Dialog(mActivity, R.style.FirebaseUI_Transparent)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+
+        val br: BroadcastReceiver = MyReceiver(mActivity)
+        val filter = IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION)
+        registerReceiver(br, filter)
+
         val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         registerReceiver(networkChangeReceiver, intentFilter)
+
+
+
     }
 
     override fun onActivityResumed(activity: Activity) {
         mActivity = activity
+
+        val br: BroadcastReceiver = MyReceiver(mActivity)
+        val filter = IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION)
+        registerReceiver(br, filter)
+
         val intentFilter = IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION)
         registerReceiver(networkChangeReceiver, intentFilter)
     }
 
     override fun onActivityPaused(activity: Activity) {
-        unregisterReceiver(networkChangeReceiver)
+       unregisterReceiver(networkChangeReceiver)
     }
 
     override fun onActivityStopped(activity: Activity) {}
@@ -78,45 +130,4 @@ class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCal
 
     override fun onActivityDestroyed(activity: Activity) {}
 
-
-    fun getConnectionType(context: Context): Int {
-        var result = 0 // Returns connection type. 0: none; 1: mobile data; 2: wifi
-        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            cm?.run {
-                cm.getNetworkCapabilities(cm.activeNetwork)?.run {
-                    when {
-                        hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
-                            return 2
-                        }
-                        hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
-                            return 1
-                        }
-                        hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> {
-                            return 3
-                        }
-                        else -> return 0
-                    }
-                }
-            }
-        } else {
-            cm?.run {
-                cm.activeNetworkInfo?.run {
-                    when (type) {
-                        ConnectivityManager.TYPE_WIFI -> {
-                            return 2
-                        }
-                        ConnectivityManager.TYPE_MOBILE -> {
-                            return 1
-                        }
-                        ConnectivityManager.TYPE_VPN -> {
-                            return 3
-                        }
-                        else -> return 0
-                    }
-                }
-            }
-        }
-        return 0
-    }
 }

@@ -9,7 +9,7 @@
         android:id="@+id/constraintLayout9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#CD462A"
+        android:background="#3AAFE3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -20,7 +20,7 @@
             android:layout_marginTop="15dp"
             android:fontFamily="@font/claritycity_bold"
             android:gravity="center_horizontal"
-            android:text="@string/no_internet"
+            android:text="@string/GPS_SIGNAL_LOST"
             android:textColor="@color/white"
             android:textSize="@dimen/disclaimer_content_text_size"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/dinish_bold"
             android:gravity="center_horizontal"
-            android:text="@string/no_internet_message"
+            android:text="@string/Please_ensure_that_your_GPS_is_enabled"
             android:textColor="@color/white"
             android:textSize="@dimen/discovery_screen_player_name_text_size"
             app:layout_constraintEnd_toEndOf="parent"

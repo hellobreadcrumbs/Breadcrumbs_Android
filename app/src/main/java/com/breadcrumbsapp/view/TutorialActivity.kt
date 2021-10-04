@@ -1,7 +1,13 @@
 package com.breadcrumbsapp.view
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Insets
+import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.view.WindowInsets
+import android.view.WindowMetrics
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -38,8 +44,11 @@ class TutorialActivity : AppCompatActivity() {
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.recyclerview)
 
-        // Page Indicator.,
 
+        getDeviceDPI()
+
+
+        // Page Indicator.,
 
         binding.navigateButton.text=resources.getText(R.string.skip_text)
 
@@ -81,6 +90,20 @@ class TutorialActivity : AppCompatActivity() {
 
 
        binding.indicator.attachToRecyclerView(binding.recyclerview  )
+
+    }
+
+    private fun getDeviceDPI()
+    {
+        println("Density Range => getDeviceDPI == ${resources.displayMetrics.densityDpi}")
+        when ( resources.displayMetrics.densityDpi) {
+
+
+
+
+        }
+
+
 
     }
 }
