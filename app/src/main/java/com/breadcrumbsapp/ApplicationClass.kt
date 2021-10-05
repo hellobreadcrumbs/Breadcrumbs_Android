@@ -1,7 +1,6 @@
 package com.breadcrumbsapp
 
 import android.app.Activity
-import android.app.AppOpsManager
 import android.app.Application
 import android.app.Dialog
 import android.content.BroadcastReceiver
@@ -11,22 +10,22 @@ import android.content.IntentFilter
 import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Process
-import android.provider.Settings
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import androidx.multidex.MultiDexApplication
-import com.breadcrumbsapp.receiver.MyReceiver
 
 
 class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCallbacks {
 
     private lateinit var mActivity: Activity
     lateinit var dialog: Dialog
+    private var isGpsEnabled = false
+    private var isNetworkEnabled = false
+    var locationDialog: Dialog?=null
+
 
     private val networkChangeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -52,6 +51,42 @@ class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCal
         }
     }
 
+
+
+    private val locationStateChangeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            Log.d("MainActivity", "onReceive: ")
+
+
+            if (LocationManager.PROVIDERS_CHANGED_ACTION == intent.action) {
+
+                val locationManager =
+                    context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+
+
+                println(" $isGpsEnabled => $isNetworkEnabled")
+                if (!isGpsEnabled || !isNetworkEnabled) {
+                    try {
+
+                        noGPSLocationDialog(true)
+
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+
+                    }
+                } else {
+                    noGPSLocationDialog(false)
+                }
+
+            }
+
+
+        }
+    }
+
     fun isInternetAvailable(context: Context): Boolean {
         val conMgr = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -66,7 +101,6 @@ class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCal
         }
     }
 
-
     private fun noInternetConnectionDialog() {
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.internet_connection_layout)
@@ -79,7 +113,36 @@ class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCal
         dialog.show()
     }
 
+    private fun noGPSLocationDialog(boolValue: Boolean) {
 
+        try {
+            if(locationDialog==null)
+            {
+                locationDialog = Dialog(mActivity, R.style.FirebaseUI_Transparent)
+                locationDialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+            }
+
+            locationDialog!!.setCancelable(false)
+            locationDialog!!.setContentView(R.layout.gps_indiaction_layout)
+            locationDialog!!.window!!.setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT
+            )
+            locationDialog!!.window?.setDimAmount(0.5f)
+            locationDialog!!.window!!.attributes!!.windowAnimations = R.style.DialogTheme
+            if (boolValue) {
+
+                println("Application Class => noGPSLocationDialog => $boolValue")
+                locationDialog!!.show()
+            } else {
+                locationDialog!!.dismiss()
+                println("Application Class => noGPSLocationDialog => $boolValue ==> ${locationDialog!!.isShowing}")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -97,37 +160,40 @@ class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCal
         dialog = Dialog(mActivity, R.style.FirebaseUI_Transparent)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
-
-        val br: BroadcastReceiver = MyReceiver(mActivity)
+       // val br: BroadcastReceiver = locationStateChangeReceiver
         val filter = IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION)
-        registerReceiver(br, filter)
+        registerReceiver(locationStateChangeReceiver, filter)
 
         val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         registerReceiver(networkChangeReceiver, intentFilter)
 
-
-
     }
 
     override fun onActivityResumed(activity: Activity) {
+
         mActivity = activity
+        dialog = Dialog(mActivity, R.style.FirebaseUI_Transparent)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
-        val br: BroadcastReceiver = MyReceiver(mActivity)
+        // val br: BroadcastReceiver = locationStateChangeReceiver
         val filter = IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION)
-        registerReceiver(br, filter)
+        registerReceiver(locationStateChangeReceiver, filter)
 
-        val intentFilter = IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION)
+        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         registerReceiver(networkChangeReceiver, intentFilter)
+
     }
 
-    override fun onActivityPaused(activity: Activity) {
-       unregisterReceiver(networkChangeReceiver)
-    }
+    override fun onActivityPaused(activity: Activity) {}
 
     override fun onActivityStopped(activity: Activity) {}
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
 
-    override fun onActivityDestroyed(activity: Activity) {}
+    override fun onActivityDestroyed(activity: Activity)
+    {
+        unregisterReceiver(networkChangeReceiver)
+        unregisterReceiver(locationStateChangeReceiver)
+    }
 
 }

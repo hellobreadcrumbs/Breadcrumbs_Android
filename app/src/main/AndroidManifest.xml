@@ -15,7 +15,7 @@
         android:usesCleartextTraffic="true"
         tools:overrideLibrary="androidx.camera.lifecycle">
 
-        <receiver
+      <!--  <receiver
             android:name=".receiver.MyReceiver"
             android:enabled="true"
             android:exported="true">
@@ -23,7 +23,7 @@
                 <action android:name="android.location.PROVIDERS_CHANGED" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
         <activity android:name=".SplashScreenActivity">
             <intent-filter>
