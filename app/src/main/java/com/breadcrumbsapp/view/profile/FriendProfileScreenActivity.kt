@@ -85,7 +85,7 @@ class FriendProfileScreenActivity : AppCompatActivity() {
 
 
 
-        println("Friend ID details.. ${friendID} , ${friendUserID}")
+        println("Friend ID details.. $friendID , ${friendUserID} , $friendStatus")
 
         selected_player_profile_name.text = "${username}'s Profile"
         selected_player_leaderBoard_playerName.text = username

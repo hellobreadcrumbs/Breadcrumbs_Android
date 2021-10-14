@@ -74,6 +74,8 @@ internal class RecommendedFriendsAdapter() :
                 Intent(context, FriendProfileScreenActivity::class.java)
                     .putExtra("username", data.username)
                     .putExtra("friend_id", data.id)
+                    .putExtra("friend_status", data.ua_status)
+                    .putExtra("friend_user_id",data.ua_id)
                     .putExtra("total_xp", data.experience)
                     .putExtra("profile_pic", data.profile_picture)
                     .putExtra("player_level",holder.friendLevelTv.text.toString())
@@ -246,9 +248,13 @@ internal class RecommendedFriendsAdapter() :
                 if (searchTxt.isNotEmpty()){
                     var list = ArrayList<RecommendedFriendsModel.Message>()
 
+                    println("searchTxt => $searchTxt")
                     getFeedsLocalObj.filter {
-                        (it.username.contains(searchTxt)) or (it.email.contains(searchTxt))
+                        println("searchTxt => Filet => $searchTxt")
+                       // (it.username.contains(searchTxt)) or (it.email.contains(searchTxt))
+                        (it.username.startsWith(searchTxt)) or (it.email.startsWith(searchTxt))
                     }.forEach {
+                        println("searchTxt => list => ${it.username}")
                         list.add(it)
                     }
                     filteredList.clear()

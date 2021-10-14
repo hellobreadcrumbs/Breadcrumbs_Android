@@ -25,6 +25,7 @@
             </intent-filter>
         </receiver>-->
 
+        <activity android:name=".MainActivity"/>
         <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

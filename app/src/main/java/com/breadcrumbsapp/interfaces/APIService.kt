@@ -28,13 +28,6 @@ interface APIService {
     // suspend fun getTrailsList(@Body requestBody: RequestBody): Response<ResponseBody>
 
 
-    @GET("/maps/api/directions/json")
-    fun getDirections(
-        @Query("origin") origin: String,
-        @Query("destination") destination: String,
-        @Query("key") key: String
-    )
-
 
     @Headers("Accept:application/json", "Content-Type:application/json;")
     @POST("v1/api/get_events")
@@ -145,13 +138,13 @@ interface APIService {
         @Part file: MultipartBody.Part
     ): Response<JsonObject>
 
-    @Headers("Accept:application/json", "Content-Type:application/json;")
+   /* @Headers("Accept:application/json", "Content-Type:application/json;")
     @POST("v1/api/begin_challenge")
     suspend fun beginChallenge(
         @Header("Authorization") h1: String,
         @Body requestBody: RequestBody
     )
-
+*/
     @Headers("Accept:application/json", "Content-Type:application/json;")
     @POST("v1/api/begin_set_challenge")
     suspend fun beginSetChallenge(

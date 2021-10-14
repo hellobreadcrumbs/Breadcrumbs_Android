@@ -236,11 +236,18 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
         //"created": "2021-07-26 06:45:47",
 
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val serverFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+
+
 
         try {
             val postCreatedDate: Date = dateFormat.parse(data.created)
             val currentDate = Date()
             println("Date Is :  Old Date = $postCreatedDate , Today Date = $currentDate")
+
+
+            val postCreatedDate1: Date = serverFormat.parse(data.created)
+            println("Date Is :  New Format= $postCreatedDate1")
 
 
             //  val diff = postCreatedDate.time - currentDate.time

@@ -160,7 +160,7 @@ class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCal
         dialog = Dialog(mActivity, R.style.FirebaseUI_Transparent)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
-       // val br: BroadcastReceiver = locationStateChangeReceiver
+
         val filter = IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION)
         registerReceiver(locationStateChangeReceiver, filter)
 
@@ -192,8 +192,7 @@ class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCal
 
     override fun onActivityDestroyed(activity: Activity)
     {
-        unregisterReceiver(networkChangeReceiver)
-        unregisterReceiver(locationStateChangeReceiver)
+
     }
 
 }

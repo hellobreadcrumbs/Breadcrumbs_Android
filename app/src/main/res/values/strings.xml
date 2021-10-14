@@ -292,7 +292,7 @@
     <string name="no_pending_request_text">No pending requests</string>
     <string name="no_new_request_text">No new requests</string>
     <string name="retry">Retry</string>
-    <string name="internet_conection_lost">INTERNET CONNECTION LOST</string>
+
     <string name="please_reconnect_to_the_internet_to_continue_playing">please reconnect to the internet to continue playing</string>
     <string name="GPS_SPOOFING_APP_DETECTED">GPS SPOOFING APP DETECTED</string>
     <string name="Please_disable_spoofing_apps_to_keep_playing">Please disable spoofing apps to keep playing.</string>

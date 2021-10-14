@@ -63,6 +63,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
     private lateinit var sharedPreference: SessionHandlerClass
     private var tempFile: String = ""
     private lateinit var dateFormat: String
+    private lateinit var dateParam: String
     private lateinit var poiID: String
     private var selectedTrailID: String = ""
 
@@ -567,10 +568,21 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
                 imagePostLayout.visibility = View.VISIBLE
 
                 poiID = sharedPreference.getSession("selectedPOIID").toString()
-                dateFormat = SimpleDateFormat(FILENAME, Locale.US).format(System.currentTimeMillis())
+                val c = Calendar.getInstance()
+             //   dateFormat = SimpleDateFormat(FILENAME, Locale.US).format(System.currentTimeMillis())
+                val month =c.get(Calendar.MONTH)
+                dateFormat="${c.get(Calendar.DAY_OF_MONTH)}${month+1}${c.get(Calendar.YEAR)}${c.get(Calendar.HOUR_OF_DAY)}${c.get(Calendar.MINUTE)}${c.get(Calendar.SECOND)}"
                 tempFile =
                     "uri:${result.uri}" + ",type:'image/jpeg',name:'selfie_challenge_'$dateFormat+_$poiID.jpg"
                 println("tempFile $dateFormat")
+
+
+
+                  dateParam="${c.get(Calendar.YEAR)}-${month+1}-${c.get(Calendar.DAY_OF_MONTH)} ${c.get(Calendar.HOUR_OF_DAY)}:${c.get(
+                    Calendar.MINUTE)}:${c.get(Calendar.SECOND)}"
+
+                println("dateParam= $dateParam")
+
 
                 val f = File(resultUri.path)
                 val newFile = createImageFile()
@@ -642,9 +654,12 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
     }
 
     private fun createImageFile(): File? {
+        val c = Calendar.getInstance()
 
+        val month =c.get(Calendar.MONTH)
+        dateFormat="${c.get(Calendar.DAY_OF_MONTH)}${month+1}${c.get(Calendar.YEAR)}${c.get(Calendar.HOUR)}${c.get(Calendar.MINUTE)}${c.get(Calendar.SECOND)}"
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
-        val imageFileName = "selfie_pic_$timeStamp"
+        val imageFileName = "selfie_pic_$dateFormat"
         val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         return File.createTempFile(
             imageFileName,  /* prefix */
@@ -655,9 +670,10 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
 
     private fun updateFile(loginID: String, poiID: String) {
 
-        println("Selfie selectedFile.name == ${selectedFile.name}")
+        println("Selfie tempFile == $tempFile")
         println("Selfie login == $loginID")
         println("Selfie poiID == $poiID")
+        println("Selfie dateParam == $dateParam")
 
         val id: RequestBody =
             loginID.toRequestBody(contentType = "text/plain".toMediaTypeOrNull())
@@ -666,7 +682,7 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
         val reqFile: RequestBody =
             selectedFile.asRequestBody("image/jpeg".toMediaTypeOrNull())//RequestBody.create( selectedFile, MediaType.parse("image/*"))
         val multiPartFile = MultipartBody.Part.createFormData(
-            "file", selectedFile.name,
+            "file", tempFile,
             reqFile
         )
 
@@ -726,6 +742,6 @@ class SelfieChallengeImagePostActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val FILENAME = "dd-MM-yyyy-HH-MM-SS"
+        private const val FILENAME = "dd-MM-yyyy-hh-mm-ss"
     }
 }

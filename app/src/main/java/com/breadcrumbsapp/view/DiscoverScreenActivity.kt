@@ -45,20 +45,19 @@ import androidx.fragment.app.FragmentActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.breadcrumbsapp.BuildConfig
+
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.R.drawable.*
 import com.breadcrumbsapp.R.layout.trail_layout
 import com.breadcrumbsapp.R.style.FirebaseUI_Transparent
 import com.breadcrumbsapp.adapter.*
 import com.breadcrumbsapp.interfaces.APIService
+import com.breadcrumbsapp.interfaces.LatLngInterpolator
 import com.breadcrumbsapp.interfaces.POIclickedListener
 import com.breadcrumbsapp.model.DistanceMatrixApiModel
 import com.breadcrumbsapp.model.GetEventsModel
 import com.breadcrumbsapp.service.LocationUpdatesService
-import com.breadcrumbsapp.util.CommonData
-import com.breadcrumbsapp.util.RecyclerItemClickListenr
-import com.breadcrumbsapp.util.SessionHandlerClass
+import com.breadcrumbsapp.util.*
 import com.breadcrumbsapp.view.profile.ProfileScreenActivity
 import com.breadcrumbsapp.view.rewards.RewardsScreenActivity
 import com.bumptech.glide.Glide
@@ -67,6 +66,7 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import com.google.gson.JsonArray
 import com.google.gson.JsonParser
+import com.google.maps.android.BuildConfig
 import com.google.maps.android.SphericalUtil
 import kotlinx.android.synthetic.main.available_trails_layout.*
 import kotlinx.android.synthetic.main.discover_screen_activity.*
@@ -316,16 +316,21 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                             }
 
                             println("updateCurrentLocation Status => $isDrawPathClicked , $isMarkerClicked")
-                            if (isDrawPathClicked || isMarkerClicked) {
-                                updateCurrentLocation(latLng, "1") //1
-                            }
+                           // if (isDrawPathClicked || isMarkerClicked) {
+                                 updateCurrentLocation(latLng, "1") //1
+                            //}
 
+                          /*  runOnUiThread {
+                                Handler().postDelayed(Runnable {
+                                    updateCurrentLocation(latLng, "1")
+                                }, 16)
+                            }*/
 
                             println("isMockLocationEnabled = > ${isMockLocationEnabled()}")
 
 
-                           // if(isMockLocationEnabled())
-                            if(mService!!.currentLocation!!.isFromMockProvider)
+                           // DETECT mock app
+                           /* if(mService!!.currentLocation!!.isFromMockProvider)
                             {
 
                                 mockLocationAppDetectDialog()
@@ -337,7 +342,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                                         dialog1.dismiss()
                                     }
                                 }
-                            }
+                            }*/
 
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -1109,27 +1114,34 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 ).anchor(0.5f, 0.5f).rotation(bearing).flat(true)
             )
 
+
+
             println("*** Triggered $isGesturedOnMap")
 
 
             mMap.uiSettings.isCompassEnabled = false
 
+           /* MarkerAnimation.animateMarkerToGB(currentLocationMarker!!, newLatLng,
+                LatLngInterpolator.Spherical(), mMap)
+            lastlatlng?.let {
+                currentLocationMarker!!.rotation = getBearing( it, newLatLng)
+            }*/
 
             if (!isGesturedOnMap) {
-                // mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng))
+
+                if (!isDrawPathClicked || !isMarkerClicked)
+                {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng))
+
+
+                }
                 val cameraPosition = CameraPosition.Builder()
                     .target(newLatLng)
-                    // Sets the center of the map to Mountain View
-                    .zoom(19.0f)            // Sets the zoom
-                    // .bearing(bearing)         // Sets the orientation of the camera to east
-                    .tilt(0f)             // Sets the tilt of the camera to 30 degrees
-                    .build()              // Creates a CameraPosition from the builder
+                    .zoom(19.0f)
+                    .tilt(0f)
+                    .build()
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-
             }
-
-            // mMap.animateCamera(CameraUpdateFactory.zoomTo(19.0f))
-
 
             lastlatlng = newLatLng
 
@@ -1140,7 +1152,20 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
     }
 
+    private fun getBearing( begin : LatLng,  end : LatLng) : Float {
+        val lat = Math.abs(begin.latitude - end.latitude);
+        val lng = Math.abs(begin.longitude - end.longitude);
 
+        if (begin.latitude < end.latitude && begin.longitude < end.longitude)
+            return(Math.toDegrees(Math.atan(lng / lat))).toFloat()
+        else if (begin.latitude >= end.latitude && begin.longitude < end.longitude)
+            return ((90 - Math.toDegrees(Math.atan(lng / lat))) + 90).toFloat()
+        else if (begin.latitude >= end.latitude && begin.longitude >= end.longitude)
+            return (Math.toDegrees(Math.atan(lng / lat)) + 180).toFloat()
+        else if (begin.latitude < end.latitude && begin.longitude >= end.longitude)
+            return  ((90 - Math.toDegrees(Math.atan(lng / lat))) + 270).toFloat()
+        return -1f;
+    }
     private fun getURL(from: LatLng, to: LatLng): String {
         val origin = "origin=" + from.latitude + "," + from.longitude
         val dest = "destination=" + to.latitude + "," + to.longitude
@@ -1342,7 +1367,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 //do nothing..
             }
 
-
         }
 
         if (ActivityCompat.checkSelfPermission(
@@ -1363,8 +1387,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         mMap.setOnMarkerClickListener(this)
 
-
-
         if (!isClicked) {
             val bundle: Bundle? = intent.extras
             val isFromLogin = bundle!!.getString("isFromLogin")
@@ -1375,7 +1397,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
             }
         }
-
 
     }
 
@@ -3232,7 +3253,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private fun mockLocationAppDetectDialog() {
 
         dialog1.setCancelable(false)
-        dialog1.setContentView(R.layout.gps_spoofying_indicator)
+        dialog1.setContentView(R.layout.gps_indiaction_layout)
         dialog1.window!!.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT
