@@ -160,6 +160,7 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
         println("Feed position : ${getFeedsLocalObj.size}")
         println("Feed name : IF =  ${data.name}")
 
+        holder.likeButton.isClickable = local_loginID != data.user_id
         // holder.likeButton.isChecked = true
 
         val localImageObj =
@@ -278,6 +279,13 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
                     holder.createdDateTextView.text = "$minutes Minute Ago"
                 } else {
                     holder.createdDateTextView.text = "$minutes Minutes Ago"
+                }
+            }
+            else if (seconds in 1..59) {
+                if (seconds == 1) {
+                    holder.createdDateTextView.text = "$seconds Second Ago"
+                } else {
+                    holder.createdDateTextView.text = "$seconds Seconds Ago"
                 }
             }
 

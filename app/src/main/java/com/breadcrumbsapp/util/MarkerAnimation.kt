@@ -43,7 +43,7 @@ object MarkerAnimation {
                 val pos = latLngInterpolator.interpolate(v, startPosition, finalPosition!!)
                 marker.position = pos
                 maps.moveCamera(CameraUpdateFactory.newLatLng(pos))
-                maps.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
+                maps.animateCamera(CameraUpdateFactory.zoomTo(19.0f))
 
                 // Repeat till progress is complete.
                 if (t < 1) {

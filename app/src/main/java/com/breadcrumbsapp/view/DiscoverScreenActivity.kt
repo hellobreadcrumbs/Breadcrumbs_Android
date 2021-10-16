@@ -1133,14 +1133,20 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 {
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng))
 
-
                 }
-                val cameraPosition = CameraPosition.Builder()
+
+                MarkerAnimation.animateMarkerToGB(currentLocationMarker!!, newLatLng,
+                    LatLngInterpolator.Spherical(), mMap)
+                lastlatlng?.let {
+                    currentLocationMarker!!.rotation = getBearing( it, newLatLng)
+                }
+
+                /*val cameraPosition = CameraPosition.Builder()
                     .target(newLatLng)
                     .zoom(19.0f)
                     .tilt(0f)
                     .build()
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))*/
             }
 
             lastlatlng = newLatLng
@@ -1153,8 +1159,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     }
 
     private fun getBearing( begin : LatLng,  end : LatLng) : Float {
-        val lat = Math.abs(begin.latitude - end.latitude);
-        val lng = Math.abs(begin.longitude - end.longitude);
+        val lat = Math.abs(begin.latitude - end.latitude)
+        val lng = Math.abs(begin.longitude - end.longitude)
 
         if (begin.latitude < end.latitude && begin.longitude < end.longitude)
             return(Math.toDegrees(Math.atan(lng / lat))).toFloat()
