@@ -14,6 +14,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.breadcrumbsapp.ApplicationClass
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.view.DiscoverScreenActivity
 import com.google.android.gms.location.*
@@ -94,7 +95,12 @@ class LocationUpdatesService : Service() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 super.onLocationResult(locationResult)
                 locationResult?.let { mLocationResult ->
-                    onNewLocation(mLocationResult.lastLocation)
+
+                    if(!ApplicationClass.sessionClear)
+                    {
+                        onNewLocation(mLocationResult.lastLocation)
+                    }
+
                 }
             }
         }

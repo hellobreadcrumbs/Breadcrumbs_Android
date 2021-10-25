@@ -161,6 +161,13 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
         println("Feed name : IF =  ${data.name}")
 
         holder.likeButton.isClickable = local_loginID != data.user_id
+        if(local_loginID == data.user_id)
+        {
+            if(data.like_count.toInt()>0)
+            {
+                holder.likeButton.isChecked = true
+            }
+        }
         // holder.likeButton.isChecked = true
 
         val localImageObj =
@@ -203,11 +210,14 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
 
             b.startAnimation(scaleAnimation)
             holder.likeCountText.startAnimation(scaleAnimation)
-            if (isChecked) {
+            println("Feed Like = $isChecked")
+           /* if (isChecked) {
                 getFeedPostLikeDetails(data.f_id, holder, position)
             } else {
                 getFeedPostLikeDetails(data.f_id, holder, position)
-            }
+            }*/
+
+            getFeedPostLikeDetails(data.f_id, holder, position)
         }
 
         holder.descriptionContent.text = data.description
@@ -501,10 +511,26 @@ internal class FeedPostAdapter(getFeed: List<GetFeedDataModel.Message>, loginID:
 
                         if (CommonData.getFeedData != null) {
                             for (i in CommonData.getFeedData!!.indices) {
-                                if (CommonData.getFeedData!![i].f_id == feedID) {
+                                if (feedID==CommonData.getFeedData!![i].f_id) {
+
+
+                                    if(CommonData.getFeedData!![i].ul_id!=null)
+                                    {
+                                        CommonData.getFeedData!![i].ul_id= null.toString()
+                                        val likeCount=CommonData.getFeedData!![i].like_count.toInt()
+                                        holder.likeCountText.text = "${likeCount-1} Like"
+                                    }
+                                    else
+                                    {
+                                        CommonData.getFeedData!![i].ul_id="0"
+                                        val likeCount=CommonData.getFeedData!![i].like_count.toInt()
+                                        holder.likeCountText.text = "${likeCount+1} Like"
+                                    }
+
                                     println("like API like_count = ${CommonData.getFeedData!![i].like_count}")
 
                                     try {
+
 
                                         context.runOnUiThread {
                                             if (CommonData.getFeedData!![i].like_count == "1") {

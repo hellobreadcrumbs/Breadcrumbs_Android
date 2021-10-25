@@ -11,6 +11,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.breadcrumbsapp.ApplicationClass
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.databinding.SettingsActivityBinding
 import com.breadcrumbsapp.util.SessionHandlerClass
@@ -32,13 +33,10 @@ class SettingsScreenAct : AppCompatActivity() {
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
 
-
         setonClickListeners()
     }
 
     private fun setonClickListeners() {
-
-
 
         sign_out_layout.setOnClickListener {
             signOutAlertWindow()
@@ -112,7 +110,6 @@ class SettingsScreenAct : AppCompatActivity() {
 
         okBtn.setOnClickListener {
 
-            //Toast.makeText(applicationContext,"Under Construction",Toast.LENGTH_SHORT).show()
             dialog.dismiss()
 
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -125,7 +122,8 @@ class SettingsScreenAct : AppCompatActivity() {
             val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
             mGoogleSignInClient.signOut()
             sessionHandlerClass.clearSession()
-           
+
+            ApplicationClass.sessionClear=true
 
             Intent(this, LoginScreen::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -144,16 +142,14 @@ class SettingsScreenAct : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= 26) {
             vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
         } else {
-            vibrator.vibrate(100)
+            vibrator.vibrate(200)
 
         }
-
 
         sessionHandlerClass.saveBoolean("isVibratorOn",true)
     }
 
     private fun vibrateOff() {
-
         sessionHandlerClass.saveBoolean("isVibratorOn",false)
         println("Vibrator Status = Setting Class = ${sessionHandlerClass.getBoolean("isVibratorOn")}")
         vibrator.cancel()

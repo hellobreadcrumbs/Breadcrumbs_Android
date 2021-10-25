@@ -7,7 +7,7 @@ Details....
 
 1. On marker click method for marker click
 2. searchButton.setOnClick - for search button
-3. com.breadcrumbsapp.service.LocationUpdatesService -> fun onNewLocation()
+3.  com.breadcrumbsapp.service.LocationUpdatesService -> fun onNewLocation()
 4.  getTrailListFromAPI() - This method helps to load POI
 5.  POI Image name - poi_breadcrumbs_marker_undiscovered_1,poi_breadcrumbs_marker_undiscovered_2
 6.  ch_type = 0 means, selfie. Else, quiz.
@@ -29,7 +29,6 @@ import android.os.StrictMode.ThreadPolicy
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
 import android.view.animation.*
@@ -45,19 +44,18 @@ import androidx.fragment.app.FragmentActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.breadcrumbsapp.R
 import com.breadcrumbsapp.R.drawable.*
 import com.breadcrumbsapp.R.layout.trail_layout
 import com.breadcrumbsapp.R.style.FirebaseUI_Transparent
 import com.breadcrumbsapp.adapter.*
 import com.breadcrumbsapp.interfaces.APIService
-import com.breadcrumbsapp.interfaces.LatLngInterpolator
 import com.breadcrumbsapp.interfaces.POIclickedListener
 import com.breadcrumbsapp.model.DistanceMatrixApiModel
 import com.breadcrumbsapp.model.GetEventsModel
 import com.breadcrumbsapp.service.LocationUpdatesService
 import com.breadcrumbsapp.util.*
+import com.breadcrumbsapp.util.AnimationUtils
 import com.breadcrumbsapp.view.profile.ProfileScreenActivity
 import com.breadcrumbsapp.view.rewards.RewardsScreenActivity
 import com.bumptech.glide.Glide
@@ -164,6 +162,9 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     // A reference to the service used to get location updates.
     private var mService: LocationUpdatesService? = null
     private var broadcastReceiver: BroadcastReceiver? = null
+    private var previousLatLng: LatLng? = null
+    private var prevBearing: Double? = null
+    private var currentLatLng: LatLng? = null
     private var currentLocationMarker: Marker? = null
     private var clickedMarker: Marker? = null
     private lateinit var inputMethodManager: InputMethodManager
@@ -197,7 +198,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     private var isLevelUpPopUp: Boolean = false
     private var isRewardPopUp: Boolean = false
     private var levelPopUpValue: Int = 0
-    private var levelPopUpRankingText: String=""
+    private var levelPopUpRankingText: String = ""
     private var achievementUnlockImage: String = ""
     private var achievementUnlockTitle: String = ""
     private val REQUEST_STORAGE_PERMISSION = 505
@@ -214,7 +215,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         }
         return null
     }
-    lateinit var dialog1:Dialog
+
+    lateinit var dialog1: Dialog
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("MissingPermission", "ResourceType", "UseCompatLoadingForDrawables")
@@ -292,9 +294,8 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                                     println("clicked_btn:: ${sharedPreference.getSession("clicked_button")}")
                                     if (sharedPreference.getSession("clicked_button") != "take_me_there" &&
                                         sharedPreference.getSession("clicked_button") != "no_reload" &&
-                                        sharedPreference.getSession("clicked_button") == ""
-
-                                    ) {
+                                        sharedPreference.getSession("clicked_button") == "")
+                                        {
 
                                         println("On Map Ready :: Receiver=> $latLng")
                                         if (sharedPreference.getSession("selected_trail_id") == "") {
@@ -312,37 +313,29 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                                         drawPath()
                                     }
                                 }
-
                             }
 
-                            println("updateCurrentLocation Status => $isDrawPathClicked , $isMarkerClicked")
-                           // if (isDrawPathClicked || isMarkerClicked) {
-                                 updateCurrentLocation(latLng, "1") //1
-                            //}
-
-                          /*  runOnUiThread {
-                                Handler().postDelayed(Runnable {
-                                    updateCurrentLocation(latLng, "1")
-                                }, 16)
-                            }*/
-
-                            println("isMockLocationEnabled = > ${isMockLocationEnabled()}")
+                              runOnUiThread {
+                                  Handler().postDelayed(Runnable {
+                                      updateCurrentLocation(latLng,"1")
+                                  }, 3000)
+                              }
 
 
-                           // DETECT mock app
-                           /* if(mService!!.currentLocation!!.isFromMockProvider)
-                            {
+                            // DETECT mock app
+                            /* if(mService!!.currentLocation!!.isFromMockProvider)
+                             {
 
-                                mockLocationAppDetectDialog()
-                            }
-                            else
-                            {
-                                if (dialog1 != null) {
-                                    if (dialog1.isShowing) {
-                                        dialog1.dismiss()
-                                    }
-                                }
-                            }*/
+                                 mockLocationAppDetectDialog()
+                             }
+                             else
+                             {
+                                 if (dialog1 != null) {
+                                     if (dialog1.isShowing) {
+                                         dialog1.dismiss()
+                                     }
+                                 }
+                             }*/
 
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -389,8 +382,9 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             startActivity(Intent(applicationContext, TrailScreenActivity::class.java))
         }
         discover_icon_large.setOnClickListener {
-           /* Toast.makeText(applicationContext,"clicked",100)
-                .show()   */     }
+            /* Toast.makeText(applicationContext,"clicked",100)
+                 .show()   */
+        }
         moreIcon.setOnClickListener {
 
             if (moreButtonClicked == 0) {
@@ -559,7 +553,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                     // Open the poi list..
 
                     sharedPreference.saveSession("toggle_button", "list")
-                    println("Dist Sie = ${distanceMatrixApiModelObj.size}== ${CommonData.eventsModelMessage!!.size}")
+                    println("Dist Size = ${distanceMatrixApiModelObj.size}== ${CommonData.eventsModelMessage!!.size}")
                     if (CommonData.eventsModelMessage != null
                         || CommonData.eventsModelMessage!!.isNotEmpty() && (distanceMatrixApiModelObj.size > 0)
                     ) {
@@ -608,10 +602,9 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
                     if (sharedPreference.getSession("clicked_button").equals("take_me_there")
                         || sharedPreference.getSession("clicked_button").equals("from_back_button")
-                        ||isMarkerClicked)
-                    {
-                        if(trailsNameText.text!="")
-                        {
+                        || isMarkerClicked
+                    ) {
+                        if (trailsNameText.text != "") {
                             markWindowConstraintLayout.visibility = View.VISIBLE
                             takeMeBtn.visibility = View.VISIBLE
                             profileLayout.visibility = View.GONE
@@ -633,7 +626,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         takeMeBtn.setOnClickListener {
 
-            var from = ""
+            val from: String
             when {
 
                 takeMeBtn.text.equals(resources.getString(R.string.take_me_there)) -> {
@@ -653,7 +646,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                     )
                 }
             }
-
 
         }
 
@@ -761,7 +753,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             }
 
         })
-
 
     }
 
@@ -885,8 +876,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             }
         } else if (sharedPreference.getSession("toggle_button").equals("map")) {
             // open the map screen
-            if(trailsNameText.text!="")
-            {
+            if (trailsNameText.text != "") {
                 mapListToggleButton.isChecked = false
                 sharedPreference.saveSession("toggle_button", "map")
                 isListScreen = false
@@ -987,7 +977,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     }
 
     // Monitors the state of the connection to the service.
-    private var mServiceConnection: ServiceConnection = object : ServiceConnection {
+    public var mServiceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val binder: LocationUpdatesService.LocalBinder =
                 service as LocationUpdatesService.LocalBinder
@@ -1048,6 +1038,16 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         profileLayout.visibility = View.VISIBLE
 
     }
+    private fun addCarMarkerAndGet(latLng: LatLng,bearing:Float): Marker {
+        val bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(MapUtils.getCarBitmap(this))
+        return mMap.addMarker(
+            MarkerOptions().position(latLng).flat(true).icon(bitmapDescriptor)
+        )
+    }
+    private fun animateCamera(latLng: LatLng) {
+        val cameraPosition = CameraPosition.Builder().target(latLng).zoom(18.0f).build()
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+    }
 
     var lastlatlng: LatLng? = null
     private fun updateCurrentLocation(newLatLng: LatLng?, place: String) {
@@ -1055,9 +1055,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         println("updateCurrentLocation => $newLatLng :: $place")
 
         if (newLatLng != null) {
-            if (null != currentLocationMarker) {
-                currentLocationMarker!!.remove()
-            }
 
             val distance = lastRouteLog?.let {
                 SphericalUtil.computeDistanceBetween(newLatLng, it)
@@ -1086,7 +1083,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
             }
 
-
             var bearing = lastlatlng?.let {
                 val lastLocation = Location("LastLatLng")
                 lastLocation.latitude = it.latitude
@@ -1098,7 +1094,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
                 SphericalUtil.computeHeading(it, newLatLng).toFloat()
 
-
             } ?: kotlin.run {
                 -50.12f
             }
@@ -1107,71 +1102,103 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
             if (bearing == 0.0f) {
                 bearing = -50.12f
             }
-
-            currentLocationMarker = mMap.addMarker(
+            if(currentLocationMarker!=null)
+            {
+                currentLocationMarker!!.remove()
+            }
+            currentLocationMarker=addCarMarkerAndGet(newLatLng,bearing)
+        /*    currentLocationMarker = mMap.addMarker(
                 MarkerOptions().position(newLatLng).icon(
                     BitmapDescriptorFactory.fromResource(map_current_location_marker)
                 ).anchor(0.5f, 0.5f).rotation(bearing).flat(true)
-            )
+            )*/
+            if (!isGesturedOnMap)
+            {
+                if (previousLatLng == null) {
+                    currentLatLng = latLng
+                    previousLatLng = currentLatLng
+                    currentLocationMarker?.position = currentLatLng
+                    currentLocationMarker?.setAnchor(0.5f, 0.5f)
 
 
+                    animateCamera(currentLatLng!!)
+                }
+                else {
+                    prevBearing = SphericalUtil.computeHeading(previousLatLng!!, currentLatLng!!)
+                    previousLatLng = currentLatLng
+                    currentLatLng = latLng
+                    Log.wtf("PrevBearing:", "$prevBearing")
+                    val valueAnimator = AnimationUtils.carAnimator()
+                    valueAnimator.addUpdateListener { va ->
+                        if (currentLatLng != null && previousLatLng != null) {
 
-            println("*** Triggered $isGesturedOnMap")
+                            val multiplier = va.animatedFraction
+                            val nextLocation = LatLng(
+                                multiplier * currentLatLng!!.latitude + (1 - multiplier) * previousLatLng!!.latitude,
+                                multiplier * currentLatLng!!.longitude + (1 - multiplier) * previousLatLng!!.longitude
+                            )
+                            currentLocationMarker?.position = nextLocation
+
+                            /*     ** Calculating the difference between bearings and only animating the diff value rotation, which removes the jerk
+                                 *   Just make sure the next location update doesn't come before this valueAnimator ends, adjust the
+                                 *   valueAnimator's duration less than the location update (animationDuration < UpdateInterval)*/
+                            val offsetBearing = (SphericalUtil.computeHeading(previousLatLng!!,nextLocation) - prevBearing!!)
+                         //   val rotation = prevBearing!! + multiplier * offsetBearing
+                            val rotation = bearing + multiplier * offsetBearing
+                            Log.wtf("animated_bearing:", "$rotation")
+
+                            // **Non animated rotation but Jerk free, Uncomment below line & comment out the above 3 lines to use this
+                            //val rotation = SphericalUtil.computeHeading(previousLatLng!!,currentLatLng)
+
+                            if (!rotation.isNaN() && rotation>0) {
+                                currentLocationMarker?.rotation = rotation.toFloat()
+                            }
+
+                            currentLocationMarker?.setAnchor(0.5f, 0.5f)
+                            animateCamera(nextLocation)
+                        }
+                    }
+                    valueAnimator.start()
+                }
+            }
 
 
             mMap.uiSettings.isCompassEnabled = false
 
-           /* MarkerAnimation.animateMarkerToGB(currentLocationMarker!!, newLatLng,
-                LatLngInterpolator.Spherical(), mMap)
-            lastlatlng?.let {
-                currentLocationMarker!!.rotation = getBearing( it, newLatLng)
-            }*/
+             /*if (!isGesturedOnMap) {
 
-            if (!isGesturedOnMap) {
-
-                if (!isDrawPathClicked || !isMarkerClicked)
-                {
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng))
-
-                }
-
-                MarkerAnimation.animateMarkerToGB(currentLocationMarker!!, newLatLng,
-                    LatLngInterpolator.Spherical(), mMap)
-                lastlatlng?.let {
-                    currentLocationMarker!!.rotation = getBearing( it, newLatLng)
-                }
-
-                /*val cameraPosition = CameraPosition.Builder()
-                    .target(newLatLng)
-                    .zoom(19.0f)
-                    .tilt(0f)
-                    .build()
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))*/
-            }
-
+                 if (!isDrawPathClicked || !isMarkerClicked)
+                 {
+                     mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng))
+                 }
+                 val cameraPosition = CameraPosition.Builder()
+                     .target(newLatLng)
+                     .zoom(19.0f)
+                     .tilt(0f)
+                     .build()
+                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+             }*/
             lastlatlng = newLatLng
-
-
         } else {
             println("LatLng Is NULL from current Loc.,")
         }
-
     }
 
-    private fun getBearing( begin : LatLng,  end : LatLng) : Float {
+    private fun getBearing(begin: LatLng, end: LatLng): Float {
         val lat = Math.abs(begin.latitude - end.latitude)
         val lng = Math.abs(begin.longitude - end.longitude)
 
         if (begin.latitude < end.latitude && begin.longitude < end.longitude)
-            return(Math.toDegrees(Math.atan(lng / lat))).toFloat()
+            return (Math.toDegrees(Math.atan(lng / lat))).toFloat()
         else if (begin.latitude >= end.latitude && begin.longitude < end.longitude)
             return ((90 - Math.toDegrees(Math.atan(lng / lat))) + 90).toFloat()
         else if (begin.latitude >= end.latitude && begin.longitude >= end.longitude)
             return (Math.toDegrees(Math.atan(lng / lat)) + 180).toFloat()
         else if (begin.latitude < end.latitude && begin.longitude >= end.longitude)
-            return  ((90 - Math.toDegrees(Math.atan(lng / lat))) + 270).toFloat()
-        return -1f;
+            return ((90 - Math.toDegrees(Math.atan(lng / lat))) + 270).toFloat()
+        return -1f
     }
+
     private fun getURL(from: LatLng, to: LatLng): String {
         val origin = "origin=" + from.latitude + "," + from.longitude
         val dest = "destination=" + to.latitude + "," + to.longitude
@@ -1366,8 +1393,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                             )
                         }
                     }
-
-
                 }
             } else {
                 //do nothing..
@@ -1407,7 +1432,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     }
 
 
-    private fun decodePoly(encoded: String): List<LatLng>? {
+    private fun decodePoly(encoded: String): List<LatLng> {
         val poly: MutableList<LatLng> = ArrayList()
         var index = 0
         val len = encoded.length
@@ -1493,7 +1518,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         tutRecyclerView.adapter = trailTutorialAdapter
 
         val checkBox = dialog.findViewById(R.id.checkBox) as CheckBox
-        checkBox.setOnCheckedChangeListener { _, isChecked ->
+        checkBox.setOnCheckedChangeListener { _, _ ->
             checkBox.isChecked
 
         }
@@ -1647,7 +1672,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
         val okButton = dialog.findViewById(R.id.doneButton) as TextView
 
-        okButton.setOnClickListener(View.OnClickListener {
+        okButton.setOnClickListener {
 
             println("Selected Trail : ${sharedPreference.getSession("selected_trail_id")}")
             if (sharedPreference.getSession("selected_trails").equals("")) {
@@ -1670,7 +1695,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 getEventsList(sharedPreference.getSession("selected_trail_id") as String)
             }
 
-        })
+        }
 
 
         dialog.window!!.setLayout(
@@ -1699,7 +1724,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         }
 
         val checkBox = dialog.findViewById(R.id.checkBox) as CheckBox
-        checkBox.setOnCheckedChangeListener { _, isChecked ->
+        checkBox.setOnCheckedChangeListener { _, _ ->
             checkBox.isChecked
 
         }
@@ -1775,7 +1800,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onMarkerClick(p0: Marker): Boolean {
-
 
         println("onMarkerClick = > $isMarkerClicked")
 
@@ -2040,9 +2064,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                                     CommonData.eventsModelMessage = CommonData.eventsList
                                 }
                             }
-
-
-                            //     CommonData.eventsModelMessage = response.body()?.message
                             println("************** Event Model = ${CommonData.eventsModelMessage!!.size}")
                             println("************** getEventsList = $trailID")
 
@@ -2100,27 +2121,20 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                                         e.printStackTrace()
                                     }
 
-
                                 }
                                 runOnUiThread {
                                     if (clickedMarker != null) {
-
                                         clickedMarker!!.remove()
                                     }
                                     println("On Map Ready :: Before => $latLng")
 
-
                                     mapFragment.getMapAsync(this@DiscoverScreenActivity)
                                 }
-
-
-                                println("distanceMatrixApiModelObj = Overall= ${distanceMatrixApiModelObj.size}")
+                                 println("distanceMatrixApiModelObj = Overall= ${distanceMatrixApiModelObj.size}")
                             }
                         }
                     }
-
-
-                }
+                 }
             })
 
 
@@ -2789,8 +2803,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                                 calculateUserLevel(Integer.parseInt(CommonData.getUserDetails!!.experience))
                             }
 
-                        } else {
-
                         }
                     }
                 }
@@ -2945,7 +2957,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         println("Level Text => before => ${levelTextView.text} , $level")
 
         levelPopUpValue = level
-        levelPopUpRankingText=ranking
+        levelPopUpRankingText = ranking
         levelTextView.text = "$ranking LV. $level"
 
         val expToLevel =
@@ -3065,7 +3077,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                                         }
                                     }
 
-
                                 }
 
 
@@ -3111,8 +3122,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                     WindowManager.LayoutParams.MATCH_PARENT
                 )
                 dialog.window?.setDimAmount(0.1f)
-                println("PopUp = > $id")
-
 
                 val achievementName: TextView = dialog.findViewById(R.id.achievement_unlock_name)
                 val achievementUnlockIv: ImageView = dialog.findViewById(R.id.achievement_unlock_iv)
@@ -3133,7 +3142,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                     }
                 }
 
-
             }
             2 -> {
                 dialog.setContentView(R.layout.trail_completed_layout)
@@ -3146,7 +3154,7 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
                 val infoTV = dialog.findViewById(R.id.trail_completed_info_content) as TextView
                 //You've completed the Pioneer Trail!\nVisit the Rewards page to view your new prizes.
                 val trailName = sharedPreference.getSession("selected_trails")
-                infoTV.text =resources.getString(R.string.trail_completion_text)
+                infoTV.text = resources.getString(R.string.trail_completion_text)
 
                 val trailCountTV = dialog.findViewById(R.id.trail_count_tv) as TextView
                 trailCountTV.text = "$popupPoiCompletedCount / $popupPoiCount"
@@ -3229,7 +3237,6 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
     }
 
 
-
     fun isMockLocationEnabled(): Boolean {
         var isMockLocation = false
         isMockLocation = try {
@@ -3268,4 +3275,5 @@ class DiscoverScreenActivity : FragmentActivity(), OnMapReadyCallback,
         dialog1.window!!.attributes!!.windowAnimations = R.style.DialogTheme
         dialog1.show()
     }
+
 }

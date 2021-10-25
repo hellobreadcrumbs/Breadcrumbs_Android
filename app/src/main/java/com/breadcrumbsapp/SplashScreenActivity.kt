@@ -36,14 +36,6 @@ class SplashScreenActivity : AppCompatActivity() {
 
         //printHashKey(this)
 
-        /*val c = Calendar.getInstance()
-        //"2021-10-13 04:12:13"
-        val month =c.get(Calendar.MONTH)
-        val dateFormat="${c.get(Calendar.YEAR)}-${month+1}-${c.get(Calendar.DAY_OF_MONTH)} ${c.get(Calendar.HOUR_OF_DAY)}:${c.get(
-            Calendar.MINUTE)} :${c.get(Calendar.SECOND)}"
-
-        println("Date ::: $dateFormat")*/
-
         Handler(Looper.getMainLooper()).postDelayed({
 
             val isLogin:Boolean =sharedPreference.getBoolean("isLogin")
@@ -67,7 +59,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
             // test for marker move..
 
-           /* startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
+            /*startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
             overridePendingTransition(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left)
             finish()*/
 

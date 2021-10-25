@@ -201,7 +201,7 @@
                     android:fontFamily="@font/dinish_regular"
                     android:layout_marginStart="5dp"
                     android:paddingBottom="3dp"
-                    android:text="2450 XP"
+                    android:text="00000 XP"
                     android:textColor="@color/common_text_color"
                     android:textSize="@dimen/discover_screen_take_me_there_text_size"
                     app:layout_constraintBottom_toTopOf="@+id/total_duration"

@@ -24,33 +24,35 @@ class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCal
     lateinit var dialog: Dialog
     private var isGpsEnabled = false
     private var isNetworkEnabled = false
-    var locationDialog: Dialog?=null
+    var locationDialog: Dialog? = null
 
+
+    companion object {
+        var sessionClear: Boolean = false
+    }
 
     private val networkChangeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             Log.d("MainActivity", "onReceive: ")
 
 
-            if(!isInternetAvailable(context))
-            {
-                noInternetConnectionDialog()
-            }
-
-            else
-            {
-                if (dialog != null) {
-                    if (dialog.isShowing) {
-                        dialog.dismiss()
+            if (!sessionClear) {
+                if (!isInternetAvailable(context)) {
+                    noInternetConnectionDialog()
+                } else {
+                    if (dialog != null) {
+                        if (dialog.isShowing) {
+                            dialog.dismiss()
+                        }
                     }
                 }
-            }
+            } else {
 
+            }
 
 
         }
     }
-
 
 
     private val locationStateChangeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -63,7 +65,8 @@ class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCal
                 val locationManager =
                     context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
                 isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-                isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+                isNetworkEnabled =
+                    locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
 
                 println(" $isGpsEnabled => $isNetworkEnabled")
@@ -116,8 +119,7 @@ class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCal
     private fun noGPSLocationDialog(boolValue: Boolean) {
 
         try {
-            if(locationDialog==null)
-            {
+            if (locationDialog == null) {
                 locationDialog = Dialog(mActivity, R.style.FirebaseUI_Transparent)
                 locationDialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
@@ -190,8 +192,7 @@ class ApplicationClass : MultiDexApplication(), Application.ActivityLifecycleCal
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
 
-    override fun onActivityDestroyed(activity: Activity)
-    {
+    override fun onActivityDestroyed(activity: Activity) {
 
     }
 

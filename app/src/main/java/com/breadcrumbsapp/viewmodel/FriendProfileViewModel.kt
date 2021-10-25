@@ -29,7 +29,6 @@ class FriendProfileViewModel : ViewModel() {
     var mContext : Context? = null
 
     private var interceptor = intercept()
-
     lateinit var okHttpClient : OkHttpClient.Builder
     lateinit var retrofit : Retrofit.Builder
     lateinit var   apiService : APIService
@@ -53,6 +52,7 @@ class FriendProfileViewModel : ViewModel() {
     }
 
     fun getFriend(id : String){
+
         val jsonObject = JSONObject()
         jsonObject.put("id", id)
         val mediaType = "application/json".toMediaTypeOrNull()
@@ -87,14 +87,6 @@ class FriendProfileViewModel : ViewModel() {
                 receivedFriendRequestList.postValue( null)
             }
         }
-
-    }
-
-    fun AddFriend(id : String){
-
-    }
-
-    fun UnFriend(id : String){
 
     }
     private fun intercept(): HttpLoggingInterceptor {

@@ -60,13 +60,13 @@ object MarkerAnimation {
         finalPosition: LatLng?,
         latLngInterpolator: LatLngInterpolator
     ) {
-        val startPosition: LatLng = marker.getPosition()
+        val startPosition: LatLng = marker.position
         val valueAnimator = ValueAnimator()
         valueAnimator.addUpdateListener { animation ->
             val v = animation.animatedFraction
             val newPosition: LatLng =
                 latLngInterpolator.interpolate(v, startPosition, finalPosition!!)
-            marker.setPosition(newPosition)
+            marker.position = newPosition
         }
         valueAnimator.setFloatValues(0f, 1f) // Ignored.
         valueAnimator.duration = 3000
